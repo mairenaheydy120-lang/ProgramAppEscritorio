@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E1 · Interfaz gráfica</title>
+<meta name="description" content="Aplicaciones de interfaz gráfica">
+<link rel="stylesheet" href="../assets/estilo.css">
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="topbar"><div class="in">
+<a class="brand" href="../index.html">🖥️ Prog. Aplicaciones de Escritorio</a>
+<nav class="nav" aria-label="Principal"><a href="../index.html">Inicio</a><a href="../encuentro-01/index.html" aria-current="page">E1</a><a href="../encuentro-02/index.html">E2</a><a href="../encuentro-03/index.html">E3</a><button class="btn-theme" type="button" aria-label="Cambiar tema claro u oscuro">🌙 Oscuro</button></nav>
+</div></header>
+<main id="contenido">
+
+<div class="hero">
+<p class="tag">Encuentro 1 · ___/___/2026</p>
+<h1>Aplicaciones de interfaz gráfica</h1>
+<p>Unidad I: Aplicaciones de interfaz gráfica</p>
+<div class="tags"><span class="tag">HT 10</span><span class="tag">HP 20</span><span class="tag">HTI 15</span><span class="tag">8 h presenciales</span><span class="tag">AgroStock v1</span></div>
+</div>
+<div class="btns no-print"><a class="btn" href="presentacion.html">▶ Presentación</a><a class="btn sec" href="../boas/BOA_E01.pdf">📄 BOA 1 (PDF)</a><a class="btn sec" href="Folleto_E01.pdf">📘 Folleto (PDF)</a><a class="btn sec" href="#recursos">💾 Código</a></div>
+
+<section class="grid">
+<div class="card"><h2>Objetivos</h2><ul><li>Explicar la estructura de una aplicación de escritorio con interfaz gráfica en C# (Windows Forms): punto de entrada, formularios, controles y ciclo de eventos.</li><li>Construir formularios con controles, manejo de eventos, menús, barras de herramientas y cajas de diálogo para resolver un problema de inventario de un agroservicio local.</li></ul></div>
+<div class="card"><h2>Resultado de aprendizaje</h2><ul><li>Desarrolla aplicaciones de escritorio con interfaz gráfica haciendo uso de controles, manejo de eventos y cajas de diálogo.</li></ul>
+<p class="muted">Competencias del programa: C1, C2, C3 · Ejes: Educación creativa, Tecnología, Cultura de paz</p></div>
+</section>
+
+<section><h2>Agenda del encuentro</h2><ol class="timeline"><li><span class="fase">Inicio</span> · <span class="min">0–20 min</span><div class="t">Bienvenida, encuadre y acuerdos de convivencia</div><div class="muted">Presentación del programa, del proyecto integrador AgroStock y de la forma de evaluación por cortes (escala 2–5). Acuerdos de trabajo en parejas (cultura de paz) y uso del aula virtual.</div></li><li><span class="fase">Inicio</span> · <span class="min">20–45 min</span><div class="t">Evaluación diagnóstica</div><div class="muted">Cuestionario de 8 preguntas (POO: clase, objeto, herencia, evento; experiencia con Visual Studio). Lluvia de ideas: ¿qué programas de escritorio usan en su comunidad o trabajo?</div></li><li><span class="fase">Inicio</span> · <span class="min">45–60 min</span><div class="t">Vivencia: el cuaderno del agroservicio</div><div class="muted">Análisis de un caso real: inventario anotado en cuaderno. ¿Qué problemas causa? ¿Qué pantallas necesitaría una aplicación?</div></li><li><span class="fase">Desarrollo</span> · <span class="min">60–105 min</span><div class="t">Estructura de una aplicación GUI</div><div class="muted">Exposición dialogada con demostración: crear proyecto WinForms, recorrer Program.cs, Form1.cs y Form1.Designer.cs. Bucle de mensajes y programación dirigida por eventos.</div></li><li><span class="fase">Desarrollo</span> · <span class="min">105–165 min</span><div class="t">Taller 1 – Controles y diseño</div><div class="muted">En parejas: formulario de producto con TextBox, ComboBox, NumericUpDown, DateTimePicker y botones. Uso de TableLayoutPanel, Dock y Anchor; orden de tabulación.</div></li><li><span class="fase">Desarrollo</span> · <span class="min">165–225 min</span><div class="t">Taller 2 – Manejo de eventos</div><div class="muted">Eventos Click, TextChanged, KeyPress (filtrar caracteres), Load y FormClosing. Validación con ErrorProvider. Simulador de eventos del sitio del curso.</div></li><li><span class="fase">Desarrollo</span> · <span class="min">225–255 min</span><div class="t">Receso</div><div class="muted">Receso / almuerzo (ajustar según horario del programa).</div></li><li><span class="fase">Desarrollo</span> · <span class="min">255–315 min</span><div class="t">Taller 3 – Menús y barras de herramientas</div><div class="muted">Construcción de FrmPrincipal: MenuStrip con atajos, ToolStrip, StatusStrip y DataGridView con BindingList.</div></li><li><span class="fase">Desarrollo</span> · <span class="min">315–390 min</span><div class="t">Taller 4 – Cajas de diálogo</div><div class="muted">MessageBox con confirmación, SaveFileDialog para exportar CSV, FontDialog/ColorDialog. Formulario modal propio (FrmProducto) con ShowDialog y DialogResult.</div></li><li><span class="fase">Desarrollo</span> · <span class="min">390–420 min</span><div class="t">Reto por niveles</div><div class="muted">Nivel 1: contador de existencias; Nivel 2: calculadora de fertilizante; Nivel 3: menú contextual en la cuadrícula.</div></li><li><span class="fase">Cierre</span> · <span class="min">420–450 min</span><div class="t">Socialización y coevaluación</div><div class="muted">Dos parejas muestran su AgroStock v1; el grupo aplica la lista de cotejo de interfaz.</div></li><li><span class="fase">Cierre</span> · <span class="min">450–465 min</span><div class="t">Autoevaluación y síntesis</div><div class="muted">Quiz de autoevaluación en el sitio del curso; mapa de ideas en la pizarra: estructura → controles → eventos → menús → diálogos.</div></li><li><span class="fase">Cierre</span> · <span class="min">465–480 min</span><div class="t">Orientación del trabajo interencuentro (BOA 1)</div><div class="muted">Lectura guiada de la BOA 1, criterios de la rúbrica y fechas de entrega.</div></li></ol></section>
+
+<section><h2>Vivencia</h2><div class="card"><p>Doña Martha atiende un agroservicio en la salida hacia San Ramón. Anota en un cuaderno cada quintal de fertilizante que entra y sale. Cuando un productor pregunta si hay fórmula 18-46-0, ella revisa varias páginas; a fin de mes suma a mano y casi nunca coincide con lo que hay en bodega.</p>
+<p>Preguntas generadoras (responde en tu cuaderno y comenta con tu pareja):</p>
+<ol><li>¿Qué información anota doña Martha de cada producto? Haz una lista de campos.</li><li>Si tuvieras que diseñar la pantalla para registrar un producto, ¿qué control usarías para cada campo: cuadro de texto, lista desplegable, número, fecha?</li><li>¿Qué debería pasar cuando ella pulsa «Guardar» y olvidó escribir el precio?</li><li>¿Qué programas de escritorio conoces en tu comunidad (facturación, planillas, control de ventas)? ¿Qué tienen en común sus ventanas?</li></ol>
+<div class="nota">Lo que esperamos aprender: al terminar este módulo podrás construir una aplicación de escritorio con ventanas, controles, eventos, menús y cajas de diálogo, y la aplicarás al caso de doña Martha.</div></div></section>
+
+<section><h2>Contenido</h2><details class="bloque" open><summary>1. Estructura de una aplicación de interfaz gráfica</summary><div class="cuerpo"><p>Una aplicación de interfaz gráfica de usuario (GUI) presenta la información en ventanas y responde a lo que el usuario hace con el ratón y el teclado. A diferencia de un programa de consola, que ejecuta instrucciones de arriba hacia abajo, una aplicación GUI es dirigida por eventos: después de mostrar la ventana, espera a que ocurra algo (un clic, una tecla, un temporizador) y ejecuta el código asociado (Ceballos, s. f.; Deitel y Deitel, s. f.).</p>
+<p>En .NET, la tecnología Windows Forms permite construir estas aplicaciones con el lenguaje C#. Un proyecto Windows Forms típico contiene:</p>
+<div class="tabla"><table><thead><tr><th>Archivo</th><th>Función</th></tr></thead><tbody><tr><td>AgroStock.csproj</td><td>Configuración del proyecto: versión de .NET (net8.0-windows), uso de Windows Forms y paquetes NuGet.</td></tr><tr><td>Program.cs</td><td>Punto de entrada. El método Main inicializa la aplicación y llama a Application.Run(new FrmPrincipal()).</td></tr><tr><td>FrmPrincipal.cs</td><td>Clase del formulario que hereda de Form. Aquí se escribe el código de los eventos.</td></tr><tr><td>FrmPrincipal.Designer.cs</td><td>Código generado por el diseñador visual: crea los controles y asigna sus propiedades en InitializeComponent().</td></tr></tbody></table></div>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">internal static class Program
+{
+    [STAThread]
+    private static void Main()
+    {
+        ApplicationConfiguration.Initialize(); // estilos visuales y DPI
+        Application.Run(new Forms.FrmPrincipal()); // inicia el bucle de mensajes
+    }
+}</code></pre></div>
+<p>Application.Run inicia el bucle de mensajes: el sistema operativo coloca en una cola cada acción del usuario y la aplicación la convierte en un evento del control correspondiente. El atributo [STAThread] indica que la interfaz se ejecuta en un único hilo (el hilo de la interfaz); lo retomaremos en la Unidad III.</p>
+<p>Un formulario es una clase. Por eso aplicamos lo aprendido en Programación Orientada a Objetos: el formulario hereda de Form, sus controles son atributos privados y los manejadores de eventos son métodos.</p></div></details>
+<details class="bloque"><summary>2. Uso de controles en un formulario</summary><div class="cuerpo"><p>Un control es un componente visual reutilizable. Cada control tiene propiedades (su estado: Text, Enabled, Visible), métodos (acciones: Focus(), Clear()) y eventos (avisos: Click, TextChanged). Elegir el control correcto evita errores de captura.</p>
+<div class="tabla"><table><thead><tr><th>Control</th><th>Uso en AgroStock</th><th>Propiedad/evento clave</th></tr></thead><tbody><tr><td>Label</td><td>Etiquetas de los campos</td><td>Text</td></tr><tr><td>TextBox</td><td>Código y nombre del producto</td><td>Text, MaxLength, PlaceholderText / TextChanged, KeyPress</td></tr><tr><td>ComboBox</td><td>Categoría (lista cerrada)</td><td>DropDownStyle = DropDownList, Items / SelectedIndexChanged</td></tr><tr><td>NumericUpDown</td><td>Precio y existencia</td><td>DecimalPlaces, Minimum, Maximum / ValueChanged</td></tr><tr><td>DateTimePicker</td><td>Fecha de vencimiento</td><td>Format, ShowCheckBox / ValueChanged</td></tr><tr><td>Button</td><td>Guardar, Cancelar</td><td>Text, DialogResult / Click</td></tr><tr><td>DataGridView</td><td>Lista de productos</td><td>DataSource, SelectionMode / CellDoubleClick</td></tr></tbody></table></div>
+<p>Para que la ventana se vea bien en cualquier tamaño de pantalla se usan las propiedades Dock (acoplar a un borde o llenar) y Anchor (mantener la distancia a los bordes), y contenedores como TableLayoutPanel (cuadrícula de filas y columnas) y FlowLayoutPanel (elementos uno tras otro).</p>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">var tabla = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2 };
+tabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120)); // etiquetas
+tabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));  // controles
+tabla.Controls.Add(new Label { Text = &quot;&amp;Nombre:&quot;, AutoSize = true });
+tabla.Controls.Add(txtNombre);</code></pre></div>
+<div class="nota">Convención de nombres: prefijo del tipo + propósito (txtNombre, cboCategoria, nudPrecio, btnGuardar, dgvProductos). Evita dejar button1 o textBox2: el código se vuelve ilegible.</div></div></details>
+<details class="bloque"><summary>3. Manejo de eventos</summary><div class="cuerpo"><p>Un evento es un aviso que un objeto (el emisor) envía cuando algo ocurre. Otros objetos se suscriben con el operador += indicando el método que debe ejecutarse (el manejador). Todo manejador recibe dos parámetros: sender (quién generó el evento) y e (datos del evento, de tipo EventArgs o una clase derivada).</p>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">// Suscripción (en el constructor o en el diseñador)
+btnGuardar.Click += BtnGuardar_Click;
+txtCodigo.KeyPress += TxtCodigo_KeyPress;
+
+// Manejador: solo letras, dígitos y guion; convierte a mayúscula
+private void TxtCodigo_KeyPress(object? sender, KeyPressEventArgs e)
+{
+    if (char.IsControl(e.KeyChar)) return;          // permitir Retroceso
+    if (!char.IsLetterOrDigit(e.KeyChar) &amp;&amp; e.KeyChar != &#x27;-&#x27;)
+    {
+        e.Handled = true;                            // se descarta la tecla
+        return;
+    }
+    e.KeyChar = char.ToUpperInvariant(e.KeyChar);
+}</code></pre></div>
+<div class="tabla"><table><thead><tr><th>Evento</th><th>¿Cuándo ocurre?</th><th>Ejemplo de uso</th></tr></thead><tbody><tr><td>Load</td><td>Antes de mostrar el formulario por primera vez</td><td>Cargar datos iniciales</td></tr><tr><td>Click</td><td>Al pulsar un botón o elemento de menú</td><td>Guardar, eliminar</td></tr><tr><td>TextChanged</td><td>Cada vez que cambia el texto</td><td>Búsqueda mientras se escribe</td></tr><tr><td>KeyPress / KeyDown</td><td>Al pulsar una tecla</td><td>Filtrar caracteres, atajos (Ctrl+F)</td></tr><tr><td>CellDoubleClick</td><td>Doble clic en una celda del DataGridView</td><td>Abrir el producto para editar</td></tr><tr><td>FormClosing</td><td>Antes de cerrar la ventana (se puede cancelar)</td><td>Confirmar salida</td></tr><tr><td>Tick (Timer)</td><td>Cada intervalo del temporizador</td><td>Reloj en la barra de estado</td></tr></tbody></table></div>
+<p>La validación de datos se hace en el evento del botón Guardar (o en Validating de cada control). El componente ErrorProvider muestra un icono junto al control con el mensaje de error, sin interrumpir con ventanas emergentes.</p>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">private void BtnGuardar_Click(object? sender, EventArgs e)
+{
+    errores.Clear();
+    if (txtNombre.Text.Trim().Length &lt; 3)
+    {
+        errores.SetError(txtNombre, &quot;Escriba al menos 3 caracteres.&quot;);
+        return;                        // el diálogo sigue abierto
+    }
+    Producto.Nombre = txtNombre.Text.Trim();
+    DialogResult = DialogResult.OK;    // cierra el formulario modal
+}</code></pre></div></div></details>
+<details class="bloque"><summary>4. Menús y barras de herramientas</summary><div class="cuerpo"><p>Los menús organizan todas las funciones de la aplicación; las barras de herramientas ofrecen acceso rápido a las más usadas; la barra de estado informa sin interrumpir. En Windows Forms se usan MenuStrip, ToolStrip y StatusStrip, cuyos elementos (ToolStripMenuItem, ToolStripButton, ToolStripStatusLabel) comparten el mismo modelo de eventos.</p>
+<ul><li>El carácter &amp; antes de una letra crea la tecla de acceso: &quot;&amp;Archivo&quot; se abre con Alt+A.</li><li>ShortcutKeys asigna un atajo global: Keys.Control | Keys.N para Nuevo.</li><li>ToolTipText muestra una ayuda al pasar el ratón sobre un botón.</li><li>ContextMenuStrip crea el menú del clic derecho y se asigna a la propiedad ContextMenuStrip del control.</li></ul>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">var archivo = new ToolStripMenuItem(&quot;&amp;Archivo&quot;);
+archivo.DropDownItems.Add(new ToolStripMenuItem(&quot;&amp;Nuevo producto&quot;, null, (_, _) =&gt; Nuevo(), Keys.Control | Keys.N));
+archivo.DropDownItems.Add(new ToolStripSeparator());
+archivo.DropDownItems.Add(new ToolStripMenuItem(&quot;&amp;Salir&quot;, null, (_, _) =&gt; Close()));
+menu.Items.Add(archivo);
+
+var barra = new ToolStrip();
+barra.Items.Add(new ToolStripButton(&quot;Nuevo&quot;, null, (_, _) =&gt; Nuevo()) { ToolTipText = &quot;Nuevo (Ctrl+N)&quot; });</code></pre></div>
+<div class="nota">Principio de diseño: toda acción de la barra de herramientas debe existir también en el menú. Así el usuario que no usa ratón puede llegar a ella con el teclado (accesibilidad).</div></div></details>
+<details class="bloque"><summary>5. Cajas de diálogo</summary><div class="cuerpo"><p>Una caja de diálogo es una ventana secundaria que solicita información o confirma una acción. Es modal cuando bloquea la ventana principal hasta que se cierra (ShowDialog) y no modal cuando permite seguir trabajando (Show).</p>
+<div class="tabla"><table><thead><tr><th>Diálogo</th><th>Para qué</th><th>Resultado</th></tr></thead><tbody><tr><td>MessageBox.Show</td><td>Informar, advertir, confirmar</td><td>DialogResult.Yes / No / OK / Cancel</td></tr><tr><td>OpenFileDialog</td><td>Elegir un archivo para abrir</td><td>FileName</td></tr><tr><td>SaveFileDialog</td><td>Elegir dónde guardar</td><td>FileName</td></tr><tr><td>FontDialog / ColorDialog</td><td>Elegir fuente o color</td><td>Font / Color</td></tr><tr><td>Formulario propio con ShowDialog</td><td>Capturar datos (FrmProducto)</td><td>DialogResult + propiedades del formulario</td></tr></tbody></table></div>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">var p = new Producto();
+using var dlg = new FrmProducto(p);          // using libera la ventana al terminar
+if (dlg.ShowDialog(this) == DialogResult.OK)  // modal: espera la respuesta
+{
+    productos.Add(p);
+}
+
+var r = MessageBox.Show(this, $&quot;¿Eliminar «{p.Nombre}»?&quot;, &quot;Confirmar&quot;,
+    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+if (r == DialogResult.Yes) productos.Remove(p);</code></pre></div>
+<p>En el formulario propio, AcceptButton hace que Enter equivalga a Guardar y CancelButton que Esc equivalga a Cancelar. El botón Cancelar con DialogResult = Cancel cierra el diálogo automáticamente.</p></div></details>
+<details class="bloque"><summary>6. Integración: AgroStock v1</summary><div class="cuerpo"><p>El código completo de AgroStock v1 está en la carpeta de recursos del Encuentro 1 (sitio del curso). Estructura del proyecto:</p>
+<div class="code"><span class="lang">texto</span><button class="copy" type="button">Copiar</button><pre><code data-lang="text">AgroStock.E01/
+├── AgroStock.E01.csproj
+├── Program.cs              ← punto de entrada
+├── Models/Producto.cs      ← clase del dominio (POO)
+└── Forms/
+    ├── FrmPrincipal.cs     ← menú, barras, DataGridView, búsqueda, exportar CSV
+    └── FrmProducto.cs      ← diálogo modal con validación</code></pre></div>
+<p>Los datos se guardan en una BindingList&lt;Producto&gt;: una lista que avisa a la cuadrícula cada vez que se agrega, cambia o elimina un elemento. En el Encuentro 2 la reemplazaremos por una base de datos SQLite sin cambiar la interfaz.</p></div></details></section>
+
+
+<section id="simulador"><h2>Simulador: ¿qué evento se dispara?</h2>
+<p>Este formulario imita a <code>FrmProducto</code>. Escribe, cambia de campo y pulsa los botones: el registro muestra el evento de Windows Forms equivalente y lo que haría tu código.</p>
+<div class="sim" id="sim-eventos"><div class="winform" role="group" aria-label="Formulario simulado Nuevo producto">
+<div class="tb">Nuevo producto</div>
+<div class="bd">
+<label for="txtCodigo">Código:</label><input id="txtCodigo" type="text" maxlength="10" autocomplete="off">
+<label for="txtNombre">Nombre:</label><input id="txtNombre" type="text" maxlength="80" autocomplete="off">
+<label for="cboCategoria">Categoría:</label><select id="cboCategoria"><option value="">(seleccione)</option><option>Fertilizantes</option><option>Semillas</option><option>Plaguicidas</option><option>Herramientas</option></select>
+<span></span><div class="btns"><button class="btn" id="btnGuardar" type="button">Guardar</button><button class="btn sec" id="btnCancelar" type="button">Cancelar</button></div>
+<span></span><div id="errores" role="status" aria-live="polite"></div>
+</div></div>
+<div class="log" aria-live="polite" aria-label="Registro de eventos"></div>
+<div class="btns"><button class="btn sec" id="limpiarLog" type="button">Limpiar registro</button></div>
+<p class="muted">Prueba: escribe un símbolo como <code>#</code> en Código (KeyPress lo descarta) y pulsa Guardar con campos vacíos (ErrorProvider).</p>
+</div></section>
+
+
+<section><h2>Práctica: ejercitación y retos</h2><div class="card"><p>Resuelve de forma individual. Sube capturas y el código al aula virtual (tarea «Ejercitación E1»).</p>
+<h3>Nivel 1 – Básico</h3>
+<ol><li>Crea un proyecto Windows Forms «Saludo» con un TextBox, un Button y un Label. Al pulsar el botón, el Label muestra «Bienvenido, &lt;nombre&gt;». Si el nombre está vacío, muestra un MessageBox de advertencia.</li><li>Contador de existencias: dos botones (+ y −) modifican un número en un Label. El botón − se deshabilita cuando el valor llega a cero (propiedad Enabled).</li></ol>
+<h3>Nivel 2 – Intermedio</h3>
+<ol><li>Calculadora de fertilizante: el usuario ingresa el área en manzanas (NumericUpDown) y la dosis en quintales por manzana; al cambiar cualquier valor (ValueChanged) se muestra el total de quintales y su costo usando un precio fijo.</li><li>Agrega a tu calculadora un MenuStrip con Archivo → Salir (con confirmación en FormClosing) y Ayuda → Acerca de.</li></ol>
+<h3>Nivel 3 – Avanzado (opcional)</h3>
+<ol><li>En AgroStock v1, agrega un ContextMenuStrip a la cuadrícula con Editar y Eliminar.</li><li>Colorea en naranja las filas con existencia menor que 10 usando el evento CellFormatting del DataGridView.</li></ol></div></section>
+
+<section><h2>Evidencia a entregar</h2><div class="nota">AgroStock v1: aplicación Windows Forms con formulario principal (menú, barra de herramientas, barra de estado y cuadrícula) y formulario modal de producto con validación y cajas de diálogo.</div>
+<h3>Trabajo interencuentro (BOA 1)</h3>
+<div class="tabla"><table><thead><tr><th>N°</th><th>Tarea</th><th>Modalidad</th><th>Entrega</th><th>Fecha</th></tr></thead><tbody><tr><td>1</td><td>Completar los ejercicios de la Ejercitación E1 del folleto (niveles 1 y 2) y subir capturas.</td><td>Individual</td><td>Aula virtual – tarea «Ejercitación E1»</td><td>3 días después del E1</td></tr><tr><td>2</td><td>Terminar AgroStock v1: FrmPrincipal con menú, ToolStrip, StatusStrip y búsqueda; FrmProducto modal con validación; exportación a CSV.</td><td>Parejas</td><td>Repositorio GitHub (enlace) o .zip del proyecto sin carpetas bin/obj en el aula virtual</td><td>Antes del E2</td></tr><tr><td>3</td><td>Investigación de campo: visitar o entrevistar un negocio local (agroservicio, pulpería, cooperativa) e identificar 3 procesos que AgroStock podría mejorar. Una página con fotos o notas.</td><td>Parejas</td><td>Documento PDF en el aula virtual</td><td>Antes del E2</td></tr><tr><td>4</td><td>Preparación del E2: instalar DB Browser for SQLite y leer la sección «El lenguaje SQL» del folleto E2.</td><td>Individual</td><td>Se verifica al inicio del E2</td><td>Día del E2</td></tr></tbody></table></div>
+<p><a href="../boas/BOA_E01.pdf">Descargar la BOA 1 en PDF</a> · Fechas: ___/___/2026 (las confirma el docente).</p>
+<details class="bloque"><summary>Rúbrica del corte 1 (escala 2–5)</summary><div class="cuerpo"><div class="tabla"><table><thead><tr><th>Criterio</th><th>5 Alcanzado</th><th>4 En proceso avanzado</th><th>3 En proceso limitado</th><th>2 No alcanzado</th></tr></thead><tbody><tr><td><strong>Diseño de la interfaz</strong></td><td>Controles adecuados a cada dato, alineados con contenedores, orden de tabulación y textos claros; la ventana se adapta al redimensionar.</td><td>Controles adecuados y ordenados; detalles menores de alineación o tabulación.</td><td>Interfaz funcional pero desordenada o con controles poco adecuados (p. ej., TextBox para números).</td><td>Interfaz incompleta o que impide usar la aplicación.</td></tr><tr><td><strong>Manejo de eventos</strong></td><td>Al menos 5 eventos distintos bien implementados (Click, TextChanged, KeyPress, Load, FormClosing…) con manejadores con nombre descriptivo.</td><td>3–4 eventos correctamente implementados.</td><td>Solo eventos Click; algunos manejadores con errores.</td><td>Los eventos no funcionan o no se implementaron.</td></tr><tr><td><strong>Menús y barras de herramientas</strong></td><td>MenuStrip con teclas de acceso y atajos, ToolStrip con información sobre herramientas y StatusStrip con información útil.</td><td>Menú y barra de herramientas funcionales; faltan atajos o barra de estado.</td><td>Solo menú o solo barra de herramientas, con opciones sin programar.</td><td>No hay menús ni barras.</td></tr><tr><td><strong>Cajas de diálogo y validación</strong></td><td>Formulario modal con DialogResult, validación con ErrorProvider, confirmaciones con MessageBox y diálogo de archivo funcional.</td><td>Usa diálogos del sistema y formulario modal; validación parcial.</td><td>Solo MessageBox; no valida los datos.</td><td>No utiliza cajas de diálogo.</td></tr><tr><td><strong>Calidad del código</strong></td><td>Nombres descriptivos (txtNombre, btnGuardar), clases separadas (Models/Forms), sin código repetido, comentarios útiles.</td><td>Código ordenado con pequeñas repeticiones o nombres por defecto (button1).</td><td>Código funcional pero desordenado, todo en un solo formulario.</td><td>El proyecto no compila.</td></tr><tr><td><strong>Entrega e investigación de campo</strong></td><td>Entrega a tiempo, README con capturas y el informe identifica 3 procesos reales con evidencia.</td><td>Entrega a tiempo; informe con procesos poco detallados.</td><td>Entrega tardía o informe incompleto.</td><td>No entrega.</td></tr></tbody></table></div></div></details>
+</section>
+
+<section id="recursos"><h2>Recursos y código</h2>
+<div class="btns"><a class="btn" href="recursos/AgroStock.E01.zip" download>⬇ AgroStock.E01.zip</a></div>
+<details class="bloque"><summary>Ver archivos uno por uno</summary><div class="cuerpo"><ul><li><a href="recursos/AgroStock.E01/AgroStock.E01.csproj">AgroStock.E01/AgroStock.E01.csproj</a></li><li><a href="recursos/AgroStock.E01/Program.cs">AgroStock.E01/Program.cs</a></li><li><a href="recursos/AgroStock.E01/README.md">AgroStock.E01/README.md</a></li><li><a href="recursos/AgroStock.E01/Forms/FrmPrincipal.cs">AgroStock.E01/Forms/FrmPrincipal.cs</a></li><li><a href="recursos/AgroStock.E01/Forms/FrmProducto.cs">AgroStock.E01/Forms/FrmProducto.cs</a></li><li><a href="recursos/AgroStock.E01/Models/Producto.cs">AgroStock.E01/Models/Producto.cs</a></li></ul></div></details>
+</section>
+
+<section><h2>Autoevaluación</h2>
+<div class="quiz card" id="quiz-e1"><script type="application/json">[{"c": 1, "e": "Application.Run muestra la ventana principal e inicia el bucle que convierte las acciones del usuario en eventos."}, {"c": 2, "e": "Un ComboBox con DropDownStyle = DropDownList impide escribir valores fuera de la lista."}, {"c": 1, "e": "Marcar el evento como manejado evita que el carácter llegue al TextBox."}, {"c": 2, "e": "btnGuardar.Click += BtnGuardar_Click; agrega el manejador a la lista de suscriptores."}, {"c": 1, "e": "ShowDialog bloquea la ventana dueña hasta que el diálogo se cierra y devuelve cómo se cerró."}, {"c": 1, "e": "La letra que sigue a & queda subrayada y se activa con Alt."}, {"c": 2, "e": "FormClosingEventArgs tiene la propiedad Cancel; si se pone en true la ventana no se cierra."}]</script>
+<div class="q"><fieldset><legend>1. ¿Qué hace Application.Run(new FrmPrincipal())?</legend><label><input type="radio" name="q0" value="0"> Compila el proyecto</label><label><input type="radio" name="q0" value="1"> Muestra el formulario e inicia el bucle de mensajes</label><label><input type="radio" name="q0" value="2"> Crea la base de datos</label><label><input type="radio" name="q0" value="3"> Cierra la aplicación</label><div class="fb" id="fbquiz-e1-0" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>2. ¿Qué control es el más adecuado para capturar la categoría de un producto de una lista cerrada?</legend><label><input type="radio" name="q1" value="0"> TextBox</label><label><input type="radio" name="q1" value="1"> Label</label><label><input type="radio" name="q1" value="2"> ComboBox con DropDownList</label><label><input type="radio" name="q1" value="3"> Button</label><div class="fb" id="fbquiz-e1-1" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>3. En un manejador KeyPress, ¿qué logra e.Handled = true?</legend><label><input type="radio" name="q2" value="0"> Cierra el formulario</label><label><input type="radio" name="q2" value="1"> Descarta la tecla pulsada</label><label><input type="radio" name="q2" value="2"> Convierte la tecla a mayúscula</label><label><input type="radio" name="q2" value="3"> Guarda el producto</label><div class="fb" id="fbquiz-e1-2" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>4. ¿Qué operador suscribe un método a un evento en C#?</legend><label><input type="radio" name="q3" value="0"> =</label><label><input type="radio" name="q3" value="1"> ==</label><label><input type="radio" name="q3" value="2"> +=</label><label><input type="radio" name="q3" value="3"> =&gt;</label><div class="fb" id="fbquiz-e1-3" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>5. ¿Cuál es la diferencia entre ShowDialog() y Show()?</legend><label><input type="radio" name="q4" value="0"> No hay diferencia</label><label><input type="radio" name="q4" value="1"> ShowDialog abre una ventana modal y devuelve DialogResult</label><label><input type="radio" name="q4" value="2"> Show es más rápido</label><label><input type="radio" name="q4" value="3"> ShowDialog solo sirve para MessageBox</label><div class="fb" id="fbquiz-e1-4" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>6. ¿Qué significa el &amp; en el texto &quot;&amp;Archivo&quot; de un menú?</legend><label><input type="radio" name="q5" value="0"> Es un error</label><label><input type="radio" name="q5" value="1"> Crea la tecla de acceso Alt+A</label><label><input type="radio" name="q5" value="2"> Pone la palabra en negrita</label><label><input type="radio" name="q5" value="3"> Agrega un separador</label><div class="fb" id="fbquiz-e1-5" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>7. ¿En qué evento se puede cancelar el cierre de una ventana?</legend><label><input type="radio" name="q6" value="0"> Load</label><label><input type="radio" name="q6" value="1"> Click</label><label><input type="radio" name="q6" value="2"> FormClosing</label><label><input type="radio" name="q6" value="3"> TextChanged</label><div class="fb" id="fbquiz-e1-6" aria-live="polite"></div></fieldset></div>
+<div class="btns"><button class="btn calificar" type="button">Calificar</button><button class="btn sec reiniciar" type="button">Reiniciar</button></div>
+<p class="resultado" role="status" aria-live="polite"></p></div>
+</section>
+
+<section><h2>Mi lista de verificación</h2>
+<div class="card"><div class="progress" role="progressbar" aria-label="Avance de la lista" aria-valuemin="0" aria-valuemax="100"><div id="barra-e1"></div></div>
+<ul class="check" data-clave="e1"><li><label><input type="checkbox"> <span>Instalé Visual Studio 2022 con «Desarrollo de escritorio de .NET»</span></label></li><li><label><input type="checkbox"> <span>Creé y ejecuté un proyecto Windows Forms</span></label></li><li><label><input type="checkbox"> <span>Diseñé el formulario de producto con controles adecuados</span></label></li><li><label><input type="checkbox"> <span>Programé al menos 5 eventos distintos</span></label></li><li><label><input type="checkbox"> <span>Agregué MenuStrip, ToolStrip y StatusStrip</span></label></li><li><label><input type="checkbox"> <span>Usé MessageBox, SaveFileDialog y un formulario modal propio</span></label></li><li><label><input type="checkbox"> <span>Subí la Ejercitación E1</span></label></li><li><label><input type="checkbox"> <span>Entregué AgroStock v1 y el informe de campo</span></label></li></ul><p class="muted">Se guarda solo en este navegador.</p></div></section>
+
+<section><h2>Síntesis</h2><div class="card"><ul><li>Una aplicación GUI es dirigida por eventos: muestra la ventana y reacciona a las acciones del usuario.</li><li>Cada formulario es una clase; cada control es un objeto con propiedades, métodos y eventos.</li><li>Elegir el control adecuado (ComboBox, NumericUpDown, DateTimePicker) previene errores de captura.</li><li>Menús, barras y atajos hacen la aplicación rápida y accesible; los diálogos confirman y capturan datos.</li></ul></div>
+<h3>Para profundizar</h3><div class="card"><ul><li>Microsoft Learn: «Tutorial: Creación de una aplicación de Windows Forms con .NET» – <a href="https://learn.microsoft.com/es-es/dotnet/desktop/winforms/get-started/create-app-visual-studio" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/desktop/winforms/get-started/create-app-visual-studio</a></li><li>Microsoft Learn: «Información general sobre eventos (Windows Forms .NET)» – <a href="https://learn.microsoft.com/es-es/dotnet/desktop/winforms/forms/events" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/desktop/winforms/forms/events</a></li><li>Reflexión: ¿cómo puede una aplicación sencilla reducir el uso de papel y los viajes innecesarios de los productores? Escribe tres ideas (eje Madre Tierra).</li></ul></div></section>
+
+<section><h2>Glosario</h2><div class="tabla"><table><thead><tr><th>Término</th><th>Definición</th></tr></thead><tbody>
+<tr><td><strong>GUI</strong></td><td>Interfaz gráfica de usuario: ventanas, botones y menús en lugar de comandos de texto.</td></tr><tr><td><strong>Control</strong></td><td>Componente visual reutilizable (botón, cuadro de texto) con propiedades, métodos y eventos.</td></tr><tr><td><strong>Evento</strong></td><td>Aviso que emite un objeto cuando algo ocurre; otros objetos se suscriben para reaccionar.</td></tr><tr><td><strong>Manejador de eventos</strong></td><td>Método que se ejecuta cuando ocurre un evento; recibe sender y EventArgs.</td></tr><tr><td><strong>Formulario modal</strong></td><td>Ventana que bloquea a su ventana dueña hasta cerrarse (ShowDialog).</td></tr><tr><td><strong>DialogResult</strong></td><td>Valor que indica cómo se cerró un diálogo (OK, Cancel, Yes, No).</td></tr><tr><td><strong>Dock / Anchor</strong></td><td>Propiedades que controlan cómo un control se acomoda al cambiar el tamaño de la ventana.</td></tr><tr><td><strong>BindingList</strong></td><td>Lista que notifica sus cambios a los controles enlazados (DataGridView).</td></tr></tbody></table></div></section>
+
+</main>
+<footer>Programación de Aplicaciones de Escritorio · Ingeniería en Sistemas · II año – II semestre 2026 · Centro Universitario Regional de Matagalpa · Docente: Heydy Judelki Mairena Palacios<br>
+Material elaborado con base en el programa del componente (enero 2025). Código de ejemplo con fines educativos.</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

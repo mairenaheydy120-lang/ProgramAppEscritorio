@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E3 · ORM, reportes y servicios web</title>
+<meta name="description" content="ORM, generación de reportes y consumo de servicios web">
+<link rel="stylesheet" href="../assets/estilo.css">
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="topbar"><div class="in">
+<a class="brand" href="../index.html">🖥️ Prog. Aplicaciones de Escritorio</a>
+<nav class="nav" aria-label="Principal"><a href="../index.html">Inicio</a><a href="../encuentro-01/index.html">E1</a><a href="../encuentro-02/index.html">E2</a><a href="../encuentro-03/index.html" aria-current="page">E3</a><button class="btn-theme" type="button" aria-label="Cambiar tema claro u oscuro">🌙 Oscuro</button></nav>
+</div></header>
+<main id="contenido">
+
+<div class="hero">
+<p class="tag">Encuentro 3 · ___/___/2026</p>
+<h1>ORM, generación de reportes y consumo de servicios web</h1>
+<p>Unidad IV: Uso de ORM y generación de reportes · Unidad V: Consumo de servicios web</p>
+<div class="tags"><span class="tag">HT 10</span><span class="tag">HP 20</span><span class="tag">HTI 15</span><span class="tag">8 h presenciales</span><span class="tag">AgroStock v3</span></div>
+</div>
+<div class="btns no-print"><a class="btn" href="presentacion.html">▶ Presentación</a><a class="btn sec" href="../boas/BOA_E03.pdf">📄 BOA 3 (PDF)</a><a class="btn sec" href="Folleto_E03.pdf">📘 Folleto (PDF)</a><a class="btn sec" href="#recursos">💾 Código</a></div>
+
+<section class="grid">
+<div class="card"><h2>Objetivos</h2><ul><li>Utilizar un ORM (Entity Framework Core) para realizar operaciones CRUD sin escribir SQL manualmente y generar reportes en PDF y Excel a partir de datos reales.</li><li>Consumir servicios web RESTful desde una aplicación de escritorio, procesando respuestas JSON o XML y manejando fallos de conexión.</li></ul></div>
+<div class="card"><h2>Resultado de aprendizaje</h2><ul><li>Desarrolla aplicaciones de escritorio con interfaz gráfica que acceden a bases de datos mediante el uso de ORM y que generan reportes.</li><li>Desarrolla aplicaciones de escritorio con interfaz gráfica que consumen servicios web.</li></ul>
+<p class="muted">Competencias del programa: C1, C2, C3, C4 · Ejes: Innovación, Investigación, Tecnología</p></div>
+</section>
+
+<section><h2>Agenda del encuentro</h2><ol class="timeline"><li><span class="fase">Inicio</span> · <span class="min">0–20 min</span><div class="t">Retroalimentación del corte 2</div><div class="muted">Errores frecuentes en CRUD e importación concurrente; buenas prácticas observadas en los videos.</div></li><li><span class="fase">Inicio</span> · <span class="min">20–40 min</span><div class="t">Vivencia: el reporte del lunes</div><div class="muted">Caso: la cooperativa pide cada lunes un reporte de inventario en PDF y el valor en dólares con el tipo de cambio del día.</div></li><li><span class="fase">Inicio</span> · <span class="min">40–60 min</span><div class="t">Activación: del SQL al objeto</div><div class="muted">Comparar ProductoRepository (SQL a mano) con una consulta LINQ equivalente. ¿Qué se repite?</div></li><li><span class="fase">Desarrollo</span> · <span class="min">60–90 min</span><div class="t">¿Qué es un ORM?</div><div class="muted">Exposición dialogada: mapeo objeto-relacional, ventajas y límites; EF Core.</div></li><li><span class="fase">Desarrollo</span> · <span class="min">90–165 min</span><div class="t">Taller 1 – CRUD con EF Core</div><div class="muted">Instalar Microsoft.EntityFrameworkCore.Sqlite. Entidades, DbContext, HasData, EnsureCreated. Listar con LINQ y proyección; Guardar y Eliminar con SaveChanges.</div></li><li><span class="fase">Desarrollo</span> · <span class="min">165–240 min</span><div class="t">Taller 2 – Reportes PDF y Excel</div><div class="muted">Diseño del reporte de inventario. QuestPDF (tabla, totales, numeración) y ClosedXML (fórmulas, tabla con estilo). Generación en segundo plano con Task.Run (retoma Unidad III).</div></li><li><span class="fase">Desarrollo</span> · <span class="min">240–270 min</span><div class="t">Receso</div><div class="muted">Receso / almuerzo (ajustar según horario del programa).</div></li><li><span class="fase">Desarrollo</span> · <span class="min">270–300 min</span><div class="t">Servicios web y HTTP</div><div class="muted">Petición y respuesta, métodos, códigos de estado, JSON y XML. Probador de API del sitio del curso.</div></li><li><span class="fase">Desarrollo</span> · <span class="min">300–375 min</span><div class="t">Taller 3 – Estudio de caso: tipo de cambio</div><div class="muted">HttpClient + ReadFromJsonAsync con open.er-api.com; manejo de errores y respaldo local sin conexión. Mostrar el valor del inventario en USD y en el reporte PDF.</div></li><li><span class="fase">Desarrollo</span> · <span class="min">375–420 min</span><div class="t">Taller 4 – Integración del proyecto</div><div class="muted">Integrar ORM, reportes y servicio web en AgroStock v3; preparar la defensa.</div></li><li><span class="fase">Cierre</span> · <span class="min">420–455 min</span><div class="t">Presentación de proyectos (avance)</div><div class="muted">Cada pareja presenta en 3 minutos su AgroStock v3; rúbrica de defensa y coevaluación.</div></li><li><span class="fase">Cierre</span> · <span class="min">455–470 min</span><div class="t">Autoevaluación y reflexión Madre Tierra</div><div class="muted">Guía de autoevaluación actitudinal. Reflexión: ¿cómo reducen los reportes digitales el uso de papel y los traslados?</div></li><li><span class="fase">Cierre</span> · <span class="min">470–480 min</span><div class="t">Orientación final (BOA 3)</div><div class="muted">Entrega final del proyecto integrador, manual de usuario y video; fecha de cierre del componente.</div></li></ol></section>
+
+<section><h2>Vivencia</h2><div class="card"><p>La cooperativa a la que pertenece el agroservicio de doña Martha pide cada lunes un reporte de inventario en PDF y el valor total en dólares con el tipo de cambio del día. Su hijo copia a mano la tabla en Excel y busca el tipo de cambio en el celular; si la señal es mala, el reporte se atrasa.</p>
+<ol><li>¿Qué partes de este proceso podría automatizar AgroStock?</li><li>En AgroStock v2 escribiste muchas sentencias SQL parecidas. ¿Qué pasaría si mañana hubiera que cambiar a SQL Server?</li><li>¿Qué debería hacer la aplicación cuando no hay Internet?</li><li>¿Cuánto papel y cuántos viajes se ahorran si el reporte se envía en digital?</li></ol>
+<div class="nota">Lo que esperamos aprender: manipular la base de datos con objetos (ORM), producir reportes profesionales y conectar la aplicación con servicios en Internet de forma robusta.</div></div></section>
+
+<section><h2>Contenido</h2><details class="bloque" open><summary>Unidad IV · 1. ¿Qué es un ORM?</summary><div class="cuerpo"><p>Un ORM (Object-Relational Mapper, mapeador objeto-relacional) traduce automáticamente entre los objetos del programa y las tablas de la base de datos. El programador trabaja con clases y colecciones; el ORM genera el SQL, abre las conexiones y convierte las filas en objetos. En .NET, el ORM oficial es Entity Framework Core (EF Core).</p>
+<div class="tabla"><table><thead><tr><th>Mundo orientado a objetos</th><th>Mundo relacional</th></tr></thead><tbody><tr><td>Clase Producto</td><td>Tabla Productos</td></tr><tr><td>Propiedad Nombre</td><td>Columna Nombre</td></tr><tr><td>Objeto (instancia)</td><td>Fila</td></tr><tr><td>Referencia Producto.Categoria</td><td>Clave foránea CategoriaId</td></tr><tr><td>List&lt;Producto&gt; Categoria.Productos</td><td>Relación 1:N</td></tr></tbody></table></div>
+<ul><li>Ventajas: menos código repetitivo, consultas verificadas por el compilador (LINQ), independencia del motor (SQLite, SQL Server, MySQL, PostgreSQL), protección contra inyección SQL.</li><li>Límites: menos control sobre el SQL generado; consultas muy complejas pueden ser menos eficientes; hay que entender qué consulta se ejecuta y cuándo.</li></ul></div></details>
+<details class="bloque"><summary>Unidad IV · 2. Entity Framework Core: entidades y DbContext</summary><div class="cuerpo"><div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">public class Producto
+{
+    public int Id { get; set; }                         // clave primaria por convención
+    [Required, MaxLength(10)] public string Codigo { get; set; } = &quot;&quot;;
+    public int CategoriaId { get; set; }                // clave foránea
+    public Categoria? Categoria { get; set; }           // propiedad de navegación
+    public decimal Precio { get; set; }
+    public int Existencia { get; set; }
+}
+
+public class AgroStockContext : DbContext
+{
+    public DbSet&lt;Producto&gt; Productos =&gt; Set&lt;Producto&gt;();
+    public DbSet&lt;Categoria&gt; Categorias =&gt; Set&lt;Categoria&gt;();
+
+    protected override void OnConfiguring(DbContextOptionsBuilder o) =&gt;
+        o.UseSqlite(&quot;Data Source=agrostock_ef.db&quot;);
+
+    protected override void OnModelCreating(ModelBuilder mb)
+    {
+        mb.Entity&lt;Producto&gt;().HasIndex(p =&gt; p.Codigo).IsUnique();
+        mb.Entity&lt;Categoria&gt;().HasData(new Categoria { Id = 1, Nombre = &quot;Fertilizantes&quot; });
+    }
+}</code></pre></div>
+<p>El DbContext representa una sesión de trabajo con la base: rastrea los objetos que se agregan o modifican y, al llamar a SaveChanges(), genera y ejecuta los INSERT, UPDATE y DELETE necesarios dentro de una transacción. Database.EnsureCreated() crea la base y las tablas si no existen; en proyectos mayores se usan migraciones (dotnet ef migrations add).</p></div></details>
+<details class="bloque"><summary>Unidad IV · 3. CRUD con LINQ sin escribir SQL</summary><div class="cuerpo"><div class="tabla"><table><thead><tr><th>Operación</th><th>EF Core</th><th>SQL generado (aprox.)</th></tr></thead><tbody><tr><td>Read</td><td>db.Productos.Where(p =&gt; p.Existencia &lt; 10).ToList()</td><td>SELECT … FROM Productos WHERE Existencia &lt; 10</td></tr><tr><td>Create</td><td>db.Productos.Add(p); db.SaveChanges();</td><td>INSERT INTO Productos …</td></tr><tr><td>Update</td><td>p.Precio = 1500; db.SaveChanges();</td><td>UPDATE Productos SET Precio = … WHERE Id = …</td></tr><tr><td>Delete</td><td>db.Productos.Remove(p); db.SaveChanges();</td><td>DELETE FROM Productos WHERE Id = …</td></tr></tbody></table></div>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">using var db = new AgroStockContext();
+var lista = db.Productos
+    .AsNoTracking()                                 // solo lectura
+    .Where(p =&gt; p.Nombre.Contains(filtro))
+    .OrderBy(p =&gt; p.Nombre)
+    .Select(p =&gt; new ProductoVista(p.Id, p.Codigo, p.Nombre, p.Categoria!.Nombre,
+                                   p.Precio, p.Existencia, p.Precio * p.Existencia))
+    .ToList();                                      // aquí se ejecuta la consulta</code></pre></div>
+<div class="nota">Ejecución diferida: una consulta LINQ no va a la base hasta que se enumera (ToList, First, Count, foreach). Construye la consulta completa antes de materializarla.</div></div></details>
+<details class="bloque"><summary>Unidad IV · 4. Generación de reportes</summary><div class="cuerpo"><p>Un reporte presenta datos de la base de forma organizada para tomar decisiones. Su estructura clásica: encabezado (título, fecha, filtros), detalle (filas), agrupaciones y totales, y pie (numeración). El programa pide exportar a PDF o Excel; usamos dos bibliotecas libres para uso académico: QuestPDF (PDF con API fluida en C#) y ClosedXML (Excel sin necesidad de tener Office instalado).</p>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">Document.Create(doc =&gt; doc.Page(page =&gt;
+{
+    page.Size(PageSizes.Letter);
+    page.Margin(2, Unit.Centimetre);
+    page.Header().Text(&quot;AgroStock – Reporte de inventario&quot;).SemiBold().FontSize(16);
+    page.Content().Table(t =&gt;
+    {
+        t.ColumnsDefinition(c =&gt; { c.ConstantColumn(60); c.RelativeColumn(); c.ConstantColumn(80); });
+        t.Header(h =&gt; { h.Cell().Text(&quot;Código&quot;); h.Cell().Text(&quot;Producto&quot;); h.Cell().Text(&quot;Valor C$&quot;); });
+        foreach (var p in datos)
+        {
+            t.Cell().Text(p.Codigo); t.Cell().Text(p.Nombre); t.Cell().AlignRight().Text($&quot;{p.ValorInventario:N2}&quot;);
+        }
+    });
+    page.Footer().AlignCenter().Text(x =&gt; { x.Span(&quot;Página &quot;); x.CurrentPageNumber(); });
+})).GeneratePdf(ruta);</code></pre></div>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">using var libro = new XLWorkbook();
+var hoja = libro.Worksheets.Add(&quot;Inventario&quot;);
+hoja.Cell(1, 1).Value = &quot;Código&quot;;
+// … filas …
+hoja.Cell(fila, 6).FormulaA1 = $&quot;D{fila}*E{fila}&quot;;      // fórmula viva
+hoja.Cell(total, 6).FormulaA1 = $&quot;SUM(F2:F{total - 1})&quot;;
+hoja.Columns().AdjustToContents();
+libro.SaveAs(ruta);</code></pre></div>
+<p>Buenas prácticas: generar el reporte con Task.Run para no congelar la interfaz (Unidad III), pedir la ruta con SaveFileDialog (Unidad I), usar fórmulas en Excel en lugar de valores calculados, y ofrecer abrir el archivo al terminar.</p></div></details>
+<details class="bloque"><summary>Unidad V · 5. Servicios web y HTTP</summary><div class="cuerpo"><p>Un servicio web es una aplicación que ofrece datos o funciones a otras aplicaciones a través de la red usando el protocolo HTTP. En el estilo REST, cada recurso tiene una URL y se opera con métodos HTTP; las respuestas suelen venir en JSON (y en servicios más antiguos, en XML).</p>
+<div class="tabla"><table><thead><tr><th>Elemento</th><th>Ejemplo</th></tr></thead><tbody><tr><td>Método</td><td>GET (leer), POST (crear), PUT (reemplazar), DELETE (eliminar)</td></tr><tr><td>URL</td><td>https://open.er-api.com/v6/latest/USD</td></tr><tr><td>Código de estado</td><td>200 OK · 404 No encontrado · 429 Demasiadas solicitudes · 500 Error del servidor</td></tr><tr><td>Encabezados</td><td>Accept: application/json · Authorization (si requiere clave)</td></tr><tr><td>Cuerpo (JSON)</td><td>{ &quot;result&quot;: &quot;success&quot;, &quot;base_code&quot;: &quot;USD&quot;, &quot;rates&quot;: { &quot;NIO&quot;: 36.62 } }</td></tr></tbody></table></div></div></details>
+<details class="bloque"><summary>Unidad V · 6. Clases para el consumo de servicios web</summary><div class="cuerpo"><div class="tabla"><table><thead><tr><th>Clase</th><th>Función</th></tr></thead><tbody><tr><td>HttpClient</td><td>Envía peticiones HTTP y recibe respuestas. Se crea una sola instancia para toda la aplicación.</td></tr><tr><td>HttpResponseMessage</td><td>Respuesta: StatusCode, encabezados y contenido; EnsureSuccessStatusCode() lanza error si no es 2xx.</td></tr><tr><td>System.Text.Json / ReadFromJsonAsync&lt;T&gt;</td><td>Convierte JSON en objetos C# (deserialización).</td></tr><tr><td>[JsonPropertyName]</td><td>Relaciona el nombre del campo JSON con la propiedad C#.</td></tr><tr><td>XDocument (LINQ to XML)</td><td>Lee respuestas en XML.</td></tr></tbody></table></div>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">private static readonly HttpClient http = new() { Timeout = TimeSpan.FromSeconds(10) };
+
+public async Task&lt;(decimal Nio, string Fuente)&gt; ObtenerNioPorUsdAsync()
+{
+    try
+    {
+        using var resp = await http.GetAsync(&quot;https://open.er-api.com/v6/latest/USD&quot;);
+        resp.EnsureSuccessStatusCode();
+        var datos = await resp.Content.ReadFromJsonAsync&lt;RespuestaTipoCambio&gt;();
+        return (datos!.Tasas[&quot;NIO&quot;], &quot;open.er-api.com&quot;);
+    }
+    catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
+    {
+        // Sin Internet: usar el respaldo local
+        var local = JsonSerializer.Deserialize&lt;RespuestaTipoCambio&gt;(File.ReadAllText(&quot;tipo_cambio_offline.json&quot;))!;
+        return (local.Tasas[&quot;NIO&quot;], &quot;respaldo local&quot;);
+    }
+}</code></pre></div>
+<div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">// XML: &lt;tasas base=&quot;USD&quot;&gt;&lt;tasa moneda=&quot;NIO&quot;&gt;36.62&lt;/tasa&gt;&lt;/tasas&gt;
+var doc = XDocument.Parse(xml);
+var nio = decimal.Parse(doc.Root!.Elements(&quot;tasa&quot;)
+            .First(e =&gt; (string?)e.Attribute(&quot;moneda&quot;) == &quot;NIO&quot;).Value,
+            CultureInfo.InvariantCulture);</code></pre></div>
+<p>La llamada es asíncrona (await): mientras llega la respuesta, la interfaz sigue respondiendo. Siempre se deben prever tres fallos: sin conexión (HttpRequestException), tiempo agotado (TaskCanceledException) y respuesta inesperada (JsonException o datos faltantes).</p></div></details>
+<details class="bloque"><summary>Unidad V · 7. Estudio de caso: tipo de cambio para valorar el inventario</summary><div class="cuerpo"><p>El inventario se valora en córdobas; la cooperativa necesita el equivalente en dólares. AgroStock consulta un servicio público y gratuito de tipos de cambio, muestra la tasa y su fuente en la barra de estado, y la incluye en el reporte PDF. En zonas con Internet intermitente, la aplicación usa un respaldo local y lo indica claramente.</p>
+<ul><li>Analiza la API antes de usarla: documentación, límites de uso, licencia y atribución requerida.</li><li>El tipo de cambio oficial de Nicaragua lo publica el Banco Central de Nicaragua (BCN); investiga si ofrece un servicio consultable y compáralo con el servicio usado en clase.</li><li>Otros casos posibles: consultar el clima para planificar la aplicación de fertilizantes, o códigos postales/municipios desde un servicio público.</li></ul></div></details>
+<details class="bloque"><summary>8. Integración final: AgroStock v3</summary><div class="cuerpo"><div class="code"><span class="lang">texto</span><button class="copy" type="button">Copiar</button><pre><code data-lang="text">AgroStock.E03/
+├── Data/AgroStockContext.cs     ← EF Core (entidades, relaciones, semilla)
+├── Data/ProductoService.cs      ← CRUD con LINQ
+├── Models/Entidades.cs
+├── Services/ReporteService.cs   ← QuestPDF y ClosedXML
+├── Services/TipoCambioService.cs← HttpClient + JSON/XML
+└── Forms/FrmPrincipal.cs · FrmProducto.cs
+tipo_cambio_offline.json</code></pre></div></div></details></section>
+
+
+<section id="simulador"><h2>Simulador 1: LINQ ↔ SQL generado por EF Core</h2>
+<div class="sim" id="sim-linq">
+<label>Operación: <select aria-label="Operación"><option value="leer">Leer con filtro</option><option value="join">Proyección con categoría (JOIN)</option><option value="crear">Crear</option><option value="editar">Editar</option><option value="borrar">Eliminar</option><option value="contar">Contar</option></select></label>
+<div class="grid"><div><p><strong>C# (LINQ)</strong></p><pre class="log" id="linq"></pre></div><div><p><strong>SQL que genera EF Core (aprox.)</strong></p><pre class="log" id="sqlg"></pre></div></div>
+</div>
+<h2>Simulador 2: probador de servicio web</h2>
+<p>Hace un <code>GET</code> real al servicio del estudio de caso. Si no hay Internet, usa el respaldo local, igual que <code>TipoCambioService</code>.</p>
+<div class="sim" id="sim-api">
+<label>URL <input id="apiUrl" type="text" value="https://open.er-api.com/v6/latest/USD" style="width:100%" aria-label="URL del servicio"></label>
+<div class="btns"><button class="btn" id="apiVivo" type="button">Enviar GET</button><button class="btn sec" id="apiLocal" type="button">Simular sin conexión</button></div>
+<p id="apiEstado" role="status" aria-live="polite" class="muted"></p>
+<pre class="log" id="apiOut"></pre>
+<p id="apiValor"></p>
+</div></section>
+
+
+<section><h2>Práctica: ejercitación y retos</h2><div class="card"><p>Consultas LINQ (individual). Escribe con EF Core la consulta que:</p>
+<ol><li>Devuelva los productos de la categoría «Semillas» ordenados por nombre.</li><li>Cuente los productos con existencia menor que 10.</li><li>Obtenga el producto de mayor precio (OrderByDescending + FirstOrDefault).</li><li>Calcule el valor total del inventario.</li><li>Agrupe por categoría y devuelva cantidad de productos y valor (GroupBy).</li></ol>
+<h3>Retos</h3>
+<ol><li>Nivel 1: agrega al PDF un resumen por categoría usando ProductoService.ResumenPorCategoria().</li><li>Nivel 2: agrega un botón que muestre los precios en USD en la cuadrícula usando el tipo de cambio obtenido.</li><li>Nivel 3: consume un segundo servicio web (por ejemplo, el clima de Matagalpa) y muéstralo en la barra de estado con respaldo sin conexión.</li></ol></div></section>
+
+<section><h2>Evidencia a entregar</h2><div class="nota">AgroStock v3 (proyecto integrador final): CRUD con Entity Framework Core, reportes de inventario en PDF y Excel, y tipo de cambio obtenido de un servicio web REST con respaldo sin conexión; manual de usuario y video.</div>
+<h3>Trabajo interencuentro (BOA 3)</h3>
+<div class="tabla"><table><thead><tr><th>N°</th><th>Tarea</th><th>Modalidad</th><th>Entrega</th><th>Fecha</th></tr></thead><tbody><tr><td>1</td><td>Corregir AgroStock v2 según la retroalimentación del corte 2 y volver a entregarlo.</td><td>Parejas</td><td>Aula virtual – «Correcciones corte 2»</td><td>3 días después del E3</td></tr><tr><td>2</td><td>Ejercitación E3: consultas LINQ del folleto (5) y un reporte adicional por categoría.</td><td>Individual</td><td>Aula virtual – «Ejercitación E3»</td><td>3 días después del E3</td></tr><tr><td>3</td><td>AgroStock v3 final: EF Core, reportes PDF y Excel, servicio web con respaldo sin conexión.</td><td>Parejas</td><td>Repositorio o .zip en el aula virtual</td><td>Fecha de cierre del componente</td></tr><tr><td>4</td><td>Manual de usuario (máx. 4 páginas, con capturas) y video de demostración (máx. 3 min).</td><td>Parejas</td><td>PDF + enlace del video en el aula virtual</td><td>Fecha de cierre del componente</td></tr><tr><td>5</td><td>Autoevaluación actitudinal y reflexión individual (media página): aporte de AgroStock al uso sostenible de recursos (eje Madre Tierra).</td><td>Individual</td><td>Formulario del aula virtual</td><td>Fecha de cierre del componente</td></tr></tbody></table></div>
+<p><a href="../boas/BOA_E03.pdf">Descargar la BOA 3 en PDF</a> · Fechas: ___/___/2026 (las confirma el docente).</p>
+<details class="bloque"><summary>Rúbrica del corte 3 (escala 2–5)</summary><div class="cuerpo"><div class="tabla"><table><thead><tr><th>Criterio</th><th>5 Alcanzado</th><th>4 En proceso avanzado</th><th>3 En proceso limitado</th><th>2 No alcanzado</th></tr></thead><tbody><tr><td><strong>ORM (Entity Framework Core)</strong></td><td>DbContext con entidades, relación 1:N, índice único y datos semilla; ninguna consulta SQL manual.</td><td>DbContext y entidades correctos; falta relación o semilla.</td><td>ORM configurado pero mezcla SQL manual en los formularios.</td><td>No utiliza ORM o no compila.</td></tr><tr><td><strong>CRUD con LINQ</strong></td><td>Listar con filtro y proyección, crear, editar y eliminar con SaveChanges y manejo de DbUpdateException.</td><td>CRUD completo sin manejo de errores.</td><td>Faltan una o dos operaciones.</td><td>Solo lectura o nada funciona.</td></tr><tr><td><strong>Reportes PDF y Excel</strong></td><td>PDF con encabezado, tabla, resaltado, total y numeración; Excel con fórmulas y formato; generados sin congelar la UI.</td><td>Ambos reportes correctos con detalles de formato.</td><td>Solo un formato o datos incompletos.</td><td>No genera reportes.</td></tr><tr><td><strong>Consumo de servicio web</strong></td><td>HttpClient asíncrono, deserialización JSON tipada, manejo de errores y respaldo sin conexión; muestra la fuente del dato.</td><td>Consume el servicio y deserializa; manejo de errores parcial.</td><td>Consume el servicio pero la aplicación falla sin Internet.</td><td>No consume servicios web.</td></tr><tr><td><strong>Integración, manual y defensa</strong></td><td>AgroStock v3 integra todas las unidades; manual claro; defensa explica decisiones técnicas y responde preguntas.</td><td>Integración completa; defensa con dudas menores.</td><td>Integración parcial o manual incompleto.</td><td>No presenta el proyecto.</td></tr><tr><td><strong>Actitudes y ejes transversales</strong></td><td>Trabajo colaborativo equitativo, respeto en la coevaluación y reflexión fundamentada sobre sostenibilidad.</td><td>Colaboración adecuada; reflexión general.</td><td>Participación desigual; reflexión superficial.</td><td>No participa ni entrega la autoevaluación.</td></tr></tbody></table></div></div></details>
+</section>
+
+<section id="recursos"><h2>Recursos y código</h2>
+<div class="btns"><a class="btn" href="recursos/AgroStock.E03.zip" download>⬇ AgroStock.E03.zip</a></div>
+<details class="bloque"><summary>Ver archivos uno por uno</summary><div class="cuerpo"><ul><li><a href="recursos/tipo_cambio_offline.json">tipo_cambio_offline.json</a></li><li><a href="recursos/AgroStock.E03/AgroStock.E03.csproj">AgroStock.E03/AgroStock.E03.csproj</a></li><li><a href="recursos/AgroStock.E03/Program.cs">AgroStock.E03/Program.cs</a></li><li><a href="recursos/AgroStock.E03/README.md">AgroStock.E03/README.md</a></li><li><a href="recursos/AgroStock.E03/Data/AgroStockContext.cs">AgroStock.E03/Data/AgroStockContext.cs</a></li><li><a href="recursos/AgroStock.E03/Data/ProductoService.cs">AgroStock.E03/Data/ProductoService.cs</a></li><li><a href="recursos/AgroStock.E03/Forms/FrmPrincipal.cs">AgroStock.E03/Forms/FrmPrincipal.cs</a></li><li><a href="recursos/AgroStock.E03/Forms/FrmProducto.cs">AgroStock.E03/Forms/FrmProducto.cs</a></li><li><a href="recursos/AgroStock.E03/Models/Entidades.cs">AgroStock.E03/Models/Entidades.cs</a></li><li><a href="recursos/AgroStock.E03/Services/ReporteService.cs">AgroStock.E03/Services/ReporteService.cs</a></li><li><a href="recursos/AgroStock.E03/Services/TipoCambioService.cs">AgroStock.E03/Services/TipoCambioService.cs</a></li></ul></div></details>
+</section>
+
+<section><h2>Autoevaluación</h2>
+<div class="quiz card" id="quiz-e3"><script type="application/json">[{"c": 1, "e": "El ORM mapea clases a tablas y genera el SQL necesario."}, {"c": 1, "e": "SaveChanges genera los INSERT/UPDATE/DELETE y los ejecuta en una transacción."}, {"c": 1, "e": "Es ejecución diferida: la consulta se envía a la base cuando se materializa."}, {"c": 1, "e": "Una fórmula mantiene el reporte coherente al editarlo."}, {"c": 0, "e": "Los códigos 2xx indican éxito; 200 = OK."}, {"c": 1, "e": "HttpRequestException indica que la petición no pudo completarse."}, {"c": 1, "e": "await libera el hilo de la UI mientras llega la respuesta."}]</script>
+<div class="q"><fieldset><legend>1. ¿Qué hace un ORM?</legend><label><input type="radio" name="q0" value="0"> Diseña formularios</label><label><input type="radio" name="q0" value="1"> Traduce entre objetos del programa y tablas de la base de datos</label><label><input type="radio" name="q0" value="2"> Comprime la base de datos</label><label><input type="radio" name="q0" value="3"> Genera reportes PDF</label><div class="fb" id="fbquiz-e3-0" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>2. En EF Core, ¿qué método envía a la base los cambios pendientes?</legend><label><input type="radio" name="q1" value="0"> Commit()</label><label><input type="radio" name="q1" value="1"> SaveChanges()</label><label><input type="radio" name="q1" value="2"> ExecuteNonQuery()</label><label><input type="radio" name="q1" value="3"> Update()</label><div class="fb" id="fbquiz-e3-1" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>3. ¿Cuándo se ejecuta realmente una consulta LINQ de EF Core?</legend><label><input type="radio" name="q2" value="0"> Al escribir Where</label><label><input type="radio" name="q2" value="1"> Al enumerarla (ToList, First, foreach)</label><label><input type="radio" name="q2" value="2"> Al compilar</label><label><input type="radio" name="q2" value="3"> Al cerrar la aplicación</label><div class="fb" id="fbquiz-e3-2" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>4. ¿Por qué el total del reporte Excel se escribe como fórmula =SUM(...)?</legend><label><input type="radio" name="q3" value="0"> Porque es más bonito</label><label><input type="radio" name="q3" value="1"> Para que se recalcule si el usuario cambia un valor</label><label><input type="radio" name="q3" value="2"> Porque ClosedXML no admite números</label><label><input type="radio" name="q3" value="3"> No importa</label><div class="fb" id="fbquiz-e3-3" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>5. ¿Qué código de estado HTTP indica éxito?</legend><label><input type="radio" name="q4" value="0"> 200</label><label><input type="radio" name="q4" value="1"> 404</label><label><input type="radio" name="q4" value="2"> 500</label><label><input type="radio" name="q4" value="3"> 301</label><div class="fb" id="fbquiz-e3-4" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>6. ¿Qué excepción aparece típicamente cuando no hay conexión a Internet al usar HttpClient?</legend><label><input type="radio" name="q5" value="0"> NullReferenceException</label><label><input type="radio" name="q5" value="1"> HttpRequestException</label><label><input type="radio" name="q5" value="2"> FormatException</label><label><input type="radio" name="q5" value="3"> IndexOutOfRangeException</label><div class="fb" id="fbquiz-e3-5" aria-live="polite"></div></fieldset></div><div class="q"><fieldset><legend>7. ¿Por qué se usa await al consumir un servicio web desde un formulario?</legend><label><input type="radio" name="q6" value="0"> Para que la petición sea más rápida</label><label><input type="radio" name="q6" value="1"> Para esperar la respuesta sin bloquear el hilo de la interfaz</label><label><input type="radio" name="q6" value="2"> Porque HttpClient no funciona sin await</label><label><input type="radio" name="q6" value="3"> Para cifrar los datos</label><div class="fb" id="fbquiz-e3-6" aria-live="polite"></div></fieldset></div>
+<div class="btns"><button class="btn calificar" type="button">Calificar</button><button class="btn sec reiniciar" type="button">Reiniciar</button></div>
+<p class="resultado" role="status" aria-live="polite"></p></div>
+</section>
+
+<section><h2>Mi lista de verificación</h2>
+<div class="card"><div class="progress" role="progressbar" aria-label="Avance de la lista" aria-valuemin="0" aria-valuemax="100"><div id="barra-e3"></div></div>
+<ul class="check" data-clave="e3"><li><label><input type="checkbox"> <span>Configuré AgroStockContext con entidades y datos semilla</span></label></li><li><label><input type="checkbox"> <span>Hice el CRUD con LINQ y SaveChanges</span></label></li><li><label><input type="checkbox"> <span>Generé el reporte PDF</span></label></li><li><label><input type="checkbox"> <span>Generé el reporte Excel con fórmulas</span></label></li><li><label><input type="checkbox"> <span>Consumí el servicio de tipo de cambio</span></label></li><li><label><input type="checkbox"> <span>Probé la aplicación sin Internet</span></label></li><li><label><input type="checkbox"> <span>Presenté y defendí AgroStock v3</span></label></li><li><label><input type="checkbox"> <span>Entregué manual, video y autoevaluación</span></label></li></ul><p class="muted">Se guarda solo en este navegador.</p></div></section>
+
+<section><h2>Síntesis</h2><div class="card"><ul><li>Un ORM mapea clases a tablas: se trabaja con objetos y LINQ, y SaveChanges genera el SQL.</li><li>Un reporte útil tiene encabezado, detalle, totales y pie; se genera sin congelar la interfaz.</li><li>Consumir un servicio web es enviar una petición HTTP y deserializar la respuesta, previendo fallos.</li><li>AgroStock integra las cinco unidades: GUI, base de datos, concurrencia, ORM/reportes y servicios web.</li></ul></div>
+<h3>Para profundizar</h3><div class="card"><ul><li>Microsoft Learn: «Introducción a EF Core» – <a href="https://learn.microsoft.com/es-es/ef/core/get-started/overview/first-app" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/ef/core/get-started/overview/first-app</a></li><li>QuestPDF: «Getting started» – <a href="https://www.questpdf.com/quick-start.html" target="_blank" rel="noopener">https://www.questpdf.com/quick-start.html</a></li><li>ClosedXML: documentación – <a href="https://docs.closedxml.io/" target="_blank" rel="noopener">https://docs.closedxml.io/</a></li><li>Microsoft Learn: «Realización de solicitudes HTTP con HttpClient» – <a href="https://learn.microsoft.com/es-es/dotnet/fundamentals/networking/http/httpclient" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/fundamentals/networking/http/httpclient</a></li><li>ExchangeRate-API (servicio usado en clase) – <a href="https://www.exchangerate-api.com/docs/free" target="_blank" rel="noopener">https://www.exchangerate-api.com/docs/free</a></li><li>Investiga los términos de uso del servicio antes de publicarlo en una aplicación real.</li></ul></div></section>
+
+<section><h2>Glosario</h2><div class="tabla"><table><thead><tr><th>Término</th><th>Definición</th></tr></thead><tbody>
+<tr><td><strong>ORM</strong></td><td>Mapeador objeto-relacional: traduce entre objetos del programa y tablas de la base.</td></tr><tr><td><strong>DbContext</strong></td><td>Clase de EF Core que representa una sesión con la base y rastrea cambios.</td></tr><tr><td><strong>DbSet&lt;T&gt;</strong></td><td>Colección que representa una tabla y sobre la que se escriben consultas LINQ.</td></tr><tr><td><strong>LINQ</strong></td><td>Consultas integradas en el lenguaje C# (Where, Select, OrderBy, GroupBy).</td></tr><tr><td><strong>SaveChanges</strong></td><td>Método que envía a la base todos los cambios pendientes en una transacción.</td></tr><tr><td><strong>API REST</strong></td><td>Servicio web que expone recursos por URL y se opera con métodos HTTP.</td></tr><tr><td><strong>JSON</strong></td><td>Formato de texto para intercambiar datos: objetos {}, listas [], texto, números.</td></tr><tr><td><strong>Deserializar</strong></td><td>Convertir texto JSON o XML en objetos del programa.</td></tr><tr><td><strong>Código de estado HTTP</strong></td><td>Número que indica el resultado de la petición (200, 404, 500…).</td></tr></tbody></table></div></section>
+
+</main>
+<footer>Programación de Aplicaciones de Escritorio · Ingeniería en Sistemas · II año – II semestre 2026 · Centro Universitario Regional de Matagalpa · Docente: Heydy Judelki Mairena Palacios<br>
+Material elaborado con base en el programa del componente (enero 2025). Código de ejemplo con fines educativos.</footer>
+<script src="../assets/app.js"></script>
+</body>
+</html>

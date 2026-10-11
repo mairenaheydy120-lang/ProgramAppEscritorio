@@ -1,0 +1,1427 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guía AgroStock v1 · Programación de Aplicaciones de Escritorio</title>
+<meta name="description" content="Guía paso a paso para construir AgroStock v1 en C# con Windows Forms: 8 pasos, 7 simuladores interactivos y ejercitación del Encuentro 1.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+/* ---------- visor de código ---------- */
+.viewer{border-radius:10px;overflow:hidden;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--code-bar);min-width:0}
+.v-bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;background:var(--code-bar);padding:8px 10px;color:var(--code-bar-fg)}
+.v-tabs{display:flex;gap:4px;flex-wrap:wrap;min-width:0}
+.v-tabs button{background:transparent;border:1px solid transparent;color:var(--code-bar-fg);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:var(--font-mono);font-size:.8rem}
+.v-tabs button[aria-selected="true"]{background:var(--code-bg);color:var(--code-fg);border-color:#2f4a3b}
+.v-actions{display:flex;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid #2f4a3b;border-radius:7px;overflow:hidden}
+.seg button{background:transparent;border:0;color:var(--code-bar-fg);padding:3px 10px;cursor:pointer;font-size:.82rem}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);font-weight:600}
+.v-copy{background:transparent;border:1px solid #2f4a3b;color:var(--code-bar-fg);border-radius:7px;padding:3px 10px;cursor:pointer;font-size:.82rem}
+.v-copy:hover{background:#243a2e}
+.v-info{padding:6px 12px;font-size:.78rem;color:var(--code-ln);background:var(--code-bg);border-bottom:1px solid var(--code-bar)}
+.v-body{max-height:460px;overflow:auto;padding:8px 0}
+.v-body pre{margin:0;font-family:var(--font-mono);font-size:.8rem;line-height:1.6;width:max-content;min-width:100%}
+.ln{display:flex;padding-right:16px}
+.ln .no{flex:0 0 3.2em;text-align:right;padding-right:12px;color:var(--code-ln);user-select:none}
+.ln.flash{background:var(--code-hl);box-shadow:inset 3px 0 0 var(--code-k)}
+/* ---------- ventana tipo Windows ---------- */
+.win{background:var(--w-face);color:var(--w-text);border:1px solid #6d6d6d;box-shadow:0 8px 24px var(--w-shadow);position:relative;font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;font-size:14px;line-height:1.35;min-width:0;max-width:100%;overflow:hidden}
+.win *{color-scheme:light}
+.win-t{background:var(--w-title);display:flex;align-items:center;height:30px;border-bottom:1px solid #d6d6d6;font-size:12px;padding-left:8px;gap:8px;user-select:none}
+.win-t .ic{width:14px;height:14px;background:var(--accent);border-radius:3px;flex:0 0 auto}
+.win-t .tt2{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-t .wb{display:flex;height:100%}
+.win-t .wb span,.win-t .wb button{width:40px;height:100%;border:0;background:transparent;display:grid;place-items:center;font-size:12px;color:#222;cursor:default}
+.win-t .wb button.x{cursor:pointer}.win-t .wb button.x:hover{background:#E81123;color:#fff}
+.w-menu{display:flex;background:var(--w-white);border-bottom:1px solid #e5e5e5;height:24px;align-items:stretch;position:relative}
+.w-menu>button{background:transparent;border:0;padding:0 9px;cursor:default;font-size:13px;color:var(--w-text)}
+.w-menu>button:hover,.w-menu>button[aria-expanded="true"]{background:#CCE8FF}
+.w-drop{position:absolute;top:24px;z-index:20;background:var(--w-white);border:1px solid #ccc;box-shadow:2px 3px 8px rgba(0,0,0,.25);min-width:230px;padding:2px}
+.w-drop button{display:flex;justify-content:space-between;gap:24px;width:100%;background:transparent;border:0;padding:4px 22px 4px 26px;text-align:left;font-size:13px;color:var(--w-text);cursor:default}
+.w-drop button:hover{background:#CCE8FF}
+.w-drop hr{border:0;border-top:1px solid #ddd;margin:3px 2px}
+.w-drop .sk{color:var(--w-mute);font-size:12px}
+.w-tool{display:flex;gap:2px;padding:2px 4px;align-items:center;background:var(--w-face);border-bottom:1px solid #d8d8d8;height:30px;flex-wrap:nowrap;overflow:hidden}
+.w-tool button{border:1px solid transparent;background:transparent;padding:2px 9px;font-size:13px;cursor:default;color:var(--w-text);border-radius:2px}
+.w-tool button:hover{background:#E5F3FF;border-color:#CCE8FF}
+.w-tool .sep{width:1px;height:20px;background:#bbb;margin:0 4px}
+.w-tool label{font-size:13px;margin-left:4px}
+.w-tool input{height:22px;width:130px;border:1px solid #7a7a7a;background:#fff;padding:0 4px;font-size:13px;color:var(--w-text);min-width:0}
+.w-status{display:flex;justify-content:space-between;gap:10px;background:#007ACC;color:#fff;font-size:12px;padding:2px 10px;height:22px;align-items:center}
+.w-status *{color:#fff}
+.w-body{padding:10px 12px}
+.w-grid{background:#fff;overflow:auto;border-top:1px solid #aaa}
+.w-grid table{border-collapse:collapse;font-size:13px;width:100%;color:var(--w-text)}
+.w-grid th{background:#f0f0f0;font-weight:400;text-align:left;border:1px solid #dcdcdc;padding:3px 8px;white-space:nowrap;position:sticky;top:0}
+.w-grid td{padding:3px 8px;border-bottom:1px solid #eee;border-right:1px solid #f0f0f0;white-space:nowrap}
+.w-grid tr.sel td{background:var(--w-sel);color:var(--w-sel-fg)}
+.w-grid td.r,.w-grid th.r{text-align:right}
+.w-btn{background:#E1E1E1;border:1px solid #ADADAD;padding:3px 14px;min-width:78px;font-size:13px;color:var(--w-text);cursor:default;border-radius:2px}
+.w-btn:hover{background:#E5F1FB;border-color:#0078D7}
+.w-btn.def{border:2px solid #0078D7;padding:2px 13px}
+.w-btn:focus-visible{outline:1px dotted #000;outline-offset:-4px}
+.w-in{height:23px;border:1px solid #7a7a7a;background:#fff;padding:0 4px;font-size:13px;width:100%;min-width:0;color:var(--w-text)}
+.w-in:disabled{background:#f0f0f0;color:#777}
+.w-field{display:grid;grid-template-columns:96px minmax(0,1fr);gap:4px 8px;align-items:center;margin-bottom:8px;font-size:13px}
+.w-field label u{text-decoration:underline}
+.w-err{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#E81123;color:#fff!important;font-size:11px;font-weight:700;cursor:help;margin-left:6px;flex:0 0 auto}
+.w-cell{display:flex;align-items:center;min-width:0}
+.w-ov{position:absolute;inset:30px 0 0 0;background:rgba(0,0,0,.28);display:grid;place-items:center;z-index:30;padding:8px}
+.w-ov.full{inset:0}
+.w-dlg{background:var(--w-face);border:1px solid #555;box-shadow:0 6px 22px rgba(0,0,0,.45);width:min(100%,430px);max-height:100%;overflow:auto}
+.w-dlg .w-t{height:28px}
+.w-msg{display:flex;gap:14px;padding:18px 16px;background:#fff;font-size:13px;align-items:flex-start}
+.w-msg .mi{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;flex:0 0 auto;font-size:18px}
+.w-foot{display:flex;gap:8px;justify-content:flex-end;padding:10px 12px;background:var(--w-face)}
+.w-nores{position:absolute;inset:0;background:rgba(255,255,255,.55);display:grid;place-items:center;z-index:25;color:#111;font-size:13px;text-align:center;padding:12px}
+.closed{padding:40px 16px;text-align:center;background:var(--w-face);color:#333;font-size:14px}
+
+/* ---------- explorador de soluciones ---------- */
+.se{background:var(--w-white);border:1px solid var(--w-border);color:var(--w-text);padding:8px 6px;font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;min-height:260px;overflow:auto}
+.se ul{list-style:none;margin:0;padding-left:16px}
+.se>ul{padding-left:2px}
+.se li{padding:2px 4px;border-radius:3px;display:flex;flex-direction:column}
+.se .it{display:flex;gap:6px;align-items:center;padding:1px 4px;border-radius:3px}
+.se .it.new{background:#CCE8FF;animation:pop .9s ease-out 1}
+.se .it.gone{text-decoration:line-through;color:#999}
+.se .ico{width:14px;display:inline-block;text-align:center;font-size:12px}
+@keyframes pop{from{background:#7CC4FF}to{background:#CCE8FF}}
+@media (prefers-reduced-motion:reduce){.se .it.new{animation:none}.prog-bar i{transition:none}}
+
+/* ---------- extensiones: comparaciones, ejercitación y BOA ---------- */
+:root{--w-low:#FFB35C;--w-icon-warn:#B86E00}
+.stage.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.w-grid tr.low:not(.sel) td{background:var(--w-low)}
+.sbtn.ghost[aria-pressed="true"]{background:var(--accent-soft)}
+.tlp{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 8px;align-items:center;padding:8px;font-size:13px}
+.tlp .w-in{width:100%}
+.flp{display:flex;flex-wrap:wrap;gap:6px 10px;padding:8px;font-size:13px}
+.flp.nowrap{flex-wrap:nowrap;overflow:hidden}
+.flp>span{display:inline-flex;gap:4px;align-items:center;flex:0 0 auto}
+.flp .w-in{width:72px}
+.ex-lv{display:flex;flex-direction:column;gap:12px}
+.ex-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.ex-big{display:grid;gap:18px}
+.boa-sel{height:30px;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:0 6px}
+.boa-obs{width:100%;min-height:64px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:6px 8px}
+.boa-in{height:34px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 8px;width:100%;max-width:340px}
+.tbl td.wrap{white-space:normal;min-width:150px}
+.tbx{display:flex;flex-wrap:wrap;gap:6px}
+.tbx button{touch-action:none;font-family:var(--font-mono);font-size:.78rem}
+.cv-wrap{overflow:hidden;border:1px dashed var(--line);border-radius:8px;padding:4px;background:var(--bg);min-width:0}
+.cv-wrap [data-id]{touch-action:none;cursor:move}
+.cv-sel{outline:2px solid var(--w-sel);outline-offset:1px}
+.cv-h{position:absolute;width:9px;height:9px;background:var(--w-sel);right:-5px;bottom:-5px;cursor:nwse-resize;touch-action:none}
+.cv-ghost{position:fixed;pointer-events:none;z-index:100;opacity:.85;padding:3px 10px}
+.tray{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:.85rem;color:var(--muted);margin-top:6px}
+.pp td{vertical-align:middle}
+.pp input[type=number]{width:70px}
+@media (max-width:980px){.stage.three{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:820px){.ex-grid{grid-template-columns:minmax(0,1fr)}}
+.nav a{flex:0 0 auto;border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:3px 12px;font-size:.88rem;white-space:nowrap;text-decoration:none;color:inherit}
+</style>
+</head>
+<body data-page="guia" data-sticky="0">
+<header class="top"><div class="top-in">
+  <div class="top-row"><div class="brand">AgroStock v1<small>Guía del Encuentro 1</small></div>
+    <div class="prog" role="status"><span id="progtxt">0 comprobaciones</span><span class="prog-bar" aria-hidden="true"><i id="progbar"></i></span></div></div>
+  <nav class="nav" id="nav" aria-label="Pasos de la guía"></nav>
+</div></header>
+<main>
+  <section class="hero" id="hero"></section>
+  <div id="steps" style="display:contents"></div>
+</main>
+<footer id="foot" data-extra="Los simuladores reproducen el comportamiento del código; su programa real se ejecuta en Visual Studio."></footer>
+<script src="assets/js/site.js"></script>
+<script>
+const FILES = {"AgroStock.E01.csproj": {"lang": "xml", "src": "<Project Sdk=\"Microsoft.NET.Sdk\">\n\n  <PropertyGroup>\n    <!-- WinExe = aplicación con ventanas: al ejecutarla no se abre una consola negra detrás. -->\n    <OutputType>WinExe<\/OutputType>\n    <!-- Versión de .NET para Windows con la que se compila el proyecto. -->\n    <TargetFramework>net8.0-windows<\/TargetFramework>\n    <!-- Activa las advertencias de nulos: string? admite null y string no. -->\n    <Nullable>enable<\/Nullable>\n    <!-- Agrega automáticamente los using más comunes (System, System.IO, System.Linq...). -->\n    <ImplicitUsings>enable<\/ImplicitUsings>\n    <!-- Incluye Windows Forms: formularios, controles y los using System.Windows.Forms y System.Drawing. -->\n    <UseWindowsForms>true<\/UseWindowsForms>\n  <\/PropertyGroup>\n\n<\/Project>\n"}, "Program.cs": {"lang": "cs", "src": "// El espacio de nombres agrupa las clases del proyecto. Coincide con el nombre: AgroStock.E01.\nnamespace AgroStock.E01;\n\n// internal: la clase solo se usa dentro de este proyecto. static: nunca se crean objetos de ella.\ninternal static class Program\n{\n    // [STAThread]: la interfaz gráfica corre en un único hilo (el hilo de la interfaz). Windows lo exige.\n    [STAThread]\n    // Main es el punto de entrada: el sistema operativo empieza a ejecutar el programa aquí.\n    private static void Main()\n    {\n        // Prepara estilos visuales, escala para pantallas de alta resolución y fuente por defecto.\n        ApplicationConfiguration.Initialize();\n        // Crea el formulario principal, lo muestra e inicia el bucle de mensajes.\n        // La línea no termina hasta que se cierra FrmPrincipal.\n        Application.Run(new Forms.FrmPrincipal());\n    }\n}\n"}, "Models/Producto.cs": {"lang": "cs", "src": "// Las clases del dominio (los datos del negocio) van en la carpeta Models.\nnamespace AgroStock.E01.Models;\n\n// Un Producto representa una fila del inventario del agroservicio de doña Martha.\n// public: los formularios (otra carpeta) necesitan verla.\npublic class Producto\n{\n    // Código corto y único, por ejemplo FERT-1846. El valor inicial \"\" evita que sea null.\n    public string Codigo { get; set; } = \"\";\n\n    // Nombre que ve el cliente, por ejemplo \"Fórmula 18-46-0 (quintal)\".\n    public string Nombre { get; set; } = \"\";\n\n    // Categoría elegida de una lista cerrada (Fertilizantes, Semillas...).\n    public string Categoria { get; set; } = \"\";\n\n    // decimal es el tipo correcto para dinero: no pierde centavos como double.\n    public decimal Precio { get; set; }\n\n    // int: unidades en bodega. Siempre es un número entero.\n    public int Existencia { get; set; }\n\n    // DateTime? (con ?): admite null porque no todo producto vence, como las herramientas.\n    public DateTime? Vencimiento { get; set; }\n}\n"}, "Forms/FrmProducto.Designer.cs": {"lang": "cs", "src": "// Este archivo lo genera Visual Studio cuando usted arrastra controles en el diseñador.\n// No lo escriba a mano: cada cambio visual se convierte en estas líneas.\nnamespace AgroStock.E01.Forms;\n\n// partial: la clase FrmProducto está repartida en dos archivos (este y FrmProducto.cs).\npartial class FrmProducto\n{\n    // Contenedor de componentes no visuales (como ErrorProvider) para liberarlos al cerrar.\n    private System.ComponentModel.IContainer? components = null;\n\n    // Se ejecuta al cerrar el formulario y libera los recursos de Windows que usa.\n    protected override void Dispose(bool disposing)\n    {\n        if (disposing && (components != null))\n        {\n            components.Dispose();\n        }\n        base.Dispose(disposing);\n    }\n\n    // InitializeComponent crea cada control y le asigna sus propiedades.\n    private void InitializeComponent()\n    {\n        // 1) Se crean los objetos. Todavía no están dentro del formulario.\n        components = new System.ComponentModel.Container();\n        errores = new ErrorProvider(components);\n        lblCodigo = new Label();\n        txtCodigo = new TextBox();\n        lblNombre = new Label();\n        txtNombre = new TextBox();\n        lblCategoria = new Label();\n        cboCategoria = new ComboBox();\n        lblPrecio = new Label();\n        nudPrecio = new NumericUpDown();\n        lblExistencia = new Label();\n        nudExistencia = new NumericUpDown();\n        lblVencimiento = new Label();\n        dtpVencimiento = new DateTimePicker();\n        btnGuardar = new Button();\n        btnCancelar = new Button();\n        // 2) Se avisa a los controles que se les van a cambiar muchas propiedades seguidas.\n        ((System.ComponentModel.ISupportInitialize)errores).BeginInit();\n        ((System.ComponentModel.ISupportInitialize)nudPrecio).BeginInit();\n        ((System.ComponentModel.ISupportInitialize)nudExistencia).BeginInit();\n        // SuspendLayout detiene el redibujado para que el formulario no parpadee mientras se arma.\n        SuspendLayout();\n\n        // ----- lblCodigo -----\n        // AutoSize: la etiqueta ajusta su tamaño al texto.\n        lblCodigo.AutoSize = true;\n        // Location: posición (x, y) en píxeles dentro del formulario.\n        lblCodigo.Location = new Point(20, 23);\n        // Name: el nombre con el que se usa el control en el código.\n        lblCodigo.Name = \"lblCodigo\";\n        // TabIndex: orden en que el foco avanza con la tecla Tab.\n        lblCodigo.TabIndex = 0;\n        // El & subraya la C: Alt+C lleva el foco al cuadro de texto que sigue en el orden de tabulación.\n        lblCodigo.Text = \"&Código:\";\n\n        // ----- txtCodigo -----\n        txtCodigo.Location = new Point(140, 20);\n        // MaxLength: máximo de caracteres que admite el cuadro.\n        txtCodigo.MaxLength = 15;\n        txtCodigo.Name = \"txtCodigo\";\n        // Size: ancho y alto del control.\n        txtCodigo.Size = new Size(250, 23);\n        txtCodigo.TabIndex = 1;\n\n        // ----- lblNombre y txtNombre -----\n        lblNombre.AutoSize = true;\n        lblNombre.Location = new Point(20, 68);\n        lblNombre.Name = \"lblNombre\";\n        lblNombre.TabIndex = 2;\n        lblNombre.Text = \"&Nombre:\";\n        txtNombre.Location = new Point(140, 65);\n        txtNombre.MaxLength = 60;\n        txtNombre.Name = \"txtNombre\";\n        txtNombre.Size = new Size(250, 23);\n        txtNombre.TabIndex = 3;\n\n        // ----- lblCategoria y cboCategoria -----\n        lblCategoria.AutoSize = true;\n        lblCategoria.Location = new Point(20, 113);\n        lblCategoria.Name = \"lblCategoria\";\n        lblCategoria.TabIndex = 4;\n        lblCategoria.Text = \"C&ategoría:\";\n        // DropDownList: solo se puede elegir de la lista, no escribir. Evita categorías mal escritas.\n        cboCategoria.DropDownStyle = ComboBoxStyle.DropDownList;\n        cboCategoria.FormattingEnabled = true;\n        cboCategoria.Location = new Point(140, 110);\n        cboCategoria.Name = \"cboCategoria\";\n        cboCategoria.Size = new Size(250, 23);\n        cboCategoria.TabIndex = 5;\n\n        // ----- lblPrecio y nudPrecio -----\n        lblPrecio.AutoSize = true;\n        lblPrecio.Location = new Point(20, 158);\n        lblPrecio.Name = \"lblPrecio\";\n        lblPrecio.TabIndex = 6;\n        lblPrecio.Text = \"&Precio (C$):\";\n        // DecimalPlaces: cuántos decimales muestra el control. 2 = centavos.\n        nudPrecio.DecimalPlaces = 2;\n        nudPrecio.Location = new Point(140, 155);\n        // Maximum: el valor más alto permitido. Minimum es 0 por defecto.\n        nudPrecio.Maximum = 100000m;\n        nudPrecio.Name = \"nudPrecio\";\n        nudPrecio.Size = new Size(120, 23);\n        nudPrecio.TabIndex = 7;\n        // ThousandsSeparator: muestra 1,250.00 en lugar de 1250.00.\n        nudPrecio.ThousandsSeparator = true;\n\n        // ----- lblExistencia y nudExistencia -----\n        lblExistencia.AutoSize = true;\n        lblExistencia.Location = new Point(20, 203);\n        lblExistencia.Name = \"lblExistencia\";\n        lblExistencia.TabIndex = 8;\n        lblExistencia.Text = \"E&xistencia:\";\n        nudExistencia.Location = new Point(140, 200);\n        nudExistencia.Maximum = 100000m;\n        nudExistencia.Name = \"nudExistencia\";\n        nudExistencia.Size = new Size(120, 23);\n        nudExistencia.TabIndex = 9;\n        nudExistencia.ThousandsSeparator = true;\n\n        // ----- lblVencimiento y dtpVencimiento -----\n        lblVencimiento.AutoSize = true;\n        lblVencimiento.Location = new Point(20, 248);\n        lblVencimiento.Name = \"lblVencimiento\";\n        lblVencimiento.TabIndex = 10;\n        lblVencimiento.Text = \"&Vencimiento:\";\n        // Format Short: muestra solo la fecha (dd/MM/yyyy), sin hora.\n        dtpVencimiento.Format = DateTimePickerFormat.Short;\n        dtpVencimiento.Location = new Point(140, 245);\n        dtpVencimiento.Name = \"dtpVencimiento\";\n        dtpVencimiento.Size = new Size(120, 23);\n        // ShowCheckBox: agrega una casilla. Sin marcar significa \"este producto no vence\" (null).\n        dtpVencimiento.ShowCheckBox = true;\n        dtpVencimiento.Checked = false;\n        dtpVencimiento.TabIndex = 11;\n\n        // ----- btnGuardar -----\n        btnGuardar.Location = new Point(210, 300);\n        btnGuardar.Name = \"btnGuardar\";\n        btnGuardar.Size = new Size(90, 30);\n        btnGuardar.TabIndex = 12;\n        btnGuardar.Text = \"&Guardar\";\n        // UseVisualStyleBackColor: usa el aspecto moderno de Windows para el botón.\n        btnGuardar.UseVisualStyleBackColor = true;\n\n        // ----- btnCancelar -----\n        btnCancelar.Location = new Point(310, 300);\n        btnCancelar.Name = \"btnCancelar\";\n        btnCancelar.Size = new Size(90, 30);\n        btnCancelar.TabIndex = 13;\n        btnCancelar.Text = \"Cancelar\";\n        // DialogResult = Cancel: al pulsarlo, el formulario se cierra solo y ShowDialog devuelve Cancel.\n        btnCancelar.DialogResult = DialogResult.Cancel;\n        btnCancelar.UseVisualStyleBackColor = true;\n\n        // ----- El formulario FrmProducto -----\n        // AutoScaleMode.Font: el tamaño se ajusta si el usuario cambia la fuente o la escala de Windows.\n        AutoScaleDimensions = new SizeF(7F, 15F);\n        AutoScaleMode = AutoScaleMode.Font;\n        // AcceptButton: la tecla Enter equivale a pulsar Guardar.\n        AcceptButton = btnGuardar;\n        // CancelButton: la tecla Esc equivale a pulsar Cancelar.\n        CancelButton = btnCancelar;\n        // ClientSize: tamaño del área interior (sin el borde ni la barra de título).\n        ClientSize = new Size(420, 345);\n        // Controls.Add mete cada control dentro del formulario. Sin esto no se vería.\n        Controls.Add(lblCodigo);\n        Controls.Add(txtCodigo);\n        Controls.Add(lblNombre);\n        Controls.Add(txtNombre);\n        Controls.Add(lblCategoria);\n        Controls.Add(cboCategoria);\n        Controls.Add(lblPrecio);\n        Controls.Add(nudPrecio);\n        Controls.Add(lblExistencia);\n        Controls.Add(nudExistencia);\n        Controls.Add(lblVencimiento);\n        Controls.Add(dtpVencimiento);\n        Controls.Add(btnGuardar);\n        Controls.Add(btnCancelar);\n        // FixedDialog: ventana de tamaño fijo, como un cuadro de diálogo. Sin maximizar ni minimizar.\n        FormBorderStyle = FormBorderStyle.FixedDialog;\n        MaximizeBox = false;\n        MinimizeBox = false;\n        Name = \"FrmProducto\";\n        // CenterParent: aparece centrado sobre la ventana que la abrió.\n        StartPosition = FormStartPosition.CenterParent;\n        Text = \"Producto\";\n        // 3) Se termina la configuración y se dibuja todo de una vez.\n        ((System.ComponentModel.ISupportInitialize)errores).EndInit();\n        ((System.ComponentModel.ISupportInitialize)nudPrecio).EndInit();\n        ((System.ComponentModel.ISupportInitialize)nudExistencia).EndInit();\n        ResumeLayout(false);\n        PerformLayout();\n    }\n\n    // Campos: un campo privado por cada control, con el mismo Name que se usó arriba.\n    // Gracias a ellos el código de FrmProducto.cs puede escribir txtNombre.Text, nudPrecio.Value, etc.\n    private ErrorProvider errores = null!;\n    private Label lblCodigo = null!;\n    private TextBox txtCodigo = null!;\n    private Label lblNombre = null!;\n    private TextBox txtNombre = null!;\n    private Label lblCategoria = null!;\n    private ComboBox cboCategoria = null!;\n    private Label lblPrecio = null!;\n    private NumericUpDown nudPrecio = null!;\n    private Label lblExistencia = null!;\n    private NumericUpDown nudExistencia = null!;\n    private Label lblVencimiento = null!;\n    private DateTimePicker dtpVencimiento = null!;\n    private Button btnGuardar = null!;\n    private Button btnCancelar = null!;\n}\n"}, "Forms/FrmProducto.cs": {"lang": "cs", "src": "// using trae los espacios de nombres cuyas clases vamos a usar. Aquí, la clase Producto.\nusing AgroStock.E01.Models;\n\nnamespace AgroStock.E01.Forms;\n\n// Formulario modal para capturar o editar un producto.\n// Hereda de Form: ya sabe dibujarse, moverse y cerrarse. Nosotros agregamos la lógica.\npublic partial class FrmProducto : Form\n{\n    // Producto con el que trabaja el diálogo. Quien abre el formulario lo recibe de vuelta ya lleno.\n    // { get; } = solo lectura desde afuera: se asigna una vez en el constructor.\n    public Producto Producto { get; }\n\n    // Constructor: recibe el producto a editar (uno vacío si es nuevo).\n    public FrmProducto(Producto producto)\n    {\n        // Crea los controles definidos en FrmProducto.Designer.cs. Siempre va primero.\n        InitializeComponent();\n        // Guarda el producto recibido en la propiedad.\n        Producto = producto;\n\n        // Suscripción de eventos con +=: \"cuando ocurra X, ejecuta este método\".\n        // Load ocurre justo antes de mostrar el formulario por primera vez.\n        Load += FrmProducto_Load;\n        // KeyPress ocurre cada vez que se pulsa una tecla dentro del cuadro de código.\n        txtCodigo.KeyPress += TxtCodigo_KeyPress;\n        // Click ocurre al pulsar el botón Guardar.\n        btnGuardar.Click += BtnGuardar_Click;\n    }\n\n    // Manejador del evento Load: prepara los controles con los datos del producto.\n    // sender = quién lanzó el evento; e = datos del evento. Todo manejador recibe estos dos parámetros.\n    private void FrmProducto_Load(object? sender, EventArgs e)\n    {\n        // Llena la lista desplegable con las categorías permitidas.\n        cboCategoria.Items.AddRange(new object[] { \"Fertilizantes\", \"Semillas\", \"Herbicidas\", \"Herramientas\" });\n\n        // Copia los datos del producto a los controles. Si es nuevo, quedan vacíos o en cero.\n        Text = Producto.Codigo.Length == 0 ? \"Nuevo producto\" : \"Editar producto\";\n        txtCodigo.Text = Producto.Codigo;\n        txtNombre.Text = Producto.Nombre;\n        // SelectedItem busca el texto en la lista. Si no existe, no selecciona nada (-1).\n        cboCategoria.SelectedItem = Producto.Categoria;\n        nudPrecio.Value = Producto.Precio;\n        nudExistencia.Value = Producto.Existencia;\n\n        // Vencimiento puede ser null: si tiene valor se marca la casilla, si no, se deja sin marcar.\n        if (Producto.Vencimiento.HasValue)\n        {\n            dtpVencimiento.Value = Producto.Vencimiento.Value;\n            dtpVencimiento.Checked = true;\n        }\n    }\n\n    // Manejador de KeyPress: filtra lo que el usuario puede escribir en el código.\n    private void TxtCodigo_KeyPress(object? sender, KeyPressEventArgs e)\n    {\n        // Las teclas de control (Retroceso, Supr...) siempre se permiten.\n        if (char.IsControl(e.KeyChar)) return;\n\n        // Solo letras, dígitos y guion. Cualquier otra tecla se descarta.\n        if (!char.IsLetterOrDigit(e.KeyChar) && e.KeyChar != '-')\n        {\n            // Handled = true significa \"este evento ya se atendió\": la tecla nunca llega al cuadro.\n            e.Handled = true;\n            return;\n        }\n\n        // Si la tecla es válida, se convierte a mayúscula antes de llegar al cuadro.\n        e.KeyChar = char.ToUpperInvariant(e.KeyChar);\n    }\n\n    // Manejador del botón Guardar: valida los datos y, si todo está bien, cierra el diálogo.\n    private void BtnGuardar_Click(object? sender, EventArgs e)\n    {\n        // Borra los íconos de error de la vez anterior.\n        errores.Clear();\n        // Empezamos suponiendo que todo es válido; cada regla incumplida lo cambia a false.\n        bool valido = true;\n\n        // Trim() quita espacios al inicio y al final. Length cuenta los caracteres que quedan.\n        if (txtCodigo.Text.Trim().Length < 3)\n        {\n            // SetError muestra un ícono rojo junto al control con el mensaje al pasar el ratón.\n            errores.SetError(txtCodigo, \"Escriba al menos 3 caracteres.\");\n            valido = false;\n        }\n        if (txtNombre.Text.Trim().Length < 3)\n        {\n            errores.SetError(txtNombre, \"Escriba al menos 3 caracteres.\");\n            valido = false;\n        }\n        // SelectedIndex es -1 cuando no se ha elegido ninguna categoría.\n        if (cboCategoria.SelectedIndex < 0)\n        {\n            errores.SetError(cboCategoria, \"Elija una categoría.\");\n            valido = false;\n        }\n        // Es el caso de doña Martha: olvidar el precio. Un precio de 0 no es válido.\n        if (nudPrecio.Value <= 0)\n        {\n            errores.SetError(nudPrecio, \"El precio debe ser mayor que cero.\");\n            valido = false;\n        }\n\n        // Si algo falló, se sale sin cerrar: el diálogo sigue abierto para corregir.\n        if (!valido) return;\n\n        // Todo es válido: recién ahora se copian los datos al producto.\n        Producto.Codigo = txtCodigo.Text.Trim();\n        Producto.Nombre = txtNombre.Text.Trim();\n        // SelectedItem es object?; el signo ! indica que sabemos que no es null (ya se validó).\n        Producto.Categoria = (string)cboCategoria.SelectedItem!;\n        Producto.Precio = nudPrecio.Value;\n        // Value es decimal; Existencia es int, por eso la conversión (int).\n        Producto.Existencia = (int)nudExistencia.Value;\n        // Si la casilla está marcada se guarda la fecha; si no, null (no vence).\n        Producto.Vencimiento = dtpVencimiento.Checked ? dtpVencimiento.Value.Date : null;\n\n        // OK cierra el formulario modal y hace que ShowDialog devuelva DialogResult.OK.\n        DialogResult = DialogResult.OK;\n    }\n}\n"}, "Forms/FrmPrincipal.Designer.cs": {"lang": "cs", "src": "// Archivo generado por el diseñador de Visual Studio para la ventana principal.\n// Aquí viven el menú, la barra de herramientas, la cuadrícula y la barra de estado.\nnamespace AgroStock.E01.Forms;\n\npartial class FrmPrincipal\n{\n    private System.ComponentModel.IContainer? components = null;\n\n    protected override void Dispose(bool disposing)\n    {\n        if (disposing && (components != null))\n        {\n            components.Dispose();\n        }\n        base.Dispose(disposing);\n    }\n\n    private void InitializeComponent()\n    {\n        // 1) Se crean todos los objetos.\n        components = new System.ComponentModel.Container();\n        menuPrincipal = new MenuStrip();\n        mnuArchivo = new ToolStripMenuItem();\n        mnuNuevo = new ToolStripMenuItem();\n        mnuExportar = new ToolStripMenuItem();\n        sepArchivo = new ToolStripSeparator();\n        mnuSalir = new ToolStripMenuItem();\n        mnuEditar = new ToolStripMenuItem();\n        mnuEditarProducto = new ToolStripMenuItem();\n        mnuEliminar = new ToolStripMenuItem();\n        mnuAyuda = new ToolStripMenuItem();\n        mnuAcercaDe = new ToolStripMenuItem();\n        barraHerramientas = new ToolStrip();\n        tsbNuevo = new ToolStripButton();\n        tsbEditar = new ToolStripButton();\n        tsbEliminar = new ToolStripButton();\n        sepBarra = new ToolStripSeparator();\n        lblBuscar = new ToolStripLabel();\n        txtBuscar = new ToolStripTextBox();\n        barraEstado = new StatusStrip();\n        tslTotal = new ToolStripStatusLabel();\n        tslReloj = new ToolStripStatusLabel();\n        dgvProductos = new DataGridView();\n        // Timer de Windows Forms: se escribe completo porque System.Threading también tiene un Timer.\n        tmrReloj = new System.Windows.Forms.Timer(components);\n        // 2) Se pausa el diseño mientras se configuran los controles.\n        menuPrincipal.SuspendLayout();\n        barraHerramientas.SuspendLayout();\n        barraEstado.SuspendLayout();\n        ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();\n        SuspendLayout();\n\n        // ----- menuPrincipal (MenuStrip): la barra de menús de arriba -----\n        // Items.AddRange agrega los menús de primer nivel, en este orden de izquierda a derecha.\n        menuPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, mnuEditar, mnuAyuda });\n        menuPrincipal.Location = new Point(0, 0);\n        menuPrincipal.Name = \"menuPrincipal\";\n        menuPrincipal.TabIndex = 0;\n\n        // ----- mnuArchivo -----\n        // DropDownItems: los elementos que aparecen al abrir el menú Archivo.\n        mnuArchivo.DropDownItems.AddRange(new ToolStripItem[] { mnuNuevo, mnuExportar, sepArchivo, mnuSalir });\n        mnuArchivo.Name = \"mnuArchivo\";\n        // &Archivo: la A queda subrayada y Alt+A abre el menú.\n        mnuArchivo.Text = \"&Archivo\";\n\n        // ShortcutKeys: atajo de teclado global. Keys.Control | Keys.N significa Ctrl+N.\n        mnuNuevo.ShortcutKeys = Keys.Control | Keys.N;\n        mnuNuevo.Name = \"mnuNuevo\";\n        mnuNuevo.Text = \"&Nuevo producto\";\n\n        mnuExportar.ShortcutKeys = Keys.Control | Keys.Shift | Keys.E;\n        mnuExportar.Name = \"mnuExportar\";\n        // Los tres puntos avisan que se abrirá un cuadro de diálogo antes de actuar.\n        mnuExportar.Text = \"&Exportar a CSV...\";\n\n        // ToolStripSeparator: la línea que separa grupos de opciones dentro del menú.\n        sepArchivo.Name = \"sepArchivo\";\n\n        mnuSalir.Name = \"mnuSalir\";\n        // ShortcutKeyDisplayString solo muestra el texto del atajo; Alt+F4 ya lo maneja Windows.\n        mnuSalir.ShortcutKeyDisplayString = \"Alt+F4\";\n        mnuSalir.Text = \"&Salir\";\n\n        // ----- mnuEditar -----\n        mnuEditar.DropDownItems.AddRange(new ToolStripItem[] { mnuEditarProducto, mnuEliminar });\n        mnuEditar.Name = \"mnuEditar\";\n        mnuEditar.Text = \"&Editar\";\n\n        mnuEditarProducto.ShortcutKeys = Keys.Control | Keys.E;\n        mnuEditarProducto.Name = \"mnuEditarProducto\";\n        mnuEditarProducto.Text = \"&Editar producto\";\n\n        // Se usa Ctrl+D y no la tecla Supr: Supr se necesita para borrar texto en el cuadro de búsqueda.\n        mnuEliminar.ShortcutKeys = Keys.Control | Keys.D;\n        mnuEliminar.Name = \"mnuEliminar\";\n        mnuEliminar.Text = \"E&liminar producto\";\n\n        // ----- mnuAyuda -----\n        mnuAyuda.DropDownItems.AddRange(new ToolStripItem[] { mnuAcercaDe });\n        mnuAyuda.Name = \"mnuAyuda\";\n        mnuAyuda.Text = \"A&yuda\";\n        mnuAcercaDe.Name = \"mnuAcercaDe\";\n        mnuAcercaDe.Text = \"&Acerca de AgroStock\";\n\n        // ----- barraHerramientas (ToolStrip): acceso rápido a lo más usado -----\n        barraHerramientas.Items.AddRange(new ToolStripItem[] { tsbNuevo, tsbEditar, tsbEliminar, sepBarra, lblBuscar, txtBuscar });\n        barraHerramientas.Location = new Point(0, 24);\n        barraHerramientas.Name = \"barraHerramientas\";\n        barraHerramientas.TabIndex = 1;\n\n        // DisplayStyle.Text: el botón muestra solo texto (no usamos íconos en este encuentro).\n        tsbNuevo.DisplayStyle = ToolStripItemDisplayStyle.Text;\n        tsbNuevo.Name = \"tsbNuevo\";\n        tsbNuevo.Text = \"Nuevo\";\n        // ToolTipText: el globo de ayuda que aparece al dejar el ratón sobre el botón.\n        tsbNuevo.ToolTipText = \"Nuevo producto (Ctrl+N)\";\n\n        tsbEditar.DisplayStyle = ToolStripItemDisplayStyle.Text;\n        tsbEditar.Name = \"tsbEditar\";\n        tsbEditar.Text = \"Editar\";\n        tsbEditar.ToolTipText = \"Editar producto (Ctrl+E)\";\n\n        tsbEliminar.DisplayStyle = ToolStripItemDisplayStyle.Text;\n        tsbEliminar.Name = \"tsbEliminar\";\n        tsbEliminar.Text = \"Eliminar\";\n        tsbEliminar.ToolTipText = \"Eliminar producto (Ctrl+D)\";\n\n        sepBarra.Name = \"sepBarra\";\n\n        lblBuscar.Name = \"lblBuscar\";\n        lblBuscar.Text = \"Buscar:\";\n\n        // ToolStripTextBox: un cuadro de texto dentro de la barra. Filtra la cuadrícula al escribir.\n        txtBuscar.Name = \"txtBuscar\";\n        txtBuscar.Size = new Size(180, 25);\n        txtBuscar.ToolTipText = \"Escriba parte del código o del nombre\";\n\n        // ----- barraEstado (StatusStrip): informa sin interrumpir -----\n        barraEstado.Items.AddRange(new ToolStripItem[] { tslTotal, tslReloj });\n        // Dock = Bottom: pegada al borde inferior, ocupando todo el ancho.\n        barraEstado.Dock = DockStyle.Bottom;\n        barraEstado.Name = \"barraEstado\";\n        barraEstado.TabIndex = 2;\n\n        // Spring = true: esta etiqueta se estira y empuja el reloj hacia la derecha.\n        tslTotal.Name = \"tslTotal\";\n        tslTotal.Spring = true;\n        tslTotal.TextAlign = ContentAlignment.MiddleLeft;\n        tslTotal.Text = \"Productos: 0\";\n\n        tslReloj.Name = \"tslReloj\";\n        tslReloj.Text = \"00/00/0000 00:00:00\";\n\n        // ----- dgvProductos (DataGridView): la cuadrícula con la lista -----\n        // Las columnas no se definen aquí: las crea ConfigurarCuadricula() en FrmPrincipal.cs.\n        // El usuario no puede agregar ni borrar filas directamente en la cuadrícula.\n        dgvProductos.AllowUserToAddRows = false;\n        dgvProductos.AllowUserToDeleteRows = false;\n        // ReadOnly: las celdas no se editan a mano; para eso está el formulario de producto.\n        dgvProductos.ReadOnly = true;\n        // FullRowSelect: al hacer clic se selecciona la fila completa.\n        dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;\n        // MultiSelect = false: una sola fila a la vez.\n        dgvProductos.MultiSelect = false;\n        dgvProductos.RowHeadersVisible = false;\n        dgvProductos.BackgroundColor = SystemColors.Window;\n        // Dock = Fill: ocupa todo el espacio que dejan el menú, la barra de herramientas y la barra de estado.\n        dgvProductos.Dock = DockStyle.Fill;\n        dgvProductos.Name = \"dgvProductos\";\n        dgvProductos.TabIndex = 3;\n\n        // ----- tmrReloj (Timer) -----\n        // Interval en milisegundos: 1000 = el evento Tick ocurre cada segundo.\n        tmrReloj.Interval = 1000;\n        tmrReloj.Enabled = true;\n\n        // ----- El formulario FrmPrincipal -----\n        AutoScaleDimensions = new SizeF(7F, 15F);\n        AutoScaleMode = AutoScaleMode.Font;\n        ClientSize = new Size(900, 520);\n        // El orden de Controls.Add importa con Dock: primero el que llena (Fill) y al final el menú.\n        Controls.Add(dgvProductos);\n        Controls.Add(barraEstado);\n        Controls.Add(barraHerramientas);\n        Controls.Add(menuPrincipal);\n        // MainMenuStrip: indica cuál es el menú principal de la ventana (activa Alt y las teclas de acceso).\n        MainMenuStrip = menuPrincipal;\n        // MinimumSize: la ventana no se puede achicar más que esto.\n        MinimumSize = new Size(640, 360);\n        Name = \"FrmPrincipal\";\n        StartPosition = FormStartPosition.CenterScreen;\n        Text = \"AgroStock v1 - Inventario del agroservicio\";\n        // 3) Se reanuda el diseño y se dibuja todo.\n        menuPrincipal.ResumeLayout(false);\n        menuPrincipal.PerformLayout();\n        barraHerramientas.ResumeLayout(false);\n        barraHerramientas.PerformLayout();\n        barraEstado.ResumeLayout(false);\n        barraEstado.PerformLayout();\n        ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();\n        ResumeLayout(false);\n        PerformLayout();\n    }\n\n    // Un campo privado por cada control y componente.\n    private MenuStrip menuPrincipal = null!;\n    private ToolStripMenuItem mnuArchivo = null!;\n    private ToolStripMenuItem mnuNuevo = null!;\n    private ToolStripMenuItem mnuExportar = null!;\n    private ToolStripSeparator sepArchivo = null!;\n    private ToolStripMenuItem mnuSalir = null!;\n    private ToolStripMenuItem mnuEditar = null!;\n    private ToolStripMenuItem mnuEditarProducto = null!;\n    private ToolStripMenuItem mnuEliminar = null!;\n    private ToolStripMenuItem mnuAyuda = null!;\n    private ToolStripMenuItem mnuAcercaDe = null!;\n    private ToolStrip barraHerramientas = null!;\n    private ToolStripButton tsbNuevo = null!;\n    private ToolStripButton tsbEditar = null!;\n    private ToolStripButton tsbEliminar = null!;\n    private ToolStripSeparator sepBarra = null!;\n    private ToolStripLabel lblBuscar = null!;\n    private ToolStripTextBox txtBuscar = null!;\n    private StatusStrip barraEstado = null!;\n    private ToolStripStatusLabel tslTotal = null!;\n    private ToolStripStatusLabel tslReloj = null!;\n    private DataGridView dgvProductos = null!;\n    private System.Windows.Forms.Timer tmrReloj = null!;\n}\n"}, "Forms/FrmPrincipal.cs": {"lang": "cs", "src": "// BindingList<T> vive en System.ComponentModel; CultureInfo en System.Globalization; StringBuilder en System.Text.\nusing System.ComponentModel;\nusing System.Globalization;\nusing System.Text;\nusing AgroStock.E01.Models;\n\nnamespace AgroStock.E01.Forms;\n\n// Ventana principal de AgroStock v1: menú, barra de herramientas, cuadrícula y barra de estado.\npublic partial class FrmPrincipal : Form\n{\n    // BindingList<Producto>: una lista que AVISA a los controles enlazados cuando se agrega o elimina algo.\n    // readonly: la variable apunta siempre a la misma lista; lo que cambia es su contenido.\n    private readonly BindingList<Producto> productos = new();\n\n    // Constructor: se ejecuta una vez al crear la ventana (en Program.cs con new Forms.FrmPrincipal()).\n    public FrmPrincipal()\n    {\n        // Crea los controles del diseñador. Siempre es la primera línea.\n        InitializeComponent();\n        // Cada paso importante está en un método con nombre claro para que el constructor se lea como un índice.\n        ConfigurarCuadricula();\n        SuscribirEventos();\n        CargarDatosIniciales();\n        // Muestra la lista en la cuadrícula y escribe el total en la barra de estado.\n        AplicarFiltro();\n        // Pone la hora de inmediato, sin esperar el primer segundo del temporizador.\n        ActualizarReloj();\n    }\n\n    // ---------------------------------------------------------------- configuración inicial\n\n    // Define las columnas de la cuadrícula y a qué propiedad de Producto corresponde cada una.\n    private void ConfigurarCuadricula()\n    {\n        // false: no crear columnas automáticamente; las definimos nosotros para controlar títulos y formatos.\n        dgvProductos.AutoGenerateColumns = false;\n\n        // DataPropertyName enlaza la columna con una propiedad de Producto.\n        // nameof(...) escribe el nombre de la propiedad como texto y evita errores de tipeo.\n        dgvProductos.Columns.Add(NuevaColumna(\"Código\", nameof(Producto.Codigo), 110));\n        dgvProductos.Columns.Add(NuevaColumna(\"Nombre\", nameof(Producto.Nombre), 220));\n        dgvProductos.Columns.Add(NuevaColumna(\"Categoría\", nameof(Producto.Categoria), 120));\n        dgvProductos.Columns.Add(NuevaColumna(\"Precio (C$)\", nameof(Producto.Precio), 100));\n        dgvProductos.Columns.Add(NuevaColumna(\"Existencia\", nameof(Producto.Existencia), 90));\n        dgvProductos.Columns.Add(NuevaColumna(\"Vencimiento\", nameof(Producto.Vencimiento), 110));\n\n        // Formato de las celdas: N2 = miles y dos decimales; dd/MM/yyyy = día/mes/año.\n        dgvProductos.Columns[3].DefaultCellStyle.Format = \"N2\";\n        dgvProductos.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;\n        dgvProductos.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;\n        dgvProductos.Columns[5].DefaultCellStyle.Format = \"dd/MM/yyyy\";\n        // Fill: la columna Nombre usa todo el ancho sobrante al cambiar el tamaño de la ventana.\n        dgvProductos.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;\n    }\n\n    // Método auxiliar: crea una columna de texto. static porque no usa nada del formulario.\n    private static DataGridViewTextBoxColumn NuevaColumna(string titulo, string propiedad, int ancho)\n    {\n        // new() con un inicializador: asigna propiedades al crear el objeto.\n        return new DataGridViewTextBoxColumn\n        {\n            Name = \"col\" + propiedad,\n            HeaderText = titulo,\n            DataPropertyName = propiedad,\n            Width = ancho\n        };\n    }\n\n    // Conecta cada evento con el método que debe ejecutarse (suscripción con +=).\n    private void SuscribirEventos()\n    {\n        // La misma acción puede dispararse desde el menú, la barra y el teclado: todos llaman al mismo método.\n        // (_, _) => ... es una expresión lambda: un método corto sin nombre que ignora sender y e.\n        mnuNuevo.Click += (_, _) => NuevoProducto();\n        tsbNuevo.Click += (_, _) => NuevoProducto();\n        mnuEditarProducto.Click += (_, _) => EditarProducto();\n        tsbEditar.Click += (_, _) => EditarProducto();\n        mnuEliminar.Click += (_, _) => EliminarProducto();\n        tsbEliminar.Click += (_, _) => EliminarProducto();\n        mnuExportar.Click += (_, _) => ExportarCsv();\n        // Close() cierra la ventana y dispara antes el evento FormClosing.\n        mnuSalir.Click += (_, _) => Close();\n        mnuAcercaDe.Click += (_, _) => MostrarAcercaDe();\n\n        // Doble clic en una celda abre el producto para editarlo. RowIndex -1 es el encabezado de columnas.\n        dgvProductos.CellDoubleClick += (_, e) =>\n        {\n            if (e.RowIndex >= 0) EditarProducto();\n        };\n        // TextChanged se dispara con cada letra escrita: la búsqueda filtra mientras se escribe.\n        txtBuscar.TextChanged += (_, _) => AplicarFiltro();\n        // Tick ocurre cada segundo (Interval = 1000): actualiza el reloj.\n        tmrReloj.Tick += (_, _) => ActualizarReloj();\n        // FormClosing ocurre antes de cerrar y permite cancelar el cierre.\n        FormClosing += FrmPrincipal_FormClosing;\n    }\n\n    // Agrega tres productos de ejemplo para que la cuadrícula no empiece vacía.\n    private void CargarDatosIniciales()\n    {\n        // Add agrega al final de la lista. La lista avisa a la cuadrícula, que dibuja la nueva fila.\n        productos.Add(new Producto\n        {\n            Codigo = \"FERT-1846\", Nombre = \"Fórmula 18-46-0 (quintal)\", Categoria = \"Fertilizantes\",\n            Precio = 1250.00m, Existencia = 24, Vencimiento = null\n        });\n        productos.Add(new Producto\n        {\n            Codigo = \"SEM-FRIJ01\", Nombre = \"Semilla de frijol rojo (libra)\", Categoria = \"Semillas\",\n            Precio = 32.50m, Existencia = 150, Vencimiento = new DateTime(2027, 3, 31)\n        });\n        productos.Add(new Producto\n        {\n            Codigo = \"HERB-GLI1\", Nombre = \"Glifosato (litro)\", Categoria = \"Herbicidas\",\n            Precio = 180.00m, Existencia = 8, Vencimiento = new DateTime(2027, 8, 15)\n        });\n    }\n\n    // ---------------------------------------------------------------- acciones del usuario\n\n    // Abre el formulario modal vacío; si el usuario pulsa Guardar, agrega el producto a la lista.\n    private void NuevoProducto()\n    {\n        // Producto vacío: es el \"molde\" que el diálogo llenará.\n        var p = new Producto();\n        // using var libera el formulario al terminar el método (los diálogos modales no se liberan solos).\n        using var dlg = new FrmProducto(p);\n        // ShowDialog es modal: el código se detiene aquí hasta que el diálogo se cierra.\n        // Devuelve OK si se guardó y Cancel si se canceló. 'this' hace que se centre sobre esta ventana.\n        if (dlg.ShowDialog(this) == DialogResult.OK)\n        {\n            productos.Add(p);\n            RefrescarLista();\n        }\n    }\n\n    // Abre el diálogo con el producto seleccionado para modificarlo.\n    private void EditarProducto()\n    {\n        var p = ProductoSeleccionado();\n        // is null: no hay fila seleccionada. Se avisa y se sale del método.\n        if (p is null)\n        {\n            AvisarSeleccion();\n            return;\n        }\n        using var dlg = new FrmProducto(p);\n        // El diálogo solo cambia p si el usuario guarda con datos válidos.\n        if (dlg.ShowDialog(this) == DialogResult.OK)\n        {\n            RefrescarLista();\n        }\n    }\n\n    // Pide confirmación y elimina el producto seleccionado.\n    private void EliminarProducto()\n    {\n        var p = ProductoSeleccionado();\n        if (p is null)\n        {\n            AvisarSeleccion();\n            return;\n        }\n        // MessageBox.Show devuelve el botón que pulsó el usuario.\n        // YesNo: botones Sí y No. Question: ícono de pregunta. Button2: \"No\" queda marcado por defecto (más seguro).\n        var r = MessageBox.Show(this, $\"¿Eliminar «{p.Nombre}»?\", \"Confirmar eliminación\",\n            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);\n        if (r == DialogResult.Yes)\n        {\n            productos.Remove(p);\n            RefrescarLista();\n        }\n    }\n\n    // Guarda el inventario en un archivo CSV que se abre con Excel.\n    private void ExportarCsv()\n    {\n        // SaveFileDialog: la ventana estándar \"Guardar como\". Filter define los tipos de archivo que ofrece.\n        using var dlg = new SaveFileDialog\n        {\n            Title = \"Exportar inventario\",\n            Filter = \"Archivo CSV (*.csv)|*.csv\",\n            FileName = \"inventario.csv\"\n        };\n        // Si el usuario cancela, se sale sin hacer nada.\n        if (dlg.ShowDialog(this) != DialogResult.OK) return;\n\n        // StringBuilder arma un texto largo línea por línea de forma eficiente.\n        var sb = new StringBuilder();\n        // El punto y coma como separador es el que Excel en español espera.\n        sb.AppendLine(\"Codigo;Nombre;Categoria;Precio;Existencia;Vencimiento\");\n        // foreach recorre todos los productos de la lista, no solo los que muestra el filtro.\n        foreach (var p in productos)\n        {\n            sb.AppendLine(string.Join(';', new[]\n            {\n                Csv(p.Codigo), Csv(p.Nombre), Csv(p.Categoria),\n                // InvariantCulture: el decimal siempre usa punto, sin importar el idioma de Windows.\n                p.Precio.ToString(\"F2\", CultureInfo.InvariantCulture),\n                p.Existencia.ToString(),\n                // ?. y ?? : si Vencimiento es null se escribe texto vacío.\n                p.Vencimiento?.ToString(\"yyyy-MM-dd\") ?? \"\"\n            }));\n        }\n\n        // try/catch: si el archivo está abierto en Excel o no hay permiso, se muestra un mensaje en lugar de cerrarse el programa.\n        try\n        {\n            // UTF8Encoding(true) agrega la marca que Excel necesita para mostrar bien las tildes.\n            File.WriteAllText(dlg.FileName, sb.ToString(), new UTF8Encoding(true));\n            MessageBox.Show(this, \"Inventario exportado correctamente.\", \"Exportar\",\n                MessageBoxButtons.OK, MessageBoxIcon.Information);\n        }\n        catch (IOException ex)\n        {\n            MessageBox.Show(this, \"No se pudo guardar el archivo:\\n\" + ex.Message, \"Exportar\",\n                MessageBoxButtons.OK, MessageBoxIcon.Error);\n        }\n    }\n\n    // Encierra el texto entre comillas y duplica las comillas internas, como exige el formato CSV.\n    private static string Csv(string texto) => \"\\\"\" + texto.Replace(\"\\\"\", \"\\\"\\\"\") + \"\\\"\";\n\n    // Cuadro de información sencillo, sin decisiones: solo el botón Aceptar.\n    private void MostrarAcercaDe()\n    {\n        MessageBox.Show(this, \"AgroStock v1\\nEncuentro 1: Aplicaciones de interfaz gráfica\\nUNAN-Managua, CUR Matagalpa\",\n            \"Acerca de AgroStock\", MessageBoxButtons.OK, MessageBoxIcon.Information);\n    }\n\n    // Mensaje reutilizado por Editar y Eliminar cuando no hay fila seleccionada.\n    private void AvisarSeleccion()\n    {\n        MessageBox.Show(this, \"Seleccione primero un producto de la lista.\", \"AgroStock\",\n            MessageBoxButtons.OK, MessageBoxIcon.Information);\n    }\n\n    // ---------------------------------------------------------------- lista, filtro y barra de estado\n\n    // Devuelve el Producto de la fila actual, o null si no hay ninguna.\n    private Producto? ProductoSeleccionado()\n    {\n        // CurrentRow?. : si no hay fila actual, el resultado completo es null.\n        // DataBoundItem es el objeto enlazado a esa fila; \"as Producto\" lo convierte a su tipo.\n        return dgvProductos.CurrentRow?.DataBoundItem as Producto;\n    }\n\n    // Muestra en la cuadrícula toda la lista o solo los productos que coinciden con el texto de búsqueda.\n    private void AplicarFiltro()\n    {\n        var texto = txtBuscar.Text.Trim();\n        if (texto.Length == 0)\n        {\n            // Sin filtro: la cuadrícula se enlaza directamente a la lista y recibe todos los avisos de cambios.\n            dgvProductos.DataSource = productos;\n        }\n        else\n        {\n            // Con filtro: Where (LINQ) selecciona los que cumplen la condición; OrdinalIgnoreCase ignora mayúsculas.\n            var coincidencias = productos.Where(p =>\n                p.Codigo.Contains(texto, StringComparison.OrdinalIgnoreCase) ||\n                p.Nombre.Contains(texto, StringComparison.OrdinalIgnoreCase));\n            dgvProductos.DataSource = new BindingList<Producto>(coincidencias.ToList());\n        }\n        ActualizarTotal();\n    }\n\n    // Vuelve a dibujar la cuadrícula después de agregar, editar o eliminar.\n    private void RefrescarLista()\n    {\n        if (txtBuscar.Text.Trim().Length == 0)\n        {\n            // ResetBindings avisa a la cuadrícula que todo pudo cambiar y debe redibujar sus filas.\n            productos.ResetBindings();\n            ActualizarTotal();\n        }\n        else\n        {\n            // Con filtro activo hay que volver a calcular qué filas mostrar.\n            AplicarFiltro();\n        }\n    }\n\n    // Escribe en la barra de estado cuántos productos se ven del total.\n    private void ActualizarTotal()\n    {\n        // $\"...\" es interpolación de texto: lo que va entre llaves se reemplaza por su valor.\n        tslTotal.Text = $\"Productos: {dgvProductos.RowCount} de {productos.Count}\";\n    }\n\n    // Escribe la fecha y la hora actuales en la barra de estado.\n    private void ActualizarReloj()\n    {\n        tslReloj.Text = DateTime.Now.ToString(\"dd/MM/yyyy HH:mm:ss\");\n    }\n\n    // ---------------------------------------------------------------- cierre de la ventana\n\n    // Se ejecuta antes de cerrar. Si se pone e.Cancel = true, la ventana no se cierra.\n    private void FrmPrincipal_FormClosing(object? sender, FormClosingEventArgs e)\n    {\n        // Solo se pregunta cuando el usuario cierra la ventana (botón X o Alt+F4), no cuando Windows se apaga.\n        if (e.CloseReason != CloseReason.UserClosing) return;\n\n        var r = MessageBox.Show(this, \"¿Desea salir de AgroStock?\", \"Salir\",\n            MessageBoxButtons.YesNo, MessageBoxIcon.Question);\n        // Si responde No, se cancela el cierre y la ventana sigue abierta.\n        if (r == DialogResult.No) e.Cancel = true;\n    }\n}\n"}};
+/* ===== progreso ===== */
+const progress = store.get('progress', {});
+function updateProgress() {
+  const boxes = $$('.check input');
+  const done = boxes.filter(b => b.checked).length;
+  const pct = boxes.length ? Math.round(done / boxes.length * 100) : 0;
+  $('#progbar').style.width = pct + '%';
+  $('#progtxt').textContent = `${done} de ${boxes.length} comprobaciones`;
+}
+
+/* ================= Simulador 1: Explorador de soluciones ================= */
+function simExplorer(host) {
+  const ACTIONS = [
+    { t: 'Crear el proyecto', d: 'Crear un proyecto nuevo → Aplicación de Windows Forms (C#) → nombre AgroStock.E01 → .NET 8.0 → Crear.',
+      run: t => { t.children = [file('AgroStock.E01.csproj'), file('Form1.cs', [file('Form1.Designer.cs'), file('Form1.resx')]), file('Program.cs')]; } },
+    { t: 'Crear la carpeta Models', d: 'Clic derecho sobre el proyecto → Agregar → Nueva carpeta → escriba Models.', run: t => t.children.push(dir('Models')) },
+    { t: 'Crear la carpeta Forms', d: 'Clic derecho sobre el proyecto → Agregar → Nueva carpeta → escriba Forms.', run: t => t.children.push(dir('Forms')) },
+    { t: 'Agregar el formulario FrmPrincipal', d: 'Clic derecho sobre Forms → Agregar → Formulario (Windows Forms) → nombre FrmPrincipal.cs.',
+      run: t => find(t, 'Forms').children.push(file('FrmPrincipal.cs', [file('FrmPrincipal.Designer.cs'), file('FrmPrincipal.resx')])) },
+    { t: 'Agregar el formulario FrmProducto', d: 'Clic derecho sobre Forms → Agregar → Formulario (Windows Forms) → nombre FrmProducto.cs.',
+      run: t => find(t, 'Forms').children.push(file('FrmProducto.cs', [file('FrmProducto.Designer.cs'), file('FrmProducto.resx')])) },
+    { t: 'Agregar la clase Producto', d: 'Clic derecho sobre Models → Agregar → Clase → nombre Producto.cs.', run: t => find(t, 'Models').children.push(file('Producto.cs')) },
+    { t: 'Eliminar Form1.cs', d: 'Clic derecho sobre Form1.cs → Eliminar. Ya no se usará: la ventana principal ahora es FrmPrincipal.',
+      run: t => { t.children = t.children.filter(c => c.name !== 'Form1.cs'); } },
+  ];
+  function file(name, children) { return { name, children: children || [], isFile: true, fresh: true }; }
+  function dir(name) { return { name, children: [], fresh: true }; }
+  function find(n, name) { if (n.name === name) return n; for (const c of n.children) { const r = find(c, name); if (r) return r; } return null; }
+  let step = 0, tree;
+  const reset = () => { tree = { name: 'AgroStock.E01', children: [], root: true, fresh: true }; step = 0; verBox.replaceChildren(); render(); };
+
+  const seBox = h('div', { class: 'se', role: 'tree', 'aria-label': 'Explorador de soluciones simulado' });
+  const status = h('div', { class: 'panel' });
+  const card = h('div', { class: 'panel' });
+  const verBox = h('div', { 'aria-live': 'polite' });
+  function drawNode(n) {
+    const ico = n.isFile ? (n.name.endsWith('.cs') ? 'C#' : n.name.endsWith('.csproj') ? '⚙' : '▤') : '▸';
+    return h('li', null, h('div', { class: 'it' + (n.fresh ? ' new' : '') }, h('span', { class: 'ico' }, ico), n.name),
+      n.children.length ? h('ul', null, n.children.map(drawNode)) : null);
+  }
+  function render() {
+    seBox.replaceChildren(h('ul', null, step === 0 ? h('li', null, h('span', { style: 'color:#777' }, 'Todavía no hay proyecto.')) : drawNode(tree)));
+    const done = step >= ACTIONS.length;
+    card.replaceChildren(
+      h('h4', null, done ? 'Estructura completa' : `Acción ${step + 1} de ${ACTIONS.length}: ${ACTIONS[step].t}`),
+      h('p', { style: 'margin:0 0 10px;font-size:.93rem' }, done ? 'La estructura coincide con el mapa del proyecto. Visual Studio agregó un archivo .resx por cada formulario; no se edita.' : ACTIONS[step].d),
+      h('div', { class: 'row' },
+        h('button', { class: 'sbtn', disabled: done, onclick: advance }, 'Hacer esta acción'),
+        h('button', { class: 'sbtn ghost', onclick: verify }, 'Verificar'), h('button', { class: 'sbtn ghost', onclick: reset }, 'Reiniciar')));
+    status.replaceChildren(h('h4', null, 'Compilación'),
+      step === 0 ? h('span', { class: 'pill' }, 'Sin proyecto')
+        : step >= 7 ? h('span', { class: 'pill bad' }, 'Error CS0246: no se encontró el tipo «Form1» (Program.cs)')
+          : h('span', { class: 'pill ok' }, 'Compila: Form1 todavía existe'),
+      step >= 7 ? h('p', { style: 'margin:8px 0 0;font-size:.9rem;color:var(--muted)' }, 'Es lo esperado: Program.cs aún llama a Form1. Se corrige en el paso 2.') : null);
+  }
+  // Compara el árbol con el «Mapa del proyecto» (los .resx no cuentan: no se editan).
+  const EXPECT = ['AgroStock.E01.csproj', 'Program.cs', 'Models/Producto.cs', 'Forms/FrmPrincipal.cs', 'Forms/FrmPrincipal.Designer.cs', 'Forms/FrmProducto.cs', 'Forms/FrmProducto.Designer.cs'];
+  function verify() {
+    if (step === 0) return verBox.replaceChildren(h('div', { class: 'note' }, 'Todavía no hay proyecto: haga primero las acciones.'));
+    const have = [];
+    (function walk(n, dir) {
+      if (n.isFile) { if (!n.name.endsWith('.resx')) have.push(dir + n.name); n.children.forEach(c => walk(c, dir)); }
+      else n.children.forEach(c => walk(c, n.root ? '' : dir + n.name + '/'));
+    })(tree, '');
+    const miss = EXPECT.filter(x => !have.includes(x)), extra = have.filter(x => !EXPECT.includes(x));
+    if (!miss.length && !extra.length) {
+      [1, 2, 3].forEach(j => { const cb = document.getElementById('c-crear-' + j); if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change')); } });
+      verBox.replaceChildren(h('div', { class: 'panel' }, h('span', { class: 'pill ok' }, `Coincide con el mapa: ${EXPECT.length} de ${EXPECT.length} archivos`), h('p', { style: 'margin:8px 0 0;font-size:.9rem;color:var(--muted)' }, 'Se marcaron las comprobaciones de estructura y su avance quedó guardado en la barra superior.')));
+    } else verBox.replaceChildren(h('div', { class: 'panel' }, h('span', { class: 'pill bad' }, `Aún no coincide: ${EXPECT.length - miss.length} de ${EXPECT.length} archivos`),
+      h('ul', { style: 'margin:8px 0 0;padding-left:1.2em;font-size:.9rem' }, miss.map(x => h('li', null, 'Falta ', h('code', null, x))), extra.map(x => h('li', null, 'Sobra ', h('code', null, x))))));
+  }
+  function advance() {
+    $$('.fresh', seBox);
+    (function clearFresh(n) { n.fresh = false; n.children.forEach(clearFresh); })(tree);
+    ACTIONS[step].run(tree); step++; verBox.replaceChildren(); render();
+  }
+  reset();
+  host.append(h('div', { class: 'stage two' }, h('div', null, h('div', { class: 'row', style: 'margin-bottom:6px' }, h('b', null, 'Explorador de soluciones')), seBox), h('div', { style: 'display:flex;flex-direction:column;gap:12px;min-width:0' }, card, status, verBox)));
+}
+
+/* ================= Simulador 2: Bucle de mensajes ================= */
+function simMessageLoop(host, viewer) {
+  const queue = [];
+  let busyUntil = 0, auto = false, timer = null, busyTotal = 0, crashed = false;
+  const log = makeLog(null, 'Forms/FrmProducto.cs');
+  const qBox = h('div', { class: 'logbox' });
+  const state = h('div', { class: 'panel' }), boom = h('div', { class: 'panel', hidden: true });
+  const win = h('div', { class: 'win', style: 'max-width:420px' });
+  const txt = h('input', { class: 'w-in', 'aria-label': 'Cuadro de texto txtCodigo', placeholder: 'Escriba aquí (txtCodigo)' });
+  const btnG = h('button', { class: 'w-btn', onclick: () => post({ ev: 'Click', src: 'btnGuardar', handler: 'BtnGuardar_Click', snippet: 'private void BtnGuardar_Click', dur: 0 }) }, 'Guardar');
+  const btnS = h('button', { class: 'w-btn', onclick: () => post({ ev: 'Click', src: 'btnProcesar', handler: 'Procesar (tarda 3 s)', snippet: '', dur: 3000 }) }, 'Acción lenta');
+  const btnT = h('button', { class: 'w-btn', onclick: () => post({ ev: 'Tick', src: 'tmrReloj', handler: 'ActualizarReloj', snippet: '', dur: 0 }) }, 'Tick del temporizador');
+  txt.addEventListener('keypress', e => { if (e.key.length === 1) post({ ev: 'KeyPress', src: 'txtCodigo', handler: 'TxtCodigo_KeyPress', snippet: 'private void TxtCodigo_KeyPress', dur: 0, key: e.key }); });
+  const overlay = h('div', { class: 'w-nores', hidden: true }, h('div', null, h('b', null, 'FrmPrincipal (No responde)'), h('br'), 'El hilo de la interfaz está ocupado; los clics se acumulan en la cola.'));
+  const btnX = h('button', { class: 'w-btn', onclick: () => post({ ev: 'Click', src: 'btnProvocar', handler: 'BtnProvocar_Click', snippet: '', dur: 0, boom: true }) }, 'Provocar excepción');
+  const live = [winBar('FrmPrincipal'), h('div', { class: 'w-body', style: 'display:flex;flex-direction:column;gap:8px' }, txt, h('div', { class: 'row' }, btnG, btnS, btnT, btnX)), overlay];
+  win.append(...live);
+  const THROW = 'throw new InvalidOperationException("Prueba del bucle de mensajes");';
+  function reopen() { crashed = false; boom.hidden = true; win.replaceChildren(...live); log.push('Inicio', 'Application.Run(new Forms.FrmPrincipal()) vuelve a ejecutarse', ''); draw(); }
+  function crash() {
+    log.push('Click', 'de btnProvocar → se despacha BtnProvocar_Click()', '');
+    log.push('Excepción', `${THROW}  → nadie la captura dentro de Application.Run`, '');
+    queue.length = 0; crashed = true; busyUntil = 0;
+    win.replaceChildren(winBar('FrmPrincipal (cerrada)'), h('div', { class: 'closed' },
+      h('p', { style: 'margin:0 0 6px' }, h('b', null, 'La ventana se cerró de golpe.')),
+      h('p', { style: 'margin:0 0 12px' }, 'El bucle despacha el mensaje y llama al manejador, pero no tiene try/catch: la excepción sube, Application.Run termina y los mensajes que quedaban en la cola se pierden.'),
+      h('button', { class: 'w-btn def', onclick: reopen }, 'Volver a abrir')));
+    boom.hidden = false;
+    boom.replaceChildren(h('h4', null, 'Línea que lanza la excepción'),
+      h('div', { class: 'codebox' }, h('div', null, 'private void BtnProvocar_Click(object? sender, EventArgs e)'), h('div', null, '{'), h('div', { class: 'chg' }, '    ' + THROW), h('div', null, '}')),
+      h('p', { class: 'sim-desc', style: 'margin:8px 0 0' }, 'En Visual Studio (F5) el depurador se detiene en esa línea. Al ejecutar sin depurador, Windows Forms muestra primero «Excepción no controlada» (Continuar / Salir); si elige Salir, el programa termina. Solución: validar antes de lanzar, o try/catch dentro del manejador.'));
+    draw();
+  }
+
+  function post(m) {
+    queue.push(m); draw();
+    if (auto) schedule();
+  }
+  function draw() {
+    qBox.replaceChildren(...(queue.length ? queue.map((m, i) => h('div', { class: 'it' }, h('span', { class: 'ev' }, `${i + 1}. ${m.ev}`), h('span', null, `${m.src}${m.key ? ' · tecla «' + m.key + '»' : ''}`))) : [h('div', { class: 'empty' }, 'La cola está vacía.')]));
+    const busy = Date.now() < busyUntil;
+    overlay.hidden = !busy;
+    state.replaceChildren(h('h4', null, 'Estado del bucle'),
+      busy ? h('span', { class: 'pill bad' }, 'Ocupado: ejecutando un manejador lento') : queue.length ? h('span', { class: 'pill warn' }, `Hay ${queue.length} mensaje(s) esperando`) : h('span', { class: 'pill ok' }, 'Esperando mensajes (sin gastar procesador)'));
+  }
+  function step() {
+    if (crashed || Date.now() < busyUntil || !queue.length) return;
+    const m = queue.shift();
+    if (m.boom) return crash();
+    log.push(m.ev, `de ${m.src} → se despacha y ejecuta ${m.handler}()${m.key ? ' con e.KeyChar = \'' + m.key + '\'' : ''}`, m.snippet);
+    if (m.dur) { busyUntil = Date.now() + m.dur; setTimeout(() => { draw(); if (auto) schedule(); }, m.dur + 20); }
+    draw();
+  }
+  function schedule() { clearTimeout(timer); timer = setTimeout(() => { step(); if (auto && queue.length) schedule(); }, 650); }
+  const autoChk = h('input', { type: 'checkbox', id: 'sim2-auto', onchange: e => { auto = e.target.checked; if (auto) schedule(); } });
+  host.append(h('div', { class: 'stage two' },
+    h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' }, win,
+      h('p', { class: 'sim-desc' }, 'Pulse botones o escriba en el cuadro. Cada acción entra a la cola; el bucle las atiende de una en una.')),
+    h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' },
+      h('div', { class: 'panel' }, h('h4', null, 'Dentro de Application.Run'), h('div', { class: 'codebox' }, 'mientras (la ventana siga abierta)\n{\n    mensaje = cola.Siguiente();   // espera si está vacía\n    despachar(mensaje);           // llama al manejador\n}')),
+      state, h('div', { class: 'panel' }, h('h4', null, 'Cola de mensajes'), qBox),
+      h('div', { class: 'row' }, h('button', { class: 'sbtn', onclick: step }, 'Atender el siguiente'), h('label', { class: 'row', for: 'sim2-auto', style: 'gap:6px;font-size:.92rem' }, autoChk, 'Automático')),
+      boom, h('div', { class: 'panel' }, h('h4', null, 'Manejadores ejecutados'), log.box))));
+  draw();
+}
+
+/* ================= Simulador 3: el objeto Producto ================= */
+function simProducto(host, viewer) {
+  const f = {
+    cod: h('input', { class: 'w-in', id: 's3cod', value: 'FERT-1846' }),
+    nom: h('input', { class: 'w-in', id: 's3nom', value: 'Fórmula 18-46-0 (quintal)' }),
+    cat: h('select', { class: 'w-in', id: 's3cat' }, ['Fertilizantes', 'Semillas', 'Herbicidas', 'Herramientas'].map(c => h('option', null, c))),
+    pre: h('input', { class: 'w-in', id: 's3pre', value: '1250' , inputmode: 'decimal'}),
+    exi: h('input', { class: 'w-in', id: 's3exi', value: '24', inputmode: 'decimal' }),
+    vch: h('input', { type: 'checkbox', id: 's3vch' }),
+    ven: h('input', { class: 'w-in', id: 's3ven', type: 'date', value: '2027-03-31', disabled: true })
+  };
+  const out = h('div', { class: 'codebox' }), card = h('div', { class: 'tbl-wrap' }), warn = h('div'), csv = h('div', { class: 'codebox' });
+  const demo = h('div', { class: 'panel' });
+  function upd() {
+    f.ven.disabled = !f.vch.checked;
+    const num = s => { const t = s.trim().replace(',', '.'); return t !== '' && !isNaN(t) ? Number(t) : NaN; };
+    const p = num(f.pre.value), e = num(f.exi.value);
+    const msgs = [];
+    if (isNaN(p)) msgs.push('«Precio» es decimal: escriba un número, por ejemplo 1250.50.');
+    let ex = e;
+    if (isNaN(e)) msgs.push('«Existencia» es int: escriba un número entero.');
+    else if (!Number.isInteger(e)) { ex = Math.trunc(e); msgs.push(`«Existencia» es int y no admite decimales: (int)${e} se convierte en ${ex}. Se pierde la parte decimal.`); }
+    const q = s => '"' + s.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
+    const dt = f.vch.checked && f.ven.value ? (d => `new DateTime(${+d[0]}, ${+d[1]}, ${+d[2]})`)(f.ven.value.split('-')) : 'null';
+    const pv = isNaN(p) ? '???' : (Number.isInteger(p) ? p.toFixed(2) : String(p)) + 'm';
+    out.textContent = `var p = new Producto\n{\n    Codigo = ${q(f.cod.value)},\n    Nombre = ${q(f.nom.value)},\n    Categoria = ${q(f.cat.value)},\n    Precio = ${pv},\n    Existencia = ${isNaN(ex) ? '???' : ex},\n    Vencimiento = ${dt}\n};`;
+    const rows = [['Codigo', 'string', q(f.cod.value)], ['Nombre', 'string', q(f.nom.value)], ['Categoria', 'string', q(f.cat.value)],
+      ['Precio', 'decimal', isNaN(p) ? 'error' : fmtN2(p)], ['Existencia', 'int', isNaN(ex) ? 'error' : String(ex)], ['Vencimiento', 'DateTime?', dt === 'null' ? 'null (no vence)' : f.ven.value]];
+    card.replaceChildren(h('table', { class: 'tbl' }, h('thead', null, h('tr', null, ['Propiedad', 'Tipo', 'Valor en el objeto'].map(t => h('th', null, t)))),
+      h('tbody', null, rows.map(r => h('tr', null, h('td', { class: 'mono' }, r[0]), h('td', { class: 'mono' }, r[1]), h('td', { class: 'mono' }, r[2]))))));
+    warn.replaceChildren(...msgs.map(m => h('div', { class: 'note', style: 'margin-top:8px' }, m)));
+    csv.textContent = 'Codigo;Nombre;Categoria;Precio;Existencia;Vencimiento\n' + [csvQ(f.cod.value), csvQ(f.nom.value), csvQ(f.cat.value), isNaN(p) ? '???' : p.toFixed(2), isNaN(ex) ? '???' : String(ex), f.vch.checked ? f.ven.value : ''].join(';');
+  }
+  Object.values(f).forEach(el => { el.addEventListener('input', upd); el.addEventListener('change', upd); });
+  function dec() {
+    demo.replaceChildren(h('h4', null, '¿Por qué Precio es decimal y no double?'),
+      h('p', { style: 'margin:0 0 8px;font-size:.93rem' }, 'Los números double usan fracciones binarias y no pueden guardar 0.1 con exactitud. En dinero, esa diferencia se nota.'),
+      h('div', { class: 'row' }, h('button', { class: 'sbtn sm', onclick: () => { demo.append(h('div', { class: 'codebox', style: 'margin-top:8px' }, `double:  0.1 + 0.2 = ${0.1 + 0.2}\ndecimal: 0.1m + 0.2m = 0.3`)); } }, 'Calcular 0.1 + 0.2')));
+  }
+  dec();
+  const field = (l, el, id) => h('div', { class: 'w-field', style: 'grid-template-columns:100px minmax(0,1fr)' }, h('label', { for: id }, l), el);
+  const win = h('div', { class: 'win' }, h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, 'Datos del producto (simulado)')),
+    h('div', { class: 'w-body' }, field('Código', f.cod, 's3cod'), field('Nombre', f.nom, 's3nom'), field('Categoría', f.cat, 's3cat'), field('Precio (C$)', f.pre, 's3pre'), field('Existencia', f.exi, 's3exi'),
+      h('div', { class: 'w-field', style: 'grid-template-columns:100px minmax(0,1fr)' }, h('label', { for: 's3vch' }, 'Vence'), h('div', { class: 'row', style: 'flex-wrap:nowrap' }, f.vch, f.ven))));
+  const csvCol = h('div', { style: COL }, h('div', null, h('b', null, 'Serialización CSV'), csv),
+    h('p', { class: 'sim-desc' }, 'Así quedaría la fila en inventario.csv (ExportarCsv): separador «;», texto entre comillas con las comillas internas duplicadas, Precio con punto y dos decimales, Vencimiento como yyyy-MM-dd o vacío.'),
+    h('div', { class: 'row' }, h('button', { class: 'sbtn ghost sm', onclick: () => viewer.reveal('Forms/FrmPrincipal.cs', 'sb.AppendLine(string.Join') }, 'Ver ExportarCsv() en el código')));
+  host.append(h('div', { class: 'stage three' }, h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' }, win, demo),
+    h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' }, h('div', null, h('b', null, 'Así se crea el objeto en C#'), out), card, warn,
+      h('div', { class: 'row' }, h('button', { class: 'sbtn ghost sm', onclick: () => viewer.reveal('Models/Producto.cs', 'public DateTime? Vencimiento') }, 'Ver la propiedad Vencimiento en el código'))), csvCol));
+  upd();
+}
+
+/* ================= Simulador 4: diseñador y ventana Propiedades ================= */
+const CONTROLS = [
+  { id: 'txtCodigo', type: 'TextBox', loc: '140, 20', size: '250, 23', tab: 1, props: [
+    { n: 'MaxLength', v: 15, k: 'num', min: 1, max: 60, code: v => `txtCodigo.MaxLength = ${v};`, hint: 'Limite de caracteres. Pruebe escribir en el cuadro.' }] },
+  { id: 'txtNombre', type: 'TextBox', loc: '140, 65', size: '250, 23', tab: 3, props: [
+    { n: 'MaxLength', v: 60, k: 'num', min: 1, max: 80, code: v => `txtNombre.MaxLength = ${v};`, hint: 'Limite de caracteres del nombre.' }] },
+  { id: 'cboCategoria', type: 'ComboBox', loc: '140, 110', size: '250, 23', tab: 5, props: [
+    { n: 'DropDownStyle', v: 'DropDownList', k: 'sel', opts: ['DropDownList', 'DropDown'], code: v => `cboCategoria.DropDownStyle = ComboBoxStyle.${v};`, hint: 'DropDownList solo permite elegir; DropDown también deja escribir cualquier texto.' }] },
+  { id: 'nudPrecio', type: 'NumericUpDown', loc: '140, 155', size: '120, 23', tab: 7, props: [
+    { n: 'DecimalPlaces', v: 2, k: 'sel', opts: ['0', '1', '2', '3'], code: v => `nudPrecio.DecimalPlaces = ${v};`, hint: 'Cantidad de decimales que muestra.' },
+    { n: 'ThousandsSeparator', v: true, k: 'bool', code: v => `nudPrecio.ThousandsSeparator = ${v};`, hint: 'Muestra 1,250.00 en lugar de 1250.00.' },
+    { n: 'Maximum', v: 100000, k: 'num', min: 10, max: 1000000, code: v => `nudPrecio.Maximum = ${v}m;`, hint: 'Valor más alto permitido. Use las flechas hasta llegar al límite.' }] },
+  { id: 'nudExistencia', type: 'NumericUpDown', loc: '140, 200', size: '120, 23', tab: 9, props: [
+    { n: 'Maximum', v: 100000, k: 'num', min: 10, max: 1000000, code: v => `nudExistencia.Maximum = ${v}m;`, hint: 'Valor más alto permitido para las unidades en bodega.' },
+    { n: 'ThousandsSeparator', v: true, k: 'bool', code: v => `nudExistencia.ThousandsSeparator = ${v};`, hint: 'Muestra 1,250 en lugar de 1250.' }] },
+  { id: 'dtpVencimiento', type: 'DateTimePicker', loc: '140, 245', size: '120, 23', tab: 11, props: [
+    { n: 'ShowCheckBox', v: true, k: 'bool', code: v => `dtpVencimiento.ShowCheckBox = ${v};`, hint: 'Agrega una casilla para indicar «sin fecha».' },
+    { n: 'Format', v: 'Short', k: 'sel', opts: ['Short', 'Long'], code: v => `dtpVencimiento.Format = DateTimePickerFormat.${v};`, hint: 'Short muestra solo dd/MM/yyyy.' }] },
+  { id: 'btnGuardar', type: 'Button', loc: '210, 300', size: '90, 30', tab: 12, props: [
+    { n: 'Text', v: '&Guardar', k: 'txt', code: v => `btnGuardar.Text = "${v}";`, hint: 'El & subraya la letra siguiente: Alt+G pulsa el botón.' }] },
+  { id: 'btnCancelar', type: 'Button', loc: '310, 300', size: '90, 30', tab: 13, props: [
+    { n: 'DialogResult', v: 'Cancel', k: 'sel', opts: ['None', 'Cancel', 'OK'], code: v => `btnCancelar.DialogResult = DialogResult.${v};`, hint: 'Con Cancel, el botón cierra el formulario modal sin escribir código.' }] },
+];
+
+function simDesigner(host, viewer) {
+  const val = {};
+  CONTROLS.forEach(c => { val[c.id + '.TabIndex'] = c.tab; c.props.forEach(p => val[c.id + '.' + p.n] = p.v); });
+  let sel = 'txtCodigo';
+  const log = makeLog(viewer, 'Forms/FrmProducto.Designer.cs');
+  const stage = h('div', { class: 'win', style: 'max-width:440px' });
+  const propsBox = h('div', { class: 'panel' }), genBox = h('div', { class: 'codebox' });
+  const note = h('div', { class: 'tip', style: 'min-height:2.6em' });
+  const pick = id => () => { sel = id; draw(); };
+  function nudDisplay() {
+    const dp = +val['nudPrecio.DecimalPlaces'];
+    const n = Math.min(nudVal, +val['nudPrecio.Maximum']);
+    return n.toLocaleString('en-US', { useGrouping: !!val['nudPrecio.ThousandsSeparator'], minimumFractionDigits: dp, maximumFractionDigits: dp });
+  }
+  let nudVal = 1250;
+  const mn = t => { const i = t.indexOf('&'); return i < 0 || i === t.length - 1 ? [t] : [t.slice(0, i), h('u', null, t[i + 1]), t.slice(i + 2)]; };
+  function mock(id, el) { el.dataset.cid = id; el.classList.add('sel-mock'); el.style.cssText += sel === id ? ';outline:2px solid #0078D7;outline-offset:2px' : ''; el.addEventListener('click', ev => { ev.stopPropagation(); sel = id; draw(); }); return el; }
+  function draw() {
+    const longFmt = val['dtpVencimiento.Format'] === 'Long';
+    const dateTxt = longFmt ? 'viernes, 9 de octubre de 2026' : '09/10/2026';
+    const dropdown = val['cboCategoria.DropDownStyle'] === 'DropDown';
+    const row = (lbl, ctl) => h('div', { class: 'w-field' }, h('label', null, lbl), ctl);
+    const nud = h('div', { style: 'display:flex;gap:2px;align-items:stretch' },
+      h('input', { class: 'w-in', readonly: true, value: nudDisplay(), 'aria-label': 'nudPrecio', style: 'text-align:right' }),
+      h('button', { class: 'w-btn', style: 'min-width:22px;padding:0 4px', 'aria-label': 'Subir', onclick: ev => { ev.stopPropagation(); nudVal = Math.min(nudVal + 1, +val['nudPrecio.Maximum']); draw(); } }, '▲'),
+      h('button', { class: 'w-btn', style: 'min-width:22px;padding:0 4px', 'aria-label': 'Bajar', onclick: ev => { ev.stopPropagation(); nudVal = Math.max(nudVal - 1, 0); draw(); } }, '▼'));
+    const cbo = dropdown ? h('div', null, h('input', { class: 'w-in', list: 's4dl', placeholder: '(escriba lo que quiera)' }), h('datalist', { id: 's4dl' }, ['Fertilizantes', 'Semillas'].map(o => h('option', { value: o }))))
+      : h('select', { class: 'w-in' }, h('option', null, ''), ['Fertilizantes', 'Semillas', 'Herbicidas', 'Herramientas'].map(o => h('option', null, o)));
+    const dtp = h('div', { class: 'w-cell', style: 'gap:6px' }, val['dtpVencimiento.ShowCheckBox'] ? h('input', { type: 'checkbox', checked: true, 'aria-label': 'Casilla de fecha' }) : null,
+      h('span', { class: 'w-in', style: 'display:flex;align-items:center;white-space:nowrap;overflow:hidden' }, dateTxt));
+    const body = h('div', { class: 'w-body' },
+      row(h('span', null, mn('&Código:')), mock('txtCodigo', h('input', { class: 'w-in', maxlength: val['txtCodigo.MaxLength'], placeholder: `máx. ${val['txtCodigo.MaxLength']} caracteres`, 'aria-label': 'txtCodigo' }))),
+      row(h('span', null, mn('&Nombre:')), mock('txtNombre', h('input', { class: 'w-in', maxlength: val['txtNombre.MaxLength'], placeholder: `máx. ${val['txtNombre.MaxLength']}`, 'aria-label': 'txtNombre' }))),
+      row(h('span', null, mn('C&ategoría:')), mock('cboCategoria', cbo)),
+      row(h('span', null, mn('&Precio (C$):')), mock('nudPrecio', nud)),
+      row(h('span', null, mn('E&xistencia:')), mock('nudExistencia', h('input', { class: 'w-in', readonly: true, value: '24', 'aria-label': 'nudExistencia', style: 'text-align:right;width:120px' }))),
+      row(h('span', null, mn('&Vencimiento:')), mock('dtpVencimiento', dtp)),
+      h('div', { class: 'row', style: 'justify-content:flex-end;margin-top:10px' },
+        mock('btnGuardar', h('button', { class: 'w-btn def' }, mn(val['btnGuardar.Text']))),
+        mock('btnCancelar', h('button', { class: 'w-btn' }, 'Cancelar'))));
+    stage.replaceChildren(h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, 'FrmProducto')), body);
+    // propiedades
+    const c = CONTROLS.find(x => x.id === sel);
+    const rows = [['(Name)', c.id], ['Location', c.loc], ['Size', c.size]];
+    propsBox.replaceChildren(h('h4', null, `${c.id}  `, h('span', { class: 'pill' }, c.type)),
+      h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' }, h('tbody', null,
+        rows.map(r => h('tr', null, h('td', { class: 'mono' }, r[0]), h('td', { class: 'mono', style: 'color:var(--muted)' }, r[1]))),
+        h('tr', null, h('td', { class: 'mono', style: 'font-weight:600' }, 'TabIndex'), h('td', null, tabInput(c))),
+        c.props.map(p => h('tr', null, h('td', { class: 'mono', style: 'font-weight:600' }, p.n), h('td', null, propInput(c, p))))))));
+    note.textContent = 'Cambie un valor y observe la ventana de la izquierda y el código generado abajo. ' + (lastHint || '');
+    const lines = [`// ${c.id}`, ...c.props.map(p => p.code(val[c.id + '.' + p.n]))];
+    genBox.replaceChildren(...[h('div', { style: 'color:var(--code-c);font-style:italic' }, `// ${c.id} (FrmProducto.Designer.cs)`),
+      h('div', null, `${c.id}.Location = new Point(${c.loc});`), h('div', null, `${c.id}.Size = new Size(${c.size});`),
+      h('div', { class: changed.has(c.id + '.TabIndex') ? 'chg' : '' }, `${c.id}.TabIndex = ${val[c.id + '.TabIndex']};`),
+      ...c.props.map(p => h('div', { class: changed.has(c.id + '.' + p.n) ? 'chg' : '' }, p.code(val[c.id + '.' + p.n])))]);
+  }
+  let lastHint = '';
+  const changed = new Set();
+  function tabInput(c) {
+    const k = c.id + '.TabIndex';
+    return h('input', { class: 'w-in', type: 'number', min: 0, max: 13, value: val[k], style: 'width:110px;color:var(--w-text)', 'aria-label': 'TabIndex de ' + c.id,
+      onchange: e => { val[k] = Math.max(0, Math.min(13, Math.round(+e.target.value) || 0)); changed.add(k); lastHint = 'TabIndex fija el orden del foco con Tab. Si dos controles tienen el mismo valor, manda el orden en que se agregaron.'; draw(); } });
+  }
+  // Orden de tabulación: por TabIndex; en empate, por orden de creación.
+  const tabOrder = () => CONTROLS.map((c, i) => ({ c, i })).sort((a, b) => val[a.c.id + '.TabIndex'] - val[b.c.id + '.TabIndex'] || a.i - b.i).map(x => x.c);
+  const focusOf = id => { const m = $(`[data-cid="${id}"]`, stage); return m && (m.matches('input,select,button') ? m : $('input,select,button', m)); };
+  const role = id => id === 'btnGuardar' ? ' (AcceptButton)' : id === 'btnCancelar' ? ' (CancelButton)' : '';
+  let walkTimer = null;
+  function walk() {
+    clearInterval(walkTimer); log.clear();
+    const seq = tabOrder(); let i = 0;
+    const tick = () => {
+      if (i >= seq.length) {
+        clearInterval(walkTimer);
+        log.push('Fin', 'Después del último control el foco vuelve al primero. Enter equivale a btnGuardar (AcceptButton) y Esc a btnCancelar (CancelButton).', 'AcceptButton = btnGuardar;');
+        return;
+      }
+      const c = seq[i++]; sel = c.id; draw();
+      const el = focusOf(c.id); if (el) el.focus({ preventScroll: true });
+      log.push('Tab', `TabIndex = ${val[c.id + '.TabIndex']} · Name = ${c.id}${role(c.id)}`, `${c.id}.TabIndex =`);
+    };
+    tick(); walkTimer = setInterval(tick, RM() ? 400 : 800);
+  }
+  stage.addEventListener('keydown', e => {
+    if (e.key === 'Tab') {
+      const seq = tabOrder(), cur = seq.findIndex(c => focusOf(c.id) === e.target), nxt = cur + (e.shiftKey ? -1 : 1);
+      if (cur < 0 || nxt < 0 || nxt >= seq.length) return; // en los extremos el foco sale del diseñador
+      e.preventDefault(); focusOf(seq[nxt].id).focus();
+      log.push('Tab', `TabIndex = ${val[seq[nxt].id + '.TabIndex']} · Name = ${seq[nxt].id}${role(seq[nxt].id)}`, `${seq[nxt].id}.TabIndex =`);
+    } else if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') { e.preventDefault(); log.push('AcceptButton', 'Enter equivale a pulsar btnGuardar', 'AcceptButton = btnGuardar;'); }
+    else if (e.key === 'Escape') { e.preventDefault(); log.push('CancelButton', 'Esc equivale a pulsar btnCancelar', 'CancelButton = btnCancelar;'); }
+  });
+
+  function propInput(c, p) {
+    const key = c.id + '.' + p.n;
+    const on = v => { val[key] = v; changed.add(key); lastHint = p.hint; draw(); };
+    if (p.k === 'bool') return h('input', { type: 'checkbox', checked: !!val[key], 'aria-label': p.n, onchange: e => on(e.target.checked) });
+    if (p.k === 'sel') return h('select', { class: 'w-in', style: 'width:auto;color:var(--w-text)', 'aria-label': p.n, onchange: e => on(e.target.value) }, p.opts.map(o => h('option', { selected: String(val[key]) === o }, o)));
+    if (p.k === 'num') return h('input', { class: 'w-in', type: 'number', min: p.min, max: p.max, value: val[key], style: 'width:110px;color:var(--w-text)', 'aria-label': p.n, onchange: e => { let v = Math.max(p.min, Math.min(p.max, Math.round(+e.target.value) || p.min)); on(v); } });
+    return h('input', { class: 'w-in', value: val[key], style: 'width:140px;color:var(--w-text)', 'aria-label': p.n, oninput: e => { val[key] = e.target.value; changed.add(key); lastHint = p.hint; drawKeepFocus(e.target); } });
+  }
+  function drawKeepFocus(inp) { const pos = inp.selectionStart; draw(); const n = $$('input', propsBox).find(i => i.getAttribute('aria-label') === inp.getAttribute('aria-label')); if (n) { n.focus(); n.setSelectionRange(pos, pos); } }
+  draw();
+  host.append(h('div', { class: 'stage two' },
+    h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' }, h('div', null, h('b', null, 'Diseñador de FrmProducto'), ' (toque un control para seleccionarlo)'), stage, note),
+    h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' }, h('div', { class: 'panel' }, h('b', null, 'Ventana Propiedades'), propsBox),
+      h('div', null, h('b', null, 'Código que genera Visual Studio'), genBox),
+      h('div', { class: 'row' }, h('button', { class: 'sbtn ghost sm', onclick: () => viewer.reveal('Forms/FrmProducto.Designer.cs', `// ----- ${sel === 'txtCodigo' ? 'txtCodigo' : sel === 'cboCategoria' ? 'lblCategoria y cboCategoria' : sel === 'txtNombre' ? 'lblNombre y txtNombre' : sel === 'nudPrecio' ? 'lblPrecio y nudPrecio' : sel === 'dtpVencimiento' ? 'lblVencimiento y dtpVencimiento' : sel === 'nudExistencia' ? 'lblExistencia y nudExistencia' : sel}`) }, 'Ver este control en el archivo completo'), h('button', { class: 'sbtn sm', onclick: walk }, 'Recorrer con Tab')),
+      h('div', { class: 'panel' }, h('h4', null, 'Recorrido del foco'), log.box))));
+}
+
+
+/* ================= Simulador 5: ShowDialog, validación y KeyPress ================= */
+function simDialog(host, viewer) {
+  const log = makeLog(viewer, 'Forms/FrmProducto.cs');
+  let result = null, created = null;
+  const win = h('div', { class: 'win' });
+  const res = h('div', { class: 'codebox', style: 'white-space:pre-wrap' });
+  function show() {
+    res.textContent = result ? `DialogResult devuelto por ShowDialog: ${result}\n` + (created && result === 'OK' ? `Producto creado:\n  Codigo = ${created.Codigo}\n  Nombre = ${created.Nombre}\n  Categoria = ${created.Categoria}\n  Precio = ${created.Precio}m\n  Existencia = ${created.Existencia}\n  Vencimiento = ${created.Vencimiento ? fmtDate(created.Vencimiento) : 'null'}` : 'productos.Add(p) no se ejecuta.') : 'Todavía no se abrió el diálogo.';
+  }
+  function open(edit, fc) {
+    const p = edit ? { Codigo: 'FERT-1846', Nombre: 'Fórmula 18-46-0 (quintal)', Categoria: 'Fertilizantes', Precio: 1250, Existencia: 24, Vencimiento: null } : { Codigo: '', Nombre: '', Categoria: '', Precio: 0, Existencia: 0, Vencimiento: null };
+    log.push('ShowDialog', `dlg.ShowDialog(this): el código del formulario padre se detiene aquí hasta que el diálogo se cierre`, 'if (dlg.ShowDialog(this) == DialogResult.OK)', 'Forms/FrmPrincipal.cs');
+    const ov = h('div', { class: 'w-ov' });
+    const dlg = productDialog({ producto: p, log, fc, onClose: r => { ov.remove(); parentBody.inert = false; result = r; created = p; log.push('ShowDialog', `devuelve DialogResult.${r}`, 'DialogResult = DialogResult.OK;'); show(); } });
+    parentBody.inert = true; ov.append(dlg); win.append(ov);
+    return dlg;
+  }
+  const testBtn = h('button', { class: 'sbtn', onclick: autoTest }, 'Caso de prueba: FormClosing con e.Cancel = true');
+  async function autoTest() {
+    const sleep = ms => new Promise(r => setTimeout(r, RM() ? ms / 2 : ms));
+    testBtn.disabled = true; log.clear();
+    log.push('Prueba', 'Caso automático: intentar cerrar con OK sin datos válidos', '');
+    const dlg = open(false, true);
+    await sleep(900);
+    if (dlg.isConnected) {
+      dlg.pressSave();
+      await sleep(1800);
+    }
+    if (dlg.isConnected) {
+      log.push('Prueba', 'Se completan datos válidos y se repite el intento de cierre', '');
+      dlg.fill({ Codigo: 'SEM-MAIZ01', Nombre: 'Semilla de maíz (libra)', Categoria: 'Semillas', Precio: 28 });
+      await sleep(900);
+      if (dlg.isConnected) dlg.pressSave();
+    }
+    testBtn.disabled = false;
+  }
+  const fcPanel = h('details', { class: 'err' }, h('summary', null, 'Variante con FormClosing (extensión opcional)'), h('div', { class: 'body' },
+    h('p', null, 'El FrmProducto.cs del folleto valida dentro de BtnGuardar_Click y no usa FormClosing. Esta variante muestra la otra forma: btnGuardar con DialogResult = OK y la validación al intentar cerrar.'),
+    h('div', { class: 'codebox' }, 'private void FrmProducto_FormClosing(object? sender, FormClosingEventArgs e)\n{\n    // Cancelar siempre puede cerrar; solo se valida al cerrar con OK\n    if (DialogResult != DialogResult.OK) return;\n    if (!Validar())\n    {\n        e.Cancel = true;   // el cierre se cancela y el diálogo sigue abierto\n    }\n}')));
+  const parentBody = h('div', { class: 'w-body', style: 'display:flex;flex-direction:column;gap:10px;min-height:150px' },
+    h('div', { style: 'font-size:13px' }, 'Ventana principal (formulario padre). Mientras el diálogo esté abierto, esta ventana no responde: es un formulario modal.'),
+    h('div', { class: 'row' }, h('button', { class: 'w-btn', onclick: () => open(false), style: 'min-width:150px' }, 'Nuevo producto…'), h('button', { class: 'w-btn', onclick: () => open(true), style: 'min-width:150px' }, 'Editar uno existente…')));
+  win.append(h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, 'FrmPrincipal'), h('div', { class: 'wb' }, h('span', null, '—'), h('span', null, '▢'), h('span', null, '✕'))), parentBody);
+  show();
+  host.append(h('div', { class: 'stage two' },
+    h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' }, win,
+      h('div', { class: 'tip' }, 'Pruebe: escribir símbolos o minúsculas en Código, pulsar Guardar con campos vacíos, olvidar el precio, usar Enter y Esc.'), h('div', { class: 'row' }, testBtn)),
+    h('div', { style: 'display:flex;flex-direction:column;gap:10px;min-width:0' }, res, fcPanel, h('div', { class: 'panel' }, h('h4', null, 'Qué ejecuta el código'), log.box))));
+}
+
+/* ================= Simulador 6: Dock, Anchor, teclas de acceso y atajos ================= */
+function simLayout(host, viewer) {
+  /* ---- A) Dock ---- */
+  let w = 100, hh = 280, gridDock = 'Fill', wrongOrder = false;
+  const stageA = h('div', { style: 'overflow-x:auto;padding:2px' });
+  const codeA = h('div', { class: 'codebox' });
+  const rows = [['001', 'FERT-1846', 'Fórmula 18-46-0'], ['002', 'SEM-FRIJ01', 'Semilla de frijol'], ['003', 'HERB-GLI1', 'Glifosato'], ['004', 'HERR-PALA', 'Pala redonda'], ['005', 'FERT-UREA', 'Urea 46%']];
+  function gridEl(extra) {
+    return h('div', { class: 'w-grid', style: extra }, h('table', null, h('thead', null, h('tr', null, h('th', null, '#'), h('th', null, 'Código'), h('th', null, 'Nombre'))),
+      h('tbody', null, rows.map(r => h('tr', null, r.map(c => h('td', null, c)))))));
+  }
+  function drawA() {
+    const MENU = 24, TOOL = 30, STAT = 22;
+    const ww = Math.round(w / 100 * 560);
+    const frame = h('div', { class: 'win', style: `width:${ww}px;height:${hh + 30}px;max-width:none` });
+    const area = h('div', { style: `position:relative;height:${hh}px;background:#e9e9e9;overflow:hidden` });
+    const menu = h('div', { class: 'w-menu', style: 'position:absolute;left:0;right:0;top:0;z-index:3' }, ['Archivo', 'Editar', 'Ayuda'].map(t => h('button', null, t)));
+    const tool = h('div', { class: 'w-tool', style: `position:absolute;left:0;right:0;top:${MENU}px;z-index:3` }, ['Nuevo', 'Editar', 'Eliminar'].map(t => h('button', null, t)));
+    const stat = h('div', { class: 'w-status', style: 'position:absolute;left:0;right:0;bottom:0;z-index:3' }, h('span', null, 'Productos: 5 de 5'), h('span', null, '09/10/2026'));
+    let gs;
+    if (gridDock === 'Fill') gs = wrongOrder ? 'position:absolute;inset:0;z-index:1' : `position:absolute;left:0;right:0;top:${MENU + TOOL}px;bottom:${STAT}px;z-index:1`;
+    else if (gridDock === 'Left') gs = `position:absolute;left:0;top:${MENU + TOOL}px;bottom:${STAT}px;width:150px;z-index:1`;
+    else gs = `position:absolute;left:10px;top:${MENU + TOOL + 12}px;width:260px;height:110px;z-index:1`;
+    area.append(gridEl(gs), menu, tool, stat);
+    frame.append(h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, 'FrmPrincipal'), h('div', { class: 'wb' }, h('span', null, '—'), h('span', null, '▢'), h('span', null, '✕'))), area);
+    stageA.replaceChildren(frame);
+    const order = wrongOrder
+      ? 'Controls.Add(barraEstado);\nControls.Add(barraHerramientas);\nControls.Add(menuPrincipal);\nControls.Add(dgvProductos);   // último: se acopla primero y queda debajo'
+      : 'Controls.Add(dgvProductos);\nControls.Add(barraEstado);\nControls.Add(barraHerramientas);\nControls.Add(menuPrincipal);  // último: se acopla primero, arriba del todo';
+    codeA.textContent = `dgvProductos.Dock = DockStyle.${gridDock};\nbarraEstado.Dock = DockStyle.Bottom;\n// el menú y la barra de herramientas usan Dock = Top por defecto\n${order}`;
+  }
+  const wr = h('input', { type: 'range', min: 55, max: 100, value: w, id: 's6w', 'aria-label': 'Ancho de la ventana', oninput: e => { w = +e.target.value; drawA(); } });
+  const hr = h('input', { type: 'range', min: 200, max: 360, value: hh, id: 's6h', 'aria-label': 'Alto de la ventana', oninput: e => { hh = +e.target.value; drawA(); } });
+  const dockSel = h('select', { id: 's6d', 'aria-label': 'Dock de dgvProductos', onchange: e => { gridDock = e.target.value; drawA(); } }, ['Fill', 'Left', 'None'].map(o => h('option', null, o)));
+  const wrongChk = h('input', { type: 'checkbox', id: 's6o', onchange: e => { wrongOrder = e.target.checked; drawA(); } });
+
+  /* ---- B) Anchor ---- */
+  let aw = 420, ah = 260; const an = { T: false, L: false, R: true, B: true };
+  const DW = 420, DH = 260, bx = 300, by = 210, bw = 90, bh = 30;
+  const stageB = h('div', { style: 'overflow:auto;padding:2px' }), codeB = h('div', { class: 'codebox' });
+  function place(pos, size, d, a1, a2, win0, win1) {
+    // a1: ancla al borde inicial; a2: al final
+    const delta = win1 - win0;
+    if (a1 && a2) return [pos, size + delta];
+    if (a2) return [pos + delta, size];
+    if (a1) return [pos, size];
+    return [pos + delta / 2, size];
+  }
+  function drawB() {
+    const [x, ww2] = place(bx, bw, 0, an.L, an.R, DW, aw), [y, hh2] = place(by, bh, 0, an.T, an.B, DH, ah);
+    const frame = h('div', { class: 'win', style: `width:${aw}px;max-width:none` }, h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, 'FrmProducto')),
+      h('div', { style: `position:relative;height:${ah}px;background:var(--w-face)` },
+        h('div', { style: 'position:absolute;left:12px;top:10px;font-size:13px;color:#555' }, 'Diseñado a 420 × 260'),
+        h('button', { class: 'w-btn def', style: `position:absolute;left:${x}px;top:${y}px;width:${ww2}px;height:${hh2}px;min-width:0;padding:0` }, 'Guardar')));
+    stageB.replaceChildren(frame);
+    const parts = ['T', 'L', 'R', 'B'].filter(k => an[k]).map(k => ({ T: 'Top', L: 'Left', R: 'Right', B: 'Bottom' }[k]));
+    codeB.textContent = `btnGuardar.Anchor = ${parts.length ? parts.map(p => 'AnchorStyles.' + p).join(' | ') : 'AnchorStyles.None'};`;
+  }
+  const anchorBoxes = ['T', 'L', 'R', 'B'].map(k => h('label', { class: 'row', style: 'gap:4px' }, h('input', { type: 'checkbox', checked: an[k], id: 's6a' + k, onchange: e => { an[k] = e.target.checked; drawB(); } }), { T: 'Top', L: 'Left', R: 'Right', B: 'Bottom' }[k]));
+  const awr = h('input', { type: 'range', min: 320, max: 560, value: aw, 'aria-label': 'Ancho del formulario', oninput: e => { aw = +e.target.value; drawB(); } });
+  const ahr = h('input', { type: 'range', min: 200, max: 340, value: ah, 'aria-label': 'Alto del formulario', oninput: e => { ah = +e.target.value; drawB(); } });
+
+  /* ---- C) Teclas de acceso y atajos ---- */
+  const mnIn = h('input', { class: 'w-in', id: 's6m', value: '&Archivo', 'aria-label': 'Texto del menú', style: 'max-width:200px;color:var(--w-text)' });
+  const mnOut = h('div', { class: 'panel' }), scOut = h('div', { class: 'codebox' });
+  function drawM() {
+    const t = mnIn.value, i = t.indexOf('&');
+    if (i >= 0 && i < t.length - 1) mnOut.replaceChildren(h('div', { style: 'font-size:1.1rem' }, 'Se ve así: ', h('b', null, t.slice(0, i), h('u', null, t[i + 1]), t.slice(i + 2))), h('div', { class: 'sim-desc' }, `Alt+${t[i + 1].toUpperCase()} abre o activa este elemento.`));
+    else mnOut.replaceChildren(h('div', null, 'Se ve así: ', h('b', null, t)), h('div', { class: 'sim-desc' }, 'Sin & no hay tecla de acceso. Escriba el & delante de la letra que desea subrayar.'));
+  }
+  mnIn.addEventListener('input', drawM);
+  const keyIn = h('input', { class: 'w-in', id: 's6k', readonly: true, placeholder: 'Haga clic aquí y pulse una combinación (ej. Ctrl+Shift+E)', 'aria-label': 'Capturar atajo', style: 'color:var(--w-text)' });
+  scOut.textContent = 'mnuNuevo.ShortcutKeys = Keys.Control | Keys.N;';
+  keyIn.addEventListener('keydown', e => {
+    if (['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) return;
+    e.preventDefault();
+    const parts = [e.ctrlKey && 'Keys.Control', e.shiftKey && 'Keys.Shift', e.altKey && 'Keys.Alt'].filter(Boolean);
+    let k = e.key.length === 1 ? e.key.toUpperCase() : e.key;
+    k = /^[A-Z]$/.test(k) ? k : /^\d$/.test(k) ? 'D' + k : ({ Delete: 'Delete', Enter: 'Return', Escape: 'Escape', ' ': 'Space', F1: 'F1' }[k] || k);
+    parts.push('Keys.' + k);
+    keyIn.value = parts.map(p => p.replace('Keys.', '')).join(' + ');
+    scOut.textContent = `mnuNuevo.ShortcutKeys = ${parts.join(' | ')};`;
+  });
+
+  /* ---- D) TableLayoutPanel vs FlowLayoutPanel ---- */
+  let dw = 320, wrapOn = true;
+  const dBox = h('div', { class: 'row', style: 'align-items:flex-start;gap:14px' }), dCode = h('div', { class: 'codebox' });
+  const FIELDS = ['Código', 'Nombre', 'Precio', 'Existencia'];
+  function drawD() {
+    const mini = (t, body) => h('div', { style: 'min-width:0;max-width:100%' }, h('b', null, t), h('div', { class: 'win', style: `width:${dw}px;max-width:100%;margin-top:4px` }, winBar(t), body));
+    dBox.replaceChildren(
+      mini('TableLayoutPanel', h('div', { class: 'tlp' }, FIELDS.flatMap(f => [h('span', null, f + ':'), h('input', { class: 'w-in', 'aria-label': f + ' (TableLayoutPanel)' })]))),
+      mini('FlowLayoutPanel', h('div', { class: 'flp' + (wrapOn ? '' : ' nowrap') }, FIELDS.map(f => h('span', null, f + ':', h('input', { class: 'w-in', 'aria-label': f + ' (FlowLayoutPanel)' }))))));
+    dCode.textContent = '// TableLayoutPanel: la rejilla de 2 columnas se conserva al cambiar el ancho\ntlp.ColumnCount = 2;\ntlp.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));\ntlp.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));\ntlp.Controls.Add(lblCodigo, 0, 0);   // columna 0, fila 0\ntlp.Controls.Add(txtCodigo, 1, 0);   // columna 1, fila 0\ntlp.Dock = DockStyle.Fill;\n\n' +
+      '// FlowLayoutPanel: coloca los controles uno tras otro y salta de línea al llegar al borde\nflp.FlowDirection = FlowDirection.LeftToRight;\nflp.WrapContents = ' + wrapOn + ';' + (wrapOn ? '' : '   // sin saltar de línea, lo que no cabe se recorta') + '\nflp.Controls.Add(lblCodigo);\nflp.Controls.Add(txtCodigo);\nflp.Dock = DockStyle.Fill;';
+  }
+  const dw1 = h('input', { type: 'range', min: 170, max: 460, value: dw, id: 's6dw', 'aria-label': 'Ancho de los dos formularios', oninput: e => { dw = +e.target.value; drawD(); } });
+  const dwrap = h('input', { type: 'checkbox', checked: true, id: 's6dwrap', onchange: e => { wrapOn = e.target.checked; drawD(); } });
+  const panelD = h('div', { class: 'panel', style: 'margin-top:14px' }, h('h4', null, 'D. TableLayoutPanel vs FlowLayoutPanel'),
+    h('p', { class: 'sim-desc', style: 'margin:0 0 8px' }, 'Reduzca el ancho: el TableLayoutPanel conserva sus dos columnas y comprime las cajas; el FlowLayoutPanel reordena los controles en más líneas.'),
+    h('div', { class: 'row', style: 'margin-bottom:8px' }, h('label', { for: 's6dw' }, 'Ancho'), dw1, h('label', { class: 'row', for: 's6dwrap', style: 'gap:4px' }, dwrap, 'WrapContents del FlowLayoutPanel')),
+    dBox, h('div', { style: 'margin-top:8px' }, dCode));
+
+  drawA(); drawB(); drawM(); drawD();
+  host.append(
+    h('div', { class: 'panel' }, h('h4', null, 'A. Dock: la ventana principal al cambiar de tamaño'),
+      h('div', { class: 'row', style: 'margin-bottom:8px' }, h('label', { for: 's6w' }, 'Ancho'), wr, h('label', { for: 's6h' }, 'Alto'), hr,
+        h('label', { for: 's6d' }, 'dgvProductos.Dock'), dockSel, h('label', { class: 'row', style: 'gap:4px' }, wrongChk, 'Agregar la cuadrícula al final de Controls')),
+      stageA, h('div', { style: 'margin-top:8px' }, codeA),
+      h('div', { class: 'row', style: 'margin-top:8px' }, h('button', { class: 'sbtn ghost sm', onclick: () => viewer.reveal('Forms/FrmPrincipal.Designer.cs', 'Controls.Add(dgvProductos);') }, 'Ver el orden de Controls.Add en el código'))),
+    h('div', { class: 'panel', style: 'margin-top:14px' }, h('h4', null, 'B. Anchor: un botón que sigue al borde'),
+      h('div', { class: 'row', style: 'margin-bottom:8px' }, ...anchorBoxes, h('label', null, 'Ancho'), awr, h('label', null, 'Alto'), ahr),
+      stageB, h('div', { style: 'margin-top:8px' }, codeB)),
+    h('div', { class: 'panel', style: 'margin-top:14px' }, h('h4', null, 'C. Teclas de acceso (&) y atajos (ShortcutKeys)'),
+      h('div', { class: 'cols2' }, h('div', { style: 'display:flex;flex-direction:column;gap:8px' }, h('label', { for: 's6m' }, 'Escriba el texto de un menú con &:'), mnIn, mnOut),
+        h('div', { style: 'display:flex;flex-direction:column;gap:8px' }, h('label', { for: 's6k' }, 'Capture un atajo de teclado:'), keyIn, scOut))), panelD);
+}
+
+/* ================= Simulador 7: AgroStock v1 en acción ================= */
+function simApp(host, viewer) {
+  const FILE = 'Forms/FrmPrincipal.cs';
+  const log = makeLog(viewer, FILE);
+  const seed = () => [
+    { Codigo: 'FERT-1846', Nombre: 'Fórmula 18-46-0 (quintal)', Categoria: 'Fertilizantes', Precio: 1250, Existencia: 24, Vencimiento: null },
+    { Codigo: 'SEM-FRIJ01', Nombre: 'Semilla de frijol rojo (libra)', Categoria: 'Semillas', Precio: 32.5, Existencia: 150, Vencimiento: new Date(2027, 2, 31) },
+    { Codigo: 'HERB-GLI1', Nombre: 'Glifosato (litro)', Categoria: 'Herbicidas', Precio: 180, Existencia: 8, Vencimiento: new Date(2027, 7, 15) }];
+  let productos = seed(), selected = null, filter = '', openMenu = null, closed = false, showTick = false, lowMark = false, ctx = null;
+  const root = h('div', { class: 'win', style: 'min-height:420px;display:flex;flex-direction:column' });
+  const csvBox = h('div', { class: 'codebox', style: 'white-space:pre;min-height:3em' }, 'Aquí aparecerá el contenido del CSV al usar Archivo → Exportar a CSV.');
+  const visible = () => { const t = filter.trim().toLowerCase(); return t ? productos.filter(p => p.Codigo.toLowerCase().includes(t) || p.Nombre.toLowerCase().includes(t)) : productos; };
+
+  /* --- cuadros modales dentro de la ventana --- */
+  let modalEl = null;
+  function modal(node) { closeModal(); modalEl = h('div', { class: 'w-ov' }, node); root.append(modalEl); app.inert = true; }
+  function closeModal() { if (modalEl) { modalEl.remove(); modalEl = null; } app.inert = false; }
+  function msgBox(o) { const m = msgDialog(o, closeModal); modal(m.dlg); setTimeout(m.focus, 30); }
+
+  /* --- acciones --- */
+  function nuevo() {
+    log.push('Click', 'NuevoProducto(): var p = new Producto(); using var dlg = new FrmProducto(p);', 'private void NuevoProducto()');
+    const p = { Codigo: '', Nombre: '', Categoria: '', Precio: 0, Existencia: 0, Vencimiento: null };
+    log.push('ShowDialog', 'dlg.ShowDialog(this): la ventana principal queda bloqueada', 'if (dlg.ShowDialog(this) == DialogResult.OK)');
+    modal(productDialog({ producto: p, onClose: r => { closeModal(); log.push('ShowDialog', `devolvió DialogResult.${r}`, 'if (dlg.ShowDialog(this) == DialogResult.OK)'); if (r === 'OK') { productos.push(p); log.push('Lista', 'productos.Add(p); RefrescarLista()', 'productos.Add(p);'); refresh(); } } }));
+  }
+  function selProd() { return selected && visible().includes(selected) ? selected : null; }
+  function avisar() { log.push('MessageBox', 'AvisarSeleccion(): no hay fila seleccionada (p is null)', 'private void AvisarSeleccion()'); msgBox({ text: 'Seleccione primero un producto de la lista.', caption: 'AgroStock' }); }
+  function editar() {
+    log.push('Click', 'EditarProducto(): ProductoSeleccionado()', 'private void EditarProducto()');
+    const p = selProd(); if (!p) return avisar();
+    modal(productDialog({ producto: p, onClose: r => { closeModal(); log.push('ShowDialog', `devolvió DialogResult.${r}`, 'if (dlg.ShowDialog(this) == DialogResult.OK)'); if (r === 'OK') { log.push('Lista', 'RefrescarLista(): productos.ResetBindings()', 'productos.ResetBindings();'); refresh(); } } }));
+  }
+  function eliminar() {
+    log.push('Click', 'EliminarProducto(): ProductoSeleccionado()', 'private void EliminarProducto()');
+    const p = selProd(); if (!p) return avisar();
+    log.push('MessageBox', 'MessageBox.Show(... YesNo, Question, Button2): «No» queda como botón por defecto', 'MessageBoxDefaultButton.Button2');
+    msgBox({ text: `¿Eliminar «${p.Nombre}»?`, caption: 'Confirmar eliminación', icon: 'q', buttons: ['Sí', 'No'], def: 1, cb: b => { log.push('MessageBox', `el usuario pulsó ${b}`, 'if (r == DialogResult.Yes)'); if (b === 'Sí') { productos = productos.filter(x => x !== p); selected = null; log.push('Lista', 'productos.Remove(p)', 'productos.Remove(p);'); refresh(); } } });
+  }
+  function exportar() {
+    log.push('Click', 'ExportarCsv(): new SaveFileDialog { Filter = "Archivo CSV (*.csv)|*.csv" }', 'private void ExportarCsv()');
+    const nameIn = h('input', { class: 'w-in', value: 'inventario.csv', 'aria-label': 'Nombre de archivo' });
+    const dlg = h('div', { class: 'w-dlg', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Exportar inventario' },
+      h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, 'Exportar inventario')),
+      h('div', { class: 'w-body' }, h('div', { class: 'w-field' }, h('label', null, 'Nombre:'), nameIn), h('div', { class: 'w-field' }, h('label', null, 'Tipo:'), h('span', null, 'Archivo CSV (*.csv)'))),
+      h('div', { class: 'w-foot' }, h('button', { class: 'w-btn def', onclick: () => { closeModal(); log.push('SaveFileDialog', `DialogResult.OK → File.WriteAllText("${nameIn.value}")`, 'File.WriteAllText(dlg.FileName'); writeCsv(); } }, 'Guardar'),
+        h('button', { class: 'w-btn', onclick: () => { closeModal(); log.push('SaveFileDialog', 'DialogResult.Cancel → return (no se guarda nada)', 'if (dlg.ShowDialog(this) != DialogResult.OK) return;'); } }, 'Cancelar')));
+    modal(dlg); setTimeout(() => nameIn.focus(), 30);
+  }
+  function writeCsv() {
+    const lines = ['Codigo;Nombre;Categoria;Precio;Existencia;Vencimiento', ...productos.map(p => [csvQ(p.Codigo), csvQ(p.Nombre), csvQ(p.Categoria), p.Precio.toFixed(2), String(p.Existencia), p.Vencimiento ? fmtIso(p.Vencimiento) : ''].join(';'))];
+    csvBox.textContent = lines.join('\n');
+    msgBox({ text: 'Inventario exportado correctamente.', caption: 'Exportar' });
+  }
+  function acerca() { log.push('Click', 'MostrarAcercaDe(): MessageBox.Show(...)', 'private void MostrarAcercaDe()'); msgBox({ text: 'AgroStock v1\nEncuentro 1: Aplicaciones de interfaz gráfica\nUNAN-Managua, CUR Matagalpa', caption: 'Acerca de AgroStock' }); }
+  function tryClose() {
+    log.push('FormClosing', 'se dispara antes de cerrar; e.CloseReason == UserClosing → pregunta', 'private void FrmPrincipal_FormClosing');
+    msgBox({ text: '¿Desea salir de AgroStock?', caption: 'Salir', icon: 'q', buttons: ['Sí', 'No'], def: 0, cb: b => {
+      if (b === 'No') { log.push('FormClosing', 'e.Cancel = true: la ventana sigue abierta', 'if (r == DialogResult.No) e.Cancel = true;'); }
+      else { closed = true; log.push('Application', 'Application.Run termina: el programa se cierra', 'private void FrmPrincipal_FormClosing'); draw(); }
+    } });
+  }
+  const A = { nuevo, editar, eliminar, exportar, acerca, salir: tryClose };
+  const MENUS = [
+    { key: 'a', label: ['', 'A', 'rchivo'], items: [['&Nuevo producto', 'Ctrl+N', 'nuevo', 'mnuNuevo'], ['&Exportar a CSV...', 'Ctrl+Shift+E', 'exportar', 'mnuExportar'], null, ['&Salir', 'Alt+F4', 'salir', 'mnuSalir']] },
+    { key: 'e', label: ['', 'E', 'ditar'], items: [['&Editar producto', 'Ctrl+E', 'editar', 'mnuEditarProducto'], ['E&liminar producto', 'Ctrl+D', 'eliminar', 'mnuEliminar']] },
+    { key: 'y', label: ['A', 'y', 'uda'], items: [['&Acerca de AgroStock', '', 'acerca', 'mnuAcercaDe']] }];
+  const mn = t => { const i = t.indexOf('&'); return [t.slice(0, i), h('u', null, t[i + 1]), t.slice(i + 2)]; };
+  const METHOD = { nuevo: 'NuevoProducto()', editar: 'EditarProducto()', eliminar: 'EliminarProducto()', exportar: 'ExportarCsv()', acerca: 'MostrarAcercaDe()', salir: 'Close()' };
+  function run(action, source) { openMenu = null; log.push('Click', `${source} → ${METHOD[action]}`, source + '.Click'); draw(); A[action](); }
+  function shortcut(name, action) { openMenu = null; log.push('ShortcutKeys', `${name} activa el Click del menú → ${METHOD[action]}`, 'ShortcutKeys', 'Forms/FrmPrincipal.Designer.cs'); draw(); A[action](); }
+
+  const app = h('div', { style: 'display:flex;flex-direction:column;flex:1;min-height:0' });
+  let gridBox, statusTxt, clockEl;
+  function draw() {
+    if (closed) { root.replaceChildren(h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, 'AgroStock v1 (cerrada)')), h('div', { class: 'closed' }, h('p', { style: 'margin:0 0 12px' }, 'La aplicación se cerró: Application.Run terminó y Main llegó a su última llave.'), h('button', { class: 'w-btn def', onclick: () => { closed = false; productos = seed(); selected = null; filter = ''; log.clear(); draw(); } }, 'Volver a abrir'))); return; }
+    const titleBar = h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, 'AgroStock v1 - Inventario del agroservicio'), h('div', { class: 'wb' }, h('span', null, '—'), h('span', null, '▢'), h('button', { class: 'x', 'aria-label': 'Cerrar la ventana', onclick: () => { log.push('Click', 'botón X de la ventana → Close()', 'mnuSalir.Click += (_, _) => Close();'); tryClose(); } }, '✕')));
+    const menu = h('div', { class: 'w-menu', role: 'menubar' }, MENUS.map(m => {
+      const b = h('button', { 'aria-haspopup': 'true', 'aria-expanded': String(openMenu === m.key), onclick: ev => { ev.stopPropagation(); openMenu = openMenu === m.key ? null : m.key; draw(); } }, m.label[0], h('u', null, m.label[1]), m.label[2]);
+      return b;
+    }));
+    if (openMenu) {
+      const m = MENUS.find(x => x.key === openMenu); const idx = MENUS.indexOf(m);
+      const left = [0, 56, 113][idx];
+      menu.append(h('div', { class: 'w-drop', style: `left:${left}px`, role: 'menu' }, m.items.map(it => it ? h('button', { role: 'menuitem', onclick: ev => { ev.stopPropagation(); run(it[2], it[3]); } }, h('span', null, mn(it[0])), h('span', { class: 'sk' }, it[1])) : h('hr'))));
+    }
+    const search = h('input', { value: filter, 'aria-label': 'Buscar', placeholder: 'código o nombre', oninput: e => { filter = e.target.value; log.push('TextChanged', `txtBuscar cambió → AplicarFiltro() con «${filter}»`, 'private void AplicarFiltro()'); const pos = e.target.selectionStart; drawKeep(pos); } });
+    const tool = h('div', { class: 'w-tool' }, h('button', { title: 'Nuevo producto (Ctrl+N)', onclick: () => { log.push('Click', 'tsbNuevo → NuevoProducto()', 'tsbNuevo.Click'); nuevo(); } }, 'Nuevo'),
+      h('button', { title: 'Editar producto (Ctrl+E)', onclick: () => { log.push('Click', 'tsbEditar → EditarProducto()', 'tsbEditar.Click'); editar(); } }, 'Editar'),
+      h('button', { title: 'Eliminar producto (Ctrl+D)', onclick: () => { log.push('Click', 'tsbEliminar → EliminarProducto()', 'tsbEliminar.Click'); eliminar(); } }, 'Eliminar'),
+      h('span', { class: 'sep' }), h('label', null, 'Buscar:'), search);
+    const vis = visible();
+    gridBox = h('div', { class: 'w-grid', style: 'flex:1;min-height:200px' }, h('table', null,
+      h('thead', null, h('tr', null, ['Código', 'Nombre', 'Categoría'].map(t => h('th', null, t)), h('th', { class: 'r' }, 'Precio (C$)'), h('th', { class: 'r' }, 'Existencia'), h('th', null, 'Vencimiento'))),
+      h('tbody', null, vis.map(p => h('tr', { class: (p === selected ? 'sel' : '') + (lowMark && p.Existencia < 10 ? ' low' : ''), tabindex: '0', oncontextmenu: ev => openCtx(ev, p), onclick: () => { selected = p; draw(); }, ondblclick: () => { selected = p; log.push('CellDoubleClick', 'dgvProductos.CellDoubleClick → EditarProducto()', 'dgvProductos.CellDoubleClick +='); editar(); }, onkeydown: e => { if (e.key === 'Enter') { selected = p; editar(); } } },
+        h('td', null, p.Codigo), h('td', null, p.Nombre), h('td', null, p.Categoria), h('td', { class: 'r' }, fmtN2(p.Precio)), h('td', { class: 'r' }, String(p.Existencia)), h('td', null, p.Vencimiento ? fmtDate(p.Vencimiento) : ''))))));
+    clockEl = h('span', null, clockText());
+    const status = h('div', { class: 'w-status' }, h('span', null, `Productos: ${vis.length} de ${productos.length}`), clockEl);
+    app.replaceChildren(menu, tool, gridBox, status);
+    root.replaceChildren(titleBar, app); if (modalEl) root.append(modalEl);
+    if (ctx && !modalEl) root.append(ctxMenu());
+    app.inert = !!modalEl;
+  }
+  function drawKeep(pos) { draw(); const i = $('.w-tool input', root); if (i) { i.focus(); i.setSelectionRange(pos, pos); } }
+  function refresh() { draw(); }
+  const clockText = () => { const d = new Date(); return `${fmtDate(d)} ${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`; };
+  setInterval(() => { if (clockEl && clockEl.isConnected) { clockEl.textContent = clockText(); if (showTick) log.push('Tick', 'tmrReloj.Tick → ActualizarReloj()', 'private void ActualizarReloj()'); } }, 1000);
+  document.addEventListener('click', () => { if (openMenu || ctx) { openMenu = null; ctx = null; draw(); } });
+  root.tabIndex = 0;
+  root.addEventListener('keydown', e => {
+    if (closed || modalEl) return;
+    if (e.altKey && !e.ctrlKey) { const m = MENUS.find(x => x.key === e.key.toLowerCase()); if (m) { e.preventDefault(); openMenu = m.key; log.push('Teclado', `Alt+${m.key.toUpperCase()} abre el menú (tecla de acceso &)`, '&Archivo', 'Forms/FrmPrincipal.Designer.cs'); draw(); } }
+    else if (e.ctrlKey && !e.shiftKey && e.key.toLowerCase() === 'e') { e.preventDefault(); shortcut('Ctrl+E', 'editar'); }
+    else if (e.ctrlKey && !e.shiftKey && e.key.toLowerCase() === 'd') { e.preventDefault(); shortcut('Ctrl+D', 'eliminar'); }
+    else if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'e') { e.preventDefault(); shortcut('Ctrl+Shift+E', 'exportar'); }
+    else if (e.key === 'Escape' && (openMenu || ctx)) { openMenu = null; ctx = null; draw(); }
+  });
+  /* --- Nivel 3: ContextMenuStrip y CellFormatting --- */
+  function openCtxAt(p, cx, cy) {
+    const r = root.getBoundingClientRect();
+    selected = p; openMenu = null;
+    ctx = { x: Math.max(4, Math.min(cx - r.left, r.width - 160)), y: Math.max(32, Math.min(cy - r.top, r.height - 70)) };
+    log.push('ContextMenuStrip.Opening', `clic derecho sobre «${p.Codigo}»: dgvProductos.ContextMenuStrip = menuContextual → se muestra con Editar y Eliminar`, '');
+    draw();
+  }
+  const openCtx = (ev, p) => { ev.preventDefault(); ev.stopPropagation(); openCtxAt(p, ev.clientX, ev.clientY); };
+  const ctxMenu = () => h('div', { class: 'w-drop', role: 'menu', 'aria-label': 'menuContextual', style: `left:${ctx.x}px;top:${ctx.y}px;min-width:150px` },
+    ['Editar', 'Eliminar'].map(t => h('button', { role: 'menuitem', onclick: ev => {
+      ev.stopPropagation(); ctx = null;
+      log.push('Click', `mnuCtx${t} → ${t === 'Editar' ? 'EditarProducto()' : 'EliminarProducto()'}`, '');
+      draw(); (t === 'Editar' ? editar : eliminar)();
+    } }, t)));
+  const lowBtn = h('button', { class: 'sbtn ghost sm', 'aria-pressed': 'false', onclick: () => {
+    lowMark = !lowMark; lowBtn.setAttribute('aria-pressed', String(lowMark));
+    if (lowMark) {
+      log.push('CellFormatting', 'dgvProductos.CellFormatting += DgvProductos_CellFormatting; se dispara por cada celda que se va a dibujar', '');
+      const bajas = visible().filter(p => p.Existencia < 10);
+      bajas.forEach(p => log.push('CellFormatting', `fila «${p.Codigo}»: p.Existencia (${p.Existencia}) < 10 → e.CellStyle.BackColor = Color.Orange`, ''));
+      if (!bajas.length) log.push('CellFormatting', 'ninguna fila visible tiene existencia menor que 10: no se colorea nada', '');
+    } else log.push('CellFormatting', 'sin el manejador, las filas se dibujan con su color normal', '');
+    draw();
+  } }, 'Marcar existencias bajas');
+  const ctxBtn = h('button', { class: 'sbtn ghost sm', onclick: ev => {
+    ev.stopPropagation();
+    const p = selProd() || visible()[0]; if (!p) return;
+    selected = p; draw();
+    const tr = $('tr.sel', root); if (!tr) return;
+    const rr = tr.getBoundingClientRect(); openCtxAt(p, rr.left + 24, rr.bottom);
+  } }, 'Abrir menú contextual de la fila');
+  const REF = 'CellFormatting (FrmPrincipal.cs)\ndgvProductos.CellFormatting += DgvProductos_CellFormatting;   // en SuscribirEventos()\n\nprivate void DgvProductos_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)\n{\n    if (e.RowIndex < 0) return;\n    if (dgvProductos.Rows[e.RowIndex].DataBoundItem is Producto p && p.Existencia < 10)\n    {\n        e.CellStyle.BackColor = Color.Orange;\n    }\n}\n\nContextMenuStrip (FrmPrincipal.Designer.cs)\nmenuContextual = new ContextMenuStrip(components);\nmnuCtxEditar = new ToolStripMenuItem();\nmnuCtxEliminar = new ToolStripMenuItem();\nmenuContextual.Items.AddRange(new ToolStripItem[] { mnuCtxEditar, mnuCtxEliminar });\nmnuCtxEditar.Text = "Editar";\nmnuCtxEliminar.Text = "Eliminar";\ndgvProductos.ContextMenuStrip = menuContextual;\n\n(FrmPrincipal.cs, en SuscribirEventos())\nmnuCtxEditar.Click += (_, _) => EditarProducto();\nmnuCtxEliminar.Click += (_, _) => EliminarProducto();\n// El clic derecho no selecciona la fila por sí solo: se hace a mano\ndgvProductos.CellMouseDown += (_, e) =>\n{\n    if (e.Button == MouseButtons.Right && e.RowIndex >= 0)\n        dgvProductos.CurrentCell = dgvProductos.Rows[e.RowIndex].Cells[0];\n};';
+  const refDet = h('details', { class: 'err' }, h('summary', null, 'Ver una solución de referencia (Nivel 3)'), h('div', { class: 'body' }, h('div', { class: 'codebox' }, REF)));
+  const tickChk = h('input', { type: 'checkbox', id: 's7t', onchange: e => { showTick = e.target.checked; } });
+  draw();
+  host.append(h('div', { class: 'stage' },
+    h('div', { style: 'min-width:0' }, root),
+    h('div', { class: 'row' }, h('span', { class: 'sim-desc', style: 'margin:0' }, 'Atajos (su navegador puede reservar algunos; use estos botones):'),
+      ...[['Ctrl+N', 'nuevo'], ['Ctrl+E', 'editar'], ['Ctrl+D', 'eliminar'], ['Ctrl+Shift+E', 'exportar']].map(([t, a]) => h('button', { class: 'sbtn ghost sm', onclick: () => shortcut(t, a) }, t)),
+      h('label', { class: 'row', for: 's7t', style: 'gap:4px;font-size:.88rem;margin-left:auto' }, tickChk, 'Mostrar el Tick del reloj')),
+    h('div', { class: 'row' }, h('span', { class: 'sim-desc', style: 'margin:0' }, 'Nivel 3 (opcional):'), lowBtn, ctxBtn, h('span', { class: 'sim-desc', style: 'margin:0;font-size:.85rem' }, 'o clic derecho sobre una fila')),
+    refDet,
+    h('div', { class: 'stage two' },
+      h('div', { class: 'panel' }, h('h4', null, 'Eventos y métodos que se ejecutan'), log.box),
+      h('div', { class: 'panel' }, h('h4', null, 'Archivo CSV generado'), csvBox))));
+}
+
+/* ===== Paso 8: errores frecuentes que se pueden provocar ===== */
+// Mismo orden que STEPS[probar].errors. `s` es la línea donde el compilador marca el error; `tok`, la columna.
+const ERR_SIM = [
+  { f: 'Forms/FrmProducto.cs', s: 'public Producto Producto { get; }', tok: 'Producto', kind: 'CS0246',
+    msgs: ["@: error CS0246: El nombre del tipo o del espacio de nombres 'Producto' no se encontró (¿falta una directiva using o una referencia de ensamblado?)"],
+    why: 'Se borró la línea «using AgroStock.E01.Models;» de la parte superior: sin ella el compilador no sabe dónde buscar Producto.' },
+  { f: 'Program.cs', s: 'Application.Run(new Forms.FrmPrincipal());', tok: 'Forms.FrmPrincipal', kind: 'CS0246',
+    msgs: ["@: error CS0246: El nombre del tipo o del espacio de nombres 'Form1' no se encontró (¿falta una directiva using o una referencia de ensamblado?)"],
+    why: 'Esta línea quedó como Application.Run(new Form1()); pero Form1.cs ya se eliminó en el paso 1.' },
+  { f: 'Forms/FrmPrincipal.Designer.cs', s: 'tmrReloj = new System.Windows.Forms.Timer(components);', tok: 'System.Windows.Forms.Timer', kind: 'CS0104',
+    msgs: ["@: error CS0104: 'Timer' es una referencia ambigua entre 'System.Threading.Timer' y 'System.Windows.Forms.Timer'"],
+    why: 'Se escribió new Timer(components); a secas. Con ImplicitUsings, System.Threading y System.Windows.Forms están importados y ambos tienen un Timer.' },
+  { f: 'Forms/FrmProducto.Designer.cs', s: 'private TextBox txtCodigo = null!;', tok: 'txtCodigo', kind: 'Diseñador',
+    msgs: ["Mensaje del diseñador: La variable 'txtCodigo' no se declaró o nunca se asignó. El diseñador no puede mostrar el formulario y queda una página de error en blanco."],
+    why: 'El nombre del control en InitializeComponent no coincide con el del campo declarado abajo (por ejemplo txtCodigo contra txtCodigo1).' },
+  { f: 'Forms/FrmPrincipal.cs', s: 'DataPropertyName = propiedad,', tok: 'DataPropertyName', kind: 'Ejecución',
+    msgs: ['Compila sin errores. En ejecución las columnas aparecen pero las celdas salen vacías: sin DataPropertyName la columna no sabe qué propiedad de Producto mostrar.'],
+    why: 'Falta DataPropertyName en NuevaColumna (o AutoGenerateColumns = false se ejecuta después de Columns.Add).' },
+  { f: 'Forms/FrmPrincipal.Designer.cs', s: 'mnuNuevo.ShortcutKeys = Keys.Control | Keys.N;', tok: 'mnuNuevo', kind: 'Ejecución',
+    msgs: ['Compila sin errores ni advertencias. Ctrl+N no hace nada: mnuNuevo queda con ShortcutKeys = Keys.None.'],
+    why: 'Falta asignar ShortcutKeys en el elemento de menú. Alt+letra, además, necesita que el menú sea el MainMenuStrip del formulario.' },
+  { f: 'Forms/FrmPrincipal.Designer.cs', s: 'Controls.Add(dgvProductos);', tok: 'dgvProductos', kind: 'Ejecución',
+    msgs: ['Compila sin errores. La primera fila de la cuadrícula queda tapada por el menú.'],
+    why: 'Con Dock, el último control agregado se acopla primero. Si la cuadrícula (Fill) no se agrega antes que el menú, ocupa toda la ventana y el menú le tapa las primeras filas.' },
+  { f: 'Forms/FrmProducto.Designer.cs', s: 'private TextBox txtCodigo = null!;', tok: 'txtCodigo', kind: 'CS8618',
+    msgs: ["@: warning CS8618: El campo 'txtCodigo' que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de declararlo como que admite un valor NULL.",
+      'FrmPrincipal.cs: warning CS8602: Desreferencia de una referencia posiblemente NULL. (Aparece si se escribe CurrentRow.DataBoundItem sin el ?.)'],
+    why: 'Se quitó «= null!» del campo, o se usó CurrentRow. en lugar de CurrentRow?. Son advertencias: el programa compila y se ejecuta.' }
+];
+function renderErrors(s) {
+  const v = makeViewer(['Program.cs']), elog = makeLog(v, 'Program.cs');
+  function run(i) {
+    const x = ERR_SIM[i], n = lineOf(x.f, x.s), line = FILES[x.f].src.split('\n')[n - 1] || '';
+    const loc = `${x.f.split('/').pop()}(${n},${Math.max(1, line.indexOf(x.tok) + 1)})`;
+    v.reveal(x.f, x.s); elog.clear();
+    elog.push('Causa', x.why, '');
+    x.msgs.slice().reverse().forEach(m => elog.push(x.kind, m.replace('@', loc), x.s, x.f));
+  }
+  return h('div', { style: COL }, h('h3', { class: 'block-h', style: 'margin:0' }, 'Errores frecuentes'),
+    h('div', { class: 'errs' }, s.errors.map((e, i) => h('details', { class: 'err' }, h('summary', null, h('code', null, e[0]), e[1]),
+      h('div', { class: 'body' }, h('div', { html: e[2] }), h('div', { class: 'row', style: 'margin-top:8px' }, h('button', { class: 'sbtn sm', onclick: () => run(i) }, 'Provocar este error')))))),
+    h('p', { class: 'sim-desc', style: 'margin:0' }, 'Pulse «Provocar este error»: el visor resalta la línea y el registro muestra el mensaje. Los números de línea corresponden a la versión Comentado.'),
+    v.root, h('div', { class: 'panel' }, h('h4', null, 'Mensajes del compilador y del diseñador'), elog.box));
+}
+
+/* ================= Simulador: diseñar el formulario arrastrando controles ================= */
+const DOCKS = ['None', 'Top', 'Bottom', 'Left', 'Right', 'Fill'];
+const TB = {
+  Label: { p: 'label', w: 41, h: 15, props: [['Text', 'txt']], d: {} },
+  TextBox: { p: 'textBox', w: 100, h: 23, props: [['MaxLength', 'num', 1, 32767]], d: { MaxLength: 32767 } },
+  ComboBox: { p: 'comboBox', w: 121, h: 23, props: [['DropDownStyle', 'sel', ['DropDown', 'DropDownList', 'Simple']]], d: { DropDownStyle: 'DropDown' } },
+  NumericUpDown: { p: 'numericUpDown', w: 120, h: 23, props: [['DecimalPlaces', 'num', 0, 10], ['Maximum', 'num', 0, 1000000], ['ThousandsSeparator', 'bool']], d: { DecimalPlaces: 0, Maximum: 100, ThousandsSeparator: false } },
+  DateTimePicker: { p: 'dateTimePicker', w: 200, h: 23, props: [['Format', 'sel', ['Long', 'Short', 'Time', 'Custom']], ['ShowCheckBox', 'bool']], d: { Format: 'Long', ShowCheckBox: false } },
+  Button: { p: 'button', w: 75, h: 23, props: [['Text', 'txt'], ['DialogResult', 'sel', ['None', 'OK', 'Cancel']]], d: { DialogResult: 'None' } },
+  MenuStrip: { p: 'menuStrip', w: 0, h: 24, props: [['Dock', 'sel', DOCKS]], d: { Dock: 'Top' }, strip: true },
+  ToolStrip: { p: 'toolStrip', w: 0, h: 25, props: [['Dock', 'sel', DOCKS]], d: { Dock: 'Top' }, strip: true },
+  StatusStrip: { p: 'statusStrip', w: 0, h: 22, props: [['Dock', 'sel', DOCKS]], d: { Dock: 'Bottom' }, strip: true },
+  DataGridView: { p: 'dataGridView', w: 240, h: 150, props: [['Dock', 'sel', DOCKS], ['ReadOnly', 'bool'], ['MultiSelect', 'bool'], ['AllowUserToAddRows', 'bool']], d: { Dock: 'None', ReadOnly: false, MultiSelect: true, AllowUserToAddRows: true } },
+  Timer: { p: 'timer', tray: true, props: [['Interval', 'num', 1, 60000], ['Enabled', 'bool']], d: { Interval: 100, Enabled: false } },
+  ErrorProvider: { p: 'errorProvider', tray: true, props: [], d: {} }
+};
+const TB_ITEMS = { MenuStrip: ['Archivo', 'Editar', 'Ayuda'], ToolStrip: ['Nuevo', 'Editar', 'Eliminar', '|', 'Buscar:'], StatusStrip: ['Productos: 0 de 0', '00/00/0000 00:00:00'] };
+const TB_ENUM = { DropDownStyle: 'ComboBoxStyle', Format: 'DateTimePickerFormat', DialogResult: 'DialogResult', Dock: 'DockStyle', FormBorderStyle: 'FormBorderStyle', StartPosition: 'FormStartPosition' };
+const TB_FORM = ['Text', 'FormBorderStyle', 'StartPosition', 'MaximizeBox', 'MinimizeBox', 'AcceptButton', 'CancelButton', 'MainMenuStrip'];
+const TB_TARGET = {
+  FrmProducto: { file: 'Forms/FrmProducto.Designer.cs', step: 'diseno-dialogo', ticks: [0, 1, 2], def: { w: 300, h: 300 },
+    form: { Text: 'Producto', FormBorderStyle: 'FixedDialog', StartPosition: 'CenterParent', MaximizeBox: false, MinimizeBox: false, AcceptButton: 'btnGuardar', CancelButton: 'btnCancelar', w: 420, h: 345 },
+    ctl: [['Label', 'lblCodigo', 20, 23, 0, 0, { Text: '&Código:' }], ['TextBox', 'txtCodigo', 140, 20, 250, 23, { MaxLength: 15 }],
+      ['Label', 'lblNombre', 20, 68, 0, 0, { Text: '&Nombre:' }], ['TextBox', 'txtNombre', 140, 65, 250, 23, { MaxLength: 60 }],
+      ['Label', 'lblCategoria', 20, 113, 0, 0, { Text: 'C&ategoría:' }], ['ComboBox', 'cboCategoria', 140, 110, 250, 23, { DropDownStyle: 'DropDownList' }],
+      ['Label', 'lblPrecio', 20, 158, 0, 0, { Text: '&Precio (C$):' }], ['NumericUpDown', 'nudPrecio', 140, 155, 120, 23, { DecimalPlaces: 2, Maximum: 100000, ThousandsSeparator: true }],
+      ['Label', 'lblExistencia', 20, 203, 0, 0, { Text: 'E&xistencia:' }], ['NumericUpDown', 'nudExistencia', 140, 200, 120, 23, { Maximum: 100000, ThousandsSeparator: true }],
+      ['Label', 'lblVencimiento', 20, 248, 0, 0, { Text: '&Vencimiento:' }], ['DateTimePicker', 'dtpVencimiento', 140, 245, 120, 23, { Format: 'Short', ShowCheckBox: true }],
+      ['Button', 'btnGuardar', 210, 300, 90, 30, { Text: '&Guardar' }], ['Button', 'btnCancelar', 310, 300, 90, 30, { Text: 'Cancelar', DialogResult: 'Cancel' }],
+      ['ErrorProvider', 'errores', 0, 0, 0, 0, {}]] },
+  FrmPrincipal: { file: 'Forms/FrmPrincipal.Designer.cs', step: 'diseno-principal', ticks: [0, 1], def: { w: 800, h: 450 },
+    form: { Text: 'AgroStock v1 - Inventario del agroservicio', StartPosition: 'CenterScreen', MainMenuStrip: 'menuPrincipal', w: 900, h: 520, minw: 640, minh: 360 },
+    ctl: [['DataGridView', 'dgvProductos', 0, 0, 240, 150, { Dock: 'Fill', ReadOnly: true, MultiSelect: false, AllowUserToAddRows: false }], ['StatusStrip', 'barraEstado', 0, 0, 0, 22, {}],
+      ['ToolStrip', 'barraHerramientas', 0, 0, 0, 25, {}], ['MenuStrip', 'menuPrincipal', 0, 0, 0, 24, {}], ['Timer', 'tmrReloj', 0, 0, 0, 0, { Interval: 1000, Enabled: true }]] }
+};
+const tbMn = t => { const i = t.indexOf('&'); return i < 0 || i === t.length - 1 ? [t] : [t.slice(0, i), h('u', null, t[i + 1]), t.slice(i + 2)]; };
+function tickChecks(stepId, idx) { idx.forEach(j => { const cb = document.getElementById(`c-${stepId}-${j}`); if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change')); } }); }
+
+function simToolbox(host, viewer, key) {
+  const T = TB_TARGET[key], KEY = 'designer:' + key;
+  const blank = () => ({ items: [], n: {}, form: { Text: 'Form1', FormBorderStyle: 'Sizable', StartPosition: 'WindowsDefaultLocation', MaximizeBox: true, MinimizeBox: true, AcceptButton: '', CancelButton: '', MainMenuStrip: '', w: T.def.w, h: T.def.h, minw: 0, minh: 0 } });
+  let st = store.get(KEY, null) || blank(), sel = 'form', armed = null, sc = 1, uid = Math.max(0, ...st.items.map(i => i.id));
+  const tray = t => TB[t].tray, find = id => st.items.find(i => i.id === id);
+  const save = () => store.set(KEY, st);
+  const tbx = h('div', { class: 'tbx', role: 'group', 'aria-label': 'Cuadro de herramientas' }), canvas = h('div', { class: 'cv-wrap' }), trayBox = h('div', { class: 'tray' });
+  const props = h('div', { class: 'panel' }), code = h('div', { class: 'codebox', style: 'max-height:360px;overflow:auto' }), result = h('div', { 'aria-live': 'polite' }), tip = h('div', { class: 'tip', style: 'min-height:2.6em' });
+  const say = t => { tip.textContent = t; };
+
+  /* ---- modelo ---- */
+  function mk(type, x, y) {
+    const d = TB[type], n = (st.n[type] = (st.n[type] || 0) + 1), Name = d.p + n;
+    const it = { id: ++uid, type, Name, x, y, w: d.w, h: d.h, tab: st.items.filter(i => !tray(i.type)).length, p: { ...d.d }, items: false };
+    if (d.props.some(p => p[0] === 'Text')) it.p.Text = Name;
+    st.items.push(it); sel = it.id; save();
+    say(`Se agregó ${Name}. Cambie su (Name) a un nombre descriptivo (${type === 'Button' ? 'btnGuardar' : type === 'TextBox' ? 'txtCodigo' : d.p.slice(0, 3) + 'Algo'}) en la ventana Propiedades.`);
+    return it;
+  }
+  function layout() {
+    const f = st.form; let L = 0, T0 = 0, R = f.w, B = f.h; const r = {};
+    st.items.filter(i => !tray(i.type)).forEach(i => { r[i.id] = { x: i.x, y: i.y, w: i.w, h: i.h }; });
+    [...st.items].filter(i => !tray(i.type) && i.p.Dock && i.p.Dock !== 'None').reverse().forEach(i => { // el último de Controls se acopla primero
+      const d = i.p.Dock, hh = i.h || 24, ww = i.w || 100;
+      if (d === 'Top') { r[i.id] = { x: L, y: T0, w: R - L, h: hh }; T0 += hh; }
+      else if (d === 'Bottom') { r[i.id] = { x: L, y: B - hh, w: R - L, h: hh }; B -= hh; }
+      else if (d === 'Left') { r[i.id] = { x: L, y: T0, w: ww, h: B - T0 }; L += ww; }
+      else if (d === 'Right') { r[i.id] = { x: R - ww, y: T0, w: ww, h: B - T0 }; R -= ww; }
+      else r[i.id] = { x: L, y: T0, w: R - L, h: B - T0 };
+    });
+    return r;
+  }
+
+  /* ---- lienzo ---- */
+  function body(i, f) {
+    const t = i.type, p = i.p, items = i.items ? TB_ITEMS[t] : null;
+    if (t === 'Label') return tbMn(p.Text || '');
+    if (t === 'Button') return tbMn(p.Text || '');
+    if (t === 'MenuStrip' || t === 'ToolStrip' || t === 'StatusStrip') return items ? items.map(x => h('span', { style: 'padding:0 8px' }, x)) : [h('span', { style: 'padding:0 8px;opacity:.6' }, 'Escriba aquí')];
+    if (t === 'ComboBox') return [h('span', { style: 'flex:1' }), '▾'];
+    if (t === 'NumericUpDown') return [h('span', { style: 'flex:1;text-align:right;padding-right:4px' }, (0).toFixed(p.DecimalPlaces)), '▴▾'];
+    if (t === 'DateTimePicker') return [p.ShowCheckBox ? '☐ ' : '', p.Format === 'Short' ? '09/10/2026' : p.Format === 'Time' ? '09:39:00' : 'viernes, 9 de octubre de 2026'];
+    if (t === 'DataGridView') return h('div', { style: 'padding:4px 8px;color:#777;font-size:12px' }, 'dataGridView (sin columnas todavía)');
+    return '';
+  }
+  function node(i, rect, z) {
+    const t = i.type, base = `position:absolute;left:${rect.x}px;top:${rect.y}px;`;
+    const size = `width:${rect.w}px;height:${rect.h}px;`;
+    const cls = { Label: '', Button: 'w-btn' + (st.form.AcceptButton === i.Name ? ' def' : ''), MenuStrip: 'w-menu', ToolStrip: 'w-tool', StatusStrip: 'w-status', DataGridView: 'w-grid' }[t] ?? 'w-in';
+    const style = base + (t === 'Label' ? 'font-size:13px;white-space:nowrap;line-height:15px;' : size + (t === 'Button' ? 'min-width:0;padding:0;' : '') + (t === 'MenuStrip' || t === 'ToolStrip' ? 'display:flex;align-items:center;font-size:13px;' : t === 'StatusStrip' ? '' : t === 'DataGridView' ? 'border:1px solid var(--w-border);' : 'display:flex;align-items:center;font-size:13px;')) + `z-index:${z};`;
+    const e = h('div', { class: cls + (sel === i.id ? ' cv-sel' : ''), style, 'data-id': i.id, tabindex: '0', role: 'button', 'aria-label': `${i.Name} (${t})`, onpointerdown: ev => startDrag(ev, i, 'move'),
+      onkeydown: ev => keyMove(ev, i), onfocus: () => { if (sel !== i.id) { sel = i.id; drawProps(); drawCanvas(); } } }, body(i));
+    if (sel === i.id && !tray(t) && !(i.p.Dock && i.p.Dock !== 'None') && t !== 'Label') e.append(h('span', { class: 'cv-h', onpointerdown: ev => startDrag(ev, i, 'size') }));
+    return e;
+  }
+  function drawCanvas() {
+    const f = st.form, rects = layout(), W = f.w, H = f.h;
+    const avail = Math.max(200, (canvas.parentElement ? canvas.clientWidth : 400) - 10);
+    sc = Math.min(1, avail / (W + 2));
+    const area = h('div', { style: `position:relative;width:${W}px;height:${H}px;background:var(--w-face);overflow:hidden`, tabindex: '-1', onpointerdown: ev => {
+      if (ev.target !== area) return;
+      if (armed) { const r = area.getBoundingClientRect(); const it = mk(armed, Math.round((ev.clientX - r.left) / sc), Math.round((ev.clientY - r.top) / sc)); armed = null; full(); return it; }
+      sel = 'form'; full();
+    } });
+    [...st.items].filter(i => !tray(i.type)).reverse().forEach((i, k) => area.append(node(i, rects[i.id], k + 1)));
+    const fixed = f.FormBorderStyle === 'FixedDialog';
+    const win = h('div', { class: 'win' + (sel === 'form' ? ' cv-sel' : ''), style: `width:${W + 2}px;max-width:none;transform:scale(${sc});transform-origin:0 0` },
+      h('div', { class: 'win-t', onpointerdown: () => { sel = 'form'; full(); } }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, f.Text),
+        h('div', { class: 'wb' }, fixed ? null : [h('span', null, f.MinimizeBox ? '—' : ''), h('span', null, f.MaximizeBox ? '▢' : '')], h('span', null, '✕'))), area);
+    canvas.style.height = ((H + 32) * sc + 10) + 'px';
+    canvas.replaceChildren(win);
+    const tr = st.items.filter(i => tray(i.type));
+    trayBox.replaceChildren(h('span', null, 'Bandeja de componentes:'), ...(tr.length ? tr.map(i => h('button', { class: 'pill' + (sel === i.id ? ' ok' : ''), 'aria-label': i.Name + ' (' + i.type + ')', onclick: () => { sel = i.id; full(); } }, `${i.Name} · ${i.type}`)) : [h('span', null, '(vacía)')]));
+  }
+  function startDrag(ev, it, mode) {
+    ev.preventDefault(); ev.stopPropagation(); sel = it.id; drawProps();
+    const sx = ev.clientX, sy = ev.clientY, o = { x: it.x, y: it.y, w: it.w, h: it.h }, docked = it.p.Dock && it.p.Dock !== 'None' && TB[it.type].props.some(p => p[0] === 'Dock');
+    const move = e => {
+      if (docked) return;
+      const dx = Math.round((e.clientX - sx) / sc), dy = Math.round((e.clientY - sy) / sc);
+      if (mode === 'move') { it.x = Math.max(0, Math.min(st.form.w - 10, o.x + dx)); it.y = Math.max(0, Math.min(st.form.h - 10, o.y + dy)); }
+      else { it.w = Math.max(20, o.w + dx); it.h = Math.max(15, o.h + dy); }
+      drawCanvas(); drawCode();
+    };
+    const up = () => { window.removeEventListener('pointermove', move); save(); full(); };
+    window.addEventListener('pointermove', move); window.addEventListener('pointerup', up, { once: true });
+  }
+  function keyMove(e, it) {
+    if (e.key === 'Delete') { e.preventDefault(); st.items = st.items.filter(x => x !== it); sel = 'form'; save(); full(); return; }
+    const k = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+    if (!k || tray(it.type) || (it.p.Dock && it.p.Dock !== 'None')) return;
+    e.preventDefault(); const s = e.shiftKey ? 10 : 1; it.x = Math.max(0, it.x + k[0] * s); it.y = Math.max(0, it.y + k[1] * s); save(); drawCanvas(); drawCode(); drawProps();
+    const n = $(`[data-id="${it.id}"]`, canvas); n && n.focus();
+  }
+
+  /* ---- caja de herramientas (arrastrar o tocar y luego tocar el formulario) ---- */
+  Object.keys(TB).forEach(t => {
+    const b = h('button', { class: 'sbtn ghost sm', 'aria-pressed': 'false', title: `Arrastre ${t} al formulario, o tóquelo y luego toque el formulario`, onpointerdown: ev => {
+      ev.preventDefault(); const sx = ev.clientX, sy = ev.clientY; let ghost = null, moved = false;
+      const mv = e => {
+        if (!moved && Math.hypot(e.clientX - sx, e.clientY - sy) > 5) { moved = true; ghost = h('div', { class: 'sbtn cv-ghost' }, t); document.body.append(ghost); }
+        if (ghost) { ghost.style.left = e.clientX + 8 + 'px'; ghost.style.top = e.clientY + 8 + 'px'; }
+      };
+      const up = e => {
+        window.removeEventListener('pointermove', mv); ghost && ghost.remove();
+        if (moved) {
+          const a = $('.win > div:last-child', canvas), r = a && a.getBoundingClientRect();
+          if (r && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) { mk(t, Math.round((e.clientX - r.left) / sc), Math.round((e.clientY - r.top) / sc)); full(); }
+          else say('Suelte el control dentro del formulario.');
+        } else { armed = armed === t ? null : t; tbx.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b && !!armed))); say(armed ? `${t} listo: toque el formulario donde quiera colocarlo.` : ''); }
+      };
+      window.addEventListener('pointermove', mv); window.addEventListener('pointerup', up, { once: true });
+    }, onkeydown: ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); mk(t, 20, 20 + 28 * (st.items.length % 10)); full(); } } }, t);
+    tbx.append(b);
+  });
+
+  /* ---- ventana Propiedades ---- */
+  const row = (l, c) => h('tr', null, h('td', { class: 'mono', style: 'font-weight:600' }, l), h('td', null, c));
+  const numIn = (v, on, min = 0, max = 5000, lbl) => h('input', { class: 'w-in', type: 'number', min, max, value: v, 'aria-label': lbl, style: 'width:76px;color:var(--w-text)', onchange: e => on(Math.max(min, Math.min(max, Math.round(+e.target.value) || 0))) });
+  const selIn = (v, opts, on, lbl) => h('select', { class: 'w-in', 'aria-label': lbl, style: 'width:auto;color:var(--w-text)', onchange: e => on(e.target.value) }, opts.map(o => h('option', { value: o, selected: v === o }, o || '(ninguno)')));
+  const boolIn = (v, on, lbl) => h('input', { type: 'checkbox', checked: !!v, 'aria-label': lbl, onchange: e => on(e.target.checked) });
+  const errs = h('div', { class: 'note', hidden: true });
+  function drawProps() {
+    const rows = [];
+    if (sel === 'form') {
+      const f = st.form, names = ty => ['', ...st.items.filter(i => i.type === ty).map(i => i.Name)];
+      rows.push(row('(Name)', key), row('Text', h('input', { class: 'w-in', value: f.Text, 'aria-label': 'Text del formulario', style: 'color:var(--w-text)', oninput: e => { f.Text = e.target.value; save(); drawCanvas(); drawCode(); } })),
+        row('FormBorderStyle', selIn(f.FormBorderStyle, ['Sizable', 'FixedDialog', 'FixedSingle'], v => { f.FormBorderStyle = v; save(); full(); }, 'FormBorderStyle')),
+        row('StartPosition', selIn(f.StartPosition, ['WindowsDefaultLocation', 'CenterParent', 'CenterScreen'], v => { f.StartPosition = v; save(); full(); }, 'StartPosition')),
+        row('MaximizeBox', boolIn(f.MaximizeBox, v => { f.MaximizeBox = v; save(); full(); }, 'MaximizeBox')), row('MinimizeBox', boolIn(f.MinimizeBox, v => { f.MinimizeBox = v; save(); full(); }, 'MinimizeBox')),
+        row('AcceptButton', selIn(f.AcceptButton, names('Button'), v => { f.AcceptButton = v; save(); full(); }, 'AcceptButton')), row('CancelButton', selIn(f.CancelButton, names('Button'), v => { f.CancelButton = v; save(); full(); }, 'CancelButton')),
+        row('MainMenuStrip', selIn(f.MainMenuStrip, names('MenuStrip'), v => { f.MainMenuStrip = v; save(); full(); }, 'MainMenuStrip')),
+        row('ClientSize', h('span', { class: 'row', style: 'flex-wrap:nowrap' }, numIn(f.w, v => { f.w = v; save(); full(); }, 100, 1600, 'Ancho'), numIn(f.h, v => { f.h = v; save(); full(); }, 100, 1000, 'Alto'))),
+        row('MinimumSize', h('span', { class: 'row', style: 'flex-wrap:nowrap' }, numIn(f.minw, v => { f.minw = v; save(); full(); }, 0, 1600, 'Ancho mínimo'), numIn(f.minh, v => { f.minh = v; save(); full(); }, 0, 1000, 'Alto mínimo'))));
+      props.replaceChildren(h('h4', null, `${key} `, h('span', { class: 'pill' }, 'Form')), h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl pp' }, h('tbody', null, rows))));
+      return;
+    }
+    const it = find(sel); if (!it) { sel = 'form'; return drawProps(); }
+    const d = TB[it.type], dockd = it.p.Dock && it.p.Dock !== 'None';
+    rows.push(row('(Name)', h('input', { class: 'w-in', value: it.Name, 'aria-label': 'Name', style: 'color:var(--w-text)', onchange: e => {
+      const v = e.target.value.trim();
+      if (!/^[A-Za-z_]\w*$/.test(v) || st.items.some(x => x !== it && x.Name === v)) { errs.hidden = false; errs.textContent = 'Nombre no válido o repetido: use letras, dígitos y _ , sin espacios, y que no empiece con número.'; e.target.value = it.Name; return; }
+      errs.hidden = true; const old = it.Name; if (it.p.Text === old) it.p.Text = v;
+      ['AcceptButton', 'CancelButton', 'MainMenuStrip'].forEach(k => { if (st.form[k] === old) st.form[k] = v; });
+      it.Name = v; save(); full();
+    } })));
+    if (!d.tray) rows.push(row('Location', dockd ? h('span', { class: 'mono', style: 'color:var(--muted)' }, '(acoplado)') : h('span', { class: 'row', style: 'flex-wrap:nowrap' }, numIn(it.x, v => { it.x = v; save(); full(); }, 0, 5000, 'X'), numIn(it.y, v => { it.y = v; save(); full(); }, 0, 5000, 'Y'))),
+      row('Size', dockd || it.type === 'Label' ? h('span', { class: 'mono', style: 'color:var(--muted)' }, it.type === 'Label' ? '(AutoSize)' : '(acoplado)') : h('span', { class: 'row', style: 'flex-wrap:nowrap' }, numIn(it.w, v => { it.w = v; save(); full(); }, 10, 5000, 'Ancho'), numIn(it.h, v => { it.h = v; save(); full(); }, 10, 5000, 'Alto'))),
+      row('TabIndex', numIn(it.tab, v => { it.tab = v; save(); drawCode(); }, 0, 99, 'TabIndex')));
+    d.props.forEach(([n, k, a, b]) => {
+      const set = v => { it.p[n] = v; save(); full(); };
+      rows.push(row(n, k === 'txt' ? h('input', { class: 'w-in', value: it.p[n], 'aria-label': n, style: 'color:var(--w-text)', oninput: e => { it.p[n] = e.target.value; save(); drawCanvas(); drawCode(); } }) : k === 'num' ? numIn(it.p[n], set, a, b, n) : k === 'sel' ? selIn(it.p[n], a, set, n) : boolIn(it.p[n], set, n)));
+    });
+    if (d.strip) rows.push(row('Items', h('button', { class: 'sbtn ghost sm', onclick: () => { it.items = !it.items; save(); full(); } }, it.items ? 'Quitar elementos' : 'Agregar los del folleto')));
+    props.replaceChildren(h('h4', null, `${it.Name} `, h('span', { class: 'pill' }, it.type)), h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl pp' }, h('tbody', null, rows))), errs,
+      h('div', { class: 'row', style: 'margin-top:8px' },
+        d.tray ? null : [h('button', { class: 'sbtn ghost sm', title: 'Pasa a ser el primer Controls.Add: se acopla al final', onclick: () => { st.items = [it, ...st.items.filter(x => x !== it)]; save(); full(); } }, 'Traer al frente'),
+          h('button', { class: 'sbtn ghost sm', title: 'Pasa a ser el último Controls.Add: se acopla primero', onclick: () => { st.items = [...st.items.filter(x => x !== it), it]; save(); full(); } }, 'Enviar al fondo')],
+        h('button', { class: 'sbtn ghost sm', onclick: () => { st.items = st.items.filter(x => x !== it); sel = 'form'; save(); full(); } }, 'Eliminar')));
+  }
+
+  /* ---- código generado ---- */
+  const lit = (n, v) => TB_ENUM[n] ? `${TB_ENUM[n]}.${v}` : typeof v === 'string' ? `"${v}"` : n === 'Maximum' ? v + 'm' : String(v);
+  function drawCode() {
+    const f = st.form, L = ['components = new System.ComponentModel.Container();'];
+    st.items.forEach(i => L.push(`${i.Name} = new ${i.type}${tray(i.type) ? '(components)' : '()'};`));
+    st.items.forEach(i => {
+      const d = TB[i.type]; L.push('', `// ----- ${i.Name} -----`);
+      if (i.type === 'Label') L.push(`${i.Name}.AutoSize = true;`);
+      d.props.forEach(([n]) => { if (n !== 'Text' && i.p[n] !== d.d[n]) L.push(`${i.Name}.${n} = ${lit(n, i.p[n])};`); });
+      if (i.items) L.push(`// ${i.Name}.Items: ${TB_ITEMS[i.type].filter(x => x !== '|').join(', ')}`);
+      if (tray(i.type)) { L.push(`${i.Name}.Name = "${i.Name}";`); return; }
+      const dk = i.p.Dock && i.p.Dock !== 'None';
+      if (!dk) L.push(`${i.Name}.Location = new Point(${i.x}, ${i.y});`);
+      L.push(`${i.Name}.Name = "${i.Name}";`);
+      if (!dk && i.type !== 'Label') L.push(`${i.Name}.Size = new Size(${i.w}, ${i.h});`);
+      L.push(`${i.Name}.TabIndex = ${i.tab};`);
+      if (i.p.Text !== undefined) L.push(`${i.Name}.Text = "${i.p.Text}";`);
+    });
+    L.push('', `// ----- El formulario ${key} -----`);
+    if (f.AcceptButton) L.push(`AcceptButton = ${f.AcceptButton};`);
+    if (f.CancelButton) L.push(`CancelButton = ${f.CancelButton};`);
+    L.push(`ClientSize = new Size(${f.w}, ${f.h});`);
+    st.items.filter(i => !tray(i.type)).forEach(i => L.push(`Controls.Add(${i.Name});`));
+    if (f.FormBorderStyle !== 'Sizable') L.push(`FormBorderStyle = FormBorderStyle.${f.FormBorderStyle};`);
+    if (f.MainMenuStrip) L.push(`MainMenuStrip = ${f.MainMenuStrip};`);
+    if (!f.MaximizeBox) L.push('MaximizeBox = false;');
+    if (!f.MinimizeBox) L.push('MinimizeBox = false;');
+    if (f.minw || f.minh) L.push(`MinimumSize = new Size(${f.minw}, ${f.minh});`);
+    L.push(`Name = "${key}";`);
+    if (f.StartPosition !== 'WindowsDefaultLocation') L.push(`StartPosition = FormStartPosition.${f.StartPosition};`);
+    L.push(`Text = "${f.Text}";`, '');
+    st.items.forEach(i => L.push(`private ${i.type} ${i.Name} = null!;`));
+    code.textContent = L.join('\n');
+  }
+
+  /* ---- comprobar y cargar la solución ---- */
+  function compare() {
+    const bad = [], ok = [], f = st.form, F = T.form;
+    T.ctl.forEach(([type, name, , , , , P]) => {
+      const it = st.items.find(i => i.Name === name);
+      if (!it) return bad.push(`Falta un ${type} llamado ${name}.`);
+      if (it.type !== type) return bad.push(`${name} debe ser ${type}, no ${it.type}.`);
+      const diff = Object.entries(P).filter(([n, v]) => it.p[n] !== v).map(([n, v]) => `${n} debe ser ${v} (tiene ${it.p[n]})`);
+      diff.length ? bad.push(`${name}: ${diff.join('; ')}.`) : ok.push(name);
+    });
+    st.items.filter(i => !T.ctl.some(c => c[1] === i.Name)).forEach(i => bad.push(`${i.Name} sobra o no tiene el nombre del folleto${/\d$/.test(i.Name) ? ' (nombre por defecto: renómbrelo)' : ''}.`));
+    const fd = Object.entries(F).filter(([n, v]) => (f[n] ?? (typeof v === 'number' ? 0 : '')) !== v).map(([n, v]) => `${{ w: 'ClientSize (ancho)', h: 'ClientSize (alto)', minw: 'MinimumSize (ancho)', minh: 'MinimumSize (alto)' }[n] || n} debe ser ${v === '' ? '(ninguno)' : v}`);
+    if (fd.length) bad.push(`Formulario: ${fd.join('; ')}.`);
+    const di = st.items.findIndex(i => i.Name === 'dgvProductos'), mi = st.items.findIndex(i => i.Name === 'menuPrincipal');
+    if (key === 'FrmPrincipal' && di >= 0 && mi >= 0 && di > mi) bad.push('Orden de Controls.Add: dgvProductos debe ir antes que menuPrincipal; si no, el menú tapa la primera fila.');
+    return { bad, ok };
+  }
+  function check() {
+    const { bad, ok } = compare(), total = T.ctl.length;
+    if (!bad.length) { tickChecks(T.step, T.ticks); result.replaceChildren(h('div', { class: 'panel' }, h('span', { class: 'pill ok' }, `Coincide con el folleto: ${total} de ${total} controles`), h('p', { style: 'margin:8px 0 0;font-size:.9rem;color:var(--muted)' }, 'Se marcaron las comprobaciones de este paso y quedó guardado en la barra de progreso.'))); }
+    else result.replaceChildren(h('div', { class: 'panel' }, h('span', { class: 'pill bad' }, `${ok.length} de ${total} controles correctos`), h('ul', { style: 'margin:8px 0 0;padding-left:1.2em;font-size:.9rem' }, bad.map(b => h('li', null, b)))));
+  }
+  function solve() {
+    st = blank(); uid = 0; Object.assign(st.form, T.form);
+    T.ctl.forEach(([type, name, x, y, w, hh, P]) => { const it = mk(type, x, y); it.Name = name; it.w = w || it.w; it.h = hh || it.h; Object.assign(it.p, P); if (it.p.Text !== undefined && P.Text === undefined) it.p.Text = name; });
+    st.items.filter(i => !tray(i.type)).forEach((i, k) => { i.tab = k; });
+    if (key === 'FrmProducto') { const order = ['lblCodigo', 'txtCodigo', 'lblNombre', 'txtNombre', 'lblCategoria', 'cboCategoria', 'lblPrecio', 'nudPrecio', 'lblExistencia', 'nudExistencia', 'lblVencimiento', 'dtpVencimiento', 'btnGuardar', 'btnCancelar']; st.items.forEach(i => { const k = order.indexOf(i.Name); if (k >= 0) i.tab = k; }); }
+    sel = 'form'; save(); full(); say('Solución cargada: compare cada control y su código con lo que usted armó.');
+  }
+  function full() { drawCanvas(); drawProps(); drawCode(); }
+
+  const btns = h('div', { class: 'row' }, h('button', { class: 'sbtn', onclick: check }, 'Comparar con el folleto'), h('button', { class: 'sbtn ghost', onclick: solve }, 'Cargar la solución'),
+    h('button', { class: 'sbtn ghost', onclick: () => { st = blank(); uid = 0; sel = 'form'; save(); result.replaceChildren(); full(); say('Formulario en blanco: arrastre controles desde el cuadro de herramientas.'); } }, 'Empezar de cero'),
+    h('button', { class: 'sbtn ghost sm', onclick: () => viewer && viewer.reveal(T.file, '// ----- El formulario') }, 'Ver el código del folleto'));
+  host.append(h('div', { class: 'stage two' },
+    h('div', { style: COL }, h('div', null, h('b', null, 'Cuadro de herramientas'), ' (arrastre, o toque y luego toque el formulario)'), tbx, canvas, trayBox, tip,
+      h('p', { class: 'sim-desc', style: 'margin:0;font-size:.85rem' }, 'Flechas mueven el control seleccionado (Mayús = 10 px); Supr lo elimina; el cuadrito azul de la esquina cambia el tamaño.')),
+    h('div', { style: COL }, props, h('div', null, h('b', null, `Código que escribiría el diseñador (${T.file.split('/').pop()})`), code), btns, result)));
+  window.addEventListener('resize', () => { if (host.isConnected) drawCanvas(); });
+  full(); say('Empiece arrastrando un control al formulario. Luego póngale un nombre descriptivo en (Name).');
+}
+const SIMS_EXTRA = { 'tb-dialog': (h_, v) => simToolbox(h_, v, 'FrmProducto'), 'tb-main': (h_, v) => simToolbox(h_, v, 'FrmPrincipal') };
+
+/* ================= contenido de los pasos ================= */
+const K = t => `<kbd>${t}</kbd>`;
+const STEPS = [
+  { id: 'crear', nav: 'Crear proyecto', title: 'Crear el proyecto y su estructura',
+    goal: 'Al terminar tendrá el proyecto AgroStock.E01 con las carpetas Models y Forms y los archivos vacíos que se llenarán en los pasos siguientes.',
+    how: [
+      'Abra Visual Studio y elija <b>Crear un proyecto nuevo</b>.',
+      'Busque la plantilla <b>Aplicación de Windows Forms</b> (lenguaje C#). Verifique que no diga «.NET Framework».',
+      'Escriba el nombre <b>AgroStock.E01</b>, elija una carpeta que pueda ubicar con facilidad y pulse <b>Siguiente</b>.',
+      'En Framework seleccione <b>.NET 8.0</b> y pulse <b>Crear</b>.',
+      'Siga las siete acciones del simulador de abajo en el Explorador de soluciones. Cada una indica el menú que debe usar.'],
+    after: '<div class="note"><b>Normal:</b> al terminar este paso el proyecto no compila, porque Program.cs todavía llama a Form1. El paso 2 lo corrige.</div>',
+    sim: 'explorer', simTitle: 'Armar el Explorador de soluciones',
+    simDesc: 'Ejecute las acciones en orden y observe cómo crece el árbol de archivos.',
+    check: ['El proyecto se llama AgroStock.E01 y usa .NET 8.0', 'Existen las carpetas Models y Forms', 'Forms contiene FrmPrincipal.cs y FrmProducto.cs; Models contiene Producto.cs', 'Eliminé Form1.cs'] },
+
+  { id: 'entrada', nav: 'Entrada', title: 'Configurar el proyecto y el punto de entrada', files: ['AgroStock.E01.csproj', 'Program.cs'],
+    goal: 'Comprender qué hacen el archivo del proyecto y Program.cs, y ver la primera ventana de AgroStock.',
+    how: [
+      'En el Explorador de soluciones, haga doble clic sobre el proyecto <b>AgroStock.E01</b> (o clic derecho → <b>Editar archivo de proyecto</b>). Compare con el código de abajo y corrija lo que sea distinto.',
+      'Abra <b>Program.cs</b>, seleccione todo (' + K('Ctrl') + '+' + K('A') + ') y reemplácelo por la versión de abajo.',
+      'Pulse ' + K('F5') + '. Debe aparecer una ventana vacía con el título «FrmPrincipal». Ciérrela con la X.'],
+    after: '<div class="tip">Use <b>Comentado</b> para estudiar y <b>Limpio</b> para copiar. Las dos versiones hacen exactamente lo mismo; los comentarios se ignoran al compilar.</div>',
+    sim: 'loop', simTitle: 'El bucle de mensajes de Application.Run',
+    simDesc: 'Una aplicación gráfica no ejecuta instrucciones de arriba hacia abajo: espera eventos. Genere eventos y vea cómo se atienden.',
+    check: ['AgroStock.E01.csproj tiene OutputType WinExe y UseWindowsForms en true', 'Program.cs llama a new Forms.FrmPrincipal()', 'Al pulsar F5 se abre una ventana vacía', 'Puedo explicar qué hace Application.Run'] },
+
+  { id: 'modelo', nav: 'Modelo', title: 'Modelar el producto', files: ['Models/Producto.cs'],
+    goal: 'Crear la clase que representa un producto del inventario de doña Martha.',
+    how: [
+      'Abra <b>Models/Producto.cs</b>. Visual Studio ya escribió una clase vacía.',
+      'Seleccione todo y reemplácelo por el código de abajo.',
+      'Compile con ' + K('Ctrl') + '+' + K('Mayús') + '+' + K('B') + '. Debe terminar sin errores.'],
+    sim: 'objeto', simTitle: 'Crear un objeto Producto',
+    simDesc: 'Llene los datos y vea el código C# que crea el objeto y la fila CSV que produciría la exportación. Pruebe un decimal en Existencia, un producto que no vence y comillas en el nombre.',
+    check: ['Producto.cs compila sin errores', 'Puedo explicar por qué Precio es decimal', 'Puedo explicar por qué Vencimiento lleva el signo ?'] },
+
+  { id: 'diseno-dialogo', nav: 'Diseño del diálogo', title: 'Diseñar el formulario de producto', files: ['Forms/FrmProducto.Designer.cs'],
+    goal: 'Colocar y configurar los controles de FrmProducto: cuatro cuadros de captura, una lista, una fecha opcional y dos botones.',
+    how: [
+      '<b>Opción A (la mejor para aprender):</b> abra FrmProducto en modo diseño, arrastre cada control desde el Cuadro de herramientas y configure en la ventana <b>Propiedades</b> lo que indica la tabla.',
+      '<b>Opción B (más rápida):</b> en el Explorador de soluciones expanda FrmProducto.cs con la flecha, abra <b>FrmProducto.Designer.cs</b> y reemplace todo por el código de abajo. Cierre antes la pestaña del diseñador.',
+      'Todavía no podrá ver este formulario al ejecutar: se abre desde la ventana principal (paso 7). Compile con ' + K('Ctrl') + '+' + K('Mayús') + '+' + K('B') + ' para comprobar que no hay errores.'],
+    table: 'controles',
+    sim: 'designer', simTitle: 'Diseñador y ventana Propiedades',
+    simDesc: 'Seleccione un control, cambie sus propiedades (también TabIndex) y vea cómo cambia la ventana y la línea de código que Visual Studio escribe por usted. Pulse «Recorrer con Tab» para ver el orden del foco.',
+    check: ['El diseñador muestra 6 etiquetas, 3 controles de texto/lista, 2 controles numéricos, 1 selector de fecha y 2 botones', 'Los controles tienen los nombres de la tabla (txtCodigo, cboCategoria...)', 'AcceptButton es btnGuardar y CancelButton es btnCancelar', 'El proyecto compila'] },
+
+  { id: 'logica-dialogo', nav: 'Lógica del diálogo', title: 'Programar la lógica del formulario de producto', files: ['Forms/FrmProducto.cs', 'Forms/FrmProducto.Designer.cs'],
+    goal: 'Cargar los datos, filtrar el código mientras se escribe y validar antes de guardar.',
+    how: [
+      'Abra <b>FrmProducto.cs</b> (clic derecho → Ver código, o la tecla ' + K('F7') + ') y reemplace todo por el código de abajo.',
+      'Compile. Si aparece un error sobre «Producto», revise que Producto.cs esté en Models y que exista la línea <code>using AgroStock.E01.Models;</code>.',
+      'Use el simulador para probar el comportamiento antes de ejecutarlo en su equipo.'],
+    sim: 'dialog', simTitle: 'ShowDialog, KeyPress y ErrorProvider',
+    simDesc: 'Es la misma lógica del código, funcionando en el navegador. Cada acción muestra en la columna derecha qué método se ejecuta.',
+    check: ['El código escrito en txtCodigo se convierte a mayúsculas', 'Los símbolos no se pueden escribir en txtCodigo', 'Guardar con precio 0 muestra el ícono de error y no cierra', 'Puedo explicar qué significa e.Handled = true'] },
+
+  { id: 'diseno-principal', nav: 'Diseño principal', title: 'Diseñar la ventana principal', files: ['Forms/FrmPrincipal.Designer.cs'],
+    goal: 'Colocar el menú, la barra de herramientas, la cuadrícula y la barra de estado para que se adapten al tamaño de la ventana.',
+    how: [
+      '<b>Opción A:</b> en el diseñador de FrmPrincipal, arrastre MenuStrip, ToolStrip, StatusStrip, DataGridView y Timer. Escriba los elementos de menú con los textos y atajos del código. Ponga Dock = Fill en la cuadrícula.',
+      '<b>Opción B:</b> reemplace el contenido de <b>FrmPrincipal.Designer.cs</b> por el código de abajo (cierre antes el diseñador).',
+      'Compile. Al pulsar ' + K('F5') + ' verá el menú, la barra de herramientas y una cuadrícula vacía.'],
+    after: '<div class="note"><b>Cuidado:</b> el orden de <code>Controls.Add</code> importa cuando se usa Dock. Pruébelo en el simulador.</div>',
+    sim: 'layout', simTitle: 'Dock, Anchor, teclas de acceso y atajos',
+    simDesc: 'Cuatro pruebas cortas sobre cómo se acomodan los controles y cómo se escriben los atajos de teclado.',
+    check: ['Se ven el menú, la barra de herramientas, la cuadrícula y la barra de estado', 'Al agrandar la ventana, la cuadrícula crece con ella', 'Alt+A abre el menú Archivo', 'Puedo explicar la diferencia entre Dock y Anchor'] },
+
+  { id: 'logica-principal', nav: 'Lógica principal', title: 'Programar la ventana principal', files: ['Forms/FrmPrincipal.cs', 'Forms/FrmPrincipal.Designer.cs'],
+    goal: 'Conectar los eventos: nuevo, editar, eliminar, buscar, exportar, reloj y cierre de la ventana.',
+    how: [
+      'Abra <b>FrmPrincipal.cs</b> (' + K('F7') + ') y reemplace todo por el código de abajo.',
+      'Compile y pulse ' + K('F5') + '. Debe ver tres productos de ejemplo.',
+      'Pruebe cada función en el simulador y compárela con su programa. Si algo se comporta distinto, revise el método que indica el registro de eventos.'],
+    sim: 'app', simTitle: 'AgroStock v1 en acción',
+    simDesc: 'Menú, barra de herramientas, cuadrícula, búsqueda, diálogos modales, exportación a CSV y confirmación al cerrar.',
+    check: ['Nuevo agrega un producto a la cuadrícula', 'Editar y el doble clic abren el producto seleccionado', 'Eliminar pide confirmación y «No» es el botón por defecto', 'Escribir en Buscar filtra la lista', 'Exportar a CSV genera el archivo', 'Al cerrar la ventana pregunta si desea salir'] },
+
+  { id: 'probar', nav: 'Probar', title: 'Ejecutar, probar y corregir errores',
+    goal: 'Verificar AgroStock v1 con una lista de pruebas y resolver los errores más frecuentes.',
+    how: ['Pulse ' + K('F5') + ' y recorra cada prueba de la lista de comprobación de abajo.', 'Si algo falla, busque el síntoma en la tabla de errores frecuentes.'],
+    errors: [
+      ['CS0246', 'No se encontró el tipo o espacio de nombres «Producto»', 'Falta <code>using AgroStock.E01.Models;</code> arriba del archivo, o Producto.cs quedó con otro namespace.'],
+      ['CS0246', 'No se encontró «Form1»', 'Program.cs todavía llama a <code>new Form1()</code>. Cambie por <code>new Forms.FrmPrincipal()</code>.'],
+      ['CS0104', 'Referencia ambigua entre Timer de System.Threading y System.Windows.Forms', 'Escriba <code>System.Windows.Forms.Timer</code> completo, como en el Designer.'],
+      ['Diseñador', 'El diseñador muestra una página de error blanca', 'Compile primero (' + K('Ctrl') + '+' + K('Mayús') + '+' + K('B') + '). Si persiste, busque en el Designer un nombre de control que no coincide con su campo.'],
+      ['Cuadrícula', 'La cuadrícula aparece vacía o sin columnas', 'Revise que <code>AutoGenerateColumns = false</code> se ejecute antes de <code>Columns.Add</code> y que cada columna tenga su <code>DataPropertyName</code>.'],
+      ['Atajos', 'Ctrl+N o Ctrl+E no hacen nada', 'Confirme <code>ShortcutKeys</code> en el elemento de menú y que el menú sea el <code>MainMenuStrip</code> del formulario.'],
+      ['Menú', 'El menú tapa la primera fila de la cuadrícula', 'El orden de <code>Controls.Add</code> en el Designer debe terminar con el menú, como en el código de este material.'],
+      ['Nulos', 'Advertencias CS8618 o CS8602 de nulos', 'Son advertencias, no errores. El código de la guía las evita con <code>string?</code>, <code>object?</code> y <code>null!</code>.']],
+    check: ['Compila sin errores ni advertencias que me preocupen', 'Nuevo, Editar, Eliminar, Buscar y Exportar funcionan', 'El reloj de la barra de estado avanza cada segundo', 'Al cerrar con la X me pregunta si deseo salir', 'Subí el proyecto sin las carpetas bin y obj'],
+    next: true }
+];
+
+/* ================= Ejercitación E1 y BOA ================= */
+const shell = (id, num, title, goal) => h('section', { class: 'step', id, 'aria-labelledby': 'h-' + id },
+  h('div', { class: 'step-h' }, h('span', { class: 'num' }, num), h('h2', { id: 'h-' + id }, title), h('p', { class: 'goal' }, goal)));
+const solution = code => h('details', { class: 'err' }, h('summary', null, 'Ver una solución de referencia'), h('div', { class: 'body' }, h('div', { class: 'codebox' }, code)));
+function checkList(key, items, onChange) {
+  const saved = store.get(key, []), ul = h('ul', null);
+  items.forEach((t, j) => {
+    const id = 'c-' + key.replace(/\W/g, '-') + '-' + j;
+    ul.append(h('li', null, h('label', { for: id }, h('input', { type: 'checkbox', id, checked: !!saved[j], onchange: () => { store.set(key, $$('input', ul).map(i => i.checked)); updateProgress(); onChange && onChange(); } }), h('span', null, t))));
+  });
+  return h('div', { class: 'check' }, h('h3', { class: 'block-h' }, 'Compruebe antes de seguir'), ul);
+}
+
+function exSaludo(host) {
+  const txt = h('input', { class: 'w-in', id: 'ex11t' }), lbl = h('div', { 'aria-live': 'polite', style: 'min-height:1.4em;font-weight:600' });
+  const pill = h('span', { class: 'pill' }, 'Esperando el clic en btnSaludar');
+  function saludar() {
+    const n = txt.value.trim();
+    if (!n) { pill.className = 'pill warn'; pill.textContent = 'Nombre vacío → MessageBox de advertencia'; return winMsg(win, body, { text: 'Escriba su nombre antes de saludar.', caption: 'Saludo', icon: '!' }); }
+    lbl.textContent = 'Bienvenido, ' + n; pill.className = 'pill ok'; pill.textContent = 'lblSaludo.Text asignado';
+  }
+  txt.addEventListener('keydown', e => { if (e.key === 'Enter') saludar(); });
+  const body = h('div', { class: 'w-body', style: 'display:flex;flex-direction:column;gap:8px' }, h('label', { for: 'ex11t' }, 'Nombre:'), txt, h('div', { class: 'row' }, h('button', { class: 'w-btn def', onclick: saludar }, 'Saludar')), lbl);
+  const win = h('div', { class: 'win', style: 'max-width:340px' }, winBar('Saludo'), body);
+  host.append(h('div', { style: COL }, win, pill, solution('private void BtnSaludar_Click(object? sender, EventArgs e)\n{\n    var nombre = txtNombre.Text.Trim();\n    if (nombre.Length == 0)\n    {\n        MessageBox.Show(this, "Escriba su nombre antes de saludar.", "Saludo", MessageBoxButtons.OK, MessageBoxIcon.Warning);\n        return;\n    }\n    lblSaludo.Text = $"Bienvenido, {nombre}";\n}')));
+}
+
+function exContador(host) {
+  let n = 0;
+  const lbl = h('div', { 'aria-live': 'polite', style: 'font-size:28px;text-align:center;font-weight:600' }, '0'), pill = h('span', { class: 'pill warn' }, 'btnMenos.Enabled = false');
+  const minus = h('button', { class: 'w-btn', 'aria-label': 'Restar uno', disabled: true, onclick: () => set(n - 1) }, '−');
+  const plus = h('button', { class: 'w-btn', 'aria-label': 'Sumar uno', onclick: () => set(n + 1) }, '+');
+  function set(v) {
+    const wasMinus = document.activeElement === minus;
+    n = Math.max(0, v); lbl.textContent = n; minus.disabled = n === 0;
+    if (wasMinus && n === 0) plus.focus();
+    pill.className = 'pill ' + (n === 0 ? 'warn' : 'ok'); pill.textContent = `btnMenos.Enabled = ${n === 0 ? 'false' : 'true'}`;
+  }
+  host.append(h('div', { style: COL }, h('div', { class: 'win', style: 'max-width:340px' }, winBar('Existencias'), h('div', { class: 'w-body', style: 'display:flex;flex-direction:column;gap:8px' }, lbl, h('div', { class: 'row', style: 'justify-content:center' }, minus, plus))), pill,
+    solution('private int cantidad;   // btnMenos.Enabled = false desde el diseñador\n\nprivate void BtnMas_Click(object? sender, EventArgs e) => Mostrar(cantidad + 1);\nprivate void BtnMenos_Click(object? sender, EventArgs e) => Mostrar(cantidad - 1);\n\nprivate void Mostrar(int nuevo)\n{\n    cantidad = nuevo;\n    lblCantidad.Text = cantidad.ToString();\n    btnMenos.Enabled = cantidad > 0;\n}')));
+}
+
+function exCalc(host) {
+  const PRECIO = 1250, mk = (id, v, step) => h('input', { class: 'w-in', id, type: 'number', min: 0, max: 1000, step, value: v, inputmode: 'decimal' });
+  const area = mk('ex21a', '2', '0.5'), dosis = mk('ex21d', '2', '0.25'), tot = h('b'), cos = h('b'), pill = h('span', { class: 'pill' });
+  let k = 0;
+  const calc = ev => {
+    const a = Math.max(0, parseFloat(area.value) || 0), d = Math.max(0, parseFloat(dosis.value) || 0);
+    tot.textContent = fmtN2(a * d) + ' qq'; cos.textContent = 'C$ ' + fmtN2(a * d * PRECIO);
+    pill.className = 'pill ' + (ev ? 'ok' : ''); pill.textContent = ev ? `ValueChanged #${++k} de ${ev}` : 'Valores iniciales';
+  };
+  area.addEventListener('input', () => calc('nudArea')); dosis.addEventListener('input', () => calc('nudDosis')); calc();
+  const row = (l, c, id) => h('div', { class: 'w-field', style: 'grid-template-columns:120px minmax(0,1fr)' }, h('label', { for: id }, l), c);
+  host.append(h('div', { style: COL }, h('div', { class: 'win', style: 'max-width:380px' }, winBar('Calculadora de fertilizante'), h('div', { class: 'w-body' },
+    row('Área (manzanas):', area, 'ex21a'), row('Dosis (qq/mz):', dosis, 'ex21d'), row('Precio por qq:', h('span', null, 'C$ ' + fmtN2(PRECIO) + ' (fijo)')), row('Total:', tot), row('Costo:', cos))), pill,
+    solution('private const decimal PrecioQuintal = 1250m;\n\n// nudArea.ValueChanged += Calcular;  nudDosis.ValueChanged += Calcular;\nprivate void Calcular(object? sender, EventArgs e)\n{\n    decimal total = nudArea.Value * nudDosis.Value;\n    lblTotal.Text = $"{total:N2} qq";\n    lblCosto.Text = $"C$ {total * PrecioQuintal:N2}";\n}')));
+}
+
+function exSalir(host) {
+  let open = null, closed = false;
+  const log = makeLog(null, 'Forms/FrmPrincipal.cs');
+  const win = h('div', { class: 'win', style: 'max-width:380px;min-height:210px' }), menu = h('div', { class: 'w-menu', role: 'menubar' });
+  const body = h('div', { class: 'w-body', style: 'min-height:120px;font-size:13px' }, 'Calculadora de fertilizante. Pruebe Archivo → Salir, la X de la ventana o el apagado de Windows.');
+  const app = h('div', null, menu, body);
+  const MN = [['Archivo', 0, [['Salir', () => { log.push('Click', 'mnuSalir → Close()', ''); tryClose('UserClosing'); }]]],
+    ['Ayuda', 56, [['Acerca de', () => { log.push('Click', 'mnuAcercaDe → MessageBox.Show(...)', ''); winMsg(win, app, { text: 'Calculadora de fertilizante\nEncuentro 1', caption: 'Acerca de' }); }]]]];
+  function drawMenu() {
+    menu.replaceChildren(...MN.map(([t, , items]) => h('button', { 'aria-haspopup': 'true', 'aria-expanded': String(open === t), onclick: ev => { ev.stopPropagation(); open = open === t ? null : t; drawMenu(); } }, t)),
+      ...MN.filter(m => m[0] === open).map(([, left, items]) => h('div', { class: 'w-drop', role: 'menu', style: `left:${left}px` }, items.map(([t, fn]) => h('button', { role: 'menuitem', onclick: ev => { ev.stopPropagation(); open = null; drawMenu(); fn(); } }, t)))));
+  }
+  function shut() { closed = true; draw(); }
+  function tryClose(reason) {
+    log.push('FormClosing', `se dispara antes de cerrar; e.CloseReason = ${reason}`, '');
+    if (reason !== 'UserClosing') { log.push('FormClosing', 'CloseReason distinto de UserClosing → return: no pregunta y la ventana se cierra', ''); return shut(); }
+    winMsg(win, app, { text: '¿Desea salir de la calculadora?', caption: 'Salir', icon: 'q', buttons: ['Sí', 'No'], def: 0, cb: b => {
+      if (b === 'No') log.push('FormClosing', 'r == DialogResult.No → e.Cancel = true: la ventana sigue abierta', '');
+      else { log.push('Application', 'Application.Run termina: el programa se cierra', ''); shut(); } } });
+  }
+  function draw() {
+    if (closed) return win.replaceChildren(winBar('Calculadora (cerrada)'), h('div', { class: 'closed' }, h('p', { style: 'margin:0 0 12px' }, 'La ventana se cerró.'), h('button', { class: 'w-btn def', onclick: () => { closed = false; log.clear(); draw(); } }, 'Volver a abrir')));
+    drawMenu(); win.replaceChildren(winBar('Calculadora de fertilizante', () => { log.push('Click', 'botón X → Close()', ''); tryClose('UserClosing'); }), app);
+  }
+  document.addEventListener('click', () => { if (open) { open = null; drawMenu(); } });
+  draw();
+  host.append(h('div', { style: COL }, win, h('div', { class: 'row' }, h('button', { class: 'sbtn ghost sm', onclick: () => { if (!closed) tryClose('WindowsShutDown'); } }, 'Simular apagado de Windows')),
+    h('div', { class: 'panel' }, h('h4', null, 'Eventos'), log.box),
+    solution('mnuSalir.Click += (_, _) => Close();\nmnuAcercaDe.Click += (_, _) => MessageBox.Show(this, "Calculadora de fertilizante", "Acerca de", MessageBoxButtons.OK, MessageBoxIcon.Information);\nFormClosing += (_, e) =>\n{\n    if (e.CloseReason != CloseReason.UserClosing) return;\n    var r = MessageBox.Show(this, "¿Desea salir?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question);\n    if (r == DialogResult.No) e.Cancel = true;\n};')));
+}
+
+const exLink = txt => host => host.append(h('div', { class: 'tip' }, txt + ' ', h('button', { class: 'sbtn ghost sm', onclick: () => goStep('logica-principal') }, 'Ir al simulador del paso 7')));
+
+const EX = [
+  { code: 'N1.1', lv: 1, title: 'Saludo', build: exSaludo, enun: 'Proyecto «Saludo» con un TextBox, un Button y un Label. Al pulsar el botón, el Label muestra «Bienvenido, <nombre>». Si el nombre está vacío, un MessageBox de advertencia.',
+    checks: ['El Label muestra «Bienvenido, » seguido del nombre', 'Con el nombre vacío aparece el MessageBox de advertencia', 'Subí la captura y el código a «Ejercitación E1»'] },
+  { code: 'N1.2', lv: 1, title: 'Contador de existencias', build: exContador, enun: 'Dos botones (+ y −) modifican un número en un Label. El botón − se deshabilita cuando el valor llega a cero (propiedad Enabled).',
+    checks: ['+ suma uno y − resta uno', 'En cero, btnMenos.Enabled vale false', 'Subí la captura y el código a «Ejercitación E1»'] },
+  { code: 'N2.1', lv: 2, title: 'Calculadora de fertilizante', build: exCalc, enun: 'El área en manzanas (NumericUpDown) y la dosis en quintales por manzana. Al cambiar cualquier valor (ValueChanged) se muestra el total de quintales y su costo con un precio fijo.',
+    checks: ['Cambiar el área o la dosis actualiza el total sin pulsar ningún botón', 'El costo usa el precio fijo por quintal', 'Subí la captura y el código a «Ejercitación E1»'] },
+  { code: 'N2.2', lv: 2, title: 'Menú Salir y Acerca de', build: exSalir, enun: 'Agregue a la calculadora un MenuStrip con Archivo → Salir (con confirmación en FormClosing) y Ayuda → Acerca de.',
+    checks: ['Archivo → Salir y la X preguntan antes de cerrar', 'Responder No cancela el cierre (e.Cancel = true)', 'Ayuda → Acerca de abre un MessageBox', 'Subí la captura y el código a «Ejercitación E1»'] },
+  { code: 'N3.1', lv: 3, title: 'ContextMenuStrip en la cuadrícula', build: exLink('En AgroStock v1, agregue un ContextMenuStrip a la cuadrícula con Editar y Eliminar. Se prueba con clic derecho sobre una fila.'),
+    enun: 'En AgroStock v1, agregue un ContextMenuStrip a la cuadrícula con Editar y Eliminar.', checks: ['El clic derecho sobre una fila abre el menú contextual', 'Editar y Eliminar reutilizan EditarProducto() y EliminarProducto()'] },
+  { code: 'N3.2', lv: 3, title: 'Existencias bajas en naranja', build: exLink('Pruebe el botón «Marcar existencias bajas»: colorea en naranja las filas con existencia menor que 10 con el evento CellFormatting.'),
+    enun: 'Coloree en naranja las filas con existencia menor que 10 usando el evento CellFormatting del DataGridView.', checks: ['Las filas con existencia menor que 10 se ven en naranja', 'El color se aplica en CellFormatting y no recorre la lista a mano'] }
+];
+
+function exCard(e) {
+  const key = 'ejercitacion:' + e.code, pill = h('span', { class: 'pill' }), host = h('div');
+  const upd = () => { const d = store.get(key, []), n = e.checks.filter((_, j) => d[j]).length; pill.textContent = `${n} de ${e.checks.length}`; pill.className = 'pill' + (n === e.checks.length ? ' ok' : ''); };
+  const cl = checkList(key, e.checks, upd); upd();
+  lazy(host, () => e.build(host));
+  return h('article', { class: 'sim', 'aria-label': 'Ejercicio ' + e.code },
+    h('div', { class: 'sim-h' }, h('span', { class: 'tagsim' }, 'Ejercicio ' + e.code), h('h3', null, e.title), pill), h('p', { class: 'sim-desc' }, e.enun), host, cl);
+}
+
+function renderEjercitacion(wrap, nav) {
+  nav.append(h('button', { 'data-id': 'ejercitacion', onclick: () => goStep('ejercitacion') }, 'Ejercitación'));
+  const sec = shell('ejercitacion', 'Después del paso 8', 'Ejercitación E1', 'Seis ejercicios por niveles (tarea «Ejercitación E1» del aula virtual). Cada tarjeta muestra cómo debe comportarse su programa; el código lo escribe usted en Visual Studio.');
+  const LV = { 1: 'Nivel 1 – Básico', 2: 'Nivel 2 – Intermedio', 3: 'Nivel 3 – Avanzado (opcional)' };
+  [1, 2, 3].forEach(l => sec.append(h('div', { class: 'ex-lv' }, h('h3', { class: 'block-h', style: 'margin:0' }, LV[l]), h('div', { class: 'ex-grid' }, EX.filter(e => e.lv === l).map(exCard)))));
+  wrap.append(sec);
+}
+
+/* ================= armado de la página ================= */
+const SIMS = { ...SIMS_EXTRA, explorer: simExplorer, loop: simMessageLoop, objeto: simProducto, designer: simDesigner, dialog: simDialog, layout: simLayout, app: simApp };
+const stepViewers = {};
+
+function renderHero() {
+  const treeData = [['AgroStock.E01.csproj', 'entrada'], ['Program.cs', 'entrada'], ['Models/', null, [['Producto.cs', 'modelo']]],
+    ['Forms/', null, [['FrmPrincipal.cs', 'logica-principal'], ['FrmPrincipal.Designer.cs', 'diseno-principal'], ['FrmProducto.cs', 'logica-dialogo'], ['FrmProducto.Designer.cs', 'diseno-dialogo']]]];
+  const li = ([name, id, kids]) => h('li', null, id ? h('button', { onclick: () => goStep(id), title: 'Ir al paso donde se escribe este archivo' }, name) : h('span', { class: 'dir' }, name), kids ? h('ul', null, kids.map(li)) : null);
+  $('#hero').replaceChildren(
+    h('div', null,
+      h('div', { class: 'kicker' }, 'Programación de Aplicaciones de Escritorio · Encuentro 1'),
+      h('h1', null, 'Construya AgroStock v1, paso a paso'),
+      h('p', { class: 'lead' }, 'Una aplicación de escritorio para el inventario del agroservicio de doña Martha. Usted escribe cada archivo, ve qué hace cada línea y prueba el comportamiento en simuladores antes de ejecutarlo en Visual Studio.'),
+      h('ul', { class: 'facts' }, h('li', null, h('b', null, '8'), 'pasos'), h('li', null, h('b', null, '7'), 'archivos'), h('li', null, h('b', null, 'C#'), 'Windows Forms, .NET 8'), h('li', null, h('b', null, '6'), 'ejercicios')),
+      h('div', { class: 'tip', style: 'margin-top:16px' }, 'Cada archivo tiene dos versiones: ', h('b', null, 'Comentado'), ' para estudiar y ', h('b', null, 'Limpio'), ' para pegar en Visual Studio. Para empezar, necesita Visual Studio Community con la carga de trabajo «Desarrollo de escritorio de .NET». ', h('a', { href: 'guia-instalacion.html' }, 'Vea la guía de instalación'), '.')),
+    h('div', { class: 'map' }, h('h2', null, 'Mapa del proyecto'), h('ul', { class: 'tree' }, h('li', null, h('span', { class: 'dir' }, 'AgroStock.E01/'), h('ul', null, treeData.map(li)))),
+      h('p', null, 'Toque un archivo para ir al paso donde se escribe. Visual Studio también crea archivos .resx junto a cada formulario; no se editan.')));
+}
+
+function goStep(id) { const el = document.getElementById('paso-' + id) || document.getElementById(id); if (el) el.scrollIntoView({ behavior: RM() ? 'auto' : 'smooth', block: 'start' }); }
+
+function renderSteps() {
+  const nav = $('#nav');
+  const wrap = $('#steps');
+  STEPS.forEach((s, i) => {
+    nav.append(h('button', { 'data-id': s.id, onclick: () => goStep(s.id) }, `${i + 1}. ${s.nav}`));
+    const sec = h('section', { class: 'step', id: 'paso-' + s.id, 'aria-labelledby': 'h-' + s.id });
+    sec.append(h('div', { class: 'step-h' }, h('span', { class: 'num' }, `Paso ${i + 1} de ${STEPS.length}`), h('h2', { id: 'h-' + s.id }, s.title), h('p', { class: 'goal' }, s.goal)));
+    sec.append(h('div', null, h('h3', { class: 'block-h' }, 'En Visual Studio'), h('ol', { class: 'how' }, s.how.map(t => h('li', { html: t })))));
+    if (s.table === 'controles') {
+      sec.append(h('div', null, h('h3', { class: 'block-h' }, 'Controles de FrmProducto (Opción A)'), h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' },
+        h('thead', null, h('tr', null, ['Control', 'Name', 'Propiedades que debe cambiar'].map(t => h('th', null, t)))),
+        h('tbody', null, [
+          ['Label ×6', 'lblCodigo, lblNombre, lblCategoria, lblPrecio, lblExistencia, lblVencimiento', 'Text con & antes de la letra de acceso (&Código:, &Nombre:...)'],
+          ['TextBox', 'txtCodigo', 'MaxLength = 15'], ['TextBox', 'txtNombre', 'MaxLength = 60'],
+          ['ComboBox', 'cboCategoria', 'DropDownStyle = DropDownList'],
+          ['NumericUpDown', 'nudPrecio', 'DecimalPlaces = 2, Maximum = 100000, ThousandsSeparator = True'],
+          ['NumericUpDown', 'nudExistencia', 'Maximum = 100000, ThousandsSeparator = True'],
+          ['DateTimePicker', 'dtpVencimiento', 'Format = Short, ShowCheckBox = True'],
+          ['Button', 'btnGuardar', 'Text = &Guardar'], ['Button', 'btnCancelar', 'Text = Cancelar, DialogResult = Cancel'],
+          ['ErrorProvider', 'errores', 'Se arrastra a la bandeja de componentes'],
+          ['Form', 'FrmProducto', 'AcceptButton = btnGuardar, CancelButton = btnCancelar, FormBorderStyle = FixedDialog, MaximizeBox y MinimizeBox = False, StartPosition = CenterParent']
+        ].map(r => h('tr', null, h('td', null, r[0]), h('td', { class: 'mono' }, r[1]), h('td', null, r[2]))))))));
+    }
+    if (s.files) { const v = makeViewer(s.files); stepViewers[s.id] = v; sec.append(h('div', null, h('h3', { class: 'block-h' }, s.files.length > 1 ? 'Código de este paso' : 'Código de este paso'), v.root)); }
+    if (s.after) sec.append(h('div', { html: s.after }));
+    if (s.sim) {
+      const host = h('div');
+      sec.append(h('div', { class: 'sim' }, h('div', { class: 'sim-h' }, h('span', { class: 'tagsim' }, 'Simulador'), h('h3', null, s.simTitle)), h('p', { class: 'sim-desc' }, s.simDesc), host));
+      lazy(host, () => SIMS[s.sim](host, stepViewers[s.id]));
+    }
+    if (s.sim2) {
+      const host2 = h('div');
+      sec.append(h('div', { class: 'sim' }, h('div', { class: 'sim-h' }, h('span', { class: 'tagsim' }, 'Simulador'), h('h3', null, s.sim2Title)), h('p', { class: 'sim-desc' }, s.sim2Desc), host2));
+      lazy(host2, () => SIMS[s.sim2](host2, stepViewers[s.id]));
+    }
+    if (s.errors) sec.append(renderErrors(s));
+    const cs = progress[s.id] || [];
+    sec.append(h('div', { class: 'check' }, h('h3', { class: 'block-h' }, 'Compruebe antes de seguir'), h('ul', null, s.check.map((t, j) => {
+      const id = `c-${s.id}-${j}`;
+      return h('li', null, h('label', { for: id }, h('input', { type: 'checkbox', id, checked: !!cs[j], onchange: e => { const arr = progress[s.id] || []; arr[j] = e.target.checked; progress[s.id] = arr; store.set('progress', progress); updateProgress(); } }), h('span', null, t)));
+    }))));
+    if (s.next) sec.append(h('div', { class: 'tip' }, h('b', null, 'Después del encuentro. '), 'Complete los niveles de la ejercitación: agregue un ContextMenuStrip a la cuadrícula con Editar y Eliminar, y coloree en naranja las filas con existencia menor que 10 con el evento CellFormatting. Entregue el proyecto sin las carpetas bin y obj, o el enlace del repositorio, en el aula virtual.', ' ', h('button', { class: 'sbtn ghost sm', onclick: () => goStep('ejercitacion') }, 'Ir a la ejercitación'), ' ', h('button', { class: 'sbtn ghost sm', onclick: () => goStep('boa') }, 'Ir a la BOA')));
+    wrap.append(sec);
+  });
+  renderEjercitacion(wrap, nav);
+  nav.append(h('a', { href: 'boa-01.html' }, 'BOA ↗'));
+  // resaltar el paso visible en la navegación
+  const io = new IntersectionObserver(es => { es.forEach(en => { if (en.isIntersecting) { $$('#nav button').forEach(b => b.setAttribute('aria-current', String(b.dataset.id === en.target.id.replace(/^paso-/, '')))); } }); }, { rootMargin: '-35% 0px -60% 0px' });
+  $$('.step').forEach(s => io.observe(s));
+}
+
+renderHero(); renderSteps(); updateProgress();
+if (location.hash.length > 1) setTimeout(() => goStep(decodeURIComponent(location.hash.slice(1)).replace(/^paso-/, '')), 120);
+
+</script>
+</body>
+</html>

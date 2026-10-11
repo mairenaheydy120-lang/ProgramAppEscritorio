@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentación E3 · ORM, reportes y servicios web</title>
+<link rel="stylesheet" href="../assets/estilo.css">
+</head>
+<body class="slides">
+<div class="barra-deck"></div>
+<main class="deck">
+<section class="slide portada" aria-label="Diapositiva 1"><h1>Encuentro 3 · ORM, reportes y servicios web</h1><p style='font-size:clamp(16px,2.4vw,26px)'>Unidades IV y V · AgroStock v3 (proyecto integrador)</p><p>Heydy Judelki Mairena Palacios · ___/___/2026</p><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>1</span></div></section><section class="slide" aria-label="Diapositiva 2"><h1>Vivencia: el reporte del lunes</h1><ul><li>PDF de inventario para la cooperativa</li><li>Valor en dólares con el tipo de cambio del día</li><li>¿Y si no hay señal?</li></ul><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>2</span></div></section><section class="slide" aria-label="Diapositiva 3"><h1>Del SQL al objeto</h1><ul><li>v2: SQL escrito a mano en cada método</li><li>ORM: clases ↔ tablas</li><li>LINQ verificado por el compilador</li><li>Mismo código para SQLite, SQL Server, MySQL</li></ul><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>3</span></div></section><section class="slide" aria-label="Diapositiva 4"><h1>Mapeo objeto-relacional</h1><div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">class Producto        →  tabla Productos
+prop Nombre           →  columna Nombre
+objeto                →  fila
+Producto.Categoria    →  FK CategoriaId (1:N)</code></pre></div><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>4</span></div></section><section class="slide" aria-label="Diapositiva 5"><h1>DbContext</h1><div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">public class AgroStockContext : DbContext
+{
+    public DbSet&lt;Producto&gt; Productos =&gt; Set&lt;Producto&gt;();
+    protected override void OnConfiguring(DbContextOptionsBuilder o)
+        =&gt; o.UseSqlite(&quot;Data Source=agrostock_ef.db&quot;);
+}</code></pre></div><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>5</span></div></section><section class="slide" aria-label="Diapositiva 6"><h1>CRUD con LINQ</h1><div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">db.Productos.Where(p =&gt; p.Existencia &lt; 10).ToList();  // R
+db.Productos.Add(p);      db.SaveChanges();           // C
+p.Precio = 1500;          db.SaveChanges();           // U
+db.Productos.Remove(p);   db.SaveChanges();           // D</code></pre></div><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>6</span></div></section><section class="slide" aria-label="Diapositiva 7"><h1>Anatomía de un reporte</h1><ul><li>Encabezado: título, fecha, tipo de cambio</li><li>Detalle: una fila por producto</li><li>Totales y resaltado de existencias bajas</li><li>Pie: numeración de páginas</li></ul><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>7</span></div></section><section class="slide" aria-label="Diapositiva 8"><h1>PDF y Excel</h1><ul><li>QuestPDF → PDF con API fluida</li><li>ClosedXML → .xlsx con fórmulas</li><li>SaveFileDialog + Task.Run</li><li>Ofrecer abrir el archivo</li></ul><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>8</span></div></section><section class="slide" aria-label="Diapositiva 9"><h1>HTTP en una lámina</h1><div class="code"><span class="lang">texto</span><button class="copy" type="button">Copiar</button><pre><code data-lang="text">GET https://open.er-api.com/v6/latest/USD
+→ 200 OK
+{ &quot;result&quot;: &quot;success&quot;,
+  &quot;base_code&quot;: &quot;USD&quot;,
+  &quot;rates&quot;: { &quot;NIO&quot;: 36.62, … } }</code></pre></div><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>9</span></div></section><section class="slide" aria-label="Diapositiva 10"><h1>HttpClient + JSON</h1><div class="code"><span class="lang">C#</span><button class="copy" type="button">Copiar</button><pre><code data-lang="csharp">using var resp = await http.GetAsync(url);
+resp.EnsureSuccessStatusCode();
+var datos = await resp.Content
+    .ReadFromJsonAsync&lt;RespuestaTipoCambio&gt;();</code></pre></div><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>10</span></div></section><section class="slide" aria-label="Diapositiva 11"><h1>Diseñar para fallar bien</h1><ul><li>Sin conexión → HttpRequestException</li><li>Tiempo agotado → TaskCanceledException</li><li>Respuesta rara → JsonException</li><li>Respaldo local y aviso al usuario</li></ul><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>11</span></div></section><section class="slide" aria-label="Diapositiva 12"><h1>AgroStock v3 integra todo</h1><ul><li>U-I: formularios, menús, diálogos</li><li>U-II/III: datos y tareas en segundo plano</li><li>U-IV: EF Core y reportes</li><li>U-V: servicio web</li></ul><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>12</span></div></section><section class="slide" aria-label="Diapositiva 13"><h1>Entrega final (BOA 3)</h1><ul><li>AgroStock v3 + correcciones v2</li><li>Manual de usuario y video (3 min)</li><li>Autoevaluación y reflexión Madre Tierra</li><li>Fecha de cierre del componente</li></ul><div class="pie"><span>Programación de Aplicaciones de Escritorio · Encuentro 3</span><span>13</span></div></section>
+</main>
+<div class="deck-ctrl no-print"><button id="prev" type="button" aria-label="Anterior">◀</button><button id="contador" type="button" disabled>1</button><button id="next" type="button" aria-label="Siguiente">▶</button><button id="imprimir" type="button" aria-label="Imprimir o guardar como PDF">🖨 PDF</button><a href="index.html" style="background:rgba(31,56,100,.85);color:#fff;border-radius:8px;padding:8px 12px;text-decoration:none">✕</a></div>
+<script src="../assets/app.js"></script>
+<script src="../assets/slides.js"></script>
+</body>
+</html>

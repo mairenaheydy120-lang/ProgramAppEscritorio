@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BOA · Corte evaluativo 1 · Programación de Aplicaciones de Escritorio</title>
+<meta name="description" content="BOA del Encuentro 1: tareas interencuentro, rúbrica del corte 1 con cuatro niveles, calculadora de autoevaluación con informe para Classroom y lista de cotejo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.boa-sel{height:34px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 8px;min-width:80px}
+.boa-obs{width:100%;min-height:80px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:6px 8px}
+.boa-in{height:36px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 8px;width:100%;max-width:360px}
+.calc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.crit{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface)}
+.crit .desc{margin:0;font-size:.9rem;color:var(--muted)}
+.tbl td.wrap{min-width:150px}
+#out{max-width:100%}
+@media (max-width:820px){.calc{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body data-page="boa">
+<main>
+<section class="phero"><div class="kicker">Base Orientadora de la Acción · Encuentro N.° 1</div>
+<h1>📊 BOA · Corte evaluativo 1</h1>
+<p class="lead">Aplicaciones de interfaz gráfica: AgroStock v1 (Windows Forms). Aquí encuentra sus tareas, la rúbrica con la que se evaluará y una calculadora para autoevaluarse y generar un informe listo para pegar en Classroom.</p>
+<div class="pdfbar"><a class="sbtn" href="assets/pdf/BOA_E01.pdf" target="_blank" rel="noopener">👁️ Ver BOA (PDF)</a><a class="sbtn ghost" href="assets/pdf/BOA_E01.pdf" download>⬇️ Descargar PDF</a></div>
+<nav class="toc" aria-label="Contenido de la BOA"><a href="#datos">Datos</a><a href="#acciones">Acciones</a><a href="#tareas">Tareas interencuentro</a><a href="#rubrica">Rúbrica</a><a href="#autoeval">Autoevaluación</a><a href="#cotejo">Lista de cotejo</a><a href="#recordatorios">Recordatorios</a></nav></section>
+<section class="step" id="datos" aria-labelledby="h-datos"><div class="step-h"><span class="num">Ficha</span><h2 id="h-datos">Datos de la BOA</h2></div>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Dato</th><th>Detalle</th></tr></thead><tbody><tr><td class="wrap">Componente curricular</td><td class="wrap">Programación de Aplicaciones de Escritorio</td></tr><tr><td class="wrap">Carrera / año</td><td class="wrap">Ingeniería en Sistemas – II año, II semestre 2026</td></tr><tr><td class="wrap">Docente</td><td class="wrap">Heydy Judelki Mairena Palacios</td></tr><tr><td class="wrap">Encuentro</td><td class="wrap">N.° 1 – domingo 11 de octubre de 2026</td></tr><tr><td class="wrap">Unidad y tema</td><td class="wrap">Unidad I: Aplicaciones de interfaz gráfica – corte evaluativo 1</td></tr><tr><td class="wrap">Objetivo</td><td class="wrap">Desarrollar la versión 1 de AgroStock aplicando controles, eventos, menús, barras de herramientas y cajas de diálogo.</td></tr><tr><td class="wrap">Resultado de aprendizaje</td><td class="wrap">Desarrolla aplicaciones de escritorio con interfaz gráfica haciendo uso de controles, manejo de eventos y cajas de diálogo.</td></tr><tr><td class="wrap">Producto integrador</td><td class="wrap">AgroStock: aplicación de escritorio para el inventario de un agroservicio o cooperativa de la zona (productos, categorías, existencias, reportes y tipo de cambio). Se construye por etapas: v1 interfaz gráfica (E1) → v2 base de datos SQLite + importación concurrente (E2) → v3 ORM, reportes PDF/Excel y consumo de servicio web (E3).</td></tr><tr><td class="wrap">Tipo de evaluación</td><td class="wrap">Sumativa del corte 1 – escala 5 (alcanzado) a 2 (no alcanzado)</td></tr><tr><td class="wrap">Canales de entrega</td><td class="wrap">Aula virtual (tarea «Ejercitación E1» e informe PDF) y presentación del proyecto en memoria (USB) en el Encuentro 2</td></tr></tbody></table></div>
+</section>
+<section class="step" id="acciones" aria-labelledby="h-acciones"><div class="step-h"><span class="num">Acciones</span><h2 id="h-acciones">Propósito, secuencia y recursos</h2></div>
+<ul class="pl"><li><b>Propósito:</b> construir AgroStock v1, una aplicación Windows Forms con controles, eventos, menús, barras de herramientas y cajas de diálogo, y consolidar lo aprendido con ejercitación y una investigación de campo.</li><li><b>Secuencia de acciones:</b> participar en el encuentro presencial → completar la ejercitación E1 (niveles 1 y 2) → terminar AgroStock v1 en parejas → realizar la investigación de campo → prepararse para el Encuentro 2 → presentar el proyecto en memoria.</li><li><b>Recursos:</b> <a href="encuentro-01.html">Folleto del Encuentro 1</a>, <a href="guia-agrostock.html">Guía AgroStock v1</a> (simuladores y ejercitación), <a href="juegos.html">juegos y quizzes</a>, código de ejemplo y Visual Studio con la carga «Desarrollo de escritorio de .NET» (<a href="guia-instalacion.html">guía de instalación</a>).</li><li><b>Producto esperado:</b> AgroStock v1 funcionando (entregado en memoria) + informe de investigación de campo.</li></ul><h3 class="sub">Actividades del encuentro presencial</h3><ul class="pl"><li>Evaluación diagnóstica y presentación del proyecto integrador AgroStock.</li><li>Exposición dialogada sobre la estructura de una aplicación Windows Forms.</li><li>Talleres guiados: controles, eventos, menús y barras, cajas de diálogo.</li><li>Retos por niveles y socialización con coevaluación.</li></ul>
+</section>
+<section class="step" id="tareas" aria-labelledby="h-tareas"><div class="step-h"><span class="num">Interencuentro</span><h2 id="h-tareas">Resumen de asignaciones</h2></div>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>N.°</th><th>Asignación</th><th>Modalidad</th><th>Fecha límite</th></tr></thead><tbody><tr><td class="wrap">A1</td><td class="wrap">Ejercitación E1 (niveles 1 y 2)</td><td class="wrap">Individual</td><td class="wrap">3 días después del E1 (14/10/2026)</td></tr><tr><td class="wrap">A2</td><td class="wrap">AgroStock v1</td><td class="wrap">Grupal</td><td class="wrap">Encuentro 2</td></tr><tr><td class="wrap">A3</td><td class="wrap">Investigación de campo</td><td class="wrap">Grupal</td><td class="wrap">Encuentro 2</td></tr><tr><td class="wrap">A4</td><td class="wrap">Preparación del E2 (DB Browser for SQLite y lectura de SQL)</td><td class="wrap">Individual</td><td class="wrap">Día del E2</td></tr></tbody></table></div><p class="hint" style="margin:0;color:var(--muted)">Toque cada asignación para ver su descripción. Las fechas se confirman en el aula virtual.</p><div class="errs"><details class="err"><summary>A1 · Ejercitación E1</summary><div class="body"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Modalidad</th><th>Producto</th><th>Canal de entrega</th><th>Fecha límite</th></tr></thead><tbody><tr><td class="wrap">Individual</td><td class="wrap">Ejercicios resueltos con capturas y código</td><td class="wrap">Aula virtual – tarea «Ejercitación E1»</td><td class="wrap">3 días después del E1 (14/10/2026)</td></tr></tbody></table></div><p><b>Propósito:</b> practicar de forma autónoma los controles, eventos y menús vistos en el taller, antes de integrarlos en AgroStock v1.</p><ol class="pl"><li>Complete los ejercicios de la Ejercitación E1 del folleto (niveles 1 y 2) y suba capturas.</li><li><b>N1.1 Saludo:</b> proyecto «Saludo» con un <code>TextBox</code>, un <code>Button</code> y un <code>Label</code>. Al pulsar el botón, el <code>Label</code> muestra «Bienvenido, &lt;nombre&gt;». Si el nombre está vacío, un <code>MessageBox</code> de advertencia.</li><li><b>N1.2 Contador de existencias:</b> dos botones (+ y −) modifican un número en un <code>Label</code>. El botón − se deshabilita cuando el valor llega a cero (propiedad <code>Enabled</code>).</li><li><b>N2.1 Calculadora de fertilizante:</b> el área en manzanas (<code>NumericUpDown</code>) y la dosis en quintales por manzana. Al cambiar cualquier valor (<code>ValueChanged</code>) se muestra el total de quintales y su costo con un precio fijo.</li><li><b>N2.2 Menú Salir y Acerca de:</b> agregue a la calculadora un <code>MenuStrip</code> con Archivo → Salir (con confirmación en <code>FormClosing</code>) y Ayuda → Acerca de.</li><li>Suba la captura y el código de cada ejercicio a la tarea «Ejercitación E1» del aula virtual.</li><li>Opcional (nivel 3): agregue un <code>ContextMenuStrip</code> a la cuadrícula de AgroStock con Editar y Eliminar, y coloree en naranja las filas con existencia menor que 10 con el evento <code>CellFormatting</code>.</li></ol><p>Practique cada ejercicio en <a href="guia-agrostock.html#ejercitacion">la Ejercitación de la guía</a>.</p></div></details><details class="err"><summary>A2 · AgroStock v1</summary><div class="body"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Modalidad</th><th>Producto</th><th>Canal de entrega</th><th>Fecha límite</th></tr></thead><tbody><tr><td class="wrap">Grupal</td><td class="wrap">Proyecto AgroStock v1 funcionando, con README</td><td class="wrap">Memoria (USB), presentada al docente en el Encuentro 2</td><td class="wrap">Antes del E2</td></tr></tbody></table></div><p><b>Propósito:</b> integrar controles, eventos, menús, barras de herramientas, cajas de diálogo y validación en la versión 1 de la aplicación de inventario.</p><ol class="pl"><li>Termine AgroStock v1: <code>FrmPrincipal</code> con menú, <code>ToolStrip</code>, <code>StatusStrip</code> y búsqueda; <code>FrmProducto</code> modal con validación; exportación a CSV.</li><li>Aplique los criterios de la rúbrica del corte 1 (diseño de la interfaz, eventos, menús y barras, cajas de diálogo y validación, calidad del código); puede autoevaluarse con la calculadora de esta página.</li><li>Incluya un README con capturas de pantalla. Si usa ejemplos o IA, indique la fuente en el README.</li><li>Guarde el proyecto en una memoria (USB) o en su computadora, sin las carpetas <code>bin</code> y <code>obj</code>, y llévela al Encuentro 2: el docente solicitará el proyecto ese día.</li></ol><p>Siga los 8 pasos de la <a href="guia-agrostock.html#paso-crear">guía AgroStock v1</a>.</p></div></details><details class="err"><summary>A3 · Investigación de campo</summary><div class="body"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Modalidad</th><th>Producto</th><th>Canal de entrega</th><th>Fecha límite</th></tr></thead><tbody><tr><td class="wrap">Parejas</td><td class="wrap">Informe de una página con fotos o notas (PDF)</td><td class="wrap">Aula virtual Classroom</td><td class="wrap">Antes del E2</td></tr></tbody></table></div><p><b>Propósito:</b> conocer un contexto real de uso y fundamentar las funciones de AgroStock en necesidades de un negocio local.</p><ol class="pl"><li>Visite o entreviste un negocio local (agroservicio, pulpería, cooperativa).</li><li>Identifique 3 procesos que AgroStock podría mejorar.</li><li>Elabore una página con fotos o notas y entréguela en PDF en el aula virtual Classroom.</li><li>No incluya datos personales reales de clientes.</li></ol></div></details><details class="err"><summary>A4 · Preparación del Encuentro 2</summary><div class="body"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Modalidad</th><th>Producto</th><th>Canal de entrega</th><th>Fecha límite</th></tr></thead><tbody><tr><td class="wrap">Individual</td><td class="wrap">DB Browser for SQLite instalado</td><td class="wrap">Se verifica al inicio del E2</td><td class="wrap">Día del E2</td></tr></tbody></table></div><p><b>Propósito:</b> llegar al Encuentro 2 con el entorno listo y los conceptos básicos de SQL para construir la versión 2 de AgroStock.</p><ol class="pl"><li>Instale DB Browser for SQLite (<a href="guia-instalacion.html#parte2">Parte 2 de la guía de instalación</a>).</li></ol></div></details></div>
+</section>
+<section class="step" id="rubrica" aria-labelledby="h-rubrica"><div class="step-h"><span class="num">Instrumento</span><h2 id="h-rubrica">Rúbrica – AgroStock v1 e investigación de campo (corte 1)</h2></div>
+<p>Escala: <b>5</b> Alcanzado · <b>4</b> En proceso avanzado · <b>3</b> En proceso limitado · <b>2</b> No alcanzado. Cada criterio enlaza con los pasos de la guía donde se practica.</p><div id="rubrica-t"></div>
+</section>
+<section class="step" id="autoeval" aria-labelledby="h-autoeval"><div class="step-h"><span class="num">Calculadora</span><h2 id="h-autoeval">Autoevaluación del corte 1</h2></div>
+<p>Elija el nivel de cada criterio (2–5). La nota del corte es el <b>promedio redondeado</b> (x.5 sube). Sus respuestas se guardan en este navegador.</p><div id="calc" class="calc"></div><div style="display:flex;flex-direction:column;gap:10px"><div class="panel" id="sums" aria-live="polite"></div><label for="boa-nom">Nombre (opcional, aparece en el informe):</label><input class="boa-in" id="boa-nom" autocomplete="name"><label for="boa-obs">Observaciones (opcional):</label><textarea class="boa-obs" id="boa-obs" placeholder="Qué evidencia respalda sus notas y qué mejoraría"></textarea><div class="row"><button class="sbtn" id="gen" type="button">Generar informe</button><button class="sbtn ghost" id="cp" type="button" hidden>Copiar</button></div><pre class="codebox" id="out" hidden></pre></div>
+</section>
+<section class="step" id="cotejo" aria-labelledby="h-cotejo"><div class="step-h"><span class="num">Instrumento</span><h2 id="h-cotejo">Lista de cotejo – A1, A3 y A4</h2></div>
+<p>Marque lo que ya cumplió antes de entregar.</p><ul class="chk" id="cot"></ul><p id="cotmsg" role="status" aria-live="polite" style="font-weight:600"></p>
+</section>
+<section class="step" id="recordatorios" aria-labelledby="h-recordatorios"><div class="step-h"><span class="num">Recordatorios</span><h2 id="h-recordatorios">Recordatorios para todos los trabajos</h2></div>
+<ul class="pl"><li>Entregue el proyecto en memoria (USB) <b>sin las carpetas <code>bin</code> y <code>obj</code></b>; se solicitará en el Encuentro 2.</li><li>El código debe ser <b>propio del grupo</b>; si usa ejemplos o IA, indique la fuente en el README.</li><li>Nunca incluya <b>datos personales reales</b> de clientes en las bases de prueba.</li><li>Las fechas límite están por confirmar en el aula virtual: revise Classroom antes de entregar.</li></ul><div class="note"><b>Producto del corte:</b> AgroStock v1 funcionando (en memoria USB) + informe de investigación de campo. <b>Instrumento de evaluación:</b> rúbrica del corte 1 y lista de cotejo de A1, A3 y A4.</div>
+</section>
+</main>
+<footer id="foot"></footer>
+<script src="assets/js/site.js"></script>
+<script>
+const LVN = { 5: 'Alcanzado', 4: 'En proceso avanzado', 3: 'En proceso limitado', 2: 'No alcanzado' };
+const BOA = [
+  { n: 'Diseño de la interfaz', steps: ['diseno-dialogo', 'diseno-principal'], lv: {
+    5: 'Controles adecuados a cada dato, alineados con contenedores, orden de tabulación y textos claros; la ventana se adapta al redimensionar.', 4: 'Controles adecuados y ordenados; detalles menores de alineación o tabulación.',
+    3: 'Interfaz funcional pero desordenada o con controles poco adecuados (p. ej., TextBox para números).', 2: 'Interfaz incompleta o que impide usar la aplicación.' } },
+  { n: 'Manejo de eventos', steps: ['entrada', 'logica-dialogo', 'logica-principal'], lv: {
+    5: 'Al menos 5 eventos distintos bien implementados (Click, TextChanged, KeyPress, Load, FormClosing…) con manejadores con nombre descriptivo.', 4: '3–4 eventos correctamente implementados.',
+    3: 'Solo eventos Click; algunos manejadores con errores.', 2: 'Los eventos no funcionan o no se implementaron.' } },
+  { n: 'Menús y barras de herramientas', steps: ['diseno-principal', 'logica-principal'], lv: {
+    5: 'MenuStrip con teclas de acceso y atajos, ToolStrip con información sobre herramientas y StatusStrip con información útil.', 4: 'Menú y barra de herramientas funcionales; faltan atajos o barra de estado.',
+    3: 'Solo menú o solo barra de herramientas, con opciones sin programar.', 2: 'No hay menús ni barras.' } },
+  { n: 'Cajas de diálogo y validación', steps: ['logica-dialogo', 'logica-principal'], lv: {
+    5: 'Formulario modal con DialogResult, validación con ErrorProvider, confirmaciones con MessageBox y diálogo de archivo funcional.', 4: 'Usa diálogos del sistema y formulario modal; validación parcial.',
+    3: 'Solo MessageBox; no valida los datos.', 2: 'No utiliza cajas de diálogo.' } },
+  { n: 'Calidad del código', steps: ['crear', 'modelo'], lv: {
+    5: 'Nombres descriptivos (txtNombre, btnGuardar), clases separadas (Models/Forms), sin código repetido, comentarios útiles.', 4: 'Código ordenado con pequeñas repeticiones o nombres por defecto (button1).',
+    3: 'Código funcional pero desordenado, todo en un solo formulario.', 2: 'El proyecto no compila.' } },
+  { n: 'Entrega e investigación de campo', steps: ['probar', 'ejercitacion'], lv: {
+    5: 'Entrega a tiempo, README con capturas y el informe identifica 3 procesos reales con evidencia.', 4: 'Entrega a tiempo; informe con procesos poco detallados.',
+    3: 'Entrega tardía o informe incompleto.', 2: 'No entrega.' } }
+];
+const STEP_NUM = { crear: 1, entrada: 2, modelo: 3, 'diseno-dialogo': 4, 'logica-dialogo': 5, 'diseno-principal': 6, 'logica-principal': 7, probar: 8 };
+const lnk = id => h('a', { href: stepHref(id) }, (STEP_NUM[id] ? `Paso ${STEP_NUM[id]} · ` : '') + STEP_LABEL[id]);
+const st = store.get('boa:nota', {}); st.sel = st.sel || []; st.nombre = st.nombre || ''; st.obs = st.obs || '';
+const save = () => store.set('boa:nota', st);
+// Rúbrica (misma fuente de datos que la calculadora)
+$('#rubrica-t').append(h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' },
+  h('thead', null, h('tr', null, ['Criterio', '5 · Alcanzado', '4 · En proceso avanzado', '3 · En proceso limitado', '2 · No alcanzado', 'Dónde practicarlo'].map(t => h('th', null, t)))),
+  h('tbody', null, BOA.map((c, i) => h('tr', null, h('td', { class: 'wrap' }, h('b', null, `${i + 1}. ${c.n}`)), [5, 4, 3, 2].map(v => h('td', { class: 'wrap' }, c.lv[v])),
+    h('td', { class: 'wrap' }, h('div', { style: 'display:flex;flex-direction:column;gap:4px' }, c.steps.map(lnk)))))))));
+// Calculadora
+const descs = [], calc = $('#calc');
+BOA.forEach((c, i) => {
+  const sel = h('select', { class: 'boa-sel', id: 'sel' + i, onchange: e => { st.sel[i] = +e.target.value || 0; save(); sfx('click'); upd(); } }, h('option', { value: '' }, '—'), [2, 3, 4, 5].map(v => h('option', { value: v, selected: st.sel[i] === v }, v)));
+  descs[i] = h('p', { class: 'desc' });
+  calc.append(h('div', { class: 'crit' }, h('label', { for: 'sel' + i }, h('b', null, `${i + 1}. ${c.n}`)), sel, descs[i]));
+});
+// Promedio redondeado: x.5 sube
+function stats() { const v = st.sel.filter(Boolean), n = v.length, sum = v.reduce((a, b) => a + b, 0); return { n, avg: n ? sum / n : 0, nota: n ? Math.floor((2 * sum + n) / (2 * n)) : 0 }; }
+function upd() {
+  BOA.forEach((c, i) => { const v = st.sel[i]; descs[i].textContent = v ? `${v} · ${LVN[v]}: ${c.lv[v]}` : 'Elija una nota para ver qué se espera en ese nivel.'; });
+  const s = stats();
+  $('#sums').replaceChildren(h('span', { class: 'pill ' + (s.n === BOA.length ? 'ok' : s.n ? 'warn' : '') }, s.n === BOA.length ? 'Rúbrica completa' : s.n ? `Faltan ${BOA.length - s.n} criterio(s)` : 'Elija la nota de cada criterio'),
+    s.n ? h('div', { style: 'margin-top:6px' }, `Promedio: ${s.avg.toFixed(2)} · Nota del corte: `, h('b', null, `${s.nota} · ${LVN[s.nota]}`)) : null);
+}
+const out = $('#out'), cp = $('#cp');
+function report() {
+  const s = stats(), pad = (t, n) => String(t).padEnd(n);
+  const ej = Object.keys(localStorage).filter(k => k.startsWith('agrostock-e1:ejercitacion:')).filter(k => { try { const d = JSON.parse(localStorage.getItem(k)); return Array.isArray(d) && d.length && d.every(Boolean); } catch (e) { return false; } }).length;
+  const pr = store.get('progress', {}), comp = Object.values(pr).flat().filter(Boolean).length;
+  out.textContent = ['AUTOEVALUACIÓN · CORTE 1', 'Programación de Aplicaciones de Escritorio · II semestre 2026', 'UNAN-Managua, CUR Matagalpa', '',
+    'Estudiante: ' + (st.nombre.trim() || '______________________'), 'Fecha: ' + fmtDate(new Date()), 'Producto: AgroStock v1 (Encuentro 1)', '',
+    pad('Criterio', 38) + pad('Nota', 6) + 'Nivel', ...BOA.map((c, i) => pad(`${i + 1}. ${c.n}`, 38) + pad(st.sel[i] || '—', 6) + (st.sel[i] ? LVN[st.sel[i]] : 'sin autoevaluar')), '',
+    s.n ? `Promedio de ${s.n} criterio(s): ${s.avg.toFixed(2)}` : 'Promedio: sin criterios autoevaluados',
+    s.n ? `Nota del corte (redondeo, x.5 sube): ${s.nota} · ${LVN[s.nota]}` : '', '',
+    `Ejercicios de la guía con su lista completa: ${ej}`, `Comprobaciones de la guía AgroStock: ${comp}`, '',
+    'Observaciones:', st.obs.trim() || '(sin observaciones)'].join('\n');
+  out.hidden = cp.hidden = false; sfx('acierto');
+}
+$('#gen').addEventListener('click', report);
+cp.addEventListener('click', () => copyText(out.textContent, cp));
+const nom = $('#boa-nom'), obs = $('#boa-obs'); nom.value = st.nombre; obs.value = st.obs;
+nom.addEventListener('input', () => { st.nombre = nom.value; save(); }); obs.addEventListener('input', () => { st.obs = obs.value; save(); });
+upd();
+// Lista de cotejo
+const COT = ["Resolvió los ejercicios N1.1, N1.2, N2.1 y N2.2 y subió captura y código a «Ejercitación E1».", "Los ejercicios cumplen el comportamiento indicado (mensaje, botón deshabilitado, cálculo automático, confirmación en FormClosing).", "El informe de campo identifica 3 procesos que AgroStock podría mejorar, con fotos o notas.", "El informe no contiene datos personales reales de clientes.", "Instaló DB Browser for SQLite.", "Entregó en la fecha y el canal indicados."];
+const cs = store.get('boa:cotejo', []), cul = $('#cot'), cm = $('#cotmsg');
+const cupd = () => { const n = $$('input', cul).filter(b => b.checked).length; cm.textContent = `${n} de ${COT.length} indicadores`; };
+COT.forEach((t, i) => cul.append(h('li', null, h('label', null, h('input', { type: 'checkbox', checked: !!cs[i], onchange: e => { store.set('boa:cotejo', $$('input', cul).map(b => b.checked)); if (e.target.checked) sfx('click'); cupd(); } }), h('span', null, t)))));
+cupd();
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "result": "success",
+  "provider": "Respaldo local del curso (sin conexión)",
+  "time_last_update_utc": "Valor de ejemplo – actualizar con el servicio en línea",
+  "base_code": "USD",
+  "rates": {
+    "USD": 1,
+    "NIO": 36.62,
+    "CRC": 505.0,
+    "HNL": 26.0,
+    "EUR": 0.92
+  }
+}

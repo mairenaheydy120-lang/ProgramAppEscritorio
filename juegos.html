@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Juegos y quizzes · Programación de Aplicaciones de Escritorio</title>
+<meta name="description" content="Juegos y quizzes del Encuentro 1: controles, eventos, estructura del proyecto, errores de compilación y autoevaluación sobre aplicaciones de interfaz gráfica en C#.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.mood{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mood-e{font-size:1.8rem;width:2.2rem;text-align:center;line-height:1}
+.mood .prog-bar{min-width:120px}
+.mood-t,.pts{font-size:.9rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.panel-prog{border:1px solid var(--accent-line);background:var(--surface);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.panel-prog h2{font-size:1.25rem}
+.badges{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.badges li{display:grid;grid-template-columns:auto 1fr;gap:0 10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.badges .be{grid-row:span 2;font-size:1.8rem}.badges small{color:var(--muted)}
+.badges .off .be{filter:grayscale(1);opacity:.45}.badges .on{border-color:var(--accent);background:var(--accent-soft)}
+.card{font:inherit;text-align:left;cursor:pointer}
+.g-title{font-size:1.5rem;margin-bottom:10px}
+.g-card{border:1px solid var(--accent-line);background:var(--surface);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px;margin-top:10px}
+.g-area{display:flex;flex-direction:column;gap:12px;outline:none}
+.q{font-size:1.1rem;font-weight:600;max-width:none;margin:0}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;padding:10px 12px;border:2px solid var(--line);border-radius:10px;background:var(--bg);cursor:pointer;transition:border-color .12s,transform .12s;font-size:.98rem}
+.opt:hover{border-color:var(--accent)}
+.opts.locked .opt{pointer-events:none;opacity:.75}
+.opt.right{border-color:var(--ok);background:var(--accent-soft);opacity:1!important}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);opacity:1!important;animation:shake .35s}
+.opt .ltr{flex:0 0 26px;height:26px;border-radius:50%;background:var(--surface2);display:grid;place-items:center;font-weight:700;font-size:.85rem;text-transform:uppercase}
+.opt.right .ltr::before{content:"✔ "}.opt.wrong .ltr::before{content:"✖ "}
+.opt.right .ltr,.opt.wrong .ltr{width:auto;border-radius:99px;padding:0 8px}
+.opts.mono code{white-space:pre-wrap;word-break:break-word}
+.g-fb:empty{display:none}
+.g-fb{padding:10px 14px;border-radius:10px;font-size:.98rem}
+.g-fb.ok{background:var(--accent-soft);border-left:4px solid var(--ok)}
+.g-fb.bad{background:var(--bad-soft);border-left:4px solid var(--bad)}
+.streak{font-weight:700;margin-top:4px}
+.g-end{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px}
+.big-e{font-size:4rem;line-height:1}
+.g-end h3{font-size:1.6rem}
+.mockwin{border:1px solid var(--w-border);background:var(--w-face);color:var(--w-text);border-radius:6px;overflow:hidden;box-shadow:0 4px 14px var(--w-shadow)}
+.mock-t{background:var(--w-title);color:#111;padding:5px 10px;font-size:.85rem;border-bottom:1px solid #ddd}
+.mock-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:center;padding:14px}
+.mock-row label{font-size:.95rem}
+.slot,.slot3{min-height:46px;border:2px dashed var(--w-border);border-radius:6px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--w-mute);font-size:.85rem;text-align:center;padding:4px;transition:background .12s}
+.slot.over,.slot3.over{border-color:var(--accent);background:var(--accent-soft);color:var(--fg)}
+.slot.filled{flex-direction:column;border-style:solid;background:#fff;color:#111;gap:0}
+.slot.right{border-color:var(--ok);animation:pop .4s}.slot.wrong{border-color:var(--bad);animation:shake .35s}
+.mock{border:1px solid #7a7a7a;background:#fff;padding:2px 10px;font-size:.85rem;min-width:130px}
+.toolbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.chip{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border:2px dashed var(--accent-line);border-radius:10px;background:var(--bg);cursor:grab;user-select:none;-webkit-user-select:none;font-size:.95rem}
+.chip span{font-size:1.5rem}.chip small{color:var(--muted)}
+.chip:hover{border-color:var(--accent)}.chip.locked{pointer-events:none;opacity:.5}
+.dragghost{position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:300;opacity:.92;box-shadow:0 8px 22px rgba(0,0,0,.35);background:var(--surface);max-width:280px}
+.rows3{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.row3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:10px;align-items:center;border:2px solid var(--line);border-radius:10px;padding:8px;background:var(--bg)}
+.row3 .role{font-size:.93rem}
+.row3.good{border-color:var(--ok)}.row3.bad{border-color:var(--bad);background:var(--bad-soft)}
+.row3 .fix{grid-column:1/-1;font-size:.88rem;color:var(--bad)}
+.slot3{justify-content:stretch;padding:3px}
+.c3{display:flex;align-items:center;gap:6px;width:100%;padding:6px 8px;background:var(--surface);border:1px solid var(--accent-line);border-radius:8px;cursor:grab;font-size:.9rem;user-select:none;-webkit-user-select:none}
+.c3 .grip{color:var(--muted)}
+.mv{border:1px solid var(--line);background:var(--bg);border-radius:6px;width:30px;height:30px;cursor:pointer;padding:0}
+.mv:hover{background:var(--accent-soft)}
+.mono{font-family:var(--font-mono);font-size:.88em}
+.bugrow{display:flex;gap:14px;align-items:center}
+.bug{font-size:3rem;line-height:1;flex:0 0 auto}.bug.won{animation:pop .5s}
+.errmsg{color:var(--bad)}
+mark.qm{background:var(--code-k);color:#13201A;padding:0 6px;border-radius:4px;font-weight:700}
+.stage-bar{display:flex;gap:8px;flex-wrap:wrap}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes pop{50%{transform:scale(1.12)}}
+@media (max-width:520px){.row3,.mock-row{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.opt,.slot,.bug{animation:none!important;transition:none}}
+</style>
+</head>
+<body data-page="juegos">
+<main>
+  <section class="phero">
+    <div class="kicker">Practique y autoevalúese · Encuentro 1</div>
+    <h1>🎮 Juegos y quizzes</h1>
+    <p class="lead">Cinco retos cortos sobre controles, eventos, estructura del proyecto, errores de compilación y el flujo completo de AgroStock. Gane insignias, mantenga su racha y vea su progreso. Todo funciona con el teclado y se guarda en este navegador.</p>
+    <div class="row" id="sndrow"></div>
+  </section>
+  <section class="panel-prog" id="progreso" aria-live="polite"></section>
+  <section id="hub" aria-label="Lista de juegos"><div class="cards" id="gcards"></div></section>
+  <section id="stage" hidden aria-label="Juego en curso">
+    <div class="stage-bar"><button class="sbtn ghost sm" type="button" onclick="closeGame()">← Todos los juegos</button></div>
+    <div id="game"></div>
+  </section>
+</main>
+<footer id="foot"></footer>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/quiz.js"></script>
+<script src="assets/js/games.js"></script>
+<script>
+$('#sndrow').append(muteBtn(true));
+refresh();
+const wanted = location.hash.slice(1);
+if (GAMES.some(g => g.id === wanted)) openGame(wanted);
+</script>
+</body>
+</html>
