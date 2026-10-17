@@ -7,7 +7,10 @@ Encuentro 1 — *Aplicaciones de interfaz gráfica* · 11 de octubre de 2026.
 
 | Archivo | Contenido |
 |---|---|
-| `index.html` | Portada, tarjetas de acceso y aula virtual (Classroom) |
+| `index.html` | Portada del curso: elegir Encuentro 1 o 2 y aula virtual |
+| `hub-encuentro-01.html` / `hub-encuentro-02.html` | Menú de recursos de cada encuentro (con botón «Volver a la portada») |
+| `encuentro-02.html`, `juegos-02.html`, `encuentro-02/` | Folleto, juegos, guía AgroStock v2 y PDF (BOA 2, folleto) del Encuentro 2 |
+| `recursos/` | `agrostock.sql`, `consultas.sql` y `productos_importar.csv` |
 | `guia-instalacion.html` | Visual Studio 2026 + DB Browser for SQLite (con PDF para ver/descargar) |
 | `encuentro-01.html` | Folleto completo del Encuentro 1 |
 | `guia-agrostock.html` | Guía paso a paso AgroStock v1 (8 pasos, 7 simuladores, ejercitación) |
@@ -42,4 +45,4 @@ Si deja el sitio dentro de `docs/`, elija la carpeta `/docs` en el paso 3.
 
 - El progreso (insignias, puntajes, autoevaluación, listas de verificación) se guarda en `localStorage` con el prefijo `agrostock-e1:`; es propio de cada navegador y no se comparte entre dispositivos.
 - Los sonidos se pueden silenciar con el botón 🔊 de la barra superior; los efectos visuales respetan `prefers-reduced-motion`.
-- Para agregar los Encuentros 2 y 3, descomente los enlaces al final de `index.html` y agregue su entrada en `NAV` de `assets/js/site.js`.
+- El Encuentro 2 ya está en la navegación (`encuentro-02.html`). Los Encuentros 3 se activarán al publicarse.

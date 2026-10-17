@@ -25,6 +25,29 @@ const QUIZ_E1 = [
     e: '`AcceptButton = btnGuardar` hace que Enter guarde y `CancelButton = btnCancelar` hace que Esc cancele.' }
 ];
 
+const QUIZ_E2 = [
+  { q: '¿Qué sentencia SQL corresponde a la operación Read del CRUD?', o: ['INSERT', 'SELECT', 'UPDATE', 'DELETE'], c: 1,
+    e: '`SELECT` lee datos (Read). `INSERT` crea, `UPDATE` modifica y `DELETE` elimina.' },
+  { q: '¿Por qué se usan parámetros (`$f`) en lugar de concatenar texto en SQL?', o: ['Porque son más cortos', 'Para evitar la inyección SQL y errores de formato', 'Porque SQLite no acepta comillas', 'No hay diferencia'], c: 1,
+    e: 'El valor viaja separado del SQL y el motor nunca lo interpreta como código: «\' OR 1=1 --» se compara como texto.' },
+  { q: '¿Qué método de `SqliteCommand` se usa para un INSERT sin resultados?', o: ['ExecuteReader', 'ExecuteNonQuery', 'ExecuteScalar', 'Read'], c: 1,
+    e: '`ExecuteNonQuery` ejecuta INSERT, UPDATE y DELETE; `ExecuteReader` es para SELECT y `ExecuteScalar` devuelve un solo valor.' },
+  { q: '¿Por qué una ventana Windows Forms «no responde» durante una tarea larga?', o: ['Porque falta memoria', 'Porque el hilo de la interfaz está ocupado y no procesa eventos', 'Porque la base está cerrada', 'Por un virus'], c: 1,
+    e: 'El hilo de la interfaz dibuja la ventana y atiende eventos; si ejecuta una tarea de 30 segundos, no puede hacer nada más.' },
+  { q: 'Un hilo que ejecuta `Thread.Sleep(1000)` está en el estado:', o: ['Unstarted', 'Running', 'WaitSleepJoin', 'Stopped'], c: 2,
+    e: '`Sleep`, `Join` y un `lock` ocupado ponen al hilo en `WaitSleepJoin`: bloqueado esperando.' },
+  { q: 'Dos hilos hacen `contador++` un millón de veces cada uno sin `lock`. El resultado final:', o: ['Siempre es 2 000 000', 'Puede ser menor que 2 000 000', 'Siempre es 1 000 000', 'Lanza una excepción'], c: 1,
+    e: '`contador++` es leer, sumar y escribir; si los hilos se intercalan se pierden incrementos (condición de carrera).' },
+  { q: '¿Cuál es la forma correcta de detener una tarea en .NET?', o: ['Thread.Abort()', 'Cerrar la aplicación', 'Solicitar la cancelación con CancellationToken y que la tarea la revise', 'Poner el hilo en null'], c: 2,
+    e: 'La detención es cooperativa: `cts.Cancel()` pide parar y la tarea revisa el token, hace `Rollback` y sale.' },
+  { q: 'Una entrada de mercadería hace INSERT en movimientos y UPDATE de la existencia. ¿Cómo se garantiza que se guarden las dos o ninguna?', o: ['Con dos conexiones distintas', 'Con una transacción: BeginTransaction y Commit', 'Ejecutando primero el UPDATE', 'Con un ComboBox'], c: 1,
+    e: 'En una transacción nada es definitivo hasta `Commit`; si ocurre un error antes, se hace `Rollback` y la base queda como estaba.' },
+  { q: '¿Qué hace `await Task.Run(() => Importar(...))` en un manejador de Click?', o: ['Congela la ventana hasta terminar', 'Ejecuta el trabajo en el ThreadPool y espera sin bloquear la interfaz', 'Cierra el formulario', 'Crea una base de datos nueva'], c: 1,
+    e: '`Task.Run` lleva el trabajo al ThreadPool y `await` libera el hilo de la interfaz mientras tanto; al terminar se continúa en la UI.' },
+  { q: '¿Qué ventaja tiene `Interlocked.Increment` frente a `contador++` entre varios hilos?', o: ['Es más corto de escribir', 'Es una operación atómica: no se pierden incrementos', 'Evita usar CancellationToken', 'Solo funciona en la interfaz'], c: 1,
+    e: '`Interlocked.Increment` hace leer-sumar-escribir como una sola operación indivisible; `contador++` puede perder cuentas.' }
+];
+
 /* Lista de opciones con retroalimentación; `ok` es el índice de la correcta en `opts`. */
 function pickOptions(ctx, opts, ok, explain, o = {}) {
   const order = shuffle(opts.map((_, k) => k)), btns = [];
@@ -94,7 +117,7 @@ function runRounds(host, o) {
 
 function makeQuiz(host, o = {}) {
   runRounds(host, {
-    id: 'quiz', emoji: '🧠', title: 'Quiz de autoevaluación E1', build: () => QUIZ_E1, onExit: o.onExit, onEnd: o.onEnd,
+    id: o.id || 'quiz', emoji: '🧠', title: o.title || 'Quiz de autoevaluación E1', build: () => o.list || QUIZ_E1, onExit: o.onExit, onEnd: o.onEnd,
     render: (q, ctx, i) => { ctx.area.append(h('p', { class: 'q', html: `${i + 1}. ${rich(q.q)}` })); pickOptions(ctx, q.o, q.c, q.e, { label: `Pregunta ${i + 1}` }); }
   });
 }

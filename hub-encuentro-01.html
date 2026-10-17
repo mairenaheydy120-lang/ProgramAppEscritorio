@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Encuentro 1 · Programación de Aplicaciones de Escritorio</title>
+<meta name="description" content="Sitio del Encuentro 1: guía de instalación, folleto, guía paso a paso de AgroStock v1, BOA del corte 1 y juegos para practicar aplicaciones de interfaz gráfica en C#.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.route{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;counter-reset:r}
+.route li{counter-increment:r;border:1px solid var(--accent-line);background:var(--accent-soft);border-radius:99px;padding:5px 14px 5px 8px;display:flex;gap:8px;align-items:center;font-size:.95rem}
+.route li::before{content:counter(r);display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-fg);font-size:.8rem;font-weight:700}
+</style>
+</head>
+<body data-page="hub1">
+<main>
+<section class="phero">
+  <div class="kicker">Ingeniería en Sistemas · II año · Encuentro 1</div>
+  <h1>Programación de Aplicaciones de Escritorio · UNAN-Managua, CUR Matagalpa</h1>
+  <p class="lead">Primer encuentro: <b>Aplicaciones de interfaz gráfica</b> · <b>11 de octubre de 2026</b>. Construirá AgroStock, una aplicación de escritorio para el inventario de un agroservicio. Todo el sitio funciona desde el celular: no necesita Visual Studio para comprender, practicar y autoevaluarse.</p>
+</section>
+<section aria-labelledby="h-rec"><h2 id="h-rec" class="sr">Recursos del encuentro</h2><div class="cards"><a class="card" href="guia-instalacion.html"><span class="ico" aria-hidden="true">📘</span><h3>Guía de instalación</h3><p>Visual Studio 2026 y DB Browser for SQLite, paso a paso y con imágenes.</p></a><a class="card" href="encuentro-01.html"><span class="ico" aria-hidden="true">📗</span><h3>Encuentro 1 — Aplicaciones de interfaz gráfica</h3><p>El folleto completo: estructura, controles, eventos, menús y diálogos.</p></a><a class="card" href="guia-agrostock.html"><span class="ico" aria-hidden="true">📙</span><h3>Guía paso a paso AgroStock v1</h3><p>8 pasos y 7 simuladores para construir la aplicación sin copiar y pegar a ciegas.</p></a><a class="card" href="boa-01.html"><span class="ico" aria-hidden="true">📊</span><h3>BOA · Corte evaluativo 1</h3><p>Tareas, rúbrica y calculadora de autoevaluación con informe para Classroom.</p></a><a class="card" href="juegos.html"><span class="ico" aria-hidden="true">🎮</span><h3>Juegos y quizzes</h3><p>Cinco retos con insignias, rachas y sonidos para practicar y autoevaluarse.</p></a></div></section>
+<section class="aula" aria-labelledby="h-aula">
+  <div><h2 id="h-aula">🏫 Aula virtual</h2><p>Entregue sus tareas y consulte avisos en Google Classroom.</p><p>Código de invitación: <code>r3escxkv</code></p></div>
+  <a class="sbtn lg" href="https://classroom.google.com/c/ODcwMTMyNDI1NDI1?cjc=r3escxkv" target="_blank" rel="noopener">Ir a Classroom</a>
+</section>
+<section aria-labelledby="h-ruta"><h2 id="h-ruta" style="font-size:1.3rem;margin-bottom:10px">Ruta del encuentro</h2>
+  <ol class="route"><li>Instalar VS</li><li>Crear proyecto</li><li>Diseñar formulario</li><li>Programar eventos</li><li>Compilar</li><li>Ejecutar</li><li>Depurar</li><li>Entregar</li></ol></section>
+</main>
+<footer id="foot"></footer>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

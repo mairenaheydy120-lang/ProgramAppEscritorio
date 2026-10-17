@@ -102,9 +102,9 @@ const PROJ = [
   { title: '¿En qué orden se ejecuta el arranque?', rows: ['1.º', '2.º', '3.º', '4.º'], cards: ['Main() inicia con ApplicationConfiguration.Initialize()', 'Se crea new FrmPrincipal(): el constructor llama a InitializeComponent()', 'Application.Run muestra el formulario e inicia el bucle de mensajes', 'Ocurre Load y luego se atienden los eventos del usuario (Click, KeyPress…)'], mono: false }
 ];
 
-function gameProyecto(host, cb) {
+function gameProyecto(host, cb, id = 'proyecto', list = PROJ) {
   runRounds(host, {
-    ...cb, id: 'proyecto', emoji: '🏗️', title: 'Arma el proyecto', build: () => PROJ,
+    ...cb, id, emoji: '🏗️', title: 'Arma el proyecto', build: () => list,
     render(p, ctx) {
       let order; do { order = shuffle(p.cards.map((_, k) => k)); } while (order.every((v, k) => v === k));
       let locked = false;
@@ -146,9 +146,9 @@ const BUGS = [
   { err: 'Síntoma: el diálogo se cierra aunque el nombre sea inválido', code: 'private void BtnGuardar_Click(object? sender, EventArgs e)\n{\n    if (txtNombre.Text.Trim().Length < 3)\n        errores.SetError(txtNombre, "Escriba al menos 3 caracteres.");\n    DialogResult = DialogResult.OK;\n}', o: ['Agregar return; después de SetError, con llaves en el if', 'Cambiar OK por Cancel', 'Quitar el ErrorProvider', 'Llamar a Close() antes del if'], c: 0, why: 'Sin `return`, se ejecuta `DialogResult = OK` y el modal se cierra. Con la validación fallida debe salir antes.' }
 ];
 
-function gameBug(host, cb) {
+function gameBug(host, cb, id = 'bug', list = BUGS) {
   runRounds(host, {
-    ...cb, id: 'bug', emoji: '🐛', title: 'Caza el bug', build: () => shuffle(BUGS).slice(0, 8),
+    ...cb, id, emoji: '🐛', title: 'Caza el bug', build: () => shuffle(list).slice(0, 8),
     render(b, ctx) {
       const bug = h('div', { class: 'bug', 'aria-hidden': 'true' }, '🐛');
       ctx.area.append(h('div', { class: 'bugrow' }, bug, h('p', { class: 'q errmsg' }, b.err)), codeBlock(b.code), h('p', { class: 'hint' }, '¿Cuál es la corrección?'));
@@ -158,30 +158,31 @@ function gameBug(host, cb) {
 }
 
 /* ---------- hub y panel «Mi progreso» ---------- */
-const GAMES = [
+let GAMES = [
   { id: 'drag', desc: 'Elija el control adecuado para cada campo de AgroStock.', run: gameDrag },
   { id: 'eventos', desc: '10 rondas: lea el código y descubra qué evento es.', run: gameEventos },
   { id: 'proyecto', desc: 'Ordene archivos y pasos según su rol en AgroStock.', run: gameProyecto },
   { id: 'bug', desc: 'Encuentre la corrección de errores típicos (CS0246, CS0104…).', run: gameBug },
   { id: 'quiz', desc: '10 preguntas con retroalimentación explicativa.', run: makeQuiz }
 ];
+let QUIZ_ID = 'quiz', QUIZ_LABEL = 'Quiz E1';
 const stat = id => store.get('quiz:' + id, null);
 
 function renderProgress() {
-  const ids = GAMES.map(g => g.id), earned = ids.filter(id => store.get('badge:' + id)).length, quizOk = !!(stat('quiz') && stat('quiz').passed);
+  const ids = GAMES.map(g => g.id), earned = ids.filter(id => store.get('badge:' + id)).length, quizOk = !!(stat(QUIZ_ID) && stat(QUIZ_ID).passed);
   const pts = ids.reduce((s, id) => s + ((stat(id) || {}).best || 0) * 10, 0), pct = Math.round(earned / ids.length * 100);
   let sure = false;
   const reset = h('button', {
     class: 'sbtn ghost sm', type: 'button', onclick: () => {
       if (!sure) { sure = true; reset.textContent = '¿Seguro? Pulse otra vez'; setTimeout(() => { sure = false; reset.textContent = 'Borrar mi progreso'; }, 4000); return; }
-      try { Object.keys(localStorage).filter(k => /^agrostock-e1:(badge|quiz):/.test(k)).forEach(k => localStorage.removeItem(k)); } catch (e) { }
+      try { Object.keys(localStorage).filter(k => ids.some(id => k === 'agrostock-e1:badge:' + id || k === 'agrostock-e1:quiz:' + id)).forEach(k => localStorage.removeItem(k)); } catch (e) { }
       refresh();
     }
   }, 'Borrar mi progreso');
   $('#progreso').replaceChildren(h('h2', null, '📈 Mi progreso'),
     h('div', { class: 'mood' }, h('span', { class: 'mood-e', 'aria-hidden': 'true' }, moodFor(pct)), h('span', { class: 'prog-bar big', role: 'img', 'aria-label': `${earned} de ${ids.length} insignias` }, h('i', { style: `width:${pct}%` })), h('span', { class: 'mood-t' }, `${earned} de ${ids.length} insignias`), h('span', { class: 'pts' }, `⭐ ${pts} pts`)),
     h('ul', { class: 'badges' }, GAMES.map(g => { const on = !!store.get('badge:' + g.id), s = stat(g.id); return h('li', { class: on ? 'on' : 'off' }, h('span', { class: 'be', 'aria-hidden': 'true' }, BADGES[g.id][0]), h('b', null, BADGES[g.id][1]), h('small', null, on ? `Insignia ganada · mejor ${s.best} de ${s.total}` : s ? `Mejor ${s.best} de ${s.total} · sin insignia aún` : 'Sin jugar')); })),
-    h('p', null, `Quiz E1: ${quizOk ? '✅ aprobado' : '⏳ pendiente'} · Se guarda en este navegador. `, reset));
+    h('p', null, `${QUIZ_LABEL}: ${quizOk ? '✅ aprobado' : '⏳ pendiente'} · Se guarda en este navegador. `, reset));
 }
 function renderHub() {
   $('#gcards').replaceChildren(...GAMES.map(g => { const s = stat(g.id);

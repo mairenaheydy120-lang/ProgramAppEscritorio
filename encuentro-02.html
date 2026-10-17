@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Encuentro 2 · Acceso a bases de datos y programación concurrente</title>
+<meta name="description" content="Manual didáctico completo del Encuentro 2: SQLite, SQL, ADO.NET, CRUD con repositorio, hilos, sincronización y cancelación en AgroStock v2.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.sqa{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.sqa label{font-weight:600;display:block;margin-bottom:4px}
+.boa-obs{width:100%;min-height:96px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:6px 8px}
+.ex{font-style:italic;color:var(--accent);margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.refs li{overflow-wrap:anywhere}
+.unan{display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px 0 0;border-top:1px solid var(--line)}
+.unan img{max-width:100%;height:auto}.unan a{font-weight:600}
+.tree{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.muted{color:var(--muted)}
+.qs{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 14px}.qs .q{font-size:1.02rem;margin:0 0 6px}
+@media (max-width:820px){.sqa{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body data-page="e2">
+<main>
+<section class="phero"><div class="kicker">Manual didáctico · Encuentro N.° 2 · 17 de octubre de 2026</div>
+<h1>📘 Acceso a bases de datos y programación concurrente</h1>
+<p class="lead">Componente: Programación de aplicaciones de escritorio · Carrera: Ingeniería de Sistemas · II año – II semestre · UNAN-Managua, Centro Universitario Regional de Matagalpa (UNICAM – CUR Matagalpa), Departamento de Ciencias, Tecnología y Salud.</p>
+<p>Autor: <b>Heydy Judelki Mairena Palacios</b> <i>¡Universidad del Pueblo y para el Pueblo!</i></p>
+<div class="btns no-print">
+<a class="sbtn ghost" href="encuentro-02/BOA_E02.pdf" target="_blank" rel="noopener">📄 BOA 2 (PDF)</a>
+<a class="sbtn ghost" href="encuentro-02/Material_didactico_E2.pdf" target="_blank" rel="noopener">📘 Folleto (PDF)</a>
+<a class="sbtn ghost" href="encuentro-02/Guia_AgroStock_E02.html">🧭 Guía AgroStock v2</a>
+<a class="sbtn ghost" href="#recursos">💾 Código</a>
+</div>
+<nav class="toc" aria-label="Contenido del folleto"><a href="#presentacion">Presentación</a><a href="#entrada">A. Entrada temática</a><a href="#u2">Unidad II · Bases de datos</a><a href="#u3">Unidad III · Concurrencia</a><a href="#integracion">10 Integración</a><a href="#ejercitacion-e2">Ejercitación</a><a href="#boa2">BOA 2</a><a href="#recursos">Recursos</a><a href="#cierre">C. Cierre</a><a href="#refs">Referencias</a></nav></section>
+
+<section class="step" id="presentacion" aria-labelledby="h-presentacion"><div class="step-h"><span class="num">Presentación</span><h2 id="h-presentacion">Presentación del material</h2></div>
+<p>Bienvenido y bienvenida al segundo encuentro del componente Programación de Aplicaciones de Escritorio. En el Encuentro 1 construyó AgroStock v1, cuya lista de productos vivía en la memoria y se perdía al cerrar la aplicación. En este módulo —que aborda las Unidades II y III del programa— AgroStock deja de olvidar sus datos: los guardaremos en una base de datos SQLite y realizaremos las operaciones CRUD desde la interfaz.</p>
+<p>A lo largo de estas páginas comprenderá cómo se organiza una base de datos relacional, cómo se consulta con SQL, cómo se conecta una aplicación C# con ADO.NET y cómo se ejecutan procesos largos (como importar cientos de productos) en segundo plano, con sincronización y cancelación, para que la ventana nunca diga «No responde». Al final tendrá AgroStock v2 funcionando, la segunda etapa del proyecto integrador (v1 → v2 → v3).</p>
+<h3 class="sub">Objetivo de aprendizaje del encuentro</h3><ul class="pl"><li>Conectar una aplicación de escritorio a una base de datos SQLite y realizar operaciones CRUD mediante SQL parametrizado y clases de acceso a datos.</li><li>Implementar operaciones en segundo plano con hilos y tareas, sincronización y detención controlada, manteniendo la interfaz responsiva.</li></ul>
+<h3 class="sub">Contenidos de este encuentro</h3><ul class="pl"><li><b>Unidad II. Acceso a bases de datos:</b> introducción a la programación con bases de datos; el lenguaje SQL; clases para la gestión de bases de datos; controles de acceso a bases de datos; operaciones CRUD sobre una base de datos.</li><li><b>Unidad III. Programación concurrente:</b> introducción a la programación concurrente; clases para trabajar con hilos; estados de un hilo; mecanismos de sincronización; detención controlada de hilos.</li></ul>
+</section>
+
+<section class="step" id="entrada" aria-labelledby="h-entrada"><div class="step-h"><span class="num">A. Entrada temática</span><h2 id="h-entrada">Vivencia y actividad SQA</h2></div>
+<h3 class="sub">Vivencia</h3>
+<p>El viernes, en el agroservicio de doña Martha, se fue la luz a media mañana. Cuando volvió, AgroStock v1 abrió vacío: todo lo registrado estaba en memoria.</p>
+<p>El lunes, su hijo quiso cargar la lista de 500 productos que le envió el distribuidor y la ventana se quedó blanca, con el mensaje «No responde», durante casi un minuto.</p>
+<p><b>Antes de continuar, reflexione:</b></p><ul class="pl"><li>¿Dónde deberían guardarse los datos para que sobrevivan a un apagón?</li><li>Si dos personas registran ventas a la vez, ¿qué problemas pueden aparecer?</li><li>¿Por qué cree que la ventana «no responde» mientras se importa la lista?</li><li>¿Qué haría un buen programa mientras realiza una tarea larga? Piense en las aplicaciones que usa en el celular.</li></ul><p>Responda las preguntas anteriores en su cuaderno y compártalas con su pareja.</p>
+<h3 class="sub">Actividad SQA</h3>
+<p>En su cuaderno o en el móvil, elabore una tabla de tres columnas —<b>Qué sé</b>, <b>Qué quiero saber</b>, <b>Qué aprendí</b>— sobre bases de datos y programación concurrente. Complete únicamente las dos primeras columnas por ahora; la tercera la completará al cierre de este material. Aquí puede hacerlo y se guarda en este navegador.</p>
+<div class="sqa"><div><label for="sqa-s">Qué sé</label><textarea id="sqa-s" class="boa-obs" rows="5"></textarea></div><div><label for="sqa-q">Qué quiero saber</label><textarea id="sqa-q" class="boa-obs" rows="5"></textarea></div><div><label for="sqa-a">Qué aprendí <small>(al cierre)</small></label><textarea id="sqa-a" class="boa-obs" rows="5"></textarea></div></div>
+<div class="ok-box"><b>Lo que esperamos aprender:</b> al terminar este material podrá guardar y consultar datos en una base relacional desde C#, y ejecutar tareas largas en segundo plano de forma segura y cancelable, y lo aplicará al caso de doña Martha.</div>
+</section>
+
+<section class="step" id="u2" aria-labelledby="h-u2"><div class="step-h"><span class="num">Fundamentación científica · Unidad II</span><h2 id="h-u2">Acceso a bases de datos</h2></div>
+
+<h3 class="sub" id="s1">1. Introducción a la programación con bases de datos</h3>
+<p>Una base de datos relacional organiza la información en tablas formadas por filas (registros) y columnas (campos). Cada tabla tiene una clave primaria (PK) que identifica cada fila, y las relaciones entre tablas se expresan con claves foráneas (FK). El sistema gestor (SGBD) garantiza la integridad de los datos mediante restricciones.</p>
+<p>En este curso usamos SQLite: un motor relacional que guarda toda la base en un único archivo (<code>agrostock.db</code>) y no requiere instalar un servidor, lo que lo hace ideal para aplicaciones de escritorio. Los conceptos y el código son equivalentes para MySQL o SQL Server: solo cambia el proveedor (<code>MySqlConnection</code>, <code>SqlConnection</code>).</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Tabla</th><th>Campos principales</th><th>Relación</th></tr></thead><tbody>
+<tr><td class="wrap"><b>categorias</b></td><td class="wrap">id (PK), nombre (UNIQUE)</td><td class="wrap">Una categoría tiene muchos productos</td></tr>
+<tr><td class="wrap"><b>productos</b></td><td class="wrap">id (PK), codigo (UNIQUE), nombre, categoria_id (FK), precio (CHECK &gt; 0), existencia (CHECK ≥ 0), vencimiento</td><td class="wrap">Pertenece a una categoría</td></tr>
+<tr><td class="wrap"><b>movimientos</b></td><td class="wrap">id (PK), producto_id (FK), tipo (ENTRADA/SALIDA), cantidad, fecha</td><td class="wrap">Muchos movimientos por producto</td></tr></tbody></table></div>
+<p>La aplicación no habla directamente con el archivo: usa un proveedor ADO.NET (<code>Microsoft.Data.Sqlite</code>) que traduce las llamadas de C# en instrucciones para el motor.</p>
+<pre class="codebox">Formulario (UI) → ProductoRepository → Microsoft.Data.Sqlite → agrostock.db
+   eventos          clases de acceso     proveedor ADO.NET       archivo SQLite</pre>
+<p class="ex">Ejemplo aplicado — AgroStock: el apagón de doña Martha ya no borra el inventario, porque los productos viven en el archivo agrostock.db y no en la memoria de la aplicación.</p>
+
+<h3 class="sub" id="s2">2. El lenguaje SQL</h3>
+<p>SQL (Structured Query Language) es el lenguaje estándar de las bases relacionales. Se divide en DDL (definición: CREATE, ALTER, DROP) y DML (manipulación: INSERT, SELECT, UPDATE, DELETE). Las restricciones se declaran al crear la tabla.</p>
+<pre class="codebox">CREATE TABLE productos (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,   -- clave primaria: identifica cada fila
+    codigo       TEXT NOT NULL UNIQUE,                -- obligatorio y sin repetirse
+    nombre       TEXT NOT NULL,
+    categoria_id INTEGER NOT NULL REFERENCES categorias(id),  -- clave foránea: debe existir esa categoría
+    precio       REAL NOT NULL CHECK (precio > 0),    -- CHECK: regla que cada fila debe cumplir
+    existencia   INTEGER NOT NULL DEFAULT 0 CHECK (existencia >= 0),
+    vencimiento  TEXT NULL                            -- yyyy-MM-dd; NULL si el producto no vence
+);</pre>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Operación CRUD</th><th>Sentencia SQL</th><th>Ejemplo</th></tr></thead><tbody>
+<tr><td class="wrap"><b>Create</b></td><td class="wrap">INSERT</td><td class="wrap"><code>INSERT INTO productos (codigo, nombre, categoria_id, precio) VALUES ('FER-004','Sulfato',1,980);</code></td></tr>
+<tr><td class="wrap"><b>Read</b></td><td class="wrap">SELECT</td><td class="wrap"><code>SELECT codigo, nombre FROM productos WHERE existencia &lt; 10 ORDER BY nombre;</code></td></tr>
+<tr><td class="wrap"><b>Update</b></td><td class="wrap">UPDATE</td><td class="wrap"><code>UPDATE productos SET precio = precio * 1.05 WHERE categoria_id = 1;</code></td></tr>
+<tr><td class="wrap"><b>Delete</b></td><td class="wrap">DELETE</td><td class="wrap"><code>DELETE FROM productos WHERE codigo = 'HER-005';</code></td></tr></tbody></table></div>
+<pre class="codebox">-- JOIN: nombre de la categoría junto al producto (une las tablas por la clave foránea)
+SELECT p.codigo, p.nombre, c.nombre AS categoria
+FROM productos p JOIN categorias c ON c.id = p.categoria_id;
+
+-- GROUP BY: valor del inventario por categoría (agrupa y suma)
+SELECT c.nombre, COUNT(*) AS productos, SUM(p.precio * p.existencia) AS valor
+FROM productos p JOIN categorias c ON c.id = p.categoria_id
+GROUP BY c.nombre ORDER BY valor DESC;</pre>
+<div class="note"><b>Cuidado:</b> un UPDATE o DELETE sin WHERE afecta a todas las filas de la tabla. Escriba primero el SELECT con el mismo WHERE para ver qué filas cambiarán.</div>
+<p class="ex">Ejemplo aplicado — AgroStock: «¿qué productos tienen existencia menor que 10?» y «¿cuánto vale mi inventario?», las preguntas que doña Martha respondía sumando a mano, ahora son una consulta SELECT.</p>
+<p>👉 Practique estas sentencias en el <a href="encuentro-02/Guia_AgroStock_E02.html#paso-sql">simulador de consultas de la guía</a> (la consola SQL y las 10 consultas con comprobación).</p>
+
+<h3 class="sub" id="s3">3. Clases para la gestión de bases de datos</h3>
+<p>ADO.NET define un conjunto de clases comunes a todos los proveedores. Con <code>Microsoft.Data.Sqlite</code> se llaman así:</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Clase</th><th>Responsabilidad</th></tr></thead><tbody>
+<tr><td class="wrap"><b>SqliteConnection</b></td><td class="wrap">Abre y cierra la conexión con el archivo de la base (cadena de conexión).</td></tr>
+<tr><td class="wrap"><b>SqliteCommand</b></td><td class="wrap">Contiene la sentencia SQL y sus parámetros. <code>ExecuteReader</code> (SELECT), <code>ExecuteNonQuery</code> (INSERT/UPDATE/DELETE), <code>ExecuteScalar</code> (un valor).</td></tr>
+<tr><td class="wrap"><b>SqliteDataReader</b></td><td class="wrap">Recorre las filas del resultado, hacia adelante y de solo lectura.</td></tr>
+<tr><td class="wrap"><b>SqliteTransaction</b></td><td class="wrap">Agrupa varias operaciones: se confirman todas (<code>Commit</code>) o ninguna (<code>Rollback</code>).</td></tr></tbody></table></div>
+<pre class="codebox" data-lang="cs">public List&lt;Producto&gt; Listar(string filtro = "")
+{
+    using var cn = Db.Abrir();          // using: la conexión se cierra SIEMPRE, aunque ocurra un error
+    using var cmd = cn.CreateCommand();
+    cmd.CommandText = SelectBase + " WHERE p.nombre LIKE $f OR p.codigo LIKE $f ORDER BY p.nombre";
+    cmd.Parameters.AddWithValue("$f", $"%{filtro}%");   // el valor viaja aparte: nunca se concatena
+
+    var lista = new List&lt;Producto&gt;();
+    using var rd = cmd.ExecuteReader(); // recorre las filas una por una
+    while (rd.Read())
+        lista.Add(new Producto { Id = rd.GetInt32(0), Codigo = rd.GetString(1), Nombre = rd.GetString(2) /* ... */ });
+    return lista;
+}</pre>
+<p><b>Inyección SQL.</b> Si se concatena lo que escribe el usuario, alguien puede alterar la consulta. Los parámetros envían el valor por separado y el motor nunca lo interpreta como código SQL.</p>
+<pre class="codebox" data-lang="cs">// MAL: si el usuario escribe  ' OR 1=1 --  la condición siempre es verdadera y se muestran TODOS los productos
+cmd.CommandText = "SELECT * FROM productos WHERE nombre = '" + txtBuscar.Text + "'";
+
+// BIEN: $f es un parámetro; el texto escrito se compara tal cual, aunque tenga comillas o guiones
+cmd.CommandText = "SELECT * FROM productos WHERE nombre = $f";
+cmd.Parameters.AddWithValue("$f", txtBuscar.Text);</pre>
+<p><b>Patrón Repositorio.</b> Todo el SQL vive en una clase (<code>ProductoRepository</code>) y los formularios solo llaman a sus métodos (Listar, Insertar, Actualizar, Eliminar). Así la interfaz no depende del motor de base de datos.</p>
+<p class="ex">Ejemplo aplicado — AgroStock: si un cliente busca «O'Brien», o alguien escribe comillas en el cuadro de búsqueda, AgroStock no se rompe ni expone datos, porque la búsqueda usa un parámetro.</p>
+<p>👉 Vea la inyección SQL en acción en el <a href="encuentro-02/Guia_AgroStock_E02.html#paso-acceso">simulador del paso 4 de la guía</a>.</p>
+
+<h3 class="sub" id="s4">4. Controles de acceso a bases de datos y CRUD</h3>
+<p>Windows Forms enlaza datos a controles mediante la propiedad <code>DataSource</code>. <code>BindingSource</code> actúa como intermediario: conoce el elemento actual (<code>Current</code>), permite filtrar y notifica cambios.</p>
+<pre class="codebox" data-lang="cs">fuente.DataSource = repo.Listar(txtBuscar.Text);   // BindingSource: intermediario
+dgv.DataSource = fuente;                           // DataGridView muestra la lista
+
+cboCategoria.DataSource = repo.Categorias();
+cboCategoria.DisplayMember = "Nombre";   // lo que el usuario VE
+cboCategoria.ValueMember = "Id";         // lo que el programa GUARDA (la clave foránea, en SelectedValue)
+
+private void Nuevo()
+{
+    var p = new Producto();
+    using var dlg = new FrmProducto(p, repo.Categorias());
+    if (dlg.ShowDialog(this) != DialogResult.OK) return;
+    try { repo.Insertar(p); Cargar(); }
+    // 2067 = SQLITE_CONSTRAINT_UNIQUE: la base rechazó el código repetido; se avisa sin cerrar el programa
+    catch (SqliteException ex) when (ex.SqliteExtendedErrorCode == 2067)
+    {
+        MessageBox.Show(this, $"El código {p.Codigo} ya existe.", "No se guardó");
+    }
+}</pre>
+<p><b>Transacciones.</b> Una entrada o salida de mercadería cambia dos tablas: agrega el movimiento y modifica la existencia. Si una falla, la otra no debe quedar guardada.</p>
+<pre class="codebox" data-lang="cs">using var tx = cn.BeginTransaction();   // desde aquí nada es definitivo
+// ... INSERT en movimientos y UPDATE de productos.existencia, ambos con cmd.Transaction = tx ...
+tx.Commit();   // todo salió bien: se confirman las dos operaciones
+// Si ocurre una excepción antes del Commit (por ejemplo CHECK existencia >= 0), al liberar "tx" se hace Rollback solo.</pre>
+<p class="ex">Ejemplo aplicado — AgroStock: si doña Martha registra una SALIDA de 50 sacos y solo hay 24, la base rechaza el movimiento, se revierte la transacción y la existencia nunca queda negativa.</p>
+<p>👉 Pruebe el CRUD y los movimientos con y sin transacción en los <a href="encuentro-02/Guia_AgroStock_E02.html#paso-crud">simuladores del paso 5 de la guía</a>.</p>
+</section>
+
+<section class="step" id="u3" aria-labelledby="h-u3"><div class="step-h"><span class="num">Fundamentación científica · Unidad III</span><h2 id="h-u3">Programación concurrente</h2></div>
+
+<h3 class="sub" id="s5">5. Introducción a la programación concurrente</h3>
+<p>Un proceso es un programa en ejecución con su propia memoria. Un hilo (<i>thread</i>) es una secuencia de instrucciones dentro de un proceso; un proceso puede tener varios hilos que comparten la misma memoria. La programación concurrente consiste en organizar varias tareas que progresan al mismo tiempo, ya sea en paralelo (varios núcleos) o intercalándose.</p>
+<p>Las aplicaciones Windows Forms tienen un único hilo de interfaz (<i>UI thread</i>) que procesa los eventos y dibuja la ventana —el <code>[STAThread]</code> que vio en el Encuentro 1—. Si un manejador de eventos tarda 30 segundos, durante ese tiempo la ventana no puede redibujarse ni responder: Windows la marca como «No responde». La solución es mover el trabajo pesado a otro hilo y devolver solo los resultados a la interfaz.</p>
+<p class="ex">Ejemplo aplicado — AgroStock: cargar 500 productos en el hilo de la interfaz deja la ventana blanca durante casi un minuto; en un hilo de trabajo, doña Martha puede seguir moviendo la ventana y viendo el avance.</p>
+
+<h3 class="sub" id="s6">6. Clases para trabajar con hilos</h3>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Clase / técnica</th><th>Cuándo usarla</th></tr></thead><tbody>
+<tr><td class="wrap"><b>Thread</b></td><td class="wrap">Control directo de un hilo (nombre, prioridad, <code>IsBackground</code>). Útil para aprender los estados; costoso crear muchos.</td></tr>
+<tr><td class="wrap"><b>ThreadPool</b></td><td class="wrap">Conjunto de hilos reutilizables administrado por .NET.</td></tr>
+<tr><td class="wrap"><b>Task + Task.Run</b></td><td class="wrap">Opción recomendada: ejecuta trabajo en el ThreadPool y se puede esperar con <code>await</code>.</td></tr>
+<tr><td class="wrap"><b>async / await</b></td><td class="wrap">Espera una tarea sin bloquear el hilo de la interfaz; el código continúa en la UI al terminar.</td></tr>
+<tr><td class="wrap"><b>BackgroundWorker</b></td><td class="wrap">Componente histórico de Windows Forms (eventos <code>DoWork</code>, <code>ProgressChanged</code>, <code>RunWorkerCompleted</code>).</td></tr>
+<tr><td class="wrap"><b>IProgress&lt;T&gt; / Progress&lt;T&gt;</b></td><td class="wrap">Reporta avance desde el hilo de trabajo; el manejador se ejecuta en el hilo de la UI.</td></tr></tbody></table></div>
+<pre class="codebox" data-lang="cs">private async void BtnIniciar_Click(object? sender, EventArgs e)   // async void: solo en manejadores de eventos
+{
+    cts = new CancellationTokenSource();
+    var token = cts.Token;
+    // Progress&lt;int&gt; se crea en el hilo de la UI: su manejador también corre allí y puede tocar controles
+    var progreso = new Progress&lt;int&gt;(pct =&gt; barra.Value = pct);
+    try
+    {
+        await Task.Run(() =&gt; Importar(ruta, progreso, token));   // el trabajo corre en el ThreadPool
+        lblEstado.Text = "Importación terminada";                // después del await se vuelve al hilo de la UI
+    }
+    catch (OperationCanceledException) { lblEstado.Text = "Cancelada"; }
+}</pre>
+<p class="ex">Ejemplo aplicado — AgroStock: FrmImportar usa Task.Run para leer el CSV, IProgress para llenar la barra y await para volver a la ventana sin congelarla.</p>
+<p>👉 Compare la importación bloqueante con la de segundo plano en el <a href="encuentro-02/Guia_AgroStock_E02.html#paso-hilos">simulador de la estrella del paso 6 de la guía</a>.</p>
+
+<h3 class="sub" id="s7">7. Estados de un hilo</h3>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Estado (ThreadState)</th><th>Significado</th><th>Se llega con</th></tr></thead><tbody>
+<tr><td class="wrap"><b>Unstarted</b></td><td class="wrap">Creado pero no iniciado</td><td class="wrap"><code>new Thread(...)</code></td></tr>
+<tr><td class="wrap"><b>Running</b></td><td class="wrap">Ejecutándose o listo para ejecutarse</td><td class="wrap"><code>Start()</code></td></tr>
+<tr><td class="wrap"><b>WaitSleepJoin</b></td><td class="wrap">Bloqueado esperando</td><td class="wrap"><code>Sleep()</code>, <code>Join()</code>, <code>lock</code> ocupado</td></tr>
+<tr><td class="wrap"><b>Stopped</b></td><td class="wrap">Terminó su método</td><td class="wrap">Fin del método del hilo</td></tr></tbody></table></div>
+<pre class="codebox" data-lang="cs">var hilo = new Thread(() =&gt; Thread.Sleep(1500)) { Name = "Trabajador" };
+Console.WriteLine(hilo.ThreadState);   // Unstarted
+hilo.Start();
+Thread.Sleep(200);                     // se da tiempo a que el hilo llegue a su Sleep
+Console.WriteLine(hilo.ThreadState);   // WaitSleepJoin
+hilo.Join();                           // el hilo principal espera a que termine
+Console.WriteLine(hilo.ThreadState);   // Stopped</pre>
+<p class="ex">Ejemplo aplicado — AgroStock: mientras la importación espera entre producto y producto, su hilo está en WaitSleepJoin; al terminar pasa a Stopped y libera sus recursos.</p>
+
+<h3 class="sub" id="s8">8. Mecanismos de sincronización</h3>
+<p>Cuando dos hilos modifican el mismo dato sin coordinación ocurre una <b>condición de carrera</b>: la operación <code>contador++</code> en realidad es leer, sumar y escribir, y los hilos pueden intercalarse perdiendo incrementos.</p>
+<pre class="codebox" data-lang="cs">object candado = new();
+lock (candado) { contador++; }                  // sección crítica: un hilo a la vez
+Interlocked.Increment(ref contador2);           // operación atómica, sin lock
+
+using var semaforo = new SemaphoreSlim(2);      // máximo 2 tareas simultáneas
+await semaforo.WaitAsync();
+try { /* descarga */ }
+finally { semaforo.Release(); }                 // SIEMPRE devolver el permiso, aunque falle</pre>
+<div class="note"><b>Regla de oro de Windows Forms:</b> solo el hilo de la interfaz puede tocar los controles. Desde otro hilo se usa <code>IProgress&lt;T&gt;</code>, <code>Control.Invoke</code> o se devuelve el resultado y se asigna después del <code>await</code>. Violar esta regla produce la excepción «Operación no válida a través de subprocesos».</div>
+<p class="ex">Ejemplo aplicado — AgroStock: el contador de productos insertados y la lista de líneas rechazadas se protegen con Interlocked y lock, para que el total mostrado a doña Martha siempre coincida con lo guardado.</p>
+<p>👉 Vea los incrementos perdidos y el límite de tareas en el <a href="encuentro-02/Guia_AgroStock_E02.html#paso-sincro">simulador del paso 7 de la guía</a>.</p>
+
+<h3 class="sub" id="s9">9. Detención controlada de hilos</h3>
+<p>Un hilo nunca debe detenerse a la fuerza (<code>Thread.Abort</code> está obsoleto y no funciona en .NET moderno): puede dejar archivos abiertos o datos a medias. La detención controlada es <b>cooperativa</b>: la interfaz solicita la cancelación con <code>CancellationTokenSource.Cancel()</code> y el hilo revisa el token periódicamente, libera recursos y termina.</p>
+<pre class="codebox" data-lang="cs">using var tx = cn.BeginTransaction();
+for (int i = 0; i &lt; lineas.Length; i++)
+{
+    if (token.IsCancellationRequested)            // la tarea revisa el token en un punto seguro
+    {
+        tx.Rollback();                            // nada queda a medias
+        token.ThrowIfCancellationRequested();     // sale de la tarea con OperationCanceledException
+    }
+    repo.Insertar(Parsear(lineas[i]), cn, tx);
+    progreso?.Report((i + 1) * 100 / lineas.Length);
+}
+tx.Commit();                                      // solo si llegó al final se vuelve definitivo</pre>
+<p class="ex">Ejemplo aplicado — AgroStock: si el hijo de doña Martha pulsa «Cancelar» a la mitad de la importación, la transacción se revierte y la base queda exactamente como estaba, sin 250 productos a medias.</p>
+</section>
+
+<section class="step" id="integracion" aria-labelledby="h-integracion"><div class="step-h"><span class="num">Fundamentación científica · 10</span><h2 id="h-integracion">10. Integración: AgroStock v2</h2></div>
+<p>El código completo de AgroStock v2 está en la carpeta de recursos del Encuentro 2 (guía interactiva). Estructura del proyecto:</p>
+<pre class="codebox">AgroStock.E02/
+├── AgroStock.E02.csproj
+├── Program.cs                  ← llama a Db.Inicializar() antes de abrir la ventana
+├── Models/Producto.cs          ← Producto y Categoria
+├── Data/Db.cs                  ← conexión y creación de la base
+├── Data/ProductoRepository.cs  ← CRUD parametrizado y movimientos
+└── Forms/
+    ├── FrmPrincipal.cs         ← DataGridView + BindingSource
+    ├── FrmProducto.cs          ← ComboBox enlazado a categorías
+    ├── FrmMovimiento.cs        ← entradas y salidas en una transacción
+    └── FrmImportar.cs          ← Task.Run, IProgress, CancellationToken
+agrostock.db · agrostock.sql · productos_importar.csv · DemoHilos/ (proyecto de consola)</pre>
+<p>La interfaz del Encuentro 1 casi no cambia: la lista en memoria (<code>BindingList</code>) se reemplaza por llamadas al repositorio.</p>
+<p class="ex">Ejemplo aplicado — AgroStock: el cuaderno de doña Martha vs. AgroStock v1 vs. AgroStock v2.</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Aspecto</th><th>Lista en memoria (v1, E1)</th><th>Base de datos SQLite (v2, E2)</th></tr></thead><tbody>
+<tr><td class="wrap"><b>Almacenamiento</b></td><td class="wrap">BindingList: se pierde al cerrar o apagarse</td><td class="wrap">Archivo agrostock.db: sobrevive al cierre y al apagón</td></tr>
+<tr><td class="wrap"><b>Búsqueda</b></td><td class="wrap">Filtro en memoria sobre la lista</td><td class="wrap">Consulta SQL con LIKE y parámetros</td></tr>
+<tr><td class="wrap"><b>Datos inválidos</b></td><td class="wrap">Solo validación en el formulario</td><td class="wrap">Validación + restricciones (UNIQUE, CHECK, FK) de la base</td></tr>
+<tr><td class="wrap"><b>Existencias</b></td><td class="wrap">Se edita el número a mano</td><td class="wrap">Movimientos de ENTRADA y SALIDA en una transacción</td></tr>
+<tr><td class="wrap"><b>Carga de 500 productos</b></td><td class="wrap">Inviable: se escribe uno por uno</td><td class="wrap">Importación en segundo plano, con progreso y cancelación</td></tr></tbody></table></div>
+<div class="btns"><a class="sbtn" href="encuentro-02/Guia_AgroStock_E02.html">Empezar la guía paso a paso</a></div>
+</section>
+
+<section class="step" id="ejercitacion-e2" aria-labelledby="h-ejercitacion-e2"><div class="step-h"><span class="num">Ejercitación</span><h2 id="h-ejercitacion-e2">Ejercitación</h2></div>
+<p>Las siguientes actividades fomentan el aprendizaje autónomo e investigativo y se realizan de forma individual y colaborativa.</p>
+<h3 class="sub">Actividad individual</h3><ul class="pl"><li>Complete la tercera columna de su tabla SQA («Qué aprendí») con las ideas clave de la fundamentación científica.</li><li>Resuelva la autoevaluación sin mirar el material y luego compruebe sus respuestas en el quiz de la sección de juegos.</li></ul>
+<div id="review" class="errs"></div>
+<p>👉 Resuelva las preguntas en su cuaderno y compruebe sus respuestas en el juego, que da puntaje y retroalimentación: <a href="juegos-02.html#e2-quiz">🧠 Quiz de autoevaluación E2</a> y los demás <a href="juegos-02.html">juegos del Encuentro 2</a>.</p>
+
+<h3 class="sub">Actividad colaborativa</h3>
+<p>El trabajo interencuentro se retoma en la <a href="#boa2">BOA 2</a>. Debe realizarse en grupos (salvo las tareas individuales) y entregarse en el Encuentro 3.</p>
+<ol class="pl"><li>Corregir AgroStock v1 con la retroalimentación del corte 1 (tarea 1).</li><li>AgroStock v2: CRUD sobre SQLite y tabla de movimientos (tarea 3).</li><li>Importación en segundo plano con progreso, cancelación y rollback, y un video de máximo 2 minutos (tarea 4).</li><li>Individual: resolver las 10 consultas SQL (tarea 2), redactar el informe Thread / Task / BackgroundWorker (tarea 5) y leer la sección «¿Qué es un ORM?» del folleto del Encuentro 3 (tarea 6).</li></ol>
+<h3 class="sub">Práctica de programación</h3>
+<p>Resuelva de forma individual los siguientes ejercicios. Ejecute <code>agrostock.sql</code> en DB Browser for SQLite y escriba cada consulta en su script <code>.sql</code>. Las 10 consultas son obligatorias (tarea 2 de la BOA 2). Cada una tiene un simulador con comprobación en la <a href="encuentro-02/Guia_AgroStock_E02.html#ejercitacion">sección Ejercitación de la guía</a>.</p>
+<h3 class="sub">Nivel 1 – Básico</h3><ol class="pl"><li>Listar todos los productos ordenados por precio de mayor a menor.</li><li>Mostrar código, nombre y existencia de los productos con existencia menor que 10.</li><li>Mostrar los productos que vencen antes del 31/12/2026.</li><li>Mostrar cada producto con el nombre de su categoría (JOIN).</li><li>Contar cuántos productos hay por categoría.</li><li><b>Reto de programación 1:</b> agregue a AgroStock v2 un ComboBox para filtrar por categoría.</li></ol>
+<h3 class="sub">Nivel 2 – Intermedio</h3><ol class="pl"><li>Calcular el valor total del inventario (precio × existencia).</li><li>Insertar una nueva categoría «Riego» y un producto de esa categoría.</li><li>Aumentar 5 % el precio de los fertilizantes (verifique primero con SELECT).</li><li>Registrar una SALIDA de 3 unidades del producto HER-004 en movimientos.</li><li>Eliminar los productos con existencia 0 de la categoría Herramientas (verifique primero con SELECT).</li><li><b>Reto de programación 2:</b> cree <code>MovimientoRepository</code> y un formulario para registrar entradas y salidas que actualice la existencia en la misma transacción.</li></ol>
+<h3 class="sub">Nivel 3 – Avanzado (opcional)</h3><ol class="pl"><li><b>Reto de programación 3:</b> en DemoHilos, cree una demostración productor–consumidor con <code>BlockingCollection&lt;T&gt;</code>.</li></ol>
+<h3 class="sub">Entrega</h3>
+<p>Suba al aula virtual el script <code>.sql</code> con las 10 consultas y sus resultados (tarea «Ejercitación E2»), el proyecto AgroStock v2 —con la importación en segundo plano y el video— sin las carpetas <code>bin</code> y <code>obj</code>, y el informe de una página en PDF. Si usó ejemplos o IA, indíquelo en el README.</p>
+<h3 class="sub">Lista de verificación</h3>
+<p class="muted">Marque lo que ya logró (se guarda en este navegador).</p>
+<ul class="chk" id="chk" data-clave="e2" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px"></ul><p id="chkmsg" aria-live="polite"></p>
+</section>
+
+<section class="step" id="boa2" aria-labelledby="h-boa2"><div class="step-h"><span class="num">Trabajo interencuentro</span><h2 id="h-boa2">Trabajo interencuentro (BOA 2)</h2></div>
+<p>La BOA 2 orienta el corte evaluativo 2: lo que se hace en el encuentro presencial y el trabajo que realiza de forma independiente antes del Encuentro 3.</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>N.°</th><th>Tarea</th><th>Modalidad</th><th>Entrega</th></tr></thead><tbody>
+<tr><td class="wrap">1</td><td class="wrap">Corregir AgroStock v1 según la retroalimentación del corte 1</td><td class="wrap">Grupal</td><td class="wrap">Aula virtual «Correcciones corte 1» · 20/10/2026</td></tr>
+<tr><td class="wrap">2</td><td class="wrap">Ejercitación E2: las 10 consultas SQL (script .sql con resultados)</td><td class="wrap">Grupal</td><td class="wrap">Aula virtual «Ejercitación E2» · 20/10/2026</td></tr>
+<tr><td class="wrap">3</td><td class="wrap">AgroStock v2: CRUD completo sobre SQLite y tabla movimientos</td><td class="wrap">Parejas</td><td class="wrap">.zip en el aula virtual · Encuentro 3</td></tr>
+<tr><td class="wrap">4</td><td class="wrap">Importación en segundo plano con progreso, cancelación y rollback + video (máx. 2 min)</td><td class="wrap">Grupal</td><td class="wrap">Dentro del paquete de la tarea 3 · Encuentro 3</td></tr>
+<tr><td class="wrap">5</td><td class="wrap">Informe Thread / Task / BackgroundWorker (1 página, PDF)</td><td class="wrap">Individual</td><td class="wrap">Aula virtual · 23/10/2026</td></tr></tbody></table></div>
+<p class="muted">Las fechas se confirman en el aula virtual. En el README de AgroStock v2 indique qué proceso de su informe de campo del Encuentro 1 justifica cada tabla.</p>
+<div class="btns"><a class="sbtn" href="encuentro-02/BOA_E02.pdf" target="_blank" rel="noopener">📄 BOA 2 (PDF)</a><a class="sbtn ghost" href="encuentro-02/Guia_AgroStock_E02.html#boa">🧭 Autoevaluarse con la rúbrica de la guía</a></div>
+</section>
+
+<section class="step" id="recursos" aria-labelledby="h-recursos"><div class="step-h"><span class="num">Recursos</span><h2 id="h-recursos">Recursos y código</h2></div>
+<div class="btns">
+<a class="sbtn" href="encuentro-02/Guia_AgroStock_E02.html">🧭 Guía interactiva AgroStock v2</a>
+<a class="sbtn ghost" href="encuentro-02/Material_didactico_E2.pdf" target="_blank" rel="noopener">📘 Folleto del Encuentro 2</a>
+<a class="sbtn ghost" href="encuentro-02/BOA_E02.pdf" target="_blank" rel="noopener">📄 BOA 2</a>
+</div>
+<h3 class="sub">Archivos de datos</h3>
+<div class="btns"><a class="sbtn ghost sm" href="recursos/agrostock.sql" download>agrostock.sql</a><a class="sbtn ghost sm" href="recursos/consultas.sql" download>consultas.sql</a><a class="sbtn ghost sm" href="recursos/productos_importar.csv" download>productos_importar.csv (500 filas)</a></div>
+<p class="muted">Los datos son de prueba y no contienen información personal real.</p>
+</section>
+
+<section class="step" id="cierre" aria-labelledby="h-cierre"><div class="step-h"><span class="num">C. Cierre y consolidación del aprendizaje</span><h2 id="h-cierre">Complementación</h2></div>
+<p>El dominio de las bases de datos y de la programación concurrente va más allá de memorizar sentencias o nombres de clases. Reflexione sobre las siguientes preguntas, que conectan lo aprendido con su realidad como futuro(a) ingeniero(a) en sistemas:</p>
+<h3 class="sub">Preguntas para reflexionar</h3><ul class="pl"><li><b>Conexión con la práctica:</b> piense en los negocios de su comunidad —un agroservicio, una pulpería, una cooperativa—. ¿De qué manera una base de datos y una importación en segundo plano pueden reemplazar el cuaderno y reducir los errores de registro?</li><li><b>Transferencia del aprendizaje:</b> ya sabe guardar datos con SQL parametrizado y proteger la interfaz con tareas en segundo plano. ¿Cómo podría aplicarlo a planillas, facturación o control de ventas?</li><li><b>Relación con el eje Madre Tierra:</b> ¿cómo puede digitalizar el inventario reducir el uso de papel, las pérdidas de insumos vencidos y los viajes innecesarios de los productores? Escriba tres ideas.</li></ul>
+<h3 class="sub">Sitios web para ampliar sus conocimientos</h3>
+<p><a href="encuentro-02/Material_didactico_E2.pdf" target="_blank" rel="noopener">📘 Descargar el material didáctico completo del Encuentro 2 (PDF)</a></p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Recurso</th><th>Descripción</th><th>Enlace</th></tr></thead><tbody>
+<tr><td class="wrap">Microsoft Learn — Microsoft.Data.Sqlite: información general</td><td class="wrap">Cómo conectarse a SQLite desde .NET: conexiones, comandos, parámetros y transacciones.</td><td class="wrap"><a href="https://learn.microsoft.com/es-es/dotnet/standard/data/sqlite/" target="_blank" rel="noopener">Abrir</a></td></tr>
+<tr><td class="wrap">SQLite — SQL As Understood By SQLite</td><td class="wrap">Referencia oficial del lenguaje SQL que entiende SQLite.</td><td class="wrap"><a href="https://www.sqlite.org/lang.html" target="_blank" rel="noopener">Abrir</a></td></tr>
+<tr><td class="wrap">Microsoft Learn — Programación asincrónica con async y await</td><td class="wrap">Cómo esperar tareas largas sin bloquear la interfaz.</td><td class="wrap"><a href="https://learn.microsoft.com/es-es/dotnet/csharp/asynchronous-programming/" target="_blank" rel="noopener">Abrir</a></td></tr>
+<tr><td class="wrap">Microsoft Learn — Cancelación en subprocesos administrados</td><td class="wrap">Cancelación cooperativa con CancellationToken.</td><td class="wrap"><a href="https://learn.microsoft.com/es-es/dotnet/standard/threading/cancellation-in-managed-threads" target="_blank" rel="noopener">Abrir</a></td></tr></tbody></table></div>
+<h3 class="sub">Glosario del encuentro</h3>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Término</th><th>Definición</th></tr></thead><tbody>
+<tr><td class="wrap">Clave primaria (PK)</td><td class="wrap">Campo que identifica de forma única cada fila de una tabla.</td></tr>
+<tr><td class="wrap">Clave foránea (FK)</td><td class="wrap">Campo que referencia la clave primaria de otra tabla y crea la relación.</td></tr>
+<tr><td class="wrap">Restricción</td><td class="wrap">Regla de la base de datos (NOT NULL, UNIQUE, CHECK) que protege la integridad de los datos.</td></tr>
+<tr><td class="wrap">CRUD</td><td class="wrap">Create, Read, Update, Delete: las cuatro operaciones básicas sobre datos.</td></tr>
+<tr><td class="wrap">Parámetro</td><td class="wrap">Marcador (como <code>$f</code>) cuyo valor viaja separado del SQL; evita la inyección.</td></tr>
+<tr><td class="wrap">Inyección SQL</td><td class="wrap">Ataque que altera una consulta concatenando texto malicioso; se evita con parámetros.</td></tr>
+<tr><td class="wrap">Repositorio</td><td class="wrap">Clase que concentra todo el SQL de una entidad y oculta el motor a la interfaz.</td></tr>
+<tr><td class="wrap">Transacción</td><td class="wrap">Grupo de operaciones que se confirman todas (Commit) o ninguna (Rollback).</td></tr>
+<tr><td class="wrap">Hilo</td><td class="wrap">Secuencia de ejecución dentro de un proceso; varios hilos comparten memoria.</td></tr>
+<tr><td class="wrap">Hilo de la interfaz</td><td class="wrap">Único hilo que dibuja la ventana y puede tocar los controles.</td></tr>
+<tr><td class="wrap">Condición de carrera</td><td class="wrap">Error que aparece cuando varios hilos modifican un dato sin sincronización.</td></tr>
+<tr><td class="wrap"><code>lock</code></td><td class="wrap">Instrucción de C# que permite a un solo hilo a la vez ejecutar una sección crítica.</td></tr>
+<tr><td class="wrap"><code>Interlocked</code></td><td class="wrap">Operaciones atómicas (como Increment) que no necesitan lock.</td></tr>
+<tr><td class="wrap"><code>CancellationToken</code></td><td class="wrap">Señal para solicitar la detención cooperativa de una tarea.</td></tr></tbody></table></div>
+<h3 class="sub">Cierre y transferencia del aprendizaje</h3>
+<p>Guardar datos y hacer trabajo en segundo plano no son solo técnicas: son decisiones sobre la confianza que el usuario puede tener en su programa. Una base de datos con restricciones, consultas parametrizadas y tareas cancelables pueden convertir el inventario de doña Martha en una herramienta confiable, que resiste apagones, errores de captura y listas de cientos de productos.</p>
+<p>Así como doña Martha pasó del cuaderno a la pantalla, y ahora de la memoria a una base de datos, usted avanza en su camino en la programación de aplicaciones de escritorio: AgroStock v2 es la segunda etapa de una aplicación que completaremos en el próximo encuentro.</p>
+<h3 class="sub">Conclusiones clave del encuentro</h3>
+<ol class="pl"><li>Los datos viven en la base, no en la memoria: sobreviven al cierre y a los apagones.</li><li>Toda consulta con datos del usuario se parametriza; el SQL vive en el repositorio.</li><li>El hilo de la interfaz solo dibuja y responde; el trabajo pesado va a otro hilo o tarea, con progreso por IProgress.</li><li>La sincronización (lock, Interlocked, SemaphoreSlim) protege los datos compartidos entre hilos.</li><li>La cancelación cooperativa con CancellationToken y una transacción con Rollback detienen una tarea sin dejar datos a medias: así AgroStock v2 reemplaza la lista en memoria de v1.</li></ol>
+<h3 class="sub">Transferencia del aprendizaje</h3>
+<ol class="pl"><li>SQL y las restricciones de integridad son los mismos en MySQL, SQL Server o PostgreSQL: solo cambia el proveedor.</li><li>El patrón Repositorio y los parámetros le servirán para el ORM que verá en el Encuentro 3.</li><li>Cualquier aplicación que consuma un servicio web o genere un reporte pesado necesitará las mismas tareas en segundo plano y cancelación.</li></ol>
+<blockquote class="quote" style="margin:0;padding:12px 16px;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:8px;font-style:italic;max-width:78ch">«La práctica constante es la clave». Aplíquese a las consultas del encuentro y a AgroStock v2, y estará construyendo una competencia que le acompañará durante toda su carrera profesional.</blockquote>
+</section>
+
+<section class="step" id="refs" aria-labelledby="h-refs"><div class="step-h"><span class="num">Referencias</span><h2 id="h-refs">Referencias</h2></div>
+<ul class="pl refs"><li>Ceballos Sierra, F. J. <i>Enciclopedia de Microsoft Visual C#</i>. Editorial RA-MA.</li><li>Deitel, H. M. y Deitel, P. J. <i>C# Cómo programar</i>. Editorial Pearson, Prentice Hall.</li><li>Microsoft (2024). Guía de escritorio (Windows Forms .NET). Microsoft Learn. <a href="https://learn.microsoft.com/es-es/dotnet/desktop/winforms/" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/desktop/winforms/</a></li><li>Microsoft (2024). Información general sobre eventos (Windows Forms .NET). Microsoft Learn. <a href="https://learn.microsoft.com/es-es/dotnet/desktop/winforms/forms/events" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/desktop/winforms/forms/events</a></li><li>Microsoft (2024). Microsoft.Data.Sqlite: información general. Microsoft Learn. <a href="https://learn.microsoft.com/es-es/dotnet/standard/data/sqlite/" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/standard/data/sqlite/</a></li><li>Microsoft (2024). Subprocesamiento administrado y programación asincrónica. Microsoft Learn. <a href="https://learn.microsoft.com/es-es/dotnet/standard/threading/" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/standard/threading/</a></li><li>Microsoft (2024). Tutorial: Creación de una aplicación de Windows Forms con .NET. Microsoft Learn. <a href="https://learn.microsoft.com/es-es/dotnet/desktop/winforms/get-started/create-app-visual-studio" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/desktop/winforms/get-started/create-app-visual-studio</a></li><li>SQLite Consortium (2024). SQL As Understood By SQLite. <a href="https://www.sqlite.org/lang.html" target="_blank" rel="noopener">https://www.sqlite.org/lang.html</a></li></ul>
+<div class="unan"><img src="assets/img/unan-cierre.png" width="820" height="150" loading="lazy" alt="UNAN-Managua. ¡Universidad del Pueblo y para el Pueblo!"><a href="https://www.unan.edu.ni" target="_blank" rel="noopener">www.unan.edu.ni</a></div>
+</section>
+</main>
+<footer id="foot" data-enc="Encuentro 2: 17 de octubre de 2026"></footer>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/quiz.js"></script>
+<script>
+$('#review').replaceChildren(...QUIZ_E2.slice(0, 7).map((q, i) => h('div', { class: 'qs' }, h('p', { class: 'q', html: `${i + 1}. ${rich(q.q)}` }), h('ol', { class: 'pl', type: 'a' }, q.o.map(t => h('li', { html: rich(t) }))))));
+// SQA
+const sqa = store.get('e2:sqa', {});
+[['s', 'sqa-s'], ['q', 'sqa-q'], ['a', 'sqa-a']].forEach(([k, id]) => { const t = $('#' + id); t.value = sqa[k] || ''; t.addEventListener('input', () => { sqa[k] = t.value; store.set('e2:sqa', sqa); }); });
+// Lista de verificación (persistida con la clave e2)
+const ITEMS = ['Instalé DB Browser for SQLite y ejecuté agrostock.sql', 'Resolví las 10 consultas SQL', 'Implementé ProductoRepository con consultas parametrizadas', 'El CRUD funciona desde la interfaz y registré movimientos', 'Ejecuté DemoHilos y observé la condición de carrera', 'La importación no congela la ventana', 'Puedo cancelar la importación y se revierte', 'Entregué AgroStock v2, el video y el informe'];
+const saved = store.get('e2:check', []), ul = $('#chk'), msg = $('#chkmsg');
+const upd = () => { const n = $$('input', ul).filter(b => b.checked).length; msg.textContent = `${n} de ${ITEMS.length} logros`; };
+ITEMS.forEach((t, i) => ul.append(h('li', null, h('label', null, h('input', { type: 'checkbox', checked: !!saved[i], onchange: e => { store.set('e2:check', $$('input', ul).map(b => b.checked)); if (e.target.checked) sfx('click'); upd(); } }), h('span', null, t)))));
+upd();
+</script>
+</body>
+</html>

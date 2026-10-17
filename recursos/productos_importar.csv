@@ -1,0 +1,501 @@
+codigo;nombre;categoria;precio;existencia;vencimiento
+IMP-0001;Fórmula 15-15-15 (quintal) - lote 1;Fertilizantes;1170.23;108;
+IMP-0002;Semilla de arroz (libra) - lote 1;Semillas;24.39;21;2027-06-27
+IMP-0003;Herbicida selectivo (litro) - lote 1;Herbicidas;175.62;27;2028-05-20
+IMP-0004;Azadón con cabo - lote 1;Herramientas;284.19;74;
+IMP-0005;Sulfato de amonio (quintal) - lote 1;Fertilizantes;799.79;55;
+IMP-0006;Semilla de frijol negro (libra) - lote 1;Semillas;30.58;64;2028-09-15
+IMP-0007;Herbicida de contacto (litro) - lote 1;Herbicidas;198.35;59;2027-01-12
+IMP-0008;Pala redonda - lote 1;Herramientas;328.74;116;
+IMP-0009;Fosfato diamónico DAP (quintal) - lote 1;Fertilizantes;1297.83;114;
+IMP-0010;Semilla de tomate (sobre) - lote 1;Semillas;47.42;30;2027-09-06
+IMP-0011;Herbicida pre-emergente (litro) - lote 1;Herbicidas;149.15;17;2027-06-06
+IMP-0012;Tijera de podar - lote 1;Herramientas;265.38;46;
+IMP-0013;Abono orgánico (saco) - lote 1;Fertilizantes;224.66;86;
+IMP-0014;Semilla de chile (sobre) - lote 1;Semillas;40.34;67;2028-07-24
+IMP-0015;Herbicida sistémico (litro) - lote 1;Herbicidas;200.82;46;2028-10-12
+IMP-0016;Rastrillo - lote 1;Herramientas;245.49;57;
+IMP-0017;Cloruro de potasio (quintal) - lote 1;Fertilizantes;1000.19;96;
+IMP-0018;Semilla de pipián (sobre) - lote 1;Semillas;34.51;31;2028-11-17
+IMP-0019;Herbicida para pasto (litro) - lote 1;Herbicidas;84.88;106;2028-09-17
+IMP-0020;Guantes de trabajo (par) - lote 1;Herramientas;62.49;84;
+IMP-0021;Fórmula 15-15-15 (quintal) - lote 2;Fertilizantes;1158.96;115;
+IMP-0022;Semilla de arroz (libra) - lote 2;Semillas;27.47;117;2028-10-24
+IMP-0023;Herbicida selectivo (litro) - lote 2;Herbicidas;171.37;28;2028-08-22
+IMP-0024;Azadón con cabo - lote 2;Herramientas;297.27;104;
+IMP-0025;Sulfato de amonio (quintal) - lote 2;Fertilizantes;801.79;21;
+IMP-0026;Semilla de frijol negro (libra) - lote 2;Semillas;31.58;38;2028-08-10
+IMP-0027;Herbicida de contacto (litro) - lote 2;Herbicidas;218.13;26;2028-05-24
+IMP-0028;Pala redonda - lote 2;Herramientas;309.52;46;
+IMP-0029;Fosfato diamónico DAP (quintal) - lote 2;Fertilizantes;1400.23;79;
+IMP-0030;Semilla de tomate (sobre) - lote 2;Semillas;47.41;116;2028-12-01
+IMP-0031;Herbicida pre-emergente (litro) - lote 2;Herbicidas;161.84;83;2027-01-19
+IMP-0032;Tijera de podar - lote 2;Herramientas;248.26;75;
+IMP-0033;Abono orgánico (saco) - lote 2;Fertilizantes;201.96;112;
+IMP-0034;Semilla de chile (sobre) - lote 2;Semillas;42.33;105;2027-05-08
+IMP-0035;Herbicida sistémico (litro) - lote 2;Herbicidas;182.30;97;2027-07-23
+IMP-0036;Rastrillo - lote 2;Herramientas;214.93;46;
+IMP-0037;Cloruro de potasio (quintal) - lote 2;Fertilizantes;1029.45;31;
+IMP-0038;Semilla de pipián (sobre) - lote 2;Semillas;35.85;3;2027-02-03
+IMP-0039;Herbicida para pasto (litro) - lote 2;Herbicidas;79.54;16;2027-06-09
+IMP-0040;Guantes de trabajo (par) - lote 2;Herramientas;62.63;20;
+IMP-0041;Fórmula 15-15-15 (quintal) - lote 3;Fertilizantes;1136.16;66;
+IMP-0042;Semilla de arroz (libra) - lote 3;Semillas;26.70;101;2028-10-02
+IMP-0043;Herbicida selectivo (litro) - lote 3;Herbicidas;181.66;44;2027-01-01
+IMP-0044;Azadón con cabo - lote 3;Herramientas;297.19;80;
+IMP-0045;Sulfato de amonio (quintal) - lote 3;Fertilizantes;806.48;14;
+IMP-0046;Semilla de frijol negro (libra) - lote 3;Semillas;29.10;57;2028-01-10
+IMP-0047;Herbicida de contacto (litro) - lote 3;Herbicidas;206.48;51;2027-05-25
+IMP-0048;Pala redonda - lote 3;Herramientas;325.73;90;
+IMP-0049;Fosfato diamónico DAP (quintal) - lote 3;Fertilizantes;1255.96;28;
+IMP-0050;Semilla de tomate (sobre) - lote 3;Semillas;42.44;57;2028-02-01
+IMP-0051;Herbicida pre-emergente (litro) - lote 3;Herbicidas;161.26;99;2027-09-19
+IMP-0052;Tijera de podar - lote 3;Herramientas;261.03;65;
+IMP-0053;Abono orgánico (saco) - lote 3;Fertilizantes;204.94;111;
+IMP-0054;Semilla de chile (sobre) - lote 3;Semillas;42.57;53;2028-05-20
+IMP-0055;Herbicida sistémico (litro) - lote 3;Herbicidas;194.08;32;2027-11-02
+IMP-0056;Rastrillo - lote 3;Herramientas;214.98;20;
+IMP-0057;Cloruro de potasio (quintal) - lote 3;Fertilizantes;1001.59;58;
+IMP-0058;Semilla de pipián (sobre) - lote 3;Semillas;35.66;91;2027-04-08
+IMP-0059;Herbicida para pasto (litro) - lote 3;Herbicidas;84.34;29;2028-02-19
+IMP-0060;Guantes de trabajo (par) - lote 3;Herramientas;61.04;102;
+IMP-0061;Fórmula 15-15-15 (quintal) - lote 4;Fertilizantes;1119.08;46;
+IMP-0062;Semilla de arroz (libra) - lote 4;Semillas;25.11;96;2028-05-17
+IMP-0063;Herbicida selectivo (litro) - lote 4;Herbicidas;158.21;20;2027-07-14
+IMP-0064;Azadón con cabo - lote 4;Herramientas;264.76;92;
+IMP-0065;Sulfato de amonio (quintal) - lote 4;Fertilizantes;734.99;13;
+IMP-0066;Semilla de frijol negro (libra) - lote 4;Semillas;28.32;27;2027-04-04
+IMP-0067;Herbicida de contacto (litro) - lote 4;Herbicidas;191.35;68;2028-08-10
+IMP-0068;Pala redonda - lote 4;Herramientas;316.15;27;
+IMP-0069;Fosfato diamónico DAP (quintal) - lote 4;Fertilizantes;1354.13;97;
+IMP-0070;Semilla de tomate (sobre) - lote 4;Semillas;47.92;2;2028-07-17
+IMP-0071;Herbicida pre-emergente (litro) - lote 4;Herbicidas;156.76;74;2027-07-17
+IMP-0072;Tijera de podar - lote 4;Herramientas;253.17;12;
+IMP-0073;Abono orgánico (saco) - lote 4;Fertilizantes;214.80;61;
+IMP-0074;Semilla de chile (sobre) - lote 4;Semillas;39.25;37;2027-10-12
+IMP-0075;Herbicida sistémico (litro) - lote 4;Herbicidas;195.06;111;2028-05-01
+IMP-0076;Rastrillo - lote 4;Herramientas;235.97;12;
+IMP-0077;Cloruro de potasio (quintal) - lote 4;Fertilizantes;991.94;25;
+IMP-0078;Semilla de pipián (sobre) - lote 4;Semillas;36.67;52;2027-08-02
+IMP-0079;Herbicida para pasto (litro) - lote 4;Herbicidas;86.63;78;2028-04-19
+IMP-0080;Guantes de trabajo (par) - lote 4;Herramientas;56.42;36;
+IMP-0081;Fórmula 15-15-15 (quintal) - lote 5;Fertilizantes;1026.72;39;
+IMP-0082;Semilla de arroz (libra) - lote 5;Semillas;27.58;62;2027-04-25
+IMP-0083;Herbicida selectivo (litro) - lote 5;Herbicidas;162.68;59;2028-07-23
+IMP-0084;Azadón con cabo - lote 5;Herramientas;265.87;44;
+IMP-0085;Sulfato de amonio (quintal) - lote 5;Fertilizantes;768.54;15;
+IMP-0086;Semilla de frijol negro (libra) - lote 5;Semillas;28.97;108;2027-02-20
+IMP-0087;Herbicida de contacto (litro) - lote 5;Herbicidas;200.25;13;2028-04-23
+IMP-0088;Pala redonda - lote 5;Herramientas;289.37;84;
+IMP-0089;Fosfato diamónico DAP (quintal) - lote 5;Fertilizantes;1314.53;5;
+IMP-0090;Semilla de tomate (sobre) - lote 5;Semillas;46.41;58;2028-05-12
+IMP-0091;Herbicida pre-emergente (litro) - lote 5;Herbicidas;147.22;67;2028-05-16
+IMP-0092;Tijera de podar - lote 5;Herramientas;278.57;92;
+IMP-0093;Abono orgánico (saco) - lote 5;Fertilizantes;223.37;102;
+IMP-0094;Semilla de chile (sobre) - lote 5;Semillas;39.55;50;2028-11-10
+IMP-0095;Herbicida sistémico (litro) - lote 5;Herbicidas;182.86;70;2028-10-09
+IMP-0096;Rastrillo - lote 5;Herramientas;227.67;86;
+IMP-0097;Cloruro de potasio (quintal) - lote 5;Fertilizantes;1079.28;10;
+IMP-0098;Semilla de pipián (sobre) - lote 5;Semillas;35.42;22;2027-02-12
+IMP-0099;Herbicida para pasto (litro) - lote 5;Herbicidas;90.92;102;2027-07-03
+IMP-0100;Guantes de trabajo (par) - lote 5;Herramientas;56.52;114;
+IMP-0101;Fórmula 15-15-15 (quintal) - lote 1;Fertilizantes;1127.93;103;
+IMP-0102;Semilla de arroz (libra) - lote 1;Semillas;26.54;29;2027-05-13
+IMP-0103;Herbicida selectivo (litro) - lote 1;Herbicidas;174.96;67;2028-08-06
+IMP-0104;Azadón con cabo - lote 1;Herramientas;271.65;19;
+IMP-0105;Sulfato de amonio (quintal) - lote 1;Fertilizantes;784.47;96;
+IMP-0106;Semilla de frijol negro (libra) - lote 1;Semillas;29.68;91;2028-09-08
+IMP-0107;Herbicida de contacto (litro) - lote 1;Herbicidas;205.41;90;2027-03-15
+IMP-0108;Pala redonda - lote 1;Herramientas;298.48;111;
+IMP-0109;Fosfato diamónico DAP (quintal) - lote 1;Fertilizantes;1411.50;100;
+IMP-0110;Semilla de tomate (sobre) - lote 1;Semillas;46.67;92;2027-08-15
+IMP-0111;Herbicida pre-emergente (litro) - lote 1;Herbicidas;144.79;50;2028-12-06
+IMP-0112;Tijera de podar - lote 1;Herramientas;265.38;61;
+IMP-0113;Abono orgánico (saco) - lote 1;Fertilizantes;203.35;32;
+IMP-0114;Semilla de chile (sobre) - lote 1;Semillas;41.18;60;2028-12-21
+IMP-0115;Herbicida sistémico (litro) - lote 1;Herbicidas;186.28;116;2028-12-24
+IMP-0116;Rastrillo - lote 1;Herramientas;235.10;97;
+IMP-0117;Cloruro de potasio (quintal) - lote 1;Fertilizantes;1096.99;92;
+IMP-0118;Semilla de pipián (sobre) - lote 1;Semillas;33.65;85;2027-07-27
+IMP-0119;Herbicida para pasto (litro) - lote 1;Herbicidas;83.60;67;2027-06-15
+IMP-0120;Guantes de trabajo (par) - lote 1;Herramientas;61.78;113;
+IMP-0121;Fórmula 15-15-15 (quintal) - lote 2;Fertilizantes;1094.81;22;
+IMP-0122;Semilla de arroz (libra) - lote 2;Semillas;27.15;93;2027-07-07
+IMP-0123;Herbicida selectivo (litro) - lote 2;Herbicidas;171.65;49;2028-04-04
+IMP-0124;Azadón con cabo - lote 2;Herramientas;292.37;98;
+IMP-0125;Sulfato de amonio (quintal) - lote 2;Fertilizantes;812.93;35;
+IMP-0126;Semilla de frijol negro (libra) - lote 2;Semillas;31.03;78;2027-08-26
+IMP-0127;Herbicida de contacto (litro) - lote 2;Herbicidas;194.61;65;2028-08-09
+IMP-0128;Pala redonda - lote 2;Herramientas;312.87;59;
+IMP-0129;Fosfato diamónico DAP (quintal) - lote 2;Fertilizantes;1359.31;97;
+IMP-0130;Semilla de tomate (sobre) - lote 2;Semillas;42.31;107;2027-08-18
+IMP-0131;Herbicida pre-emergente (litro) - lote 2;Herbicidas;158.67;118;2027-10-16
+IMP-0132;Tijera de podar - lote 2;Herramientas;271.49;42;
+IMP-0133;Abono orgánico (saco) - lote 2;Fertilizantes;208.80;112;
+IMP-0134;Semilla de chile (sobre) - lote 2;Semillas;40.02;96;2027-02-20
+IMP-0135;Herbicida sistémico (litro) - lote 2;Herbicidas;185.95;80;2028-05-22
+IMP-0136;Rastrillo - lote 2;Herramientas;239.25;110;
+IMP-0137;Cloruro de potasio (quintal) - lote 2;Fertilizantes;1082.28;6;
+IMP-0138;Semilla de pipián (sobre) - lote 2;Semillas;33.35;37;2028-08-22
+IMP-0139;Herbicida para pasto (litro) - lote 2;Herbicidas;80.90;0;2028-09-15
+IMP-0140;Guantes de trabajo (par) - lote 2;Herramientas;58.88;68;
+IMP-0141;Fórmula 15-15-15 (quintal) - lote 3;Fertilizantes;1153.91;72;
+IMP-0142;Semilla de arroz (libra) - lote 3;Semillas;25.79;17;2028-08-21
+IMP-0143;Herbicida selectivo (litro) - lote 3;Herbicidas;169.61;105;2028-02-09
+IMP-0144;Azadón con cabo - lote 3;Herramientas;272.67;42;
+IMP-0145;Sulfato de amonio (quintal) - lote 3;Fertilizantes;795.98;101;
+IMP-0146;Semilla de frijol negro (libra) - lote 3;Semillas;29.21;117;2028-09-27
+IMP-0147;Herbicida de contacto (litro) - lote 3;Herbicidas;193.32;67;2027-07-20
+IMP-0148;Pala redonda - lote 3;Herramientas;325.11;19;
+IMP-0149;Fosfato diamónico DAP (quintal) - lote 3;Fertilizantes;1375.05;80;
+IMP-0150;Semilla de tomate (sobre) - lote 3;Semillas;42.41;71;2027-04-15
+IMP-0151;Herbicida pre-emergente (litro) - lote 3;Herbicidas;149.19;14;2028-01-04
+IMP-0152;Tijera de podar - lote 3;Herramientas;271.51;100;
+IMP-0153;Abono orgánico (saco) - lote 3;Fertilizantes;206.45;46;
+IMP-0154;Semilla de chile (sobre) - lote 3;Semillas;38.40;58;2028-02-11
+IMP-0155;Herbicida sistémico (litro) - lote 3;Herbicidas;186.35;37;2028-08-28
+IMP-0156;Rastrillo - lote 3;Herramientas;228.75;17;
+IMP-0157;Cloruro de potasio (quintal) - lote 3;Fertilizantes;1112.00;56;
+IMP-0158;Semilla de pipián (sobre) - lote 3;Semillas;37.40;20;2027-05-11
+IMP-0159;Herbicida para pasto (litro) - lote 3;Herbicidas;80.23;96;2027-08-07
+IMP-0160;Guantes de trabajo (par) - lote 3;Herramientas;61.50;47;
+IMP-0161;Fórmula 15-15-15 (quintal) - lote 4;Fertilizantes;1051.54;17;
+IMP-0162;Semilla de arroz (libra) - lote 4;Semillas;27.07;70;2027-05-26
+IMP-0163;Herbicida selectivo (litro) - lote 4;Herbicidas;173.16;35;2028-12-11
+IMP-0164;Azadón con cabo - lote 4;Herramientas;294.84;118;
+IMP-0165;Sulfato de amonio (quintal) - lote 4;Fertilizantes;790.38;74;
+IMP-0166;Semilla de frijol negro (libra) - lote 4;Semillas;30.80;96;2028-12-13
+IMP-0167;Herbicida de contacto (litro) - lote 4;Herbicidas;211.14;81;2028-09-20
+IMP-0168;Pala redonda - lote 4;Herramientas;317.41;47;
+IMP-0169;Fosfato diamónico DAP (quintal) - lote 4;Fertilizantes;1284.63;61;
+IMP-0170;Semilla de tomate (sobre) - lote 4;Semillas;42.95;11;2028-08-16
+IMP-0171;Herbicida pre-emergente (litro) - lote 4;Herbicidas;163.54;16;2027-06-13
+IMP-0172;Tijera de podar - lote 4;Herramientas;282.36;13;
+IMP-0173;Abono orgánico (saco) - lote 4;Fertilizantes;205.61;45;
+IMP-0174;Semilla de chile (sobre) - lote 4;Semillas;37.63;41;2028-01-18
+IMP-0175;Herbicida sistémico (litro) - lote 4;Herbicidas;183.00;60;2028-09-10
+IMP-0176;Rastrillo - lote 4;Herramientas;234.44;19;
+IMP-0177;Cloruro de potasio (quintal) - lote 4;Fertilizantes;1029.39;25;
+IMP-0178;Semilla de pipián (sobre) - lote 4;Semillas;37.09;26;2027-03-26
+IMP-0179;Herbicida para pasto (litro) - lote 4;Herbicidas;82.99;32;2027-07-12
+IMP-0180;Guantes de trabajo (par) - lote 4;Herramientas;56.55;24;
+IMP-0181;Fórmula 15-15-15 (quintal) - lote 5;Fertilizantes;1060.96;30;
+IMP-0182;Semilla de arroz (libra) - lote 5;Semillas;26.83;82;2027-06-12
+IMP-0183;Herbicida selectivo (litro) - lote 5;Herbicidas;176.37;108;2027-03-06
+IMP-0184;Azadón con cabo - lote 5;Herramientas;262.87;56;
+IMP-0185;Sulfato de amonio (quintal) - lote 5;Fertilizantes;810.45;16;
+IMP-0186;Semilla de frijol negro (libra) - lote 5;Semillas;29.25;98;2027-06-21
+IMP-0187;Herbicida de contacto (litro) - lote 5;Herbicidas;211.04;50;2028-04-02
+IMP-0188;Pala redonda - lote 5;Herramientas;321.57;62;
+IMP-0189;Fosfato diamónico DAP (quintal) - lote 5;Fertilizantes;1342.08;40;
+IMP-0190;Semilla de tomate (sobre) - lote 5;Semillas;45.28;68;2027-10-17
+IMP-0191;Herbicida pre-emergente (litro) - lote 5;Herbicidas;158.57;88;2028-07-27
+IMP-0192;Tijera de podar - lote 5;Herramientas;263.31;52;
+IMP-0193;Abono orgánico (saco) - lote 5;Fertilizantes;206.65;57;
+IMP-0194;Semilla de chile (sobre) - lote 5;Semillas;37.46;16;2027-08-19
+IMP-0195;Herbicida sistémico (litro) - lote 5;Herbicidas;179.85;39;2027-02-13
+IMP-0196;Rastrillo - lote 5;Herramientas;228.64;90;
+IMP-0197;Cloruro de potasio (quintal) - lote 5;Fertilizantes;977.80;13;
+IMP-0198;Semilla de pipián (sobre) - lote 5;Semillas;35.83;18;2027-03-01
+IMP-0199;Herbicida para pasto (litro) - lote 5;Herbicidas;84.13;83;2027-06-27
+IMP-0200;Guantes de trabajo (par) - lote 5;Herramientas;59.71;109;
+IMP-0201;Fórmula 15-15-15 (quintal) - lote 1;Fertilizantes;1161.40;30;
+IMP-0202;Semilla de arroz (libra) - lote 1;Semillas;24.42;17;2027-09-01
+IMP-0203;Herbicida selectivo (litro) - lote 1;Herbicidas;174.66;69;2027-01-07
+IMP-0204;Azadón con cabo - lote 1;Herramientas;296.41;105;
+IMP-0205;Sulfato de amonio (quintal) - lote 1;Fertilizantes;814.31;43;
+IMP-0206;Semilla de frijol negro (libra) - lote 1;Semillas;30.76;62;2027-03-12
+IMP-0207;Herbicida de contacto (litro) - lote 1;Herbicidas;190.69;59;2027-04-04
+IMP-0208;Pala redonda - lote 1;Herramientas;297.49;6;
+IMP-0209;Fosfato diamónico DAP (quintal) - lote 1;Fertilizantes;1341.44;80;
+IMP-0210;Semilla de tomate (sobre) - lote 1;Semillas;44.24;64;2028-12-17
+IMP-0211;Herbicida pre-emergente (litro) - lote 1;Herbicidas;161.10;106;2027-09-04
+IMP-0212;Tijera de podar - lote 1;Herramientas;276.79;80;
+IMP-0213;Abono orgánico (saco) - lote 1;Fertilizantes;223.44;22;
+IMP-0214;Semilla de chile (sobre) - lote 1;Semillas;39.31;18;2028-06-14
+IMP-0215;Herbicida sistémico (litro) - lote 1;Herbicidas;188.08;38;2028-06-26
+IMP-0216;Rastrillo - lote 1;Herramientas;240.03;71;
+IMP-0217;Cloruro de potasio (quintal) - lote 1;Fertilizantes;991.19;34;
+IMP-0218;Semilla de pipián (sobre) - lote 1;Semillas;33.94;53;2028-05-08
+IMP-0219;Herbicida para pasto (litro) - lote 1;Herbicidas;87.42;70;2027-01-20
+IMP-0220;Guantes de trabajo (par) - lote 1;Herramientas;62.11;27;
+IMP-0221;Fórmula 15-15-15 (quintal) - lote 2;Fertilizantes;1052.93;74;
+IMP-0222;Semilla de arroz (libra) - lote 2;Semillas;24.32;95;2027-11-01
+IMP-0223;Herbicida selectivo (litro) - lote 2;Herbicidas;164.35;94;2028-09-02
+IMP-0224;Azadón con cabo - lote 2;Herramientas;290.67;105;
+IMP-0225;Sulfato de amonio (quintal) - lote 2;Fertilizantes;749.92;18;
+IMP-0226;Semilla de frijol negro (libra) - lote 2;Semillas;30.41;13;2027-12-07
+IMP-0227;Herbicida de contacto (litro) - lote 2;Herbicidas;194.68;115;2027-02-22
+IMP-0228;Pala redonda - lote 2;Herramientas;325.98;80;
+IMP-0229;Fosfato diamónico DAP (quintal) - lote 2;Fertilizantes;1281.52;26;
+IMP-0230;Semilla de tomate (sobre) - lote 2;Semillas;42.84;35;2028-12-27
+IMP-0231;Herbicida pre-emergente (litro) - lote 2;Herbicidas;162.59;85;2027-07-14
+IMP-0232;Tijera de podar - lote 2;Herramientas;273.18;58;
+IMP-0233;Abono orgánico (saco) - lote 2;Fertilizantes;204.04;110;
+IMP-0234;Semilla de chile (sobre) - lote 2;Semillas;37.88;53;2028-01-07
+IMP-0235;Herbicida sistémico (litro) - lote 2;Herbicidas;185.56;95;2028-10-17
+IMP-0236;Rastrillo - lote 2;Herramientas;243.65;25;
+IMP-0237;Cloruro de potasio (quintal) - lote 2;Fertilizantes;1039.67;16;
+IMP-0238;Semilla de pipián (sobre) - lote 2;Semillas;35.95;49;2028-08-12
+IMP-0239;Herbicida para pasto (litro) - lote 2;Herbicidas;84.68;74;2028-10-07
+IMP-0240;Guantes de trabajo (par) - lote 2;Herramientas;59.80;24;
+IMP-0241;Fórmula 15-15-15 (quintal) - lote 3;Fertilizantes;1139.32;108;
+IMP-0242;Semilla de arroz (libra) - lote 3;Semillas;26.27;47;2028-02-06
+IMP-0243;Herbicida selectivo (litro) - lote 3;Herbicidas;172.50;78;2028-04-25
+IMP-0244;Azadón con cabo - lote 3;Herramientas;286.04;73;
+IMP-0245;Sulfato de amonio (quintal) - lote 3;Fertilizantes;822.02;87;
+IMP-0246;Semilla de frijol negro (libra) - lote 3;Semillas;31.82;105;2027-09-27
+IMP-0247;Herbicida de contacto (litro) - lote 3;Herbicidas;199.24;40;2027-01-07
+IMP-0248;Pala redonda - lote 3;Herramientas;290.84;68;
+IMP-0249;Fosfato diamónico DAP (quintal) - lote 3;Fertilizantes;1274.89;92;
+IMP-0250;Semilla de tomate (sobre) - lote 3;Semillas;46.04;60;2028-02-14
+IMP-0251;Herbicida pre-emergente (litro) - lote 3;Herbicidas;162.24;73;2027-05-19
+IMP-0252;Tijera de podar - lote 3;Herramientas;251.34;19;
+IMP-0253;Abono orgánico (saco) - lote 3;Fertilizantes;200.07;98;
+IMP-0254;Semilla de chile (sobre) - lote 3;Semillas;39.30;57;2027-11-19
+IMP-0255;Herbicida sistémico (litro) - lote 3;Herbicidas;201.02;102;2027-08-16
+IMP-0256;Rastrillo - lote 3;Herramientas;239.29;30;
+IMP-0257;Cloruro de potasio (quintal) - lote 3;Fertilizantes;998.74;38;
+IMP-0258;Semilla de pipián (sobre) - lote 3;Semillas;36.71;90;2027-04-20
+IMP-0259;Herbicida para pasto (litro) - lote 3;Herbicidas;90.03;89;2028-10-20
+IMP-0260;Guantes de trabajo (par) - lote 3;Herramientas;59.09;52;
+IMP-0261;Fórmula 15-15-15 (quintal) - lote 4;Fertilizantes;1059.14;27;
+IMP-0262;Semilla de arroz (libra) - lote 4;Semillas;26.22;17;2028-11-08
+IMP-0263;Herbicida selectivo (litro) - lote 4;Herbicidas;180.55;58;2028-07-04
+IMP-0264;Azadón con cabo - lote 4;Herramientas;275.76;60;
+IMP-0265;Sulfato de amonio (quintal) - lote 4;Fertilizantes;830.35;36;
+IMP-0266;Semilla de frijol negro (libra) - lote 4;Semillas;28.80;67;2027-01-18
+IMP-0267;Herbicida de contacto (litro) - lote 4;Herbicidas;214.11;86;2027-10-18
+IMP-0268;Pala redonda - lote 4;Herramientas;288.46;49;
+IMP-0269;Fosfato diamónico DAP (quintal) - lote 4;Fertilizantes;1358.26;51;
+IMP-0270;Semilla de tomate (sobre) - lote 4;Semillas;43.31;65;2028-02-12
+IMP-0271;Herbicida pre-emergente (litro) - lote 4;Herbicidas;151.99;90;2028-10-03
+IMP-0272;Tijera de podar - lote 4;Herramientas;263.52;89;
+IMP-0273;Abono orgánico (saco) - lote 4;Fertilizantes;201.80;3;
+IMP-0274;Semilla de chile (sobre) - lote 4;Semillas;37.36;18;2027-03-21
+IMP-0275;Herbicida sistémico (litro) - lote 4;Herbicidas;182.19;78;2027-09-02
+IMP-0276;Rastrillo - lote 4;Herramientas;218.56;37;
+IMP-0277;Cloruro de potasio (quintal) - lote 4;Fertilizantes;1115.07;13;
+IMP-0278;Semilla de pipián (sobre) - lote 4;Semillas;35.69;17;2027-11-22
+IMP-0279;Herbicida para pasto (litro) - lote 4;Herbicidas;84.25;65;2027-01-10
+IMP-0280;Guantes de trabajo (par) - lote 4;Herramientas;61.35;60;
+IMP-0281;Fórmula 15-15-15 (quintal) - lote 5;Fertilizantes;1030.24;71;
+IMP-0282;Semilla de arroz (libra) - lote 5;Semillas;25.47;77;2028-11-04
+IMP-0283;Herbicida selectivo (litro) - lote 5;Herbicidas;166.66;120;2028-06-26
+IMP-0284;Azadón con cabo - lote 5;Herramientas;285.33;103;
+IMP-0285;Sulfato de amonio (quintal) - lote 5;Fertilizantes;777.62;36;
+IMP-0286;Semilla de frijol negro (libra) - lote 5;Semillas;30.04;43;2027-01-02
+IMP-0287;Herbicida de contacto (litro) - lote 5;Herbicidas;203.11;68;2027-06-22
+IMP-0288;Pala redonda - lote 5;Herramientas;319.35;110;
+IMP-0289;Fosfato diamónico DAP (quintal) - lote 5;Fertilizantes;1349.99;88;
+IMP-0290;Semilla de tomate (sobre) - lote 5;Semillas;45.25;30;2028-07-14
+IMP-0291;Herbicida pre-emergente (litro) - lote 5;Herbicidas;161.31;2;2027-10-02
+IMP-0292;Tijera de podar - lote 5;Herramientas;268.45;92;
+IMP-0293;Abono orgánico (saco) - lote 5;Fertilizantes;219.62;86;
+IMP-0294;Semilla de chile (sobre) - lote 5;Semillas;38.22;72;2027-01-08
+IMP-0295;Herbicida sistémico (litro) - lote 5;Herbicidas;197.66;116;2027-07-03
+IMP-0296;Rastrillo - lote 5;Herramientas;225.50;118;
+IMP-0297;Cloruro de potasio (quintal) - lote 5;Fertilizantes;1064.25;8;
+IMP-0298;Semilla de pipián (sobre) - lote 5;Semillas;33.74;88;2027-02-01
+IMP-0299;Herbicida para pasto (litro) - lote 5;Herbicidas;83.87;28;2028-10-21
+IMP-0300;Guantes de trabajo (par) - lote 5;Herramientas;56.24;66;
+IMP-0301;Fórmula 15-15-15 (quintal) - lote 1;Fertilizantes;1176.43;117;
+IMP-0302;Semilla de arroz (libra) - lote 1;Semillas;25.65;16;2027-03-14
+IMP-0303;Herbicida selectivo (litro) - lote 1;Herbicidas;169.04;23;2028-01-19
+IMP-0304;Azadón con cabo - lote 1;Herramientas;280.64;56;
+IMP-0305;Sulfato de amonio (quintal) - lote 1;Fertilizantes;828.71;76;
+IMP-0306;Semilla de frijol negro (libra) - lote 1;Semillas;31.89;76;2028-03-16
+IMP-0307;Herbicida de contacto (litro) - lote 1;Herbicidas;219.09;32;2028-03-01
+IMP-0308;Pala redonda - lote 1;Herramientas;318.90;19;
+IMP-0309;Fosfato diamónico DAP (quintal) - lote 1;Fertilizantes;1345.47;72;
+IMP-0310;Semilla de tomate (sobre) - lote 1;Semillas;45.82;24;2028-08-15
+IMP-0311;Herbicida pre-emergente (litro) - lote 1;Herbicidas;153.33;96;2028-04-12
+IMP-0312;Tijera de podar - lote 1;Herramientas;269.91;4;
+IMP-0313;Abono orgánico (saco) - lote 1;Fertilizantes;219.45;79;
+IMP-0314;Semilla de chile (sobre) - lote 1;Semillas;41.88;3;2028-05-27
+IMP-0315;Herbicida sistémico (litro) - lote 1;Herbicidas;202.57;87;2028-10-09
+IMP-0316;Rastrillo - lote 1;Herramientas;222.61;59;
+IMP-0317;Cloruro de potasio (quintal) - lote 1;Fertilizantes;1081.18;46;
+IMP-0318;Semilla de pipián (sobre) - lote 1;Semillas;35.11;71;2028-11-08
+IMP-0319;Herbicida para pasto (litro) - lote 1;Herbicidas;89.14;119;2027-08-10
+IMP-0320;Guantes de trabajo (par) - lote 1;Herramientas;62.14;53;
+IMP-0321;Fórmula 15-15-15 (quintal) - lote 2;Fertilizantes;1039.90;87;
+IMP-0322;Semilla de arroz (libra) - lote 2;Semillas;27.45;76;2028-02-14
+IMP-0323;Herbicida selectivo (litro) - lote 2;Herbicidas;169.08;106;2028-02-24
+IMP-0324;Azadón con cabo - lote 2;Herramientas;275.71;78;
+IMP-0325;Sulfato de amonio (quintal) - lote 2;Fertilizantes;828.21;91;
+IMP-0326;Semilla de frijol negro (libra) - lote 2;Semillas;30.82;21;2028-09-12
+IMP-0327;Herbicida de contacto (litro) - lote 2;Herbicidas;194.87;63;2027-07-15
+IMP-0328;Pala redonda - lote 2;Herramientas;319.04;92;
+IMP-0329;Fosfato diamónico DAP (quintal) - lote 2;Fertilizantes;1376.93;52;
+IMP-0330;Semilla de tomate (sobre) - lote 2;Semillas;43.51;38;2028-10-13
+IMP-0331;Herbicida pre-emergente (litro) - lote 2;Herbicidas;158.19;85;2028-11-11
+IMP-0332;Tijera de podar - lote 2;Herramientas;246.88;75;
+IMP-0333;Abono orgánico (saco) - lote 2;Fertilizantes;196.48;58;
+IMP-0334;Semilla de chile (sobre) - lote 2;Semillas;37.77;77;2027-06-11
+IMP-0335;Herbicida sistémico (litro) - lote 2;Herbicidas;185.13;106;2028-03-24
+IMP-0336;Rastrillo - lote 2;Herramientas;243.68;100;
+IMP-0337;Cloruro de potasio (quintal) - lote 2;Fertilizantes;988.33;76;
+IMP-0338;Semilla de pipián (sobre) - lote 2;Semillas;34.90;77;2027-08-04
+IMP-0339;Herbicida para pasto (litro) - lote 2;Herbicidas;79.27;17;2027-05-16
+IMP-0340;Guantes de trabajo (par) - lote 2;Herramientas;61.80;6;
+IMP-0341;Fórmula 15-15-15 (quintal) - lote 3;Fertilizantes;1024.45;51;
+IMP-0342;Semilla de arroz (libra) - lote 3;Semillas;25.92;116;2027-08-21
+IMP-0343;Herbicida selectivo (litro) - lote 3;Herbicidas;171.79;41;2027-12-20
+IMP-0344;Azadón con cabo - lote 3;Herramientas;266.90;38;
+IMP-0345;Sulfato de amonio (quintal) - lote 3;Fertilizantes;810.68;50;
+IMP-0346;Semilla de frijol negro (libra) - lote 3;Semillas;30.29;35;2028-08-25
+IMP-0347;Herbicida de contacto (litro) - lote 3;Herbicidas;193.11;30;2027-10-12
+IMP-0348;Pala redonda - lote 3;Herramientas;304.00;47;
+IMP-0349;Fosfato diamónico DAP (quintal) - lote 3;Fertilizantes;1408.92;23;
+IMP-0350;Semilla de tomate (sobre) - lote 3;Semillas;47.49;59;2027-04-19
+IMP-0351;Herbicida pre-emergente (litro) - lote 3;Herbicidas;149.32;65;2028-10-07
+IMP-0352;Tijera de podar - lote 3;Herramientas;278.47;0;
+IMP-0353;Abono orgánico (saco) - lote 3;Fertilizantes;207.23;60;
+IMP-0354;Semilla de chile (sobre) - lote 3;Semillas;41.34;93;2027-11-07
+IMP-0355;Herbicida sistémico (litro) - lote 3;Herbicidas;195.33;0;2027-08-20
+IMP-0356;Rastrillo - lote 3;Herramientas;239.37;17;
+IMP-0357;Cloruro de potasio (quintal) - lote 3;Fertilizantes;1111.40;90;
+IMP-0358;Semilla de pipián (sobre) - lote 3;Semillas;33.61;81;2027-08-25
+IMP-0359;Herbicida para pasto (litro) - lote 3;Herbicidas;81.39;78;2027-05-13
+IMP-0360;Guantes de trabajo (par) - lote 3;Herramientas;62.83;1;
+IMP-0361;Fórmula 15-15-15 (quintal) - lote 4;Fertilizantes;1078.38;14;
+IMP-0362;Semilla de arroz (libra) - lote 4;Semillas;25.29;15;2028-08-13
+IMP-0363;Herbicida selectivo (litro) - lote 4;Herbicidas;159.91;103;2028-03-05
+IMP-0364;Azadón con cabo - lote 4;Herramientas;294.89;98;
+IMP-0365;Sulfato de amonio (quintal) - lote 4;Fertilizantes;774.97;82;
+IMP-0366;Semilla de frijol negro (libra) - lote 4;Semillas;28.16;9;2027-08-18
+IMP-0367;Herbicida de contacto (litro) - lote 4;Herbicidas;216.82;70;2028-05-01
+IMP-0368;Pala redonda - lote 4;Herramientas;326.94;26;
+IMP-0369;Fosfato diamónico DAP (quintal) - lote 4;Fertilizantes;1241.98;116;
+IMP-0370;Semilla de tomate (sobre) - lote 4;Semillas;42.64;109;2028-08-07
+IMP-0371;Herbicida pre-emergente (litro) - lote 4;Herbicidas;145.00;7;2028-08-26
+IMP-0372;Tijera de podar - lote 4;Herramientas;252.16;29;
+IMP-0373;Abono orgánico (saco) - lote 4;Fertilizantes;220.39;44;
+IMP-0374;Semilla de chile (sobre) - lote 4;Semillas;40.76;104;2027-04-05
+IMP-0375;Herbicida sistémico (litro) - lote 4;Herbicidas;201.23;34;2027-06-04
+IMP-0376;Rastrillo - lote 4;Herramientas;217.24;99;
+IMP-0377;Cloruro de potasio (quintal) - lote 4;Fertilizantes;987.03;103;
+IMP-0378;Semilla de pipián (sobre) - lote 4;Semillas;37.06;54;2027-06-05
+IMP-0379;Herbicida para pasto (litro) - lote 4;Herbicidas;87.77;97;2027-05-18
+IMP-0380;Guantes de trabajo (par) - lote 4;Herramientas;55.97;2;
+IMP-0381;Fórmula 15-15-15 (quintal) - lote 5;Fertilizantes;1075.43;19;
+IMP-0382;Semilla de arroz (libra) - lote 5;Semillas;26.80;63;2027-03-24
+IMP-0383;Herbicida selectivo (litro) - lote 5;Herbicidas;181.45;37;2028-08-22
+IMP-0384;Azadón con cabo - lote 5;Herramientas;272.04;113;
+IMP-0385;Sulfato de amonio (quintal) - lote 5;Fertilizantes;793.69;94;
+IMP-0386;Semilla de frijol negro (libra) - lote 5;Semillas;28.38;113;2027-03-12
+IMP-0387;Herbicida de contacto (litro) - lote 5;Herbicidas;214.93;72;2027-05-25
+IMP-0388;Pala redonda - lote 5;Herramientas;317.74;118;
+IMP-0389;Fosfato diamónico DAP (quintal) - lote 5;Fertilizantes;1326.61;11;
+IMP-0390;Semilla de tomate (sobre) - lote 5;Semillas;48.10;99;2027-10-24
+IMP-0391;Herbicida pre-emergente (litro) - lote 5;Herbicidas;160.33;85;2028-02-06
+IMP-0392;Tijera de podar - lote 5;Herramientas;262.66;52;
+IMP-0393;Abono orgánico (saco) - lote 5;Fertilizantes;214.39;4;
+IMP-0394;Semilla de chile (sobre) - lote 5;Semillas;41.87;83;2028-07-16
+IMP-0395;Herbicida sistémico (litro) - lote 5;Herbicidas;191.60;84;2027-09-04
+IMP-0396;Rastrillo - lote 5;Herramientas;241.68;16;
+IMP-0397;Cloruro de potasio (quintal) - lote 5;Fertilizantes;1077.14;48;
+IMP-0398;Semilla de pipián (sobre) - lote 5;Semillas;33.26;78;2027-11-09
+IMP-0399;Herbicida para pasto (litro) - lote 5;Herbicidas;85.48;106;2027-02-17
+IMP-0400;Guantes de trabajo (par) - lote 5;Herramientas;60.59;79;
+IMP-0401;Fórmula 15-15-15 (quintal) - lote 1;Fertilizantes;1050.30;84;
+IMP-0402;Semilla de arroz (libra) - lote 1;Semillas;27.75;16;2027-09-11
+IMP-0403;Herbicida selectivo (litro) - lote 1;Herbicidas;170.06;86;2027-11-15
+IMP-0404;Azadón con cabo - lote 1;Herramientas;276.32;13;
+IMP-0405;Sulfato de amonio (quintal) - lote 1;Fertilizantes;759.65;6;
+IMP-0406;Semilla de frijol negro (libra) - lote 1;Semillas;29.35;14;2028-01-19
+IMP-0407;Herbicida de contacto (litro) - lote 1;Herbicidas;212.08;30;2028-06-18
+IMP-0408;Pala redonda - lote 1;Herramientas;302.96;29;
+IMP-0409;Fosfato diamónico DAP (quintal) - lote 1;Fertilizantes;1235.63;21;
+IMP-0410;Semilla de tomate (sobre) - lote 1;Semillas;47.90;13;2027-07-05
+IMP-0411;Herbicida pre-emergente (litro) - lote 1;Herbicidas;158.14;14;2028-08-01
+IMP-0412;Tijera de podar - lote 1;Herramientas;262.11;88;
+IMP-0413;Abono orgánico (saco) - lote 1;Fertilizantes;198.12;4;
+IMP-0414;Semilla de chile (sobre) - lote 1;Semillas;38.26;109;2027-04-26
+IMP-0415;Herbicida sistémico (litro) - lote 1;Herbicidas;186.81;34;2028-03-06
+IMP-0416;Rastrillo - lote 1;Herramientas;241.37;103;
+IMP-0417;Cloruro de potasio (quintal) - lote 1;Fertilizantes;1014.27;29;
+IMP-0418;Semilla de pipián (sobre) - lote 1;Semillas;37.28;53;2028-05-19
+IMP-0419;Herbicida para pasto (litro) - lote 1;Herbicidas;84.98;22;2028-05-13
+IMP-0420;Guantes de trabajo (par) - lote 1;Herramientas;61.28;53;
+IMP-0421;Fórmula 15-15-15 (quintal) - lote 2;Fertilizantes;1068.37;73;
+IMP-0422;Semilla de arroz (libra) - lote 2;Semillas;25.86;41;2028-10-23
+IMP-0423;Herbicida selectivo (litro) - lote 2;Herbicidas;170.93;113;2027-05-14
+IMP-0424;Azadón con cabo - lote 2;Herramientas;283.22;92;
+IMP-0425;Sulfato de amonio (quintal) - lote 2;Fertilizantes;735.20;107;
+IMP-0426;Semilla de frijol negro (libra) - lote 2;Semillas;31.46;35;2028-09-21
+IMP-0427;Herbicida de contacto (litro) - lote 2;Herbicidas;195.17;13;2027-06-27
+IMP-0428;Pala redonda - lote 2;Herramientas;320.18;27;
+IMP-0429;Fosfato diamónico DAP (quintal) - lote 2;Fertilizantes;1307.68;65;
+IMP-0430;Semilla de tomate (sobre) - lote 2;Semillas;47.45;9;2028-03-28
+IMP-0431;Herbicida pre-emergente (litro) - lote 2;Herbicidas;150.83;65;2028-03-25
+IMP-0432;Tijera de podar - lote 2;Herramientas;249.88;47;
+IMP-0433;Abono orgánico (saco) - lote 2;Fertilizantes;215.27;28;
+IMP-0434;Semilla de chile (sobre) - lote 2;Semillas;42.23;4;2027-07-18
+IMP-0435;Herbicida sistémico (litro) - lote 2;Herbicidas;200.58;93;2028-04-06
+IMP-0436;Rastrillo - lote 2;Herramientas;226.73;28;
+IMP-0437;Cloruro de potasio (quintal) - lote 2;Fertilizantes;1108.23;119;
+IMP-0438;Semilla de pipián (sobre) - lote 2;Semillas;33.53;70;2027-09-09
+IMP-0439;Herbicida para pasto (litro) - lote 2;Herbicidas;82.36;82;2028-03-01
+IMP-0440;Guantes de trabajo (par) - lote 2;Herramientas;61.01;51;
+IMP-0441;Fórmula 15-15-15 (quintal) - lote 3;Fertilizantes;1101.86;91;
+IMP-0442;Semilla de arroz (libra) - lote 3;Semillas;24.37;41;2028-04-18
+IMP-0443;Herbicida selectivo (litro) - lote 3;Herbicidas;180.44;23;2027-08-11
+IMP-0444;Azadón con cabo - lote 3;Herramientas;277.92;26;
+IMP-0445;Sulfato de amonio (quintal) - lote 3;Fertilizantes;765.52;95;
+IMP-0446;Semilla de frijol negro (libra) - lote 3;Semillas;29.77;41;2028-01-24
+IMP-0447;Herbicida de contacto (litro) - lote 3;Herbicidas;190.97;88;2027-03-13
+IMP-0448;Pala redonda - lote 3;Herramientas;317.88;17;
+IMP-0449;Fosfato diamónico DAP (quintal) - lote 3;Fertilizantes;1305.58;37;
+IMP-0450;Semilla de tomate (sobre) - lote 3;Semillas;42.32;114;2027-01-14
+IMP-0451;Herbicida pre-emergente (litro) - lote 3;Herbicidas;162.21;46;2027-01-01
+IMP-0452;Tijera de podar - lote 3;Herramientas;254.39;87;
+IMP-0453;Abono orgánico (saco) - lote 3;Fertilizantes;214.47;97;
+IMP-0454;Semilla de chile (sobre) - lote 3;Semillas;40.22;78;2028-11-25
+IMP-0455;Herbicida sistémico (litro) - lote 3;Herbicidas;195.00;0;2028-02-27
+IMP-0456;Rastrillo - lote 3;Herramientas;216.38;2;
+IMP-0457;Cloruro de potasio (quintal) - lote 3;Fertilizantes;1082.45;108;
+IMP-0458;Semilla de pipián (sobre) - lote 3;Semillas;37.25;37;2027-03-01
+IMP-0459;Herbicida para pasto (litro) - lote 3;Herbicidas;82.09;2;2027-11-19
+IMP-0460;Guantes de trabajo (par) - lote 3;Herramientas;63.61;115;
+IMP-0461;Fórmula 15-15-15 (quintal) - lote 4;Fertilizantes;1065.40;49;
+IMP-0462;Semilla de arroz (libra) - lote 4;Semillas;26.60;30;2027-07-01
+IMP-0463;Herbicida selectivo (litro) - lote 4;Herbicidas;163.28;55;2027-10-23
+IMP-0464;Azadón con cabo - lote 4;Herramientas;281.71;4;
+IMP-0465;Sulfato de amonio (quintal) - lote 4;Fertilizantes;788.17;13;
+IMP-0466;Semilla de frijol negro (libra) - lote 4;Semillas;28.91;104;2027-01-07
+IMP-0467;Herbicida de contacto (litro) - lote 4;Herbicidas;209.82;0;2027-10-27
+IMP-0468;Pala redonda - lote 4;Herramientas;295.70;15;
+IMP-0469;Fosfato diamónico DAP (quintal) - lote 4;Fertilizantes;1335.34;82;
+IMP-0470;Semilla de tomate (sobre) - lote 4;Semillas;43.37;112;2028-12-03
+IMP-0471;Herbicida pre-emergente (litro) - lote 4;Herbicidas;158.20;31;2027-10-26
+IMP-0472;Tijera de podar - lote 4;Herramientas;283.14;46;
+IMP-0473;Abono orgánico (saco) - lote 4;Fertilizantes;209.76;23;
+IMP-0474;Semilla de chile (sobre) - lote 4;Semillas;38.38;10;2028-05-01
+IMP-0475;Herbicida sistémico (litro) - lote 4;Herbicidas;182.78;37;2028-11-12
+IMP-0476;Rastrillo - lote 4;Herramientas;231.34;39;
+IMP-0477;Cloruro de potasio (quintal) - lote 4;Fertilizantes;1123.44;5;
+IMP-0478;Semilla de pipián (sobre) - lote 4;Semillas;36.30;84;2027-08-17
+IMP-0479;Herbicida para pasto (litro) - lote 4;Herbicidas;80.72;54;2028-05-20
+IMP-0480;Guantes de trabajo (par) - lote 4;Herramientas;64.17;54;
+IMP-0481;Fórmula 15-15-15 (quintal) - lote 5;Fertilizantes;1159.68;104;
+IMP-0482;Semilla de arroz (libra) - lote 5;Semillas;24.54;29;2027-11-20
+IMP-0483;Herbicida selectivo (litro) - lote 5;Herbicidas;180.07;10;2027-02-15
+IMP-0484;Azadón con cabo - lote 5;Herramientas;284.20;61;
+IMP-0485;Sulfato de amonio (quintal) - lote 5;Fertilizantes;728.63;48;
+IMP-0486;Semilla de frijol negro (libra) - lote 5;Semillas;28.70;17;2028-09-21
+IMP-0487;Herbicida de contacto (litro) - lote 5;Herbicidas;203.08;43;2027-02-11
+IMP-0488;Pala redonda - lote 5;Herramientas;301.69;17;
+IMP-0489;Fosfato diamónico DAP (quintal) - lote 5;Fertilizantes;1273.30;33;
+IMP-0490;Semilla de tomate (sobre) - lote 5;Semillas;44.82;116;2028-01-24
+IMP-0491;Herbicida pre-emergente (litro) - lote 5;Herbicidas;162.13;37;2027-02-07
+IMP-0492;Tijera de podar - lote 5;Herramientas;248.55;56;
+IMP-0493;Abono orgánico (saco) - lote 5;Fertilizantes;222.83;97;
+IMP-0494;Semilla de chile (sobre) - lote 5;Semillas;38.45;3;2027-02-02
+IMP-0495;Herbicida sistémico (litro) - lote 5;Herbicidas;179.69;119;2027-07-19
+IMP-0496;Rastrillo - lote 5;Herramientas;233.01;80;
+IMP-0497;Cloruro de potasio (quintal) - lote 5;Fertilizantes;1052.11;3;
+IMP-0498;Semilla de pipián (sobre) - lote 5;Semillas;36.24;116;2027-03-04
+IMP-0499;Herbicida para pasto (litro) - lote 5;Herbicidas;89.46;114;2027-04-03
+IMP-0500;Guantes de trabajo (par) - lote 5;Herramientas;61.80;66;
