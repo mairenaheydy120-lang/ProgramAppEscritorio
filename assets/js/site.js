@@ -18,6 +18,11 @@ function h(tag, attrs, ...kids) {
   }
   return e;
 }
+// Los métodos nativos convierten null/undefined/false en el texto «null»: se ignoran, como hace h().
+for (const m of ['append', 'prepend', 'replaceChildren']) {
+  const orig = Element.prototype[m];
+  Element.prototype[m] = function (...a) { return orig.apply(this, a.filter(x => x != null && x !== false)); };
+}
 const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
 const store = {
   get(k, d) { try { const v = localStorage.getItem('agrostock-e1:' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
