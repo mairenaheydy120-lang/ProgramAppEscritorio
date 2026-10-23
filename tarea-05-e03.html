@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tarea 5 E3 · Autoevaluación y reflexión</title>
+<meta name="description" content="Formulario de la Tarea 5 del Encuentro 3: autoevaluación actitudinal y reflexión. Se llena en línea y se descarga como PDF para entregarlo en Classroom.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.frm{display:flex;flex-direction:column;gap:28px}
+.fs{border:1px solid var(--accent-line);background:var(--surface);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px;margin:0;min-width:0}
+.fs>legend{font-family:var(--font-display);font-size:1.25rem;font-weight:700;padding:0 8px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.fld{display:flex;flex-direction:column;gap:4px}
+.fld label{font-weight:600;font-size:.95rem}
+.fld input[type=text],.fld input[type=date],.fld textarea{font:inherit;color:var(--fg);background:var(--bg);border:2px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.fld textarea{min-height:260px;resize:vertical;line-height:1.5}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--accent)}
+.fld.err input,.fld.err textarea,.ind.err{border-color:var(--bad)}
+.msg{color:var(--bad);font-size:.88rem;min-height:1em;margin:0}
+.scale{font-size:.92rem;color:var(--muted)}
+.grp{font-family:var(--font-display);font-weight:700;margin:6px 0 -4px;color:var(--accent)}
+.ind{border:2px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);display:grid;gap:8px;min-width:0;margin:0}
+.ind legend{padding:0 4px;font-size:.98rem;font-weight:400}
+.lv{display:flex;gap:8px;flex-wrap:wrap}
+.lv label{display:flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:99px;padding:4px 12px;cursor:pointer;font-size:.92rem;background:var(--surface)}
+.lv label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.lv input{accent-color:var(--accent)}
+.glob{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;border-radius:10px;background:var(--accent-soft);border-left:4px solid var(--accent)}
+.glob b{font-size:1.6rem;font-family:var(--font-display)}
+.qs{margin:0;padding-left:1.2rem;display:grid;gap:4px}
+.cnt{font-variant-numeric:tabular-nums;font-size:.92rem;color:var(--muted)}
+.cnt.ok{color:var(--ok);font-weight:600}.cnt.bad{color:var(--bad);font-weight:600}
+.acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.note{font-size:.92rem;color:var(--muted)}
+.errsum{display:none;padding:10px 14px;border-radius:10px;background:var(--bad-soft);border-left:4px solid var(--bad)}
+.errsum.on{display:block}.errsum ul{margin:6px 0 0;padding-left:1.2rem}
+</style>
+</head>
+<body data-page="tarea5">
+<main>
+<section class="phero">
+  <div class="kicker">Ingeniería en Sistemas · II año · Encuentro 3 · BOA 3</div>
+  <h1>📝 Tarea 5: autoevaluación actitudinal y reflexión</h1>
+  <p class="lead">Llene el formulario aquí mismo, de forma <b>individual</b>, y descargue su informe en <b>PDF</b>. Ese PDF es el archivo que entrega en <a href="https://classroom.google.com/c/ODcwMTMyNDI1NDI1?cjc=r3escxkv" target="_blank" rel="noopener">Classroom</a>. Lo que escriba se guarda en este navegador mientras trabaja.</p>
+</section>
+
+<form class="frm" id="frm" novalidate>
+<fieldset class="fs"><legend>Datos del estudiante</legend>
+  <div class="grid2">
+    <div class="fld"><label for="nombre">Nombres y apellidos</label><input type="text" id="nombre" name="nombre" autocomplete="name" required><p class="msg" id="m-nombre"></p></div>
+    <div class="fld"><label for="fecha">Fecha de entrega</label><input type="date" id="fecha" name="fecha" required><p class="msg" id="m-fecha"></p></div>
+  </div>
+</fieldset>
+
+<fieldset class="fs"><legend>Parte 1. Autoevaluación actitudinal</legend>
+  <p class="scale">Marque el nivel que mejor describe su desempeño en cada indicador: <b>5</b> Alcanzado · <b>4</b> En proceso avanzado · <b>3</b> En proceso limitado · <b>2</b> No alcanzado. Responda con honestidad: su valoración se compara con la coevaluación de su pareja y con la observación del docente.</p>
+  <div id="inds" class="fld" style="gap:10px"></div>
+  <div class="glob" aria-live="polite">Nivel global (promedio redondeado, x.5 sube): <b id="glob">—</b><span class="note" id="globd"></span></div>
+  <div class="fld"><label for="compromiso">Un compromiso de mejora para mi próximo trabajo en equipo</label><input type="text" id="compromiso" name="compromiso" maxlength="200" required><p class="msg" id="m-compromiso"></p></div>
+</fieldset>
+
+<fieldset class="fs"><legend>Parte 2. Reflexión: AgroStock y el cuidado de la Madre Tierra</legend>
+  <p>Escriba media página (<b>150 a 250 palabras</b>) con ejemplos concretos de AgroStock v3 (reporte en PDF o Excel, columna de vencimiento, existencias bajas resaltadas, importación de productos) y de su investigación de campo del Encuentro 1. Responda:</p>
+  <ul class="qs">
+    <li>¿Cómo puede AgroStock reducir el uso de papel, las pérdidas de insumos vencidos y los viajes innecesarios de los productores? Escriba <b>al menos tres ideas</b>.</li>
+    <li>¿Qué cuidados debe tener una aplicación como AgroStock al manejar los datos de las personas y las claves de acceso a un servicio en Internet?</li>
+    <li>¿Qué cambiaría o agregaría a AgroStock para que aporte más al uso sostenible de los recursos de su comunidad?</li>
+  </ul>
+  <div class="fld"><label for="reflexion">Su reflexión</label><textarea id="reflexion" name="reflexion"></textarea>
+    <div class="cnt" id="cnt" aria-live="polite">0 palabras</div><p class="msg" id="m-reflexion"></p></div>
+</fieldset>
+
+<fieldset class="fs"><legend>Firma</legend>
+  <div class="grid2">
+    <div class="fld"><label for="firma">Firma del estudiante (escriba su nombre completo)</label><input type="text" id="firma" name="firma" required><p class="msg" id="m-firma"></p></div>
+    <div class="fld"><label for="ffirma">Fecha de la firma</label><input type="date" id="ffirma" name="ffirma" required><p class="msg" id="m-ffirma"></p></div>
+  </div>
+  <p class="note">Al firmar declara que las respuestas son suyas y honestas. El formulario se valora con el criterio «Actitudes y ejes transversales» de la rúbrica del corte 3.</p>
+</fieldset>
+
+<div class="errsum" id="errsum" role="alert" tabindex="-1"></div>
+<div class="acts">
+  <button class="sbtn lg" type="submit" id="gen">⬇️ Generar y descargar PDF</button>
+  <button class="sbtn ghost" type="button" id="clr">Borrar todo</button>
+  <span class="note" id="status" aria-live="polite"></span>
+</div>
+<p class="note">Después de descargar, suba el archivo PDF a la tarea correspondiente en Classroom. Para generar el PDF se necesita conexión a Internet (carga la biblioteca jsPDF).</p>
+</form>
+</main>
+<footer id="foot" data-enc="Encuentro 3: 24 de octubre de 2026"></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/tarea5.js"></script>
+</body>
+</html>

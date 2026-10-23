@@ -263,13 +263,13 @@ const NAV_E2 = [
   ['encuentro-02/Guia_AgroStock_E02.html', '🧭', 'Guía AgroStock v2', 'guia2'], ['encuentro-02/BOA_E02.pdf', '📊', 'BOA corte 2', 'boa2'], ['juegos-02.html', '🎮', 'Juegos', 'juegos2']];
 const NAV_E3 = [
   ['index.html', '🏠', 'Inicio', 'index'], ['hub-encuentro-03.html', '📙', 'Encuentro 3', 'hub3'], ['encuentro-03.html', '📖', 'Folleto', 'e3'],
-  ['encuentro-03/Guia_AgroStock_E03.html', '🧭', 'Guía AgroStock v3', 'guia3'], ['encuentro-03/BOA_E03.pdf', '📊', 'BOA corte 3', 'boa3'], ['juegos-03.html', '🎮', 'Juegos', 'juegos3']];
+  ['encuentro-03/Guia_AgroStock_E03.html', '🧭', 'Guía AgroStock v3', 'guia3'], ['encuentro-03/BOA_E03.pdf', '📊', 'BOA corte 3', 'boa3'], ['juegos-03.html', '🎮', 'Juegos', 'juegos3'], ['tarea-05-e03.html', '📝', 'Tarea 5', 'tarea5']];
 const NAV_HOME = [['hub-encuentro-01.html', '📗', 'Encuentro 1', 'hub1'], ['hub-encuentro-02.html', '📘', 'Encuentro 2', 'hub2'], ['hub-encuentro-03.html', '📙', 'Encuentro 3', 'hub3']];
 const E2_PAGES = ['hub2', 'e2', 'juegos2'];
-const E3_PAGES = ['hub3', 'e3', 'juegos3'];
+const E3_PAGES = ['hub3', 'e3', 'juegos3', 'tarea5'];
 // Botón «Regresar» de cada página: [destino, texto]
 const BACK = { instalacion: ['hub-encuentro-01.html', 'Encuentro 1'], e1: ['hub-encuentro-01.html', 'Encuentro 1'], guia: ['hub-encuentro-01.html', 'Encuentro 1'], boa: ['hub-encuentro-01.html', 'Encuentro 1'], juegos: ['hub-encuentro-01.html', 'Encuentro 1'],
-  e2: ['hub-encuentro-02.html', 'Encuentro 2'], juegos2: ['hub-encuentro-02.html', 'Encuentro 2'], e3: ['hub-encuentro-03.html', 'Encuentro 3'], juegos3: ['hub-encuentro-03.html', 'Encuentro 3'], hub1: ['index.html', 'la portada'], hub2: ['index.html', 'la portada'], hub3: ['index.html', 'la portada'] };
+  e2: ['hub-encuentro-02.html', 'Encuentro 2'], juegos2: ['hub-encuentro-02.html', 'Encuentro 2'], e3: ['hub-encuentro-03.html', 'Encuentro 3'], juegos3: ['hub-encuentro-03.html', 'Encuentro 3'], tarea5: ['hub-encuentro-03.html', 'Encuentro 3'], hub1: ['index.html', 'la portada'], hub2: ['index.html', 'la portada'], hub3: ['index.html', 'la portada'] };
 const STEP_LABEL = { crear: 'Crear proyecto', entrada: 'Entrada', modelo: 'Modelo', 'diseno-dialogo': 'Diseño del diálogo', 'logica-dialogo': 'Lógica del diálogo', 'diseno-principal': 'Diseño principal', 'logica-principal': 'Lógica principal', probar: 'Probar', ejercitacion: 'Ejercitación' };
 const stepHref = id => `guia-agrostock.html#${id === 'ejercitacion' ? id : 'paso-' + id}`;
 
