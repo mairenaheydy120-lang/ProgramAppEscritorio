@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Encuentro 3 · ORM, generación de reportes y consumo de servicios web</title>
+<meta name="description" content="Manual didáctico completo del Encuentro 3: Entity Framework Core, LINQ, reportes PDF y Excel, HttpClient, JSON y Mockaroo en AgroStock v3.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.sqa{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.sqa label{font-weight:600;display:block;margin-bottom:4px}
+.boa-obs{width:100%;min-height:96px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:6px 8px}
+.ex{font-style:italic;color:var(--accent);margin:0}
+.btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.refs li{overflow-wrap:anywhere}
+.unan{display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px 0 0;border-top:1px solid var(--line)}
+.unan img{max-width:100%;height:auto}.unan a{font-weight:600}
+.tree{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.muted{color:var(--muted)}
+.qs{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 14px}.qs .q{font-size:1.02rem;margin:0 0 6px}
+@media (max-width:820px){.sqa{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body data-page="e3">
+<main>
+<section class="phero"><div class="kicker">Manual didáctico · Encuentro N.° 3 · 24 de octubre de 2026</div>
+<h1>📙 ORM, generación de reportes y consumo de servicios web</h1>
+<p class="lead">Componente: Programación de aplicaciones de escritorio · Carrera: Ingeniería de Sistemas · II año – II semestre · UNAN-Managua, Centro Universitario Regional de Matagalpa (UNICAM – CUR Matagalpa), Departamento de Ciencias, Tecnología y Salud.</p>
+<p>Autor: <b>Heydy Judelki Mairena Palacios</b> <i>¡Universidad del Pueblo y para el Pueblo!</i></p>
+<div class="btns no-print">
+<a class="sbtn ghost" href="encuentro-03/BOA_E03.pdf" target="_blank" rel="noopener">📄 BOA 3 (PDF)</a>
+<a class="sbtn ghost" href="encuentro-03/Material_didactico_E3.pdf" target="_blank" rel="noopener">📙 Folleto (PDF)</a>
+<a class="sbtn ghost" href="encuentro-03/Guia_AgroStock_E03.html">🧭 Guía AgroStock v3</a>
+<a class="sbtn ghost" href="#recursos">💾 Código</a>
+</div>
+<nav class="toc" aria-label="Contenido del folleto"><a href="#presentacion">Presentación</a><a href="#entrada">A. Entrada temática</a><a href="#u4">Unidad IV · ORM y reportes</a><a href="#u5">Unidad V · Servicios web</a><a href="#integracion">8 Integración</a><a href="#ejercitacion-e3">Ejercitación</a><a href="#boa3">BOA 3</a><a href="#recursos">Recursos</a><a href="#cierre">C. Cierre</a><a href="#refs">Referencias</a></nav></section>
+
+<section class="step" id="presentacion" aria-labelledby="h-presentacion"><div class="step-h"><span class="num">Presentación</span><h2 id="h-presentacion">Presentación del material</h2></div>
+<p>Este módulo cierra el proyecto integrador. AgroStock dejará de escribir SQL a mano gracias a un ORM, generará reportes de inventario en PDF y Excel, y obtendrá productos de prueba desde un servicio web (Mockaroo) para probar el inventario con cientos de datos. Se abordan las Unidades IV y V del programa y se reúnen los aprendizajes del semestre.</p>
+<p><b>Proyecto integrador — AgroStock:</b> aplicación de escritorio para el inventario de un agroservicio o cooperativa de la zona (productos, categorías, existencias, movimientos y reportes). Se construye por etapas: v1 interfaz gráfica (E1) → v2 base de datos SQLite + importación concurrente (E2) → v3 ORM, reportes PDF/Excel y consumo de servicio web (E3).</p>
+<h3 class="sub">Objetivo de aprendizaje del encuentro</h3><ul class="pl"><li>Utilizar un ORM (Entity Framework Core) para realizar operaciones CRUD sin escribir SQL manualmente y generar reportes en PDF y Excel a partir de datos reales.</li><li>Consumir servicios web RESTful desde una aplicación de escritorio, procesando respuestas JSON o XML y manejando fallos de conexión.</li></ul>
+<h3 class="sub">Contenidos de este encuentro</h3><ul class="pl"><li><b>Unidad IV. Uso de ORM y generación de reportes:</b> uso de ORM para realizar operaciones CRUD sobre una base de datos; uso de herramienta para la generación de reportes.</li><li><b>Unidad V. Consumo de servicios web:</b> clases para el consumo de servicios web; estudios de caso para el consumo de servicios web.</li></ul>
+</section>
+
+<section class="step" id="entrada" aria-labelledby="h-entrada"><div class="step-h"><span class="num">A. Entrada temática</span><h2 id="h-entrada">Vivencia y actividad SQA</h2></div>
+<h3 class="sub">Vivencia</h3>
+<p>La cooperativa a la que pertenece el agroservicio de doña Martha pide cada lunes un reporte del inventario en PDF y una copia en Excel. Su hijo copia a mano la tabla de AgroStock en Excel y suma los valores con la calculadora del celular. Además, para probar el programa con muchos productos tuvo que inventarlos uno por uno.</p>
+<p><b>Antes de continuar, reflexione:</b></p><ul class="pl"><li>¿Qué partes de este proceso podría automatizar AgroStock?</li><li>En AgroStock v2 escribió muchas sentencias SQL parecidas. ¿Qué pasaría si mañana hubiera que cambiar a SQL Server?</li><li>¿De dónde podrían salir cientos de productos de prueba realistas sin escribirlos a mano?</li><li>¿Cuánto papel y cuántos viajes se ahorran si el reporte se envía en digital?</li></ul><p>Responda las preguntas anteriores en su cuaderno y compártalas con su pareja.</p>
+<h3 class="sub">Actividad SQA</h3>
+<p>En su cuaderno o en el móvil, elabore una tabla de tres columnas —<b>Qué sé</b>, <b>Qué quiero saber</b>, <b>Qué aprendí</b>— sobre ORM, generación de reportes y servicios web. Complete únicamente las dos primeras columnas por ahora; la tercera la completará al cierre de este material. Aquí puede hacerlo y se guarda en este navegador.</p>
+<div class="sqa"><div><label for="sqa-s">Qué sé</label><textarea id="sqa-s" class="boa-obs" rows="5"></textarea></div><div><label for="sqa-q">Qué quiero saber</label><textarea id="sqa-q" class="boa-obs" rows="5"></textarea></div><div><label for="sqa-a">Qué aprendí <small>(al cierre)</small></label><textarea id="sqa-a" class="boa-obs" rows="5"></textarea></div></div>
+<div class="ok-box"><b>Lo que esperamos aprender:</b> manipular la base de datos con objetos (ORM), producir reportes profesionales y conectar la aplicación con servicios en Internet de forma robusta; y lo aplicará al caso de doña Martha.</div>
+</section>
+
+<section class="step" id="u4" aria-labelledby="h-u4"><div class="step-h"><span class="num">Fundamentación científica · Unidad IV</span><h2 id="h-u4">Uso de ORM y generación de reportes</h2></div>
+
+<h3 class="sub" id="s1">1. ¿Qué es un ORM?</h3>
+<p>Un <b>ORM</b> (Object-Relational Mapper, mapeador objeto-relacional) traduce automáticamente entre los objetos del programa y las tablas de la base de datos. El programador trabaja con clases y colecciones; el ORM genera el SQL, abre las conexiones y convierte las filas en objetos. En .NET, el ORM oficial es <b>Entity Framework Core</b> (EF Core).</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Mundo orientado a objetos</th><th>Mundo relacional</th></tr></thead><tbody>
+<tr><td class="wrap">Clase <code>Producto</code></td><td class="wrap">Tabla <code>productos</code></td></tr>
+<tr><td class="wrap">Propiedad <code>Nombre</code></td><td class="wrap">Columna <code>Nombre</code></td></tr>
+<tr><td class="wrap">Objeto (instancia)</td><td class="wrap">Fila</td></tr>
+<tr><td class="wrap">Referencia <code>Producto.Categoria</code></td><td class="wrap">Clave foránea <code>CategoriaId</code></td></tr>
+<tr><td class="wrap"><code>HasOne(...).WithMany()</code></td><td class="wrap">Relación 1:N entre categorias y productos</td></tr></tbody></table></div>
+<ul class="pl"><li><b>Ventajas:</b> menos código repetitivo, consultas verificadas por el compilador (LINQ), independencia del motor (SQLite, SQL Server, MySQL, PostgreSQL), protección contra inyección SQL.</li><li><b>Límites:</b> menos control sobre el SQL generado; consultas muy complejas pueden ser menos eficientes; hay que entender qué consulta se ejecuta y cuándo.</li></ul>
+<p class="ex">Ejemplo aplicado — AgroStock: en v2 había un SQL distinto para listar, insertar, actualizar y eliminar. En v3 el repositorio trabaja con objetos <code>Producto</code> y EF Core escribe el SQL.</p>
+
+<h3 class="sub" id="s2">2. Entity Framework Core: entidades y DbContext</h3>
+<p>En AgroStock v3 el modelo de datos se describe con clases: tres <b>entidades</b> (<code>Producto</code>, <code>Categoria</code> y <code>Movimiento</code>) y un <b>DbContext</b> (<code>AgroStockContext</code>) que reemplaza al script <code>agrostock.sql</code> del Encuentro 2.</p>
+<pre class="codebox" data-lang="cs">public class Producto
+{
+    public int Id { get; set; }                                 // clave primaria (por convención)
+    public string Codigo { get; set; } = "";
+    public string Nombre { get; set; } = "";
+    public int CategoriaId { get; set; }                        // clave foránea
+    public Categoria? Categoria { get; set; }                   // propiedad de navegación
+    public decimal Precio { get; set; }
+    public int Existencia { get; set; }
+    public DateTime? Vencimiento { get; set; }
+    public string CategoriaNombre =&gt; Categoria?.Nombre ?? "";   // solo lectura, para la cuadrícula
+}
+
+public class Categoria { public int Id { get; set; } public string Nombre { get; set; } = ""; }
+
+public class Movimiento
+{
+    public int Id { get; set; }
+    public int ProductoId { get; set; }
+    public Producto? Producto { get; set; }
+    public string Tipo { get; set; } = "ENTRADA";       // ENTRADA o SALIDA
+    public int Cantidad { get; set; }
+    public DateTime Fecha { get; set; } = DateTime.Today;
+}</pre>
+<pre class="codebox" data-lang="cs">public class AgroStockContext : DbContext
+{
+    public DbSet&lt;Categoria&gt; Categorias =&gt; Set&lt;Categoria&gt;();
+    public DbSet&lt;Producto&gt; Productos =&gt; Set&lt;Producto&gt;();
+    public DbSet&lt;Movimiento&gt; Movimientos =&gt; Set&lt;Movimiento&gt;();
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+        =&gt; options.UseSqlite($"Data Source={Ruta}");          // archivo agrostock.db
+
+    protected override void OnModelCreating(ModelBuilder mb)
+    {
+        mb.Entity&lt;Producto&gt;(e =&gt;
+        {
+            e.ToTable("productos", t =&gt; t.HasCheckConstraint("ck_precio", "precio &gt; 0"));
+            e.Property(p =&gt; p.Codigo).IsRequired();
+            e.HasIndex(p =&gt; p.Codigo).IsUnique();             // código sin repetir
+            e.HasOne(p =&gt; p.Categoria).WithMany()
+             .HasForeignKey(p =&gt; p.CategoriaId).OnDelete(DeleteBehavior.Restrict);
+        });
+
+        mb.Entity&lt;Categoria&gt;().HasData(                       // datos iniciales
+            new Categoria { Id = 1, Nombre = "Fertilizantes" },
+            new Categoria { Id = 2, Nombre = "Semillas" });   // ... y el resto
+    }
+}
+
+public static class Db
+{
+    public static void Inicializar()
+    {
+        using var ctx = new AgroStockContext();
+        ctx.Database.EnsureCreated();          // crea agrostock.db, tablas, restricciones y datos iniciales
+    }
+}</pre>
+<p>El <code>DbContext</code> representa una sesión de trabajo con la base: rastrea los objetos que se agregan o modifican y, al llamar a <code>SaveChanges()</code>, genera y ejecuta los INSERT, UPDATE y DELETE necesarios dentro de una transacción. <code>Database.EnsureCreated()</code> crea la base y las tablas si no existen; en proyectos mayores se usan migraciones (<code>dotnet ef migrations add</code>).</p>
+<div class="note"><b>Importante:</b> <code>EnsureCreated</code> no actualiza una base que ya tiene tablas. Si cambia el modelo, borre <code>agrostock.db</code> de la carpeta <code>bin\Debug\net8.0-windows</code> y ejecute de nuevo. La base se crea sola la primera vez, con las 4 categorías, los 14 productos y los 6 movimientos iniciales.</div>
+<p><b>Del SQL del Encuentro 2 al modelo en C#:</b></p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>En agrostock.sql (E2)</th><th>En el modelo (E3)</th></tr></thead><tbody>
+<tr><td class="wrap"><code>id INTEGER PRIMARY KEY AUTOINCREMENT</code></td><td class="wrap">Propiedad <code>Id</code> (por convención es la clave primaria)</td></tr>
+<tr><td class="wrap"><code>NOT NULL</code></td><td class="wrap"><code>IsRequired()</code> o un tipo que no admite null</td></tr>
+<tr><td class="wrap"><code>UNIQUE</code></td><td class="wrap"><code>HasIndex(...).IsUnique()</code></td></tr>
+<tr><td class="wrap"><code>CHECK (precio &gt; 0)</code></td><td class="wrap"><code>HasCheckConstraint("ck_precio", "precio &gt; 0")</code></td></tr>
+<tr><td class="wrap"><code>REFERENCES categorias(id)</code></td><td class="wrap"><code>HasOne(...).WithMany().HasForeignKey(...).OnDelete(Restrict)</code></td></tr>
+<tr><td class="wrap">Los INSERT de ejemplo</td><td class="wrap"><code>HasData(...)</code></td></tr>
+<tr><td class="wrap"><code>DEFAULT date('now','localtime')</code></td><td class="wrap"><code>Fecha = DateTime.Today</code> (se calcula en C#)</td></tr></tbody></table></div>
+<p class="ex">Ejemplo aplicado — AgroStock: ya no hay un archivo .sql que mantener. Si doña Martha pide un campo nuevo, se agrega una propiedad al modelo y la base se crea con ella.</p>
+<p>👉 Escriba el modelo paso a paso en la <a href="encuentro-03/Guia_AgroStock_E03.html#paso-modelo">guía (paso 3: el modelo ORM)</a>. Practique la correspondencia en el juego <a href="juegos-03.html#e3-orm">🧬 Mapea el ORM</a>.</p>
+
+<h3 class="sub" id="s3">3. CRUD con LINQ sin escribir SQL</h3>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Operación</th><th>EF Core</th><th>SQL generado (aprox.)</th></tr></thead><tbody>
+<tr><td class="wrap"><b>Read</b></td><td class="wrap"><code>ctx.Productos.Include(p =&gt; p.Categoria).Where(...).OrderBy(p =&gt; p.Nombre).ToList()</code></td><td class="wrap"><code>SELECT … FROM productos JOIN categorias … WHERE … ORDER BY nombre</code></td></tr>
+<tr><td class="wrap"><b>Create</b></td><td class="wrap"><code>ctx.Productos.Add(p); ctx.SaveChanges();</code></td><td class="wrap"><code>INSERT INTO productos …</code></td></tr>
+<tr><td class="wrap"><b>Update</b></td><td class="wrap"><code>ctx.Productos.Update(p); ctx.SaveChanges();</code></td><td class="wrap"><code>UPDATE productos SET … WHERE Id = …</code></td></tr>
+<tr><td class="wrap"><b>Delete</b></td><td class="wrap"><code>ctx.Productos.Remove(p); ctx.SaveChanges();</code></td><td class="wrap"><code>DELETE FROM productos WHERE Id = …</code></td></tr></tbody></table></div>
+<p><code>ProductoRepository</code> conserva los mismos métodos del Encuentro 2, pero cada uno abre un <code>AgroStockContext</code> con <code>using</code> y no contiene ninguna sentencia SQL:</p>
+<pre class="codebox" data-lang="cs">public List&lt;Producto&gt; Listar(string filtro = "")
+{
+    using var ctx = new AgroStockContext();
+    return ctx.Productos
+        .Include(p =&gt; p.Categoria)                                    // JOIN con categorias
+        .Where(p =&gt; EF.Functions.Like(p.Nombre, $"%{filtro}%")
+                 || EF.Functions.Like(p.Codigo, $"%{filtro}%"))       // LIKE con parámetro
+        .OrderBy(p =&gt; p.Nombre)
+        .ToList();
+}
+
+public void RegistrarMovimiento(int productoId, string tipo, int cantidad)
+{
+    using var ctx = new AgroStockContext();
+    var p = ctx.Productos.Find(productoId) ?? throw new InvalidOperationException("Producto no encontrado.");
+    if (tipo == "SALIDA" &amp;&amp; p.Existencia &lt; cantidad)
+        throw new InvalidOperationException("Existencia insuficiente: no se registró nada.");
+
+    p.Existencia += tipo == "ENTRADA" ? cantidad : -cantidad;
+    ctx.Movimientos.Add(new Movimiento { ProductoId = productoId, Tipo = tipo,
+                                         Cantidad = cantidad, Fecha = DateTime.Today });
+    ctx.SaveChanges();   // una sola transacción para ambos cambios
+}</pre>
+<p><b>Ejecución diferida.</b> Una consulta LINQ no va a la base hasta que se enumera (<code>ToList</code>, <code>First</code>, <code>Count</code>, <code>foreach</code>). Construya la consulta completa antes de materializarla.</p>
+<p><code>InsertarVarios</code> inserta muchos productos con un solo <code>SaveChanges</code> (una transacción) y devuelve los códigos que ya existían en lugar de fallar; <code>Limpio()</code> copia el producto sin su objeto <code>Categoria</code> para que EF no intente actualizar también esa tabla.</p>
+<p><b>Errores del ORM.</b> Cuando la base rechaza un cambio, EF Core lanza una <code>DbUpdateException</code>; la causa real está en <code>ex.InnerException</code> (la <code>SqliteException</code>). <code>FrmPrincipal</code> la evalúa con <code>when</code> para avisar de un código repetido o de un producto con movimientos sin cerrar el programa:</p>
+<pre class="codebox" data-lang="cs">catch (DbUpdateException ex) when (ex.InnerException is SqliteException { SqliteExtendedErrorCode: 2067 })
+{   // UNIQUE: el código ya existe
+    MessageBox.Show(this, $"El código {codigo} ya existe.", "No se guardó");
+}
+catch (DbUpdateException ex) when (ex.InnerException is SqliteException { SqliteErrorCode: 19 } fk
+                                   &amp;&amp; fk.Message.Contains("FOREIGN KEY"))
+{   // el producto tiene movimientos registrados
+    MessageBox.Show(this, "No se puede eliminar: el producto tiene movimientos registrados.", "No se eliminó");
+}</pre>
+<p class="ex">Ejemplo aplicado — AgroStock: si doña Martha intenta registrar dos veces el código FER-001 o borrar un producto con movimientos, la base lo rechaza y AgroStock explica el motivo sin cerrarse.</p>
+<p>👉 Reescriba el repositorio en el <a href="encuentro-03/Guia_AgroStock_E03.html#paso-repo">paso 4 de la guía</a> y practique con el juego <a href="juegos-03.html#e3-linq">🔎 Detective de LINQ y EF Core</a>.</p>
+
+<h3 class="sub" id="s4">4. Generación de reportes</h3>
+<p>Un <b>reporte</b> presenta datos de la base de forma organizada para tomar decisiones. Su estructura clásica: <b>encabezado</b> (título, fecha, filtros), <b>detalle</b> (filas), <b>agrupaciones y totales</b>, y <b>pie</b> (numeración). El programa pide exportar a PDF o Excel; usamos dos bibliotecas libres para uso académico: <b>QuestPDF</b> (PDF con API fluida en C#) y <b>ClosedXML</b> (Excel sin necesidad de tener Office instalado).</p>
+<p><code>ReporteService</code> recibe la lista de productos ya leída y la ruta que eligió el usuario. El PDF usa A4 horizontal, resalta las existencias menores que 10 y muestra en el pie el total y la numeración de páginas:</p>
+<pre class="codebox" data-lang="cs">Document.Create(doc =&gt; doc.Page(page =&gt;
+{
+    page.Size(PageSizes.A4.Landscape());
+    page.Header().Column(col =&gt;
+    {
+        col.Item().Text("AgroStock - Reporte de inventario").FontSize(18).Bold();
+        col.Item().Text($"Generado: {DateTime.Now:dd/MM/yyyy HH:mm}").FontSize(9);
+    });
+    page.Content().Table(tabla =&gt;
+    {
+        // ... columnas y encabezado de la tabla ...
+        foreach (var p in productos)
+        {
+            var fondo = p.Existencia &lt; 10 ? Colors.Red.Lighten4 : Colors.White;    // existencia baja resaltada
+            Celda(tabla, p.Codigo, fondo);
+            Celda(tabla, p.Nombre, fondo);
+            Celda(tabla, p.Precio.ToString("N2"), fondo);   // ... y las demás columnas
+        }
+    });
+    page.Footer().Row(r =&gt;
+    {
+        r.RelativeItem().Text($"Productos: {productos.Count}   |   Valor del inventario: C$ {valorTotal:N2}");
+        r.RelativeItem().AlignRight().Text(t =&gt;
+        { t.Span("Página "); t.CurrentPageNumber(); t.Span(" de "); t.TotalPages(); });
+    });
+})).GeneratePdf(ruta);</pre>
+<p>El libro de Excel escribe el valor de cada fila y el total como <b>fórmulas</b>, de modo que se recalculen si el usuario cambia un dato:</p>
+<pre class="codebox" data-lang="cs">using var libro = new XLWorkbook();
+var hoja = libro.Worksheets.Add("Inventario");
+// ... encabezados con estilo (negrita, fondo verde oscuro) ...
+int fila = 2;
+foreach (var p in productos)
+{
+    hoja.Cell(fila, 1).Value = p.Codigo;
+    hoja.Cell(fila, 4).Value = p.Precio;
+    hoja.Cell(fila, 5).Value = p.Existencia;
+    hoja.Cell(fila, 7).FormulaA1 = $"D{fila}*E{fila}";          // valor = precio por existencia
+    fila++;
+}
+hoja.Cell(fila, 7).FormulaA1 = $"SUM(G2:G{fila - 1})";            // total como fórmula
+hoja.Range(2, 4, fila, 4).Style.NumberFormat.Format = "#,##0.00";
+hoja.SheetView.FreezeRows(1);
+libro.SaveAs(ruta);</pre>
+<div class="note"><b>Buenas prácticas:</b> declarar la licencia de QuestPDF (<code>QuestPDF.Settings.License = LicenseType.Community</code>) en el constructor estático, pedir la ruta con <code>SaveFileDialog</code> (Unidad I), capturar <code>IOException</code> cuando el archivo está abierto en otro programa, usar fórmulas en Excel en lugar de valores calculados y mantener el reporte en una clase de servicio que no conoce los formularios.</div>
+<p class="ex">Ejemplo aplicado — AgroStock: el reporte del lunes que el hijo de doña Martha copiaba a mano ahora se genera con un clic, con las existencias bajas resaltadas y el valor del inventario sumado.</p>
+<p>👉 Construya los dos reportes en el <a href="encuentro-03/Guia_AgroStock_E03.html#paso-reportes">paso 5 de la guía</a>.</p>
+</section>
+
+<section class="step" id="u5" aria-labelledby="h-u5"><div class="step-h"><span class="num">Fundamentación científica · Unidad V</span><h2 id="h-u5">Consumo de servicios web</h2></div>
+
+<h3 class="sub" id="s5">5. Servicios web y HTTP</h3>
+<p>Un <b>servicio web</b> es una aplicación que ofrece datos o funciones a otras aplicaciones a través de la red usando el protocolo HTTP. En el estilo <b>REST</b>, cada recurso tiene una URL y se opera con métodos HTTP; las respuestas suelen venir en <b>JSON</b> (y en servicios más antiguos, en XML).</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Elemento</th><th>Ejemplo</th></tr></thead><tbody>
+<tr><td class="wrap"><b>Método</b></td><td class="wrap">GET (leer), POST (crear), PUT (reemplazar), DELETE (eliminar); AgroStock usa GET</td></tr>
+<tr><td class="wrap"><b>URL</b></td><td class="wrap"><code>https://api.mockaroo.com/api/generate.json?schema=agrostock_productos&amp;count=20&amp;array=true</code></td></tr>
+<tr><td class="wrap"><b>Código de estado</b></td><td class="wrap">200 OK · 401 Clave incorrecta · 404 No encontrado (el schema no existe) · 500 Error del servidor</td></tr>
+<tr><td class="wrap"><b>Encabezados</b></td><td class="wrap"><code>X-API-Key: (su clave de API)</code></td></tr>
+<tr><td class="wrap"><b>Cuerpo (JSON)</b></td><td class="wrap"><code>[ { "codigo": "SEM-4821", "nombre": "Semilla de arroz (libra)", "categoria": "Semillas", "precio": 85.50, "existencia": 40, "vencimiento": "2027-05-01" } ]</code></td></tr></tbody></table></div>
+<p class="ex">Ejemplo aplicado — AgroStock: pedir 20 productos de prueba es una petición GET a una URL; el servicio responde con una lista JSON.</p>
+
+<h3 class="sub" id="s6">6. Clases para el consumo de servicios web</h3>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Clase</th><th>Función</th></tr></thead><tbody>
+<tr><td class="wrap"><b>HttpClient</b></td><td class="wrap">Envía peticiones HTTP y recibe respuestas. Se crea una sola instancia (<code>static readonly</code>) para toda la aplicación; AgroStock fija un tiempo máximo de 30 segundos.</td></tr>
+<tr><td class="wrap"><b>HttpRequestMessage</b></td><td class="wrap">Describe la petición: método GET, URL y encabezados (<code>X-API-Key</code>).</td></tr>
+<tr><td class="wrap"><b>HttpResponseMessage</b></td><td class="wrap">Respuesta: <code>StatusCode</code>, <code>IsSuccessStatusCode</code> y contenido (<code>ReadAsStream</code>).</td></tr>
+<tr><td class="wrap"><b>System.Text.Json</b> / <code>JsonSerializer.Deserialize&lt;T&gt;</code></td><td class="wrap">Convierte JSON en objetos C# (deserialización).</td></tr>
+<tr><td class="wrap"><b>[JsonPropertyName]</b></td><td class="wrap">Relaciona el nombre del campo JSON con la propiedad C#.</td></tr></tbody></table></div>
+<p>La configuración del servicio (dirección, clave y nombre del schema) vive en <code>appsettings.json</code>, que se copia junto al ejecutable; <code>MockarooClient</code> la lee al crearse:</p>
+<pre class="codebox">{
+    "Mockaroo": {
+      "BaseUrl": "https://api.mockaroo.com/api/generate.json",
+      "ApiKey": "&lt;su clave de API&gt;",
+      "Schema": "agrostock_productos"
+    }
+}</pre>
+<pre class="codebox" data-lang="cs">public class ProductoMockaroo
+{
+    [JsonPropertyName("codigo")]      public string Codigo { get; set; } = "";
+    [JsonPropertyName("nombre")]      public string Nombre { get; set; } = "";
+    [JsonPropertyName("categoria")]   public string Categoria { get; set; } = "";
+    [JsonPropertyName("precio")]      public decimal Precio { get; set; }
+    [JsonPropertyName("existencia")]  public int Existencia { get; set; }
+    [JsonPropertyName("vencimiento")] public string? Vencimiento { get; set; }
+}
+
+private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(30) };
+
+public List&lt;ProductoMockaroo&gt; ObtenerProductos(int cantidad)
+{
+    var url = $"{baseUrl}?schema={Uri.EscapeDataString(schema)}&amp;count={cantidad}&amp;array=true";
+    using var req = new HttpRequestMessage(HttpMethod.Get, url);
+    req.Headers.Add("X-API-Key", apiKey);                 // la clave viaja en un encabezado
+
+    using var resp = Http.Send(req);                      // llamada síncrona: la interfaz espera
+    using var flujo = resp.Content.ReadAsStream();
+    if (!resp.IsSuccessStatusCode)
+    {
+        using var lector = new StreamReader(flujo);
+        throw new HttpRequestException($"Mockaroo respondió {(int)resp.StatusCode}: {lector.ReadToEnd()}");
+    }
+    return JsonSerializer.Deserialize&lt;List&lt;ProductoMockaroo&gt;&gt;(flujo) ?? new();   // JSON a objetos
+}</pre>
+<p><code>MockarooClient.Convertir</code> descarta las filas inválidas (categoría desconocida, código o nombre de menos de 3 caracteres, precio menor o igual que cero, existencia negativa) para contarlas como rechazadas antes de guardar.</p>
+<div class="note"><b>Sin hilos, a propósito.</b> <code>Http.Send</code> es una llamada síncrona: mientras llega la respuesta, la ventana no responde un instante (el cursor cambia a espera). En el Encuentro 2 resolvió ese problema con <code>Task.Run</code> e <code>IProgress</code>; combinar ambas ideas es el reto 3. Siempre se deben prever los fallos: sin conexión (<code>HttpRequestException</code>), tiempo agotado (<code>TaskCanceledException</code>), respuesta inesperada (<code>JsonException</code>) y clave faltante (<code>InvalidOperationException</code>).</div>
+<pre class="codebox" data-lang="cs">catch (DbUpdateException ex)
+{   // la base rechazó algo: se revirtió toda la importación
+    lblEstado.Text = "Se revirtió la importación: " + (ex.InnerException?.Message ?? ex.Message);
+}
+catch (Exception ex) when (ex is IOException or HttpRequestException or InvalidOperationException
+                               or TaskCanceledException or System.Text.Json.JsonException)
+{
+    lblEstado.Text = "No se pudo completar: " + ex.Message;
+}</pre>
+<p class="ex">Ejemplo aplicado — AgroStock: si se cae el Internet de la cooperativa mientras se piden productos, el programa muestra «No se pudo completar» y sigue funcionando.</p>
+
+<h3 class="sub" id="s7">7. Estudio de caso: productos de prueba con Mockaroo</h3>
+<p>Probar un inventario con 14 productos no basta: doña Martha necesita ver cómo se comporta AgroStock con cientos. <b>Mockaroo</b> es un servicio web que genera datos de prueba realistas según un <i>schema</i>; el schema <code>agrostock_productos</code> tiene seis campos (<code>codigo</code>, <code>nombre</code>, <code>categoria</code>, <code>precio</code>, <code>existencia</code> y <code>vencimiento</code>) con los mismos nombres que las propiedades de <code>ProductoMockaroo</code>.</p>
+<p><code>FrmImportar</code> ofrece dos orígenes: el archivo <code>productos_importar.csv</code> y el botón «Obtener de Mockaroo» (de 1 a 1000 productos). Ambos pasan por el mismo método <code>Ejecutar</code>, que guarda con <code>InsertarVarios</code> en una sola transacción: si la base rechaza algo se revierte toda la importación. Al terminar informa cuántos productos entraron, cuántas filas eran inválidas y cuántos códigos estaban repetidos; importar el mismo CSV dos veces no falla, la segunda vez informa los repetidos.</p>
+<ul class="pl"><li><b>Analice el servicio antes de usarlo:</b> documentación, límites del plan gratuito y términos de uso.</li><li><b>No publique su clave:</b> <code>appsettings.json</code> contiene un secreto. Si sube el proyecto a un repositorio público, quítela o cámbiela; en la entrega use la clave que indique su docente.</li><li><b>Otros casos posibles:</b> consultar el tipo de cambio oficial que publica el Banco Central de Nicaragua (BCN), si ofrece un servicio consultable, o el clima para planificar la aplicación de fertilizantes.</li></ul>
+<p class="ex">Ejemplo aplicado — AgroStock: con un clic, 500 productos de prueba entran al inventario; si algunos vienen con precio cero, se descartan y AgroStock cuenta cuántos fueron.</p>
+<p>👉 Programe el cliente y el formulario en el <a href="encuentro-03/Guia_AgroStock_E03.html#paso-mockaroo">paso 6 de la guía</a>. Repase HTTP y los reportes en el juego <a href="juegos-03.html#e3-web">🌐 Ordena reportes y servicios web</a>.</p>
+</section>
+
+<section class="step" id="integracion" aria-labelledby="h-integracion"><div class="step-h"><span class="num">Fundamentación científica · 8</span><h2 id="h-integracion">8. Integración: AgroStock v3</h2></div>
+<p>AgroStock v3 se construye sobre una copia de la v2 corregida (<code>AgroStock.E03</code>). El código completo de cada archivo, en versión comentada y limpia, está en la guía interactiva <a href="encuentro-03/Guia_AgroStock_E03.html">Guia_AgroStock_E03</a>. Su estructura es la siguiente:</p>
+<pre class="codebox">AgroStock.E03/
+├── AgroStock.E03.csproj                ← paquetes: EF Core Sqlite, ClosedXML, QuestPDF
+├── appsettings.json                    ← configuración de Mockaroo (BaseUrl, ApiKey, Schema)
+├── productos_importar.csv
+├── Program.cs
+├── Models/Producto.cs                  ← Producto, Categoria y Movimiento
+├── Data/AgroStockContext.cs            ← ORM: DbSet, restricciones, relaciones, HasData
+├── Data/Db.cs                          ← EnsureCreated()
+├── Data/ProductoRepository.cs          ← CRUD con LINQ y SaveChanges
+├── Services/ReporteService.cs          ← QuestPDF (PDF) y ClosedXML (Excel)
+├── Services/MockarooClient.cs          ← HttpClient + JSON
+└── Forms/                              ← FrmPrincipal · FrmProducto · FrmMovimiento
+                                           FrmMovimientos · FrmImportar</pre>
+<p class="ex">Ejemplo aplicado — AgroStock: de la v2 a la v3.</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Aspecto</th><th>AgroStock v2 (E2)</th><th>AgroStock v3 (E3)</th></tr></thead><tbody>
+<tr><td class="wrap"><b>Acceso a datos</b></td><td class="wrap">SQL escrito a mano con Microsoft.Data.Sqlite</td><td class="wrap">LINQ con Entity Framework Core, sin SQL a mano</td></tr>
+<tr><td class="wrap"><b>Esquema de la base</b></td><td class="wrap">Script agrostock.sql</td><td class="wrap">Modelo en C# (AgroStockContext) con datos iniciales; la base se crea sola</td></tr>
+<tr><td class="wrap"><b>Reportes</b></td><td class="wrap">No tiene</td><td class="wrap">PDF (QuestPDF) y Excel (ClosedXML) del inventario</td></tr>
+<tr><td class="wrap"><b>Datos de prueba</b></td><td class="wrap">Archivo productos_importar.csv</td><td class="wrap">CSV o servicio web Mockaroo</td></tr>
+<tr><td class="wrap"><b>Importación</b></td><td class="wrap">Task.Run, IProgress y cancelación con rollback</td><td class="wrap">Síncrona, sin hilos, en una sola transacción; informa inválidos y repetidos</td></tr>
+<tr><td class="wrap"><b>Interfaz</b></td><td class="wrap">Cuadrícula, formularios de producto y movimiento</td><td class="wrap">Se agregan el historial de movimientos (Ctrl+H) y el menú de reportes</td></tr></tbody></table></div>
+<div class="btns"><a class="sbtn" href="encuentro-03/Guia_AgroStock_E03.html">Empezar la guía paso a paso</a></div>
+</section>
+
+<section class="step" id="ejercitacion-e3" aria-labelledby="h-ejercitacion-e3"><div class="step-h"><span class="num">Ejercitación</span><h2 id="h-ejercitacion-e3">Ejercitación</h2></div>
+<p>Las siguientes actividades fomentan el aprendizaje autónomo e investigativo y se realizan de forma individual y colaborativa.</p>
+<h3 class="sub">Actividad individual</h3><ul class="pl"><li>Complete la tercera columna de su tabla SQA («Qué aprendí») con las ideas clave de la fundamentación científica.</li><li>Resuelva la autoevaluación sin mirar el material y luego compruebe sus respuestas en el quiz de la sección de juegos.</li></ul>
+<div id="review" class="errs"></div>
+<p>👉 Resuelva las preguntas en su cuaderno y compruebe sus respuestas en el juego, que da puntaje y retroalimentación: <a href="juegos-03.html#e3-quiz">🧠 Quiz de autoevaluación E3</a> y los demás <a href="juegos-03.html">juegos del Encuentro 3</a>.</p>
+
+<h3 class="sub">Actividad colaborativa</h3>
+<p>El trabajo interencuentro se retoma en la <a href="#boa3">BOA 3</a>. Debe realizarse en grupos (salvo las tareas individuales) y entregarse en las fechas indicadas en la BOA.</p>
+<ol class="pl"><li>Corregir AgroStock v2 con la retroalimentación del corte 2 (tarea 1).</li><li>Individual: resolver las 5 consultas LINQ y generar un reporte de una sola categoría (tarea 2).</li><li>AgroStock v3 final: ORM con EF Core, reportes PDF y Excel, e importación desde Mockaroo (tarea 3).</li><li>Manual de usuario (máx. 4 páginas) y video de demostración (máx. 3 minutos) (tarea 4).</li><li>Individual: autoevaluación actitudinal y reflexión sobre el aporte de AgroStock al uso sostenible de recursos (tarea 5).</li></ol>
+<h3 class="sub">Práctica de programación</h3>
+<p>Resuelva de forma individual los siguientes ejercicios. Las 5 consultas LINQ son obligatorias (tarea 2 de la BOA 3); los retos de programación se integran en AgroStock v3. Con la base recién creada por <code>AgroStockContext</code> (datos iniciales sin modificar), los resultados esperados son los indicados entre paréntesis.</p>
+<h3 class="sub">Nivel 1 – Básico</h3><ol class="pl"><li>Devuelva los productos de la categoría «Semillas» ordenados por nombre (3 productos).</li><li>Cuente los productos con existencia menor que 10 (7 productos).</li><li>Obtenga el producto de mayor precio con <code>OrderByDescending</code> + <code>FirstOrDefault</code> («Bomba de mochila (20 L)», C$ 1,450.00).</li><li><b>Reto de programación 1:</b> agregue un ComboBox de categoría en la barra de la ventana principal y filtre la lista con LINQ: <code>.Where(p =&gt; p.CategoriaId == id)</code>.</li></ol>
+<h3 class="sub">Nivel 2 – Intermedio</h3><ol class="pl"><li>Calcule el valor total del inventario (C$ 86,381.00).</li><li>Agrupe por categoría y devuelva cantidad de productos y valor con <code>GroupBy</code> (Fertilizantes 3 · C$ 56,880.00; Semillas 3 · C$ 10,651.00; Herbicidas 5 · C$ 11,600.00; Herramientas 3 · C$ 7,250.00).</li><li><b>Reto de programación 2:</b> haga que los reportes PDF y Excel usen la lista filtrada por la búsqueda actual (o por la categoría elegida) en lugar de todos los productos.</li></ol>
+<h3 class="sub">Nivel 3 – Avanzado (opcional)</h3><ol class="pl"><li><b>Reto de programación 3:</b> ejecute <code>ObtenerProductos</code> dentro de <code>Task.Run</code> con <code>await</code> para que la ventana no se congele durante la llamada a Mockaroo.</li><li><b>Reto de programación 4:</b> mueva la clave de Mockaroo a una variable de entorno y léala con <code>Environment.GetEnvironmentVariable</code>.</li></ol>
+<h3 class="sub">Entrega</h3>
+<p>Suba al aula virtual el código de las 5 consultas LINQ con sus resultados y el reporte de una categoría (tarea «Ejercitación E3»), el proyecto AgroStock v3 comprimido sin las carpetas <code>bin</code>, <code>obj</code> ni <code>.vs</code> (con la clave de API que indique su docente), el manual de usuario en PDF con el enlace del video, y complete el formulario de autoevaluación. Si usó ejemplos o IA, indíquelo en el README.</p>
+<h3 class="sub">Lista de verificación</h3>
+<p class="muted">Marque lo que ya logró (se guarda en este navegador).</p>
+<ul class="chk" id="chk" data-clave="e3" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px"></ul><p id="chkmsg" aria-live="polite"></p>
+</section>
+
+<section class="step" id="boa3" aria-labelledby="h-boa3"><div class="step-h"><span class="num">Trabajo interencuentro</span><h2 id="h-boa3">Trabajo interencuentro (BOA 3)</h2></div>
+<p>La BOA 3 orienta el corte evaluativo 3 y de cierre del componente: lo que se hace en el encuentro presencial y el trabajo que realiza de forma independiente.</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>N.°</th><th>Tarea</th><th>Modalidad</th><th>Entrega</th></tr></thead><tbody>
+<tr><td class="wrap">1</td><td class="wrap">Corregir AgroStock v2 según la retroalimentación del corte 2 y volver a entregarlo</td><td class="wrap">Grupal</td><td class="wrap">Aula virtual «Correcciones corte 2» · 27/10/2026</td></tr>
+<tr><td class="wrap">2</td><td class="wrap">Ejercitación E3: 5 consultas LINQ y reporte de una categoría</td><td class="wrap">Individual</td><td class="wrap">Aula virtual «Ejercitación E3» · 27/10/2026</td></tr>
+<tr><td class="wrap">3</td><td class="wrap">AgroStock v3 final: EF Core, LINQ, reportes PDF y Excel, importación desde Mockaroo</td><td class="wrap">Grupal</td><td class="wrap">.zip en el aula virtual · 30/10/2026</td></tr>
+<tr><td class="wrap">4</td><td class="wrap">Manual de usuario (máx. 4 páginas) y video de demostración (máx. 3 min)</td><td class="wrap">Grupal</td><td class="wrap">PDF + enlace del video · 30/10/2026</td></tr>
+<tr><td class="wrap">5</td><td class="wrap">Autoevaluación actitudinal y reflexión (media página, eje Madre Tierra)</td><td class="wrap">Individual</td><td class="wrap">Formulario del aula virtual · 24/10/2026</td></tr></tbody></table></div>
+<p class="muted">Las fechas se confirman en el aula virtual. En el README de AgroStock v3 indique qué proceso de su investigación de campo del Encuentro 1 automatiza cada reporte o importación.</p>
+<div class="btns"><a class="sbtn" href="encuentro-03/BOA_E03.pdf" target="_blank" rel="noopener">📄 BOA 3 (PDF)</a><a class="sbtn ghost" href="encuentro-03/Guia_AgroStock_E03.html#paso-probar">🧭 Probar y entregar con la guía</a></div>
+</section>
+
+<section class="step" id="recursos" aria-labelledby="h-recursos"><div class="step-h"><span class="num">Recursos</span><h2 id="h-recursos">Recursos y código</h2></div>
+<div class="btns">
+<a class="sbtn" href="encuentro-03/Guia_AgroStock_E03.html">🧭 Guía interactiva AgroStock v3</a>
+<a class="sbtn ghost" href="encuentro-03/Material_didactico_E3.pdf" target="_blank" rel="noopener">📙 Folleto del Encuentro 3</a>
+<a class="sbtn ghost" href="encuentro-03/BOA_E03.pdf" target="_blank" rel="noopener">📄 BOA 3</a>
+</div>
+<h3 class="sub">Archivos de datos</h3>
+<div class="btns"><a class="sbtn ghost sm" href="recursos/productos_importar.csv" download>productos_importar.csv (500 filas)</a></div>
+<p class="muted">Los datos son de prueba y no contienen información personal real. El código completo y comentado de cada archivo del proyecto está en la guía. Para Mockaroo necesita una cuenta gratuita y el schema <code>agrostock_productos</code>.</p>
+</section>
+
+<section class="step" id="cierre" aria-labelledby="h-cierre"><div class="step-h"><span class="num">C. Cierre y consolidación del aprendizaje</span><h2 id="h-cierre">Complementación</h2></div>
+<p>El dominio de un ORM, de la generación de reportes y del consumo de servicios web va más allá de memorizar clases o métodos. Reflexione sobre las siguientes preguntas, que conectan lo aprendido con su realidad como futuro(a) ingeniero(a) en sistemas:</p>
+<h3 class="sub">Preguntas para reflexionar</h3><ul class="pl"><li><b>Conexión con la práctica:</b> piense en los negocios de su comunidad —un agroservicio, una cooperativa, una pulpería—. ¿Qué tareas semanales, como el reporte de inventario o la carga de una lista de productos, podría automatizar una aplicación como AgroStock?</li><li><b>Transferencia del aprendizaje:</b> ya sabe trabajar con objetos en lugar de SQL manual y obtener datos desde un servicio web. ¿Cómo podría aplicarlo a facturación, planillas o control de ventas?</li><li><b>Relación con el eje Madre Tierra:</b> ¿cómo puede un reporte digital reducir el uso de papel, las pérdidas de insumos vencidos y los viajes innecesarios de los productores? Escriba tres ideas.</li></ul>
+<h3 class="sub">Sitios web para ampliar sus conocimientos</h3>
+<p><a href="encuentro-03/Material_didactico_E3.pdf" target="_blank" rel="noopener">📙 Descargar el material didáctico completo del Encuentro 3 (PDF)</a></p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Recurso</th><th>Descripción</th><th>Enlace</th></tr></thead><tbody>
+<tr><td class="wrap">Microsoft Learn — Introducción a EF Core</td><td class="wrap">Primera aplicación con Entity Framework Core: entidades, DbContext y consultas.</td><td class="wrap"><a href="https://learn.microsoft.com/es-es/ef/core/get-started/overview/first-app" target="_blank" rel="noopener">Abrir</a></td></tr>
+<tr><td class="wrap">QuestPDF — Getting started</td><td class="wrap">Guía de inicio para generar documentos PDF desde C#.</td><td class="wrap"><a href="https://www.questpdf.com/quick-start.html" target="_blank" rel="noopener">Abrir</a></td></tr>
+<tr><td class="wrap">ClosedXML — Documentación</td><td class="wrap">Cómo crear y dar formato a libros de Excel, incluidas fórmulas.</td><td class="wrap"><a href="https://docs.closedxml.io/" target="_blank" rel="noopener">Abrir</a></td></tr>
+<tr><td class="wrap">Microsoft Learn — Solicitudes HTTP con HttpClient</td><td class="wrap">Cómo enviar peticiones HTTP y leer respuestas desde .NET.</td><td class="wrap"><a href="https://learn.microsoft.com/es-es/dotnet/fundamentals/networking/http/httpclient" target="_blank" rel="noopener">Abrir</a></td></tr>
+<tr><td class="wrap">Mockaroo — API Endpoints</td><td class="wrap">Cómo generar datos de prueba con la API: schema, clave y parámetros.</td><td class="wrap"><a href="https://mockaroo.com/docs" target="_blank" rel="noopener">Abrir</a></td></tr></tbody></table></div>
+<p class="muted">Investigue los términos de uso y los límites del plan gratuito de Mockaroo antes de usar el servicio en una aplicación real.</p>
+<h3 class="sub">Glosario del encuentro</h3>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Término</th><th>Definición</th></tr></thead><tbody>
+<tr><td class="wrap">ORM</td><td class="wrap">Mapeador objeto-relacional: traduce entre objetos del programa y tablas de la base.</td></tr>
+<tr><td class="wrap"><code>DbContext</code></td><td class="wrap">Clase de EF Core que representa una sesión con la base y rastrea cambios.</td></tr>
+<tr><td class="wrap"><code>DbSet&lt;T&gt;</code></td><td class="wrap">Colección que representa una tabla y sobre la que se escriben consultas LINQ.</td></tr>
+<tr><td class="wrap">LINQ</td><td class="wrap">Consultas integradas en el lenguaje C# (Where, Select, OrderBy, GroupBy).</td></tr>
+<tr><td class="wrap"><code>SaveChanges</code></td><td class="wrap">Método que envía a la base todos los cambios pendientes en una transacción.</td></tr>
+<tr><td class="wrap">API REST</td><td class="wrap">Servicio web que expone recursos por URL y se opera con métodos HTTP.</td></tr>
+<tr><td class="wrap">JSON</td><td class="wrap">Formato de texto para intercambiar datos: objetos {}, listas [], texto, números.</td></tr>
+<tr><td class="wrap">Código de estado HTTP</td><td class="wrap">Número que indica el resultado de la petición (200, 404, 500…).</td></tr>
+<tr><td class="wrap">Deserializar</td><td class="wrap">Convertir texto JSON en objetos del programa.</td></tr>
+<tr><td class="wrap">Clave de API</td><td class="wrap">Texto secreto que identifica a su aplicación ante un servicio web; no se publica.</td></tr>
+<tr><td class="wrap">Schema (Mockaroo)</td><td class="wrap">Descripción de los campos de los datos de prueba que genera el servicio.</td></tr>
+<tr><td class="wrap"><code>EnsureCreated</code></td><td class="wrap">Método de EF Core que crea la base y las tablas si no existen; no actualiza una base ya creada.</td></tr></tbody></table></div>
+<h3 class="sub">Cierre y transferencia del aprendizaje</h3>
+<p>Generar un reporte o consultar un servicio en Internet no son solo técnicas: son decisiones sobre la confianza que el usuario puede tener en su programa. Un ORM que evita el SQL repetido, reportes con totales verificables y una importación que valida cada fila y avisa de los errores en lugar de cerrarse pueden convertir el inventario de doña Martha en una herramienta confiable, que se puede probar con cientos de productos sin escribirlos a mano.</p>
+<p>Así como doña Martha pasó del cuaderno a la pantalla y de la memoria a una base de datos, usted completa en este encuentro el camino de AgroStock: la versión 3 reúne interfaz gráfica, base de datos con ORM, reportes y servicio web.</p>
+<h3 class="sub">Conclusiones clave del encuentro</h3>
+<ol class="pl"><li>Un ORM mapea clases a tablas: se trabaja con objetos y LINQ, y <code>SaveChanges</code> genera el SQL.</li><li>Un reporte útil tiene encabezado, detalle, totales y pie de página; en Excel los totales son fórmulas.</li><li>Consumir un servicio web es enviar una petición HTTP y deserializar la respuesta, previendo fallos.</li><li>AgroStock v3 reúne lo aprendido: interfaz gráfica, base de datos con ORM, reportes PDF y Excel, y un servicio web para importar productos.</li></ol>
+<h3 class="sub">Transferencia del aprendizaje</h3>
+<ol class="pl"><li>Con un ORM, cambiar de SQLite a SQL Server, MySQL o PostgreSQL se reduce, en gran parte, a cambiar el proveedor y la cadena de conexión.</li><li>La estructura de un reporte (encabezado, detalle, totales y pie) se repite en facturas, planillas y constancias, sea en PDF o en Excel.</li><li>Consumir un servicio web con <code>HttpClient</code>, deserializar la respuesta y prever fallos le servirá con cualquier API que encuentre en su vida profesional.</li></ol>
+<blockquote class="quote" style="margin:0;padding:12px 16px;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:8px;font-style:italic;max-width:78ch">«La práctica constante es la clave». Aplíquese a las consultas del encuentro y a AgroStock v3, y estará construyendo una competencia que le acompañará durante toda su carrera profesional.</blockquote>
+</section>
+
+<section class="step" id="refs" aria-labelledby="h-refs"><div class="step-h"><span class="num">Referencias</span><h2 id="h-refs">Referencias</h2></div>
+<ul class="pl refs"><li>Ceballos Sierra, F. J. <i>Enciclopedia de Microsoft Visual C#</i>. Editorial RA-MA.</li><li>Deitel, H. M. y Deitel, P. J. <i>C# Cómo programar</i>. Editorial Pearson, Prentice Hall.</li><li>Microsoft (2024). Guía de escritorio (Windows Forms .NET). Microsoft Learn. <a href="https://learn.microsoft.com/es-es/dotnet/desktop/winforms/" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/desktop/winforms/</a></li><li>Microsoft (2024). Microsoft.Data.Sqlite: información general. Microsoft Learn. <a href="https://learn.microsoft.com/es-es/dotnet/standard/data/sqlite/" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/standard/data/sqlite/</a></li><li>Microsoft (2024). Subprocesamiento administrado y programación asincrónica. Microsoft Learn. <a href="https://learn.microsoft.com/es-es/dotnet/standard/threading/" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/standard/threading/</a></li><li>Microsoft (2024). Entity Framework Core. Microsoft Learn. <a href="https://learn.microsoft.com/es-es/ef/core/" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/ef/core/</a></li><li>Microsoft (2024). Realización de solicitudes HTTP con la clase HttpClient. Microsoft Learn. <a href="https://learn.microsoft.com/es-es/dotnet/fundamentals/networking/http/httpclient" target="_blank" rel="noopener">https://learn.microsoft.com/es-es/dotnet/fundamentals/networking/http/httpclient</a></li><li>SQLite Consortium (2024). SQL As Understood By SQLite. <a href="https://www.sqlite.org/lang.html" target="_blank" rel="noopener">https://www.sqlite.org/lang.html</a></li><li>QuestPDF (2024). Documentación. <a href="https://www.questpdf.com/" target="_blank" rel="noopener">https://www.questpdf.com/</a></li><li>ClosedXML (2024). Documentación. <a href="https://docs.closedxml.io/" target="_blank" rel="noopener">https://docs.closedxml.io/</a></li><li>Mockaroo (2024). API Endpoints. <a href="https://mockaroo.com/docs" target="_blank" rel="noopener">https://mockaroo.com/docs</a></li></ul>
+<div class="unan"><img src="assets/img/unan-cierre.png" width="820" height="150" loading="lazy" alt="UNAN-Managua. ¡Universidad del Pueblo y para el Pueblo!"><a href="https://www.unan.edu.ni" target="_blank" rel="noopener">www.unan.edu.ni</a></div>
+</section>
+</main>
+<footer id="foot" data-enc="Encuentro 3: 24 de octubre de 2026"></footer>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/quiz.js"></script>
+<script>
+$('#review').replaceChildren(...QUIZ_E3.slice(0, 7).map((q, i) => h('div', { class: 'qs' }, h('p', { class: 'q', html: `${i + 1}. ${rich(q.q)}` }), h('ol', { class: 'pl', type: 'a' }, q.o.map(t => h('li', { html: rich(t) }))))));
+// SQA
+const sqa = store.get('e3:sqa', {});
+[['s', 'sqa-s'], ['q', 'sqa-q'], ['a', 'sqa-a']].forEach(([k, id]) => { const t = $('#' + id); t.value = sqa[k] || ''; t.addEventListener('input', () => { sqa[k] = t.value; store.set('e3:sqa', sqa); }); });
+// Lista de verificación (persistida con la clave e3)
+const ITEMS = ['Configuré AgroStockContext con entidades, restricciones y datos iniciales', 'Reescribí ProductoRepository con LINQ y SaveChanges, sin SQL a mano', 'Generé el reporte PDF', 'Generé el reporte Excel con fórmulas', 'Obtuve productos de Mockaroo con mi clave de API', 'Importé el mismo CSV dos veces y el programa informó los repetidos sin fallar', 'Presenté y defendí AgroStock v3', 'Entregué manual, video y autoevaluación'];
+const saved = store.get('e3:check', []), ul = $('#chk'), msg = $('#chkmsg');
+const upd = () => { const n = $$('input', ul).filter(b => b.checked).length; msg.textContent = `${n} de ${ITEMS.length} logros`; };
+ITEMS.forEach((t, i) => ul.append(h('li', null, h('label', null, h('input', { type: 'checkbox', checked: !!saved[i], onchange: e => { store.set('e3:check', $$('input', ul).map(b => b.checked)); if (e.target.checked) sfx('click'); upd(); } }), h('span', null, t)))));
+upd();
+</script>
+</body>
+</html>

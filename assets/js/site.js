@@ -261,11 +261,15 @@ const NAV_E1 = [
 const NAV_E2 = [
   ['index.html', '🏠', 'Inicio', 'index'], ['hub-encuentro-02.html', '📘', 'Encuentro 2', 'hub2'], ['encuentro-02.html', '📖', 'Folleto', 'e2'],
   ['encuentro-02/Guia_AgroStock_E02.html', '🧭', 'Guía AgroStock v2', 'guia2'], ['encuentro-02/BOA_E02.pdf', '📊', 'BOA corte 2', 'boa2'], ['juegos-02.html', '🎮', 'Juegos', 'juegos2']];
-const NAV_HOME = [['hub-encuentro-01.html', '📗', 'Encuentro 1', 'hub1'], ['hub-encuentro-02.html', '📘', 'Encuentro 2', 'hub2']];
+const NAV_E3 = [
+  ['index.html', '🏠', 'Inicio', 'index'], ['hub-encuentro-03.html', '📙', 'Encuentro 3', 'hub3'], ['encuentro-03.html', '📖', 'Folleto', 'e3'],
+  ['encuentro-03/Guia_AgroStock_E03.html', '🧭', 'Guía AgroStock v3', 'guia3'], ['encuentro-03/BOA_E03.pdf', '📊', 'BOA corte 3', 'boa3'], ['juegos-03.html', '🎮', 'Juegos', 'juegos3']];
+const NAV_HOME = [['hub-encuentro-01.html', '📗', 'Encuentro 1', 'hub1'], ['hub-encuentro-02.html', '📘', 'Encuentro 2', 'hub2'], ['hub-encuentro-03.html', '📙', 'Encuentro 3', 'hub3']];
 const E2_PAGES = ['hub2', 'e2', 'juegos2'];
+const E3_PAGES = ['hub3', 'e3', 'juegos3'];
 // Botón «Regresar» de cada página: [destino, texto]
 const BACK = { instalacion: ['hub-encuentro-01.html', 'Encuentro 1'], e1: ['hub-encuentro-01.html', 'Encuentro 1'], guia: ['hub-encuentro-01.html', 'Encuentro 1'], boa: ['hub-encuentro-01.html', 'Encuentro 1'], juegos: ['hub-encuentro-01.html', 'Encuentro 1'],
-  e2: ['hub-encuentro-02.html', 'Encuentro 2'], juegos2: ['hub-encuentro-02.html', 'Encuentro 2'], hub1: ['index.html', 'la portada'], hub2: ['index.html', 'la portada'] };
+  e2: ['hub-encuentro-02.html', 'Encuentro 2'], juegos2: ['hub-encuentro-02.html', 'Encuentro 2'], e3: ['hub-encuentro-03.html', 'Encuentro 3'], juegos3: ['hub-encuentro-03.html', 'Encuentro 3'], hub1: ['index.html', 'la portada'], hub2: ['index.html', 'la portada'], hub3: ['index.html', 'la portada'] };
 const STEP_LABEL = { crear: 'Crear proyecto', entrada: 'Entrada', modelo: 'Modelo', 'diseno-dialogo': 'Diseño del diálogo', 'logica-dialogo': 'Lógica del diálogo', 'diseno-principal': 'Diseño principal', 'logica-principal': 'Lógica principal', probar: 'Probar', ejercitacion: 'Ejercitación' };
 const stepHref = id => `guia-agrostock.html#${id === 'ejercitacion' ? id : 'paso-' + id}`;
 
@@ -295,7 +299,7 @@ function siteChrome(active, sticky = true) {
   const menu = h('button', { class: 'ibtn menu-btn', 'aria-expanded': 'false', 'aria-controls': 'slinks', 'aria-label': 'Abrir menú', onclick: e => { const o = box.classList.toggle('open'); e.currentTarget.setAttribute('aria-expanded', String(o)); } }, '☰');
   const theme = h('button', { class: 'ibtn', title: 'Cambiar tema', 'aria-label': 'Cambiar entre tema automático, claro y oscuro', onclick: () => { const c = store.get('theme', ''); store.set('theme', c === '' ? 'light' : c === 'light' ? 'dark' : ''); applyTheme(); } }, '🌓');
   box.append(h('a', { class: 'brand', href: 'index.html' }, '🌾 AgroStock', h('small', null, 'Programación de Aplicaciones de Escritorio')),
-    h('nav', { class: 'slinks', id: 'slinks', 'aria-label': 'Secciones del sitio' }, (active === 'index' ? NAV_HOME : E2_PAGES.includes(active) ? NAV_E2 : NAV_E1).map(([href, ic, txt, id]) => h('a', { href, 'aria-current': id === active ? 'page' : false }, `${ic} ${txt}`))),
+    h('nav', { class: 'slinks', id: 'slinks', 'aria-label': 'Secciones del sitio' }, (active === 'index' ? NAV_HOME : E2_PAGES.includes(active) ? NAV_E2 : E3_PAGES.includes(active) ? NAV_E3 : NAV_E1).map(([href, ic, txt, id]) => h('a', { href, 'aria-current': id === active ? 'page' : false }, `${ic} ${txt}`))),
     h('div', { class: 'tools' }, muteBtn(false), theme, menu));
   const hd = h('header', { class: 'top snavbar' + (sticky ? '' : ' static') }, box);
   document.body.prepend(hd);

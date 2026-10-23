@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía AgroStock v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Misma identidad que la guía del Encuentro 2: cuaderno de campo en verde con tinta oscura;
+   los simuladores conservan el aspecto gris claro de Windows para distinguir "el programa" de "la guía". */
+:root{
+  --font-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --font-body:'Source Sans 3','Segoe UI',system-ui,-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono',Consolas,'Cascadia Mono',ui-monospace,monospace;
+  --bg:#F1F5EF; --surface:#FFFFFF; --surface2:#E7EEE4; --fg:#15241B; --muted:#51645A; --line:#CBD7C7;
+  --accent:#1A6B45; --accent-fg:#FFFFFF; --accent-soft:#DAEBDC; --accent-line:#9CC8AA;
+  --warn:#8A5200; --warn-soft:#F7E9CC; --bad:#B3261E; --bad-soft:#F9DEDB; --ok:#1A6B45;
+  --code-bg:#13201A; --code-fg:#DCE8DF; --code-c:#7FB48E; --code-k:#E8AB5E; --code-s:#9DC8E8; --code-t:#8ED6B5; --code-n:#CDA9EA; --code-ln:#5C7468; --code-hl:#2A4A39;
+  --code-bar:#1B2C23; --code-bar-fg:#B9CCBF;
+  --w-face:#F0F0F0; --w-white:#FFFFFF; --w-border:#ADADAD; --w-text:#111111; --w-mute:#6B6B6B; --w-sel:#0078D7; --w-sel-fg:#FFFFFF; --w-title:#FFFFFF; --w-shadow:rgba(0,0,0,.35);
+  --w-low:#FFB35C; --w-icon-warn:#B86E00;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1612; --surface:#15211A; --surface2:#1C2A22; --fg:#E2ECE4; --muted:#9AB0A1; --line:#2B3C32;
+    --accent:#5CC68E; --accent-fg:#0A1A11; --accent-soft:#1B3828; --accent-line:#2F6A4A;
+    --warn:#E9B14F; --warn-soft:#3A2D12; --bad:#FF8F85; --bad-soft:#3F1D1A; --ok:#5CC68E;
+    --code-bg:#0A110D; --code-bar:#121D17; --code-hl:#223B2E; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1612; --surface:#15211A; --surface2:#1C2A22; --fg:#E2ECE4; --muted:#9AB0A1; --line:#2B3C32;
+  --accent:#5CC68E; --accent-fg:#0A1A11; --accent-soft:#1B3828; --accent-line:#2F6A4A;
+  --warn:#E9B14F; --warn-soft:#3A2D12; --bad:#FF8F85; --bad-soft:#3F1D1A; --ok:#5CC68E;
+  --code-bg:#0A110D; --code-bar:#121D17; --code-hl:#223B2E; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:130px}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.55;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0 0 .8em;max-width:68ch}
+code,.mono{font-family:var(--font-mono);font-size:.88em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:1040px;margin:0 auto;padding:10px 16px 8px;display:flex;flex-direction:column;gap:8px}
+.top-row{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.brand{font-family:var(--font-display);font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
+.brand small{font-family:var(--font-body);font-weight:400;color:var(--muted);margin-left:.5em;font-size:.85rem}
+.prog{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.prog-bar{width:96px;height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;border:1px solid var(--line)}
+.prog-bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}
+.nav button{flex:0 0 auto;border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:3px 12px;font-size:.88rem;cursor:pointer;white-space:nowrap}
+.nav button[aria-current="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+
+main{max-width:1040px;margin:0 auto;padding:24px 16px 64px;display:flex;flex-direction:column;gap:56px}
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
+.hero h1{font-size:clamp(1.9rem,5vw,2.9rem);letter-spacing:-.02em;margin-bottom:.4em}
+.hero .lead{font-size:1.12rem;color:var(--muted)}
+.kicker{font-size:.8rem;text-transform:uppercase;letter-spacing:.09em;color:var(--accent);font-weight:600;margin-bottom:.6em}
+.facts{display:flex;flex-wrap:wrap;gap:8px 18px;margin:1em 0 0;padding:0;list-style:none;font-size:.95rem}
+.facts li{display:flex;gap:6px;align-items:baseline}
+.facts b{font-family:var(--font-mono);font-weight:600;color:var(--accent)}
+.map{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 14px 10px;min-width:0}
+.map h2{font-size:1rem;margin-bottom:8px}
+.tree{list-style:none;margin:0;padding:0;font-family:var(--font-mono);font-size:.84rem}
+.tree ul{list-style:none;margin:0;padding-left:18px;border-left:1px dashed var(--line);margin-left:6px}
+.tree li{padding:1px 0}
+.tree .dir{color:var(--muted);font-weight:600}
+.tree button{background:none;border:0;padding:2px 6px;border-radius:5px;cursor:pointer;font:inherit;color:var(--fg);text-align:left}
+.tree button:hover{background:var(--accent-soft)}
+.map p{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+
+.step{scroll-margin-top:118px;display:flex;flex-direction:column;gap:18px;border-top:2px solid var(--fg);padding-top:20px}
+.step-h{display:flex;flex-direction:column;gap:6px}
+.step-h .num{font-family:var(--font-mono);font-size:.82rem;color:var(--accent);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.step-h h2{font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:-.015em}
+.goal{font-size:1.05rem;color:var(--muted);margin:0}
+.block-h{font-family:var(--font-display);font-size:1.08rem;margin:0 0 6px}
+.how{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.how li::marker{color:var(--accent);font-weight:600}
+.how b{font-weight:600}
+kbd{font-family:var(--font-mono);font-size:.8em;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;background:var(--surface)}
+.note{background:var(--warn-soft);color:var(--fg);border-radius:8px;padding:10px 14px;font-size:.95rem;max-width:78ch}
+.note b{color:var(--warn)}
+.tip{background:var(--accent-soft);border-radius:8px;padding:10px 14px;font-size:.95rem;max-width:78ch}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.tbl{border-collapse:collapse;width:100%;font-size:.9rem}
+.tbl th{background:var(--surface2);text-align:left;padding:6px 10px;font-weight:600;white-space:nowrap}
+.tbl td{padding:6px 10px;border-top:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{white-space:nowrap}
+.tbl td.wrap{white-space:normal;min-width:150px}
+.chip{display:inline-block;border-radius:99px;padding:0 9px;font-size:.76rem;font-weight:600;border:1px solid var(--line);background:var(--surface)}
+.chip.nuevo{background:var(--accent-soft);color:var(--ok);border-color:var(--accent-line)}
+.chip.mod{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
+.chip.borra{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+.chip.igual{color:var(--muted)}
+
+.viewer{border-radius:10px;overflow:hidden;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--code-bar);min-width:0}
+.v-bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;background:var(--code-bar);padding:8px 10px;color:var(--code-bar-fg)}
+.v-tabs{display:flex;gap:4px;flex-wrap:wrap;min-width:0}
+.v-tabs button{background:transparent;border:1px solid transparent;color:var(--code-bar-fg);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:var(--font-mono);font-size:.8rem}
+.v-tabs button[aria-selected="true"]{background:var(--code-bg);color:var(--code-fg);border-color:#2f4a3b}
+.v-actions{display:flex;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid #2f4a3b;border-radius:7px;overflow:hidden}
+.seg button{background:transparent;border:0;color:var(--code-bar-fg);padding:3px 10px;cursor:pointer;font-size:.82rem}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);font-weight:600}
+.v-copy{background:transparent;border:1px solid #2f4a3b;color:var(--code-bar-fg);border-radius:7px;padding:3px 10px;cursor:pointer;font-size:.82rem}
+.v-copy:hover{background:#243a2e}
+.v-info{padding:6px 12px;font-size:.78rem;color:var(--code-ln);background:var(--code-bg);border-bottom:1px solid var(--code-bar)}
+.v-body{max-height:460px;overflow:auto;padding:8px 0}
+.v-body pre{margin:0;font-family:var(--font-mono);font-size:.8rem;line-height:1.6;width:max-content;min-width:100%;tab-size:4}
+.ln{display:flex;padding-right:16px}
+.ln .no{flex:0 0 3.2em;text-align:right;padding-right:12px;color:var(--code-ln);user-select:none}
+.ln.flash{background:var(--code-hl);box-shadow:inset 3px 0 0 var(--code-k)}
+.tc{color:var(--code-c);font-style:italic}.tk{color:var(--code-k)}.ts{color:var(--code-s)}.tt{color:var(--code-t)}.tn{color:var(--code-n)}
+
+.sim{border:1px solid var(--accent-line);border-radius:12px;background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.sim-h{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.sim-h h3{font-size:1.1rem}
+.tagsim{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:600}
+.sim-desc{margin:0;color:var(--muted);font-size:.95rem}
+.sbtn{border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);border-radius:8px;padding:6px 14px;cursor:pointer;font-weight:600;font-size:.93rem}
+.sbtn:disabled{opacity:.45;cursor:not-allowed}
+.sbtn.ghost{background:transparent;color:var(--accent)}
+.sbtn.ghost[aria-pressed="true"]{background:var(--accent-soft)}
+.sbtn.sm{padding:3px 10px;font-size:.85rem}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.stage{display:grid;gap:14px;min-width:0}
+.stage.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.stage.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.panel{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-width:0}
+.panel h4{margin:0 0 6px;font-size:.95rem}
+.logbox{font-family:var(--font-mono);font-size:.78rem;max-height:210px;overflow:auto;display:flex;flex-direction:column;gap:3px}
+.logbox .it{display:flex;flex-wrap:wrap;gap:2px 8px;padding:3px 6px;border-radius:5px;background:var(--surface)}
+.logbox .it .ev{color:var(--accent);font-weight:600}
+.logbox .it button{margin-left:auto;background:none;border:0;color:var(--accent);cursor:pointer;text-decoration:underline;font:inherit;padding:0}
+.logbox .empty{color:var(--muted);font-family:var(--font-body);font-size:.88rem}
+.pill{display:inline-block;border-radius:99px;padding:1px 9px;font-size:.78rem;border:1px solid var(--line);background:var(--surface)}
+.pill.ok{background:var(--accent-soft);color:var(--ok);border-color:var(--accent-line)}
+.pill.bad{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+.pill.warn{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
+.codebox{font-family:var(--font-mono);font-size:.8rem;background:var(--code-bg);color:var(--code-fg);border-radius:8px;padding:10px 12px;overflow-x:auto;white-space:pre;line-height:1.6}
+
+.win{background:var(--w-face);color:var(--w-text);border:1px solid #6d6d6d;box-shadow:0 8px 24px var(--w-shadow);position:relative;font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;font-size:14px;line-height:1.35;min-width:0;max-width:100%;overflow:hidden}
+.win *{color-scheme:light}
+.win-t{background:var(--w-title);color:#111;display:flex;align-items:center;height:30px;border-bottom:1px solid #d6d6d6;font-size:12px;padding-left:8px;gap:8px;user-select:none}
+.win-t .ic{width:14px;height:14px;background:var(--accent);border-radius:3px;flex:0 0 auto}
+.win-t .tt2{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-t .wb{display:flex;height:100%}
+.win-t .wb span,.win-t .wb button{width:40px;height:100%;border:0;background:transparent;display:grid;place-items:center;font-size:12px;color:#222;cursor:default}
+.w-tool{display:flex;gap:2px;padding:2px 4px;align-items:center;background:var(--w-face);border-bottom:1px solid #d8d8d8;min-height:30px;flex-wrap:wrap}
+.w-tool button{border:1px solid transparent;background:transparent;padding:2px 9px;font-size:13px;cursor:default;color:var(--w-text);border-radius:2px}
+.w-tool button:hover{background:#E5F3FF;border-color:#CCE8FF}
+.w-tool .sep{width:1px;height:20px;background:#bbb;margin:0 4px}
+.w-tool label{font-size:13px;margin-left:4px}
+.w-tool input{height:22px;width:130px;border:1px solid #7a7a7a;background:#fff;padding:0 4px;font-size:13px;color:var(--w-text);min-width:0}
+.w-status{display:flex;justify-content:space-between;gap:10px;background:#007ACC;color:#fff;font-size:12px;padding:2px 10px;min-height:22px;align-items:center}
+.w-body{padding:10px 12px}
+.w-grid{background:#fff;overflow:auto;border-top:1px solid #aaa}
+.w-grid table{border-collapse:collapse;font-size:13px;width:100%;color:var(--w-text)}
+.w-grid th{background:#f0f0f0;font-weight:400;text-align:left;border:1px solid #dcdcdc;padding:3px 8px;white-space:nowrap;position:sticky;top:0}
+.w-grid td{padding:3px 8px;border-bottom:1px solid #eee;border-right:1px solid #f0f0f0;white-space:nowrap}
+.w-grid tr.sel td{background:var(--w-sel);color:var(--w-sel-fg)}
+.w-grid tr.low:not(.sel) td{background:var(--w-low)}
+.w-grid td.r,.w-grid th.r{text-align:right}
+.w-btn{background:#E1E1E1;border:1px solid #ADADAD;padding:3px 14px;min-width:78px;font-size:13px;color:var(--w-text);cursor:default;border-radius:2px}
+.w-btn:hover{background:#E5F1FB;border-color:#0078D7}
+.w-btn.def{border:2px solid #0078D7;padding:2px 13px}
+.w-btn:disabled{opacity:.5}
+.w-in{height:23px;border:1px solid #7a7a7a;background:#fff;padding:0 4px;font-size:13px;width:100%;min-width:0;color:var(--w-text)}
+.w-field{display:grid;grid-template-columns:96px minmax(0,1fr);gap:4px 8px;align-items:center;margin-bottom:8px;font-size:13px}
+.w-err{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#E81123;color:#fff!important;font-size:11px;font-weight:700;cursor:help;margin-left:6px;flex:0 0 auto}
+.w-cell{display:flex;align-items:center;min-width:0}
+.w-ov{position:absolute;inset:30px 0 0 0;background:rgba(0,0,0,.28);display:grid;place-items:center;z-index:30;padding:8px}
+.w-dlg{background:var(--w-face);border:1px solid #555;box-shadow:0 6px 22px rgba(0,0,0,.45);width:min(100%,430px);max-height:100%;overflow:auto;color:var(--w-text)}
+.w-msg{display:flex;gap:14px;padding:18px 16px;background:#fff;font-size:13px;align-items:flex-start}
+.w-msg .mi{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;flex:0 0 auto;font-size:18px}
+.w-foot{display:flex;gap:8px;justify-content:flex-end;padding:10px 12px;background:var(--w-face)}
+.w-radio{display:flex;gap:6px;align-items:center;font-size:13px}
+
+.paper{background:#fff;color:#222;border:1px solid #bbb;box-shadow:0 4px 14px rgba(0,0,0,.25);padding:14px 16px;font-family:Arial,Helvetica,sans-serif;font-size:11px;overflow:auto;max-height:380px}
+.paper h5{margin:0;font-size:16px}
+.paper .gen{font-size:9px;margin-bottom:8px}
+.paper table{border-collapse:collapse;width:100%}
+.paper th{background:#2E7D32;color:#fff;text-align:left;padding:4px}
+.paper td{padding:4px;border-bottom:.5px solid #bdbdbd}
+.paper tr.lowr td{background:#FFCDD2}
+.paper .foot{display:flex;justify-content:space-between;margin-top:8px;font-size:10px}
+.xl{background:#fff;color:#111;border:1px solid #9aa;font-family:Calibri,'Segoe UI',Arial,sans-serif;font-size:13px;overflow:auto;max-height:380px}
+.xl .fbar{display:flex;gap:8px;padding:4px 8px;border-bottom:1px solid #ccc;background:#f3f3f3;font-size:12px;align-items:center}
+.xl .fbar b{min-width:34px;text-align:center;border-right:1px solid #ccc}
+.xl table{border-collapse:collapse;width:100%}
+.xl th{background:#f0f0f0;border:1px solid #d4d4d4;font-weight:400;padding:2px 8px}
+.xl td{border:1px solid #e1e1e1;padding:2px 8px;white-space:nowrap;cursor:cell}
+.xl td.r{text-align:right}
+.xl td.sel{outline:2px solid #217346;outline-offset:-2px}
+.xl tr.hd td{background:#006100;color:#fff;font-weight:700}
+
+details.err{border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+details.err summary{padding:10px 14px;cursor:pointer;font-weight:600;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+details.err summary code{background:var(--bad-soft);color:var(--bad);padding:0 6px;border-radius:5px}
+details.err .body{padding:0 14px 12px}
+.errs{display:flex;flex-direction:column;gap:8px}
+.check{border-top:1px solid var(--line);padding-top:12px}
+.check ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent);flex:0 0 auto}
+.check input:checked+span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--accent-line)}
+.boa-sel{height:30px;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:0 6px}
+.boa-in{height:34px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 8px;width:100%;max-width:340px}
+.se{background:#fff;border:1px solid var(--w-border);color:var(--w-text);padding:8px 6px;font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;min-height:200px;overflow:auto}
+.se ul{list-style:none;margin:0;padding-left:16px}
+.se>ul{padding-left:2px}
+.se li{padding:2px 4px}
+.se .del{text-decoration:line-through;color:#999}
+.se .bad{color:#B3261E}
+footer{max-width:1040px;margin:0 auto;padding:0 16px 48px;color:var(--muted);font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.prog-bar i{transition:none}}
+@media (max-width:980px){.stage.three{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:820px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .stage.two{grid-template-columns:minmax(0,1fr)}
+  body{font-size:16px}
+  .brand small{display:none}
+}
+@media (max-width:520px){.brand{white-space:nowrap}#progtxt{display:none}}
+.sim-desc code,.tip code,.note code,.how code{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="top-row"><div class="row"><a class="sbtn ghost sm" href="../hub-encuentro-03.html" style="text-decoration:none">← Volver al Encuentro 3</a><div class="brand">AgroStock v3<small>Guía del Encuentro 3</small></div></div>
+    <div class="prog" role="status"><span id="progtxt">0 comprobaciones</span><span class="prog-bar" aria-hidden="true"><i id="progbar"></i></span></div></div>
+  <nav class="nav" id="nav" aria-label="Pasos de la guía"></nav>
+</div></header>
+<main>
+  <section class="hero" id="hero"></section>
+  <section id="cambios" class="step" aria-labelledby="h-cambios"></section>
+  <div id="steps" style="display:contents"></div>
+</main>
+<footer>UNAN-Managua, CUR Matagalpa · Programación de Aplicaciones de Escritorio · Los simuladores reproducen el comportamiento del código; su programa real se ejecuta en Visual Studio.</footer>
+
+<script>
+/* ===== datos: archivos reales del proyecto AgroStock.E03 (con comentarios didácticos) ===== */
+const FILES = {"AgroStock.E03.slnx":{"lang":"xml","src":"<Solution>\n  <!-- Una solución con UN solo proyecto: en E03 ya no existe DemoHilos. -->\n  <Project Path=\"AgroStock.E03.csproj\" />\n</Solution>\n"},"Program.cs":{"lang":"cs","src":"// Único cambio respecto a E02: el espacio de nombres ahora es AgroStock.E03.\nusing AgroStock.E03.Data;\n\nnamespace AgroStock.E03;\n\ninternal static class Program\n{\n    [STAThread]\n    private static void Main()\n    {\n        ApplicationConfiguration.Initialize();\n\n        try\n        {\n            // Igual que en v2, pero ahora Inicializar() le pide al ORM que cree la base (ya no ejecuta un script SQL).\n            Db.Inicializar();\n        }\n        catch (Exception ex)\n        {\n            MessageBox.Show(\"No se pudo abrir la base de datos:\\n\" + ex.Message, \"AgroStock\",\n                MessageBoxButtons.OK, MessageBoxIcon.Error);\n            return;\n        }\n\n        Application.Run(new Forms.FrmPrincipal());\n    }\n}\n"},"AgroStock.E03.csproj":{"lang":"xml","src":"<Project Sdk=\"Microsoft.NET.Sdk\">\n\n  <PropertyGroup>\n    <OutputType>WinExe</OutputType>\n    <TargetFramework>net8.0-windows</TargetFramework>\n    <Nullable>enable</Nullable>\n    <ImplicitUsings>enable</ImplicitUsings>\n    <UseWindowsForms>true</UseWindowsForms>\n  </PropertyGroup>\n\n  <ItemGroup>\n    <!-- ClosedXML: crea archivos .xlsx (Excel) sin necesitar Excel instalado. -->\n    <PackageReference Include=\"ClosedXML\" Version=\"0.104.2\" />\n    <!-- Entity Framework Core con SQLite: el ORM. Trae consigo Microsoft.Data.Sqlite y el motor nativo, por eso ya no se instala aparte. -->\n    <PackageReference Include=\"Microsoft.EntityFrameworkCore.Sqlite\" Version=\"8.0.10\" />\n    <!-- QuestPDF: genera documentos PDF desde C#. Licencia Community, gratuita para estudiantes y proyectos pequeños. -->\n    <PackageReference Include=\"QuestPDF\" Version=\"2024.10.4\" />\n  </ItemGroup>\n\n  <ItemGroup>\n    <!-- appsettings.json guarda la configuración de Mockaroo y debe copiarse junto al .exe. -->\n    <!-- agrostock.sql ya no aparece: el ORM crea la base a partir del modelo en C#. -->\n    <None Update=\"appsettings.json\" CopyToOutputDirectory=\"PreserveNewest\" />\n    <None Update=\"productos_importar.csv\" CopyToOutputDirectory=\"PreserveNewest\" />\n  </ItemGroup>\n\n</Project>\n"},"appsettings.json":{"lang":"json","src":"{\n  \"Mockaroo\": {\n    \"BaseUrl\": \"https://api.mockaroo.com/api/generate.json\",\n    \"ApiKey\": \"d4fada10\",\n    \"Schema\": \"agrostock_productos\"\n  }\n}\n"},"Models/Producto.cs":{"lang":"cs","src":"namespace AgroStock.E03.Models;\n\n// Entidad: EF Core la convierte en la tabla «productos». Cada propiedad pública es una columna.\npublic class Producto\n{\n    // Por convención, una propiedad llamada Id es la clave primaria autoincremental.\n    public int Id { get; set; }\n\n    public string Codigo { get; set; } = \"\";\n\n    public string Nombre { get; set; } = \"\";\n\n    // Clave foránea (FK) explícita: es la columna que realmente se guarda en la tabla.\n    public int CategoriaId { get; set; }\n\n    // CAMBIO v2 -> v3: antes era un texto con el nombre; ahora es el OBJETO Categoria (propiedad de navegación).\n    // EF la llena cuando la consulta usa Include().\n    public Categoria? Categoria { get; set; }\n\n    public decimal Precio { get; set; }\n\n    public int Existencia { get; set; }\n\n    public DateTime? Vencimiento { get; set; }\n\n    // Propiedad calculada: NO es una columna (el contexto la ignora con e.Ignore).\n    // Columna de solo lectura para la cuadrícula\n    public string CategoriaNombre => Categoria?.Nombre ?? \"\";\n}\n\n// Categoria pasa de ser un record a una clase con setters: EF necesita poder asignar sus propiedades.\npublic class Categoria\n{\n    public int Id { get; set; }\n\n    public string Nombre { get; set; } = \"\";\n\n    public override string ToString() => Nombre;\n}\n\n// NUEVO: en v2 el movimiento solo existía como filas SQL; ahora tiene su propia entidad (tabla «movimientos»).\npublic class Movimiento\n{\n    public int Id { get; set; }\n\n    public int ProductoId { get; set; }\n\n    // Propiedad de navegación hacia el producto movido.\n    public Producto? Producto { get; set; }\n\n    // «ENTRADA» o «SALIDA» (el contexto agrega un CHECK que lo exige).\n    public string Tipo { get; set; } = \"ENTRADA\";\n\n    public int Cantidad { get; set; }\n\n    // La fecha se guarda como texto yyyy-MM-dd (ver HasConversion en el contexto).\n    public DateTime Fecha { get; set; } = DateTime.Today;\n\n    // Columna de solo lectura para la cuadrícula\n    public string ProductoNombre => Producto is null ? \"\" : $\"{Producto.Codigo} · {Producto.Nombre}\";\n}\n"},"Data/AgroStockContext.cs":{"lang":"cs","src":"using Microsoft.EntityFrameworkCore;\nusing AgroStock.E03.Models;\n\nnamespace AgroStock.E03.Data;\n\n// DbContext = la sesión de trabajo con la base de datos. Reemplaza a Db.Abrir() y a los SqliteCommand de E02.\n// Se crea con «using» en cada operación y se libera al terminar, igual que la conexión en v2.\npublic class AgroStockContext : DbContext\n{\n    // Misma regla de v2: el archivo agrostock.db vive junto al .exe.\n    public static readonly string Ruta = Path.Combine(AppContext.BaseDirectory, \"agrostock.db\");\n\n    // Cada DbSet<T> es una tabla que se consulta con LINQ (ctx.Productos.Where(...)).\n    public DbSet<Categoria> Categorias => Set<Categoria>();\n    public DbSet<Producto> Productos => Set<Producto>();\n    public DbSet<Movimiento> Movimientos => Set<Movimiento>();\n\n    // Aquí se elige el proveedor: SQLite y la ruta del archivo.\n    // Microsoft.Data.Sqlite activa las claves foráneas (PRAGMA foreign_keys) al abrir cada conexión.\n    protected override void OnConfiguring(DbContextOptionsBuilder options)\n        => options.UseSqlite($\"Data Source={Ruta}\");\n\n    // OnModelCreating describe el modelo con la API fluida: nombres de tablas, restricciones, relaciones y datos iniciales.\n    protected override void OnModelCreating(ModelBuilder mb)\n    {\n        mb.Entity<Categoria>(e =>\n        {\n            // Nombre de la tabla (sin esto se llamaría «Categorias», como el DbSet).\n            e.ToTable(\"categorias\");\n            e.Property(c => c.Nombre).IsRequired();\n            // Índice único = UNIQUE de SQL: no hay dos categorías con el mismo nombre.\n            e.HasIndex(c => c.Nombre).IsUnique();\n        });\n\n        mb.Entity<Producto>(e =>\n        {\n            e.ToTable(\"productos\", t =>\n            {\n                // CHECK: reglas que la base hace cumplir aunque falle la interfaz (las mismas de agrostock.sql).\n                t.HasCheckConstraint(\"ck_precio\", \"precio > 0\");\n                t.HasCheckConstraint(\"ck_existencia\", \"existencia >= 0\");\n            });\n            e.Property(p => p.Codigo).IsRequired();\n            e.Property(p => p.Nombre).IsRequired();\n            // SQLite no tiene decimal: se guarda como REAL (double) y se lee de vuelta como decimal.\n            e.Property(p => p.Precio).HasConversion<double>();\n            // Vencimiento se guarda como texto yyyy-MM-dd, o NULL si el producto no vence (igual que en v2).\n            e.Property(p => p.Vencimiento).HasConversion(\n                v => v == null ? null : v.Value.ToString(\"yyyy-MM-dd\"),\n                s => s == null ? null : DateTime.Parse(s));\n            // UNIQUE sobre el código: es lo que produce el error 2067 que FrmPrincipal captura.\n            e.HasIndex(p => p.Codigo).IsUnique();\n            // Relación muchos a uno (FK hacia categorias).\n            // Restrict = no se puede borrar una categoría que tenga productos (equivale al REFERENCES de E02).\n            e.HasOne(p => p.Categoria).WithMany().HasForeignKey(p => p.CategoriaId).OnDelete(DeleteBehavior.Restrict);\n            // La propiedad calculada no es columna.\n            e.Ignore(p => p.CategoriaNombre);\n        });\n\n        mb.Entity<Movimiento>(e =>\n        {\n            e.ToTable(\"movimientos\", t =>\n            {\n                t.HasCheckConstraint(\"ck_tipo\", \"tipo IN ('ENTRADA', 'SALIDA')\");\n                t.HasCheckConstraint(\"ck_cantidad\", \"cantidad > 0\");\n            });\n            // La fecha del movimiento también se guarda como texto yyyy-MM-dd.\n            e.Property(m => m.Fecha).HasConversion(f => f.ToString(\"yyyy-MM-dd\"), s => DateTime.Parse(s));\n            e.HasOne(m => m.Producto).WithMany().HasForeignKey(m => m.ProductoId).OnDelete(DeleteBehavior.Restrict);\n            e.Ignore(m => m.ProductoNombre);\n        });\n\n        // HasData = datos iniciales (los INSERT de agrostock.sql). Se insertan cuando EnsureCreated crea la base.\n        mb.Entity<Categoria>().HasData(\n            new Categoria { Id = 1, Nombre = \"Fertilizantes\" },\n            new Categoria { Id = 2, Nombre = \"Semillas\" },\n            new Categoria { Id = 3, Nombre = \"Herbicidas\" },\n            new Categoria { Id = 4, Nombre = \"Herramientas\" });\n\n        mb.Entity<Producto>().HasData(\n            P(1, \"FER-001\", \"Fórmula 18-46-0 (quintal)\", 1, 1250.00m, 24, null),\n            P(2, \"FER-002\", \"Urea 46% (quintal)\", 1, 1100.00m, 18, null),\n            P(3, \"FER-003\", \"Fórmula 12-30-10 (quintal)\", 1, 1180.00m, 6, null),\n            P(4, \"SEM-001\", \"Semilla de frijol rojo (libra)\", 2, 32.50m, 150, new DateTime(2027, 3, 31)),\n            P(5, \"SEM-002\", \"Semilla de maíz (libra)\", 2, 28.00m, 200, new DateTime(2026, 11, 30)),\n            P(6, \"SEM-003\", \"Semilla de sorgo (libra)\", 2, 22.00m, 8, new DateTime(2026, 12, 15)),\n            P(7, \"HER-001\", \"Glifosato (litro)\", 3, 180.00m, 8, new DateTime(2027, 8, 15)),\n            P(8, \"HER-002\", \"Paraquat (litro)\", 3, 210.00m, 15, new DateTime(2027, 5, 20)),\n            P(9, \"HER-003\", \"2,4-D amina (litro)\", 3, 165.00m, 30, new DateTime(2026, 12, 1)),\n            P(10, \"HER-004\", \"Atrazina (kilo)\", 3, 140.00m, 12, new DateTime(2027, 2, 10)),\n            P(11, \"HER-005\", \"Metsulfurón (sobre)\", 3, 95.00m, 4, new DateTime(2027, 6, 30)),\n            P(12, \"HTA-001\", \"Machete de 22 pulgadas\", 4, 250.00m, 0, null),\n            P(13, \"HTA-002\", \"Bomba de mochila (20 L)\", 4, 1450.00m, 5, null),\n            P(14, \"HTA-003\", \"Piocha con cabo\", 4, 320.00m, 0, null));\n\n        mb.Entity<Movimiento>().HasData(\n            M(1, 1, \"ENTRADA\", 30, new DateTime(2026, 10, 1)),\n            M(2, 1, \"SALIDA\", 6, new DateTime(2026, 10, 5)),\n            M(3, 4, \"ENTRADA\", 200, new DateTime(2026, 10, 2)),\n            M(4, 5, \"SALIDA\", 20, new DateTime(2026, 10, 6)),\n            M(5, 7, \"SALIDA\", 2, new DateTime(2026, 10, 7)),\n            M(6, 10, \"ENTRADA\", 15, new DateTime(2026, 10, 3)));\n    }\n\n    // Funciones auxiliares para escribir cada producto del HasData en una sola línea.\n    private static Producto P(int id, string cod, string nom, int cat, decimal pre, int exi, DateTime? ven) => new()\n    {\n        Id = id, Codigo = cod, Nombre = nom, CategoriaId = cat, Precio = pre, Existencia = exi, Vencimiento = ven\n    };\n\n    private static Movimiento M(int id, int prod, string tipo, int cant, DateTime fecha) => new()\n    {\n        Id = id, ProductoId = prod, Tipo = tipo, Cantidad = cant, Fecha = fecha\n    };\n}\n"},"Data/Db.cs":{"lang":"cs","src":"namespace AgroStock.E03.Data;\n\n// En E02 esta clase abría conexiones y ejecutaba agrostock.sql. Ahora solo prepara la base: el ORM hace el resto.\npublic static class Db\n{\n    // Crea la base de datos y los datos iniciales a partir del modelo (sin scripts SQL).\n    public static void Inicializar()\n    {\n        using var ctx = new AgroStockContext();\n        // EnsureCreated: si agrostock.db no existe, la crea con sus tablas y los datos de HasData.\n        // Si ya tiene tablas, NO la toca ni la actualiza: si cambia el modelo, borre agrostock.db de bin\\Debug\\net8.0-windows\\.\n        ctx.Database.EnsureCreated();\n    }\n}\n"},"Data/ProductoRepository.cs":{"lang":"cs","src":"using Microsoft.EntityFrameworkCore;\nusing AgroStock.E03.Models;\n\nnamespace AgroStock.E03.Data;\n\n// Mismo patrón repositorio de v2 (los formularios no saben de SQL), pero ahora el «SQL» son consultas LINQ sobre el contexto.\npublic class ProductoRepository\n{\n    public List<Producto> Listar(string filtro = \"\")\n    {\n        // Un contexto por operación, liberado con using: reemplaza a Db.Abrir() de E02.\n        using var ctx = new AgroStockContext();\n        return ctx.Productos\n            // Include = JOIN: trae también la categoría de cada producto (sin él, CategoriaNombre quedaría vacío).\n            .Include(p => p.Categoria)\n            // EF.Functions.Like se traduce a LIKE. El filtro viaja como PARÁMETRO: EF nunca concatena el texto en el SQL.\n            .Where(p => EF.Functions.Like(p.Nombre, $\"%{filtro}%\") || EF.Functions.Like(p.Codigo, $\"%{filtro}%\"))\n            .OrderBy(p => p.Nombre)\n            // La consulta se ejecuta aquí (ejecución diferida): hasta ToList() solo se ha descrito qué se quiere.\n            .ToList();\n    }\n\n    public List<Categoria> Categorias()\n    {\n        using var ctx = new AgroStockContext();\n        return ctx.Categorias.OrderBy(c => c.Nombre).ToList();\n    }\n\n    public void Insertar(Producto p)\n    {\n        using var ctx = new AgroStockContext();\n        // Add + SaveChanges = INSERT. EF asigna el Id generado al objeto.\n        ctx.Productos.Add(Limpio(p));\n        ctx.SaveChanges();\n    }\n\n    // Inserta varios productos en una sola transacción; devuelve los códigos que ya existían.\n    public List<string> InsertarVarios(IEnumerable<Producto> productos)\n    {\n        using var ctx = new AgroStockContext();\n        // Se leen los códigos existentes UNA vez y se compara en memoria: los repetidos se informan en lugar de hacer fallar todo.\n        var existentes = ctx.Productos.Select(p => p.Codigo).ToHashSet(StringComparer.OrdinalIgnoreCase);\n        var duplicados = new List<string>();\n\n        foreach (var p in productos)\n        {\n            if (!existentes.Add(p.Codigo))\n            {\n                duplicados.Add(p.Codigo);\n                continue;\n            }\n            ctx.Productos.Add(Limpio(p));\n        }\n        // SaveChanges envía todos los INSERT en UNA transacción: si uno falla, ninguno queda guardado.\n        ctx.SaveChanges();\n        return duplicados;\n    }\n\n    public void Actualizar(Producto p)\n    {\n        using var ctx = new AgroStockContext();\n        // Update marca el producto como modificado: UPDATE ... WHERE Id = ...\n        ctx.Productos.Update(Limpio(p));\n        ctx.SaveChanges();\n    }\n\n    public void Eliminar(int id)\n    {\n        using var ctx = new AgroStockContext();\n        // Find busca por clave primaria.\n        var p = ctx.Productos.Find(id);\n        if (p is null) return;\n        // Remove + SaveChanges = DELETE. Si el producto tiene movimientos, la FK (Restrict) lo impide y se lanza DbUpdateException.\n        ctx.Productos.Remove(p);\n        ctx.SaveChanges();\n    }\n\n    // CAMBIO: en v2 eran dos sentencias SQL dentro de una transacción explícita.\n    // Ahora se modifica el objeto y se agrega el movimiento; SaveChanges los guarda JUNTOS en una sola transacción automática.\n    public void RegistrarMovimiento(int productoId, string tipo, int cantidad)\n    {\n        using var ctx = new AgroStockContext();\n        var p = ctx.Productos.Find(productoId) ?? throw new InvalidOperationException(\"Producto no encontrado.\");\n\n        // La validación pasa a C# (antes la hacía el CHECK al fallar con el error 275).\n        // El CHECK ck_existencia sigue existiendo como red de seguridad.\n        if (tipo == \"SALIDA\" && p.Existencia < cantidad)\n            throw new InvalidOperationException(\"Existencia insuficiente: no se registró nada.\");\n\n        p.Existencia += tipo == \"ENTRADA\" ? cantidad : -cantidad;\n        ctx.Movimientos.Add(new Movimiento { ProductoId = productoId, Tipo = tipo, Cantidad = cantidad, Fecha = DateTime.Today });\n        ctx.SaveChanges();   // una sola transacción para ambos cambios\n    }\n\n    // NUEVO: alimenta el historial (FrmMovimientos), del más reciente al más antiguo.\n    public List<Movimiento> Movimientos()\n    {\n        using var ctx = new AgroStockContext();\n        return ctx.Movimientos\n            .Include(m => m.Producto)\n            .OrderByDescending(m => m.Fecha).ThenByDescending(m => m.Id)\n            .ToList();\n    }\n\n    // Evita que EF intente insertar/actualizar la categoría de navegación.\n    // Copia del producto SIN el objeto Categoria, para que Add/Update no toquen la tabla categorias.\n    private static Producto Limpio(Producto p) => new()\n    {\n        Id = p.Id, Codigo = p.Codigo, Nombre = p.Nombre, CategoriaId = p.CategoriaId,\n        Precio = p.Precio, Existencia = p.Existencia, Vencimiento = p.Vencimiento\n    };\n}\n"},"Services/MockarooClient.cs":{"lang":"cs","src":"using System.Globalization;\nusing System.Text.Json;\nusing System.Text.Json.Serialization;\nusing AgroStock.E03.Models;\n\nnamespace AgroStock.E03.Services;\n\n// Fila tal como la devuelve el schema de Mockaroo (los nombres coinciden con los campos del schema).\npublic class ProductoMockaroo\n{\n    // [JsonPropertyName] une cada propiedad de C# con un campo del JSON; los nombres deben coincidir con los del schema de Mockaroo.\n    [JsonPropertyName(\"codigo\")] public string Codigo { get; set; } = \"\";\n    [JsonPropertyName(\"nombre\")] public string Nombre { get; set; } = \"\";\n    [JsonPropertyName(\"categoria\")] public string Categoria { get; set; } = \"\";\n    [JsonPropertyName(\"precio\")] public decimal Precio { get; set; }\n    [JsonPropertyName(\"existencia\")] public int Existencia { get; set; }\n    [JsonPropertyName(\"vencimiento\")] public string? Vencimiento { get; set; }\n}\n\n// Cliente de un SERVICIO WEB REST: envía una petición HTTP GET y recibe datos en formato JSON.\npublic class MockarooClient\n{\n    // UN solo HttpClient para toda la aplicación (reutilizarlo evita agotar conexiones).\n    // Timeout: si Mockaroo no responde en 30 s, la petición se cancela.\n    private static readonly HttpClient Http = new() { Timeout = TimeSpan.FromSeconds(30) };\n\n    private readonly string baseUrl;\n    private readonly string apiKey;\n    private readonly string schema;\n\n    // La URL, la clave y el schema se leen de appsettings.json: no se escriben dentro del código.\n    public MockarooClient()\n    {\n        var ruta = Path.Combine(AppContext.BaseDirectory, \"appsettings.json\");\n        if (!File.Exists(ruta)) throw new InvalidOperationException(\"No se encontró appsettings.json.\");\n\n        // System.Text.Json (incluido en .NET) lee el archivo de configuración.\n        using var doc = JsonDocument.Parse(File.ReadAllText(ruta));\n        var cfg = doc.RootElement.GetProperty(\"Mockaroo\");\n        baseUrl = cfg.GetProperty(\"BaseUrl\").GetString()!;\n        apiKey = cfg.GetProperty(\"ApiKey\").GetString()!;\n        schema = cfg.GetProperty(\"Schema\").GetString()!;\n    }\n\n    // Llamada síncrona (un solo hilo): la interfaz espera la respuesta.\n    public List<ProductoMockaroo> ObtenerProductos(int cantidad)\n    {\n        // Falla temprano y con un mensaje claro si nadie escribió la clave.\n        if (string.IsNullOrWhiteSpace(apiKey) || apiKey.StartsWith(\"PENDIENTE\"))\n            throw new InvalidOperationException(\"Falta la clave de API de Mockaroo en appsettings.json.\");\n\n        // Parámetros de la URL: schema = qué plantilla usar; count = cuántas filas; array=true = respuesta como lista JSON.\n        // EscapeDataString protege los caracteres especiales.\n        var url = $\"{baseUrl}?schema={Uri.EscapeDataString(schema)}&count={cantidad}&array=true\";\n        using var req = new HttpRequestMessage(HttpMethod.Get, url);\n        // La clave viaja en un encabezado HTTP, no en la URL.\n        req.Headers.Add(\"X-API-Key\", apiKey);\n\n        // Send es SÍNCRONO: el hilo de la interfaz espera la respuesta (la ventana no responde mientras tanto).\n        using var resp = Http.Send(req);\n        using var flujo = resp.Content.ReadAsStream();\n        // 2xx = éxito. Por ejemplo, 401 = clave incorrecta y 404 = schema inexistente.\n        if (!resp.IsSuccessStatusCode)\n        {\n            using var lector = new StreamReader(flujo);\n            throw new HttpRequestException($\"Mockaroo respondió {(int)resp.StatusCode}: {lector.ReadToEnd()}\");\n        }\n\n        // Deserializar = convertir el texto JSON en una lista de objetos ProductoMockaroo.\n        return JsonSerializer.Deserialize<List<ProductoMockaroo>>(flujo) ?? new();\n    }\n\n    // Valida cada fila del servicio con reglas parecidas a las del formulario; devuelve null si no sirve (la fila cuenta como inválida).\n    public static Producto? Convertir(ProductoMockaroo m, Dictionary<string, Categoria> categorias)\n    {\n        if (!categorias.TryGetValue(m.Categoria.Trim(), out var cat)) return null;\n        if (m.Codigo.Trim().Length < 3 || m.Nombre.Trim().Length < 3 || m.Precio <= 0 || m.Existencia < 0) return null;\n\n        return new Producto\n        {\n            Codigo = m.Codigo.Trim().ToUpperInvariant(),\n            Nombre = m.Nombre.Trim(),\n            CategoriaId = cat.Id,\n            Precio = m.Precio,\n            Existencia = m.Existencia,\n            Vencimiento = DateTime.TryParse(m.Vencimiento, CultureInfo.InvariantCulture, DateTimeStyles.None, out var v) ? v.Date : null\n        };\n    }\n}\n"},"Services/ReporteService.cs":{"lang":"cs","src":"using ClosedXML.Excel;\nusing QuestPDF.Fluent;\nusing QuestPDF.Helpers;\nusing QuestPDF.Infrastructure;\nusing AgroStock.E03.Models;\n\nnamespace AgroStock.E03.Services;\n\n// Genera los dos reportes. No conoce formularios ni la base: recibe la lista de productos y la ruta del archivo.\npublic class ReporteService\n{\n    static ReporteService()\n    {\n        // QuestPDF exige declarar el tipo de licencia antes de usarlo. Community es gratuita para estudiantes y proyectos pequeños.\n        QuestPDF.Settings.License = LicenseType.Community;\n    }\n\n    // PDF con QuestPDF: el documento se describe con una API fluida (página → encabezado, contenido, pie).\n    public void GenerarPdf(string ruta, List<Producto> productos)\n    {\n        // Valor del inventario = suma de precio x existencia.\n        var valorTotal = productos.Sum(p => p.Precio * p.Existencia);\n\n        Document.Create(doc => doc.Page(page =>\n        {\n            // Hoja A4 horizontal para que quepan las seis columnas.\n            page.Size(PageSizes.A4.Landscape());\n            page.Margin(30);\n            page.DefaultTextStyle(t => t.FontSize(10));\n\n            page.Header().Column(col =>\n            {\n                col.Item().Text(\"AgroStock - Reporte de inventario\").FontSize(18).Bold();\n                col.Item().Text($\"Generado: {DateTime.Now:dd/MM/yyyy HH:mm}\").FontSize(9);\n            });\n\n            page.Content().PaddingVertical(10).Table(tabla =>\n            {\n                // ConstantColumn = ancho fijo; RelativeColumn = reparte el espacio que sobra.\n                tabla.ColumnsDefinition(c =>\n                {\n                    c.ConstantColumn(80);\n                    c.RelativeColumn(3);\n                    c.RelativeColumn(1.5f);\n                    c.ConstantColumn(80);\n                    c.ConstantColumn(70);\n                    c.ConstantColumn(85);\n                });\n\n                // El encabezado de la tabla se repite en cada página.\n                tabla.Header(h =>\n                {\n                    foreach (var t in new[] { \"Código\", \"Nombre\", \"Categoría\", \"Precio (C$)\", \"Existencia\", \"Vencimiento\" })\n                        h.Cell().Background(Colors.Green.Darken2).Padding(4).Text(t).FontColor(Colors.White).Bold();\n                });\n\n                foreach (var p in productos)\n                {\n                    // Los productos con existencia menor que 10 se resaltan en rojo claro.\n                    var fondo = p.Existencia < 10 ? Colors.Red.Lighten4 : Colors.White;\n                    Celda(tabla, p.Codigo, fondo);\n                    Celda(tabla, p.Nombre, fondo);\n                    Celda(tabla, p.CategoriaNombre, fondo);\n                    Celda(tabla, p.Precio.ToString(\"N2\"), fondo);\n                    Celda(tabla, p.Existencia.ToString(), fondo);\n                    Celda(tabla, p.Vencimiento?.ToString(\"dd/MM/yyyy\") ?? \"\", fondo);\n                }\n            });\n\n            // Pie de página: totales a la izquierda y «Página X de Y» a la derecha.\n            page.Footer().Row(r =>\n            {\n                r.RelativeItem().Text($\"Productos: {productos.Count}   |   Valor del inventario: C$ {valorTotal:N2}\");\n                r.RelativeItem().AlignRight().Text(t =>\n                {\n                    t.Span(\"Página \");\n                    t.CurrentPageNumber();\n                    t.Span(\" de \");\n                    t.TotalPages();\n                });\n            });\n        })).GeneratePdf(ruta);\n    }\n\n    // Evita repetir seis veces el mismo formato de celda.\n    private static void Celda(TableDescriptor tabla, string texto, string fondo)\n        => tabla.Cell().Background(fondo).BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten1).Padding(4).Text(texto);\n\n    // Excel con ClosedXML: un libro (XLWorkbook) con una hoja y celdas con fórmulas reales.\n    public void GenerarExcel(string ruta, List<Producto> productos)\n    {\n        using var libro = new XLWorkbook();\n        var hoja = libro.Worksheets.Add(\"Inventario\");\n\n        string[] encabezados = { \"Código\", \"Nombre\", \"Categoría\", \"Precio (C$)\", \"Existencia\", \"Vencimiento\", \"Valor (C$)\" };\n        for (int i = 0; i < encabezados.Length; i++)\n            hoja.Cell(1, i + 1).Value = encabezados[i];\n\n        // Estilo del encabezado: negrita, letra blanca y fondo verde oscuro.\n        var cab = hoja.Range(1, 1, 1, encabezados.Length);\n        cab.Style.Font.Bold = true;\n        cab.Style.Font.FontColor = XLColor.White;\n        cab.Style.Fill.BackgroundColor = XLColor.DarkGreen;\n\n        int fila = 2;\n        foreach (var p in productos)\n        {\n            hoja.Cell(fila, 1).Value = p.Codigo;\n            hoja.Cell(fila, 2).Value = p.Nombre;\n            hoja.Cell(fila, 3).Value = p.CategoriaNombre;\n            hoja.Cell(fila, 4).Value = p.Precio;\n            hoja.Cell(fila, 5).Value = p.Existencia;\n            if (p.Vencimiento.HasValue) hoja.Cell(fila, 6).Value = p.Vencimiento.Value;\n            // FormulaA1 escribe una fórmula de Excel: la celda se recalcula si el usuario cambia precio o existencia.\n            hoja.Cell(fila, 7).FormulaA1 = $\"D{fila}*E{fila}\";\n            fila++;\n        }\n\n        // Fila final con el total de la columna Valor.\n        hoja.Cell(fila, 6).Value = \"Total:\";\n        hoja.Cell(fila, 6).Style.Font.Bold = true;\n        hoja.Cell(fila, 7).FormulaA1 = $\"SUM(G2:G{fila - 1})\";\n        hoja.Cell(fila, 7).Style.Font.Bold = true;\n\n        hoja.Range(2, 4, fila, 4).Style.NumberFormat.Format = \"#,##0.00\";\n        hoja.Range(2, 7, fila, 7).Style.NumberFormat.Format = \"#,##0.00\";\n        hoja.Range(2, 6, fila - 1, 6).Style.DateFormat.Format = \"dd/MM/yyyy\";\n        // Inmoviliza la fila de títulos al desplazarse.\n        hoja.SheetView.FreezeRows(1);\n        hoja.Columns().AdjustToContents();\n\n        // Si el archivo está abierto en Excel, lanza IOException (la captura FrmPrincipal).\n        libro.SaveAs(ruta);\n    }\n}\n"},"Forms/FrmImportar.cs":{"lang":"cs","src":"using System.Globalization;\nusing Microsoft.EntityFrameworkCore;\nusing AgroStock.E03.Data;\nusing AgroStock.E03.Models;\nusing AgroStock.E03.Services;\n\nnamespace AgroStock.E03.Forms;\n\n// CAMBIO IMPORTANTE respecto a E02: este formulario ya no usa hilos, async ni transacción manual.\n// El foco de E03 es el ORM y el servicio web. Dos orígenes de datos (CSV y Mockaroo) y un solo camino para guardarlos: Ejecutar().\npublic partial class FrmImportar : Form\n{\n    private readonly ProductoRepository repo;\n\n    public FrmImportar(ProductoRepository repo)\n    {\n        InitializeComponent();\n        this.repo = repo;\n        btnExaminar.Click += BtnExaminar_Click;\n        btnIniciar.Click += BtnIniciar_Click;\n        // NUEVO: botón que consulta el servicio web.\n        btnMockaroo.Click += BtnMockaroo_Click;\n        btnCerrar.Click += (_, _) => Close();\n        txtArchivo.Text = Path.Combine(AppContext.BaseDirectory, \"productos_importar.csv\");\n    }\n\n    private void BtnExaminar_Click(object? sender, EventArgs e)\n    {\n        using var dlg = new OpenFileDialog { Filter = \"Archivo CSV (*.csv)|*.csv\", Title = \"Elegir productos a importar\" };\n        if (dlg.ShowDialog(this) == DialogResult.OK) txtArchivo.Text = dlg.FileName;\n    }\n\n    private void BtnIniciar_Click(object? sender, EventArgs e)\n    {\n        var ruta = txtArchivo.Text;\n        if (!File.Exists(ruta))\n        {\n            MessageBox.Show(this, \"No se encontró el archivo CSV.\", \"Importar\", MessageBoxButtons.OK, MessageBoxIcon.Warning);\n            return;\n        }\n\n        // A Ejecutar se le pasa una función que LEE y valida los datos; Ejecutar se encarga de guardar y de informar.\n        Ejecutar(() =>\n        {\n            var lineas = File.ReadAllLines(ruta).Skip(1).Where(l => l.Trim().Length > 0).ToArray();   // Skip(1): encabezado\n            var categorias = repo.Categorias().ToDictionary(c => c.Nombre, StringComparer.OrdinalIgnoreCase);\n\n            var validos = new List<Producto>();\n            var rechazadas = 0;\n            for (int i = 0; i < lineas.Length; i++)\n            {\n                var p = Parsear(lineas[i], categorias);\n                if (p is null) rechazadas++; else validos.Add(p);\n                Avanzar((i + 1) * 100 / lineas.Length);\n            }\n            return (validos, rechazadas);\n        });\n    }\n\n    private void BtnMockaroo_Click(object? sender, EventArgs e)\n    {\n        Ejecutar(() =>\n        {\n            lblEstado.Text = \"Consultando Mockaroo…\";\n            lblEstado.Refresh();\n\n            // Llamada HTTP síncrona al servicio web (el cuadro numérico define cuántos productos pedir).\n            var filas = new MockarooClient().ObtenerProductos((int)nudCantidad.Value);\n            var categorias = repo.Categorias().ToDictionary(c => c.Nombre, StringComparer.OrdinalIgnoreCase);\n\n            var validos = new List<Producto>();\n            var rechazadas = 0;\n            for (int i = 0; i < filas.Count; i++)\n            {\n                var p = MockarooClient.Convertir(filas[i], categorias);\n                if (p is null) rechazadas++; else validos.Add(p);\n                Avanzar((i + 1) * 100 / filas.Count);\n            }\n            return (validos, rechazadas);\n        });\n    }\n\n    // Lee los datos con la función dada y los guarda con el ORM en una sola transacción.\n    private void Ejecutar(Func<(List<Producto> validos, int rechazadas)> leer)\n    {\n        Habilitar(false);\n        barra.Value = 0;\n        // Cursor de espera: la ventana queda ocupada hasta terminar (no hay hilo aparte).\n        UseWaitCursor = true;\n        try\n        {\n            // La función devuelve una tupla: dos valores a la vez (productos válidos y cantidad de filas rechazadas).\n            var (validos, rechazadas) = leer();\n            // Una sola transacción para todo. Los códigos que ya existían no hacen fallar la importación: se informan.\n            var duplicados = repo.InsertarVarios(validos);\n            barra.Value = 100;\n            lblEstado.Text = $\"Importación terminada: {validos.Count - duplicados.Count} productos, \" +\n                             $\"{rechazadas} filas inválidas, {duplicados.Count} códigos repetidos.\";\n        }\n        // Si la base rechaza algo, SaveChanges revierte TODO: nada queda a medias.\n        catch (DbUpdateException ex)\n        {\n            barra.Value = 0;\n            lblEstado.Text = \"Se revirtió la importación: \" + (ex.InnerException?.Message ?? ex.Message);\n        }\n        // Errores de archivo, de red o de formato JSON: se muestran en la etiqueta y la ventana sigue viva.\n        catch (Exception ex) when (ex is IOException or HttpRequestException or InvalidOperationException\n                                       or TaskCanceledException or System.Text.Json.JsonException)\n        {\n            barra.Value = 0;\n            lblEstado.Text = \"No se pudo completar: \" + ex.Message;\n        }\n        finally\n        {\n            UseWaitCursor = false;\n            Habilitar(true);\n        }\n    }\n\n    // Refresh() fuerza el repintado inmediato; sin él no se vería avanzar la barra, porque el hilo de la interfaz está ocupado.\n    private void Avanzar(int pct)\n    {\n        barra.Value = pct;\n        lblEstado.Text = $\"Procesando… {pct} %\";\n        barra.Refresh();\n        lblEstado.Refresh();\n    }\n\n    private static Producto? Parsear(string linea, Dictionary<string, Categoria> categorias)\n    {\n        var c = linea.Split(';');\n        if (c.Length < 5 || !categorias.TryGetValue(c[2].Trim(), out var categoria)) return null;\n        if (!decimal.TryParse(c[3], NumberStyles.Number, CultureInfo.InvariantCulture, out var precio) || precio <= 0) return null;\n        if (!int.TryParse(c[4], out var existencia) || existencia < 0) return null;\n\n        return new Producto\n        {\n            Codigo = c[0].Trim(),\n            Nombre = c[1].Trim(),\n            CategoriaId = categoria.Id,\n            Precio = precio,\n            Existencia = existencia,\n            Vencimiento = c.Length > 5 && DateTime.TryParse(c[5], CultureInfo.InvariantCulture, out var v) ? v : null\n        };\n    }\n\n    private void Habilitar(bool si)\n    {\n        btnIniciar.Enabled = si;\n        btnExaminar.Enabled = si;\n        btnMockaroo.Enabled = si;\n        btnCerrar.Enabled = si;\n    }\n}\n"},"Forms/FrmImportar.Designer.cs":{"lang":"cs","src":"#nullable enable\nnamespace AgroStock.E03.Forms;\n\npartial class FrmImportar\n{\n    private System.ComponentModel.IContainer? components = null;\n\n    protected override void Dispose(bool disposing)\n    {\n        if (disposing && (components != null))\n        {\n            components.Dispose();\n        }\n        base.Dispose(disposing);\n    }\n\n    private void InitializeComponent()\n    {\n        components = new System.ComponentModel.Container();\n        lblArchivo = new Label();\n        txtArchivo = new TextBox();\n        btnExaminar = new Button();\n        btnIniciar = new Button();\n        // NUEVOS: lblCantidad, nudCantidad y btnMockaroo.\n        // Desaparecen chkBloqueante y btnCancelar (ya no hay hilos que cancelar).\n        lblCantidad = new Label();\n        nudCantidad = new NumericUpDown();\n        btnMockaroo = new Button();\n        btnCerrar = new Button();\n        barra = new ProgressBar();\n        lblEstado = new Label();\n        ((System.ComponentModel.ISupportInitialize)nudCantidad).BeginInit();\n        SuspendLayout();\n\n        lblArchivo.AutoSize = true;\n        lblArchivo.Location = new Point(20, 23);\n        lblArchivo.Name = \"lblArchivo\";\n        lblArchivo.TabIndex = 0;\n        lblArchivo.Text = \"&Archivo CSV:\";\n\n        txtArchivo.Location = new Point(115, 20);\n        txtArchivo.Name = \"txtArchivo\";\n        txtArchivo.Size = new Size(330, 23);\n        txtArchivo.TabIndex = 1;\n\n        btnExaminar.Location = new Point(455, 18);\n        btnExaminar.Name = \"btnExaminar\";\n        btnExaminar.Size = new Size(90, 27);\n        btnExaminar.TabIndex = 2;\n        btnExaminar.Text = \"E&xaminar...\";\n        btnExaminar.UseVisualStyleBackColor = true;\n\n        btnIniciar.Location = new Point(20, 58);\n        btnIniciar.Name = \"btnIniciar\";\n        btnIniciar.Size = new Size(140, 30);\n        btnIniciar.TabIndex = 3;\n        btnIniciar.Text = \"&Importar CSV\";\n        btnIniciar.UseVisualStyleBackColor = true;\n\n        lblCantidad.AutoSize = true;\n        lblCantidad.Location = new Point(20, 108);\n        lblCantidad.Name = \"lblCantidad\";\n        lblCantidad.TabIndex = 4;\n        lblCantidad.Text = \"Productos de prueba (Mockaroo):\";\n\n        nudCantidad.Location = new Point(225, 104);\n        nudCantidad.Maximum = 1000;\n        nudCantidad.Minimum = 1;\n        nudCantidad.Name = \"nudCantidad\";\n        nudCantidad.Size = new Size(70, 23);\n        nudCantidad.TabIndex = 5;\n        nudCantidad.Value = 20;\n\n        btnMockaroo.Location = new Point(305, 100);\n        btnMockaroo.Name = \"btnMockaroo\";\n        btnMockaroo.Size = new Size(140, 30);\n        btnMockaroo.TabIndex = 6;\n        btnMockaroo.Text = \"Obtener de &Mockaroo\";\n        btnMockaroo.UseVisualStyleBackColor = true;\n\n        btnCerrar.Location = new Point(455, 100);\n        btnCerrar.Name = \"btnCerrar\";\n        btnCerrar.Size = new Size(90, 30);\n        btnCerrar.TabIndex = 7;\n        btnCerrar.Text = \"Cerrar\";\n        btnCerrar.UseVisualStyleBackColor = true;\n\n        barra.Location = new Point(20, 150);\n        barra.Name = \"barra\";\n        barra.Size = new Size(525, 23);\n        barra.TabIndex = 8;\n\n        lblEstado.AutoSize = false;\n        lblEstado.Location = new Point(20, 183);\n        lblEstado.Name = \"lblEstado\";\n        lblEstado.Size = new Size(525, 40);\n        lblEstado.TabIndex = 9;\n        lblEstado.Text = \"Listo para importar.\";\n\n        AutoScaleDimensions = new SizeF(7F, 15F);\n        AutoScaleMode = AutoScaleMode.Font;\n        ClientSize = new Size(565, 240);\n        Controls.Add(lblArchivo);\n        Controls.Add(txtArchivo);\n        Controls.Add(btnExaminar);\n        Controls.Add(btnIniciar);\n        Controls.Add(lblCantidad);\n        Controls.Add(nudCantidad);\n        Controls.Add(btnMockaroo);\n        Controls.Add(btnCerrar);\n        Controls.Add(barra);\n        Controls.Add(lblEstado);\n        FormBorderStyle = FormBorderStyle.FixedDialog;\n        MaximizeBox = false;\n        MinimizeBox = false;\n        Name = \"FrmImportar\";\n        StartPosition = FormStartPosition.CenterParent;\n        Text = \"Importar productos\";\n        ((System.ComponentModel.ISupportInitialize)nudCantidad).EndInit();\n        ResumeLayout(false);\n        PerformLayout();\n    }\n\n    private Label lblArchivo = null!;\n    private TextBox txtArchivo = null!;\n    private Button btnExaminar = null!;\n    private Button btnIniciar = null!;\n    private Label lblCantidad = null!;\n    private NumericUpDown nudCantidad = null!;\n    private Button btnMockaroo = null!;\n    private Button btnCerrar = null!;\n    private ProgressBar barra = null!;\n    private Label lblEstado = null!;\n}\n"},"Forms/FrmPrincipal.cs":{"lang":"cs","src":"using System.Globalization;\nusing System.Text;\n// SqliteException sigue disponible: Microsoft.EntityFrameworkCore.Sqlite incluye Microsoft.Data.Sqlite.\nusing Microsoft.Data.Sqlite;\n// NUEVO: para capturar DbUpdateException.\nusing Microsoft.EntityFrameworkCore;\nusing AgroStock.E03.Data;\nusing AgroStock.E03.Models;\n// NUEVO: ReporteService.\nusing AgroStock.E03.Services;\n\nnamespace AgroStock.E03.Forms;\n\npublic partial class FrmPrincipal : Form\n{\n    private readonly ProductoRepository repo = new();\n\n    private readonly BindingSource fuente = new();\n\n    public FrmPrincipal()\n    {\n        InitializeComponent();\n        ConfigurarCuadricula();\n        SuscribirEventos();\n        ActualizarReloj();\n    }\n\n    private void ConfigurarCuadricula()\n    {\n        dgvProductos.AutoGenerateColumns = false;\n        dgvProductos.DataSource = fuente;\n\n        dgvProductos.Columns.Add(NuevaColumna(\"Código\", nameof(Producto.Codigo), 110));\n        dgvProductos.Columns.Add(NuevaColumna(\"Nombre\", nameof(Producto.Nombre), 220));\n        // CAMBIO: la columna se enlaza a CategoriaNombre (antes a Categoria, que era un texto).\n        dgvProductos.Columns.Add(NuevaColumna(\"Categoría\", nameof(Producto.CategoriaNombre), 120));\n        dgvProductos.Columns.Add(NuevaColumna(\"Precio (C$)\", nameof(Producto.Precio), 100));\n        dgvProductos.Columns.Add(NuevaColumna(\"Existencia\", nameof(Producto.Existencia), 90));\n        dgvProductos.Columns.Add(NuevaColumna(\"Vencimiento\", nameof(Producto.Vencimiento), 110));\n        dgvProductos.Columns[3].DefaultCellStyle.Format = \"N2\";\n        dgvProductos.Columns[5].DefaultCellStyle.Format = \"dd/MM/yyyy\";\n        dgvProductos.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;\n    }\n\n    private static DataGridViewTextBoxColumn NuevaColumna(string titulo, string propiedad, int ancho) => new()\n    {\n        Name = \"col\" + propiedad,\n        HeaderText = titulo,\n        DataPropertyName = propiedad,\n        Width = ancho\n    };\n\n    private void SuscribirEventos()\n    {\n        Load += (_, _) => Cargar();\n\n        mnuNuevo.Click += (_, _) => Nuevo();\n        tsbNuevo.Click += (_, _) => Nuevo();\n        mnuEditarProducto.Click += (_, _) => Editar();\n        tsbEditar.Click += (_, _) => Editar();\n        mnuEliminar.Click += (_, _) => Eliminar();\n        tsbEliminar.Click += (_, _) => Eliminar();\n\n        mnuMovimiento.Click += (_, _) => RegistrarMovimiento();\n        tsbMovimiento.Click += (_, _) => RegistrarMovimiento();\n        mnuImportar.Click += (_, _) => Importar();\n        // NUEVO en v3: historial de movimientos y reportes.\n        mnuVerMovimientos.Click += (_, _) => VerMovimientos();\n\n        mnuExportar.Click += (_, _) => ExportarCsv();\n        mnuReportePdf.Click += (_, _) => GenerarReporte(pdf: true);\n        mnuReporteExcel.Click += (_, _) => GenerarReporte(pdf: false);\n        mnuAcercaDe.Click += (_, _) => MostrarAcercaDe();\n        tmrReloj.Tick += (_, _) => ActualizarReloj();\n\n        mnuSalir.Click += (_, _) => Close();\n        dgvProductos.CellDoubleClick += (_, e) => { if (e.RowIndex >= 0) Editar(); };\n\n        txtBuscar.TextChanged += (_, _) => Cargar();\n        FormClosing += FrmPrincipal_FormClosing;\n    }\n\n    private void Cargar()\n    {\n        try\n        {\n            fuente.DataSource = repo.Listar(txtBuscar.Text.Trim());\n            tslTotal.Text = $\"Productos: {fuente.Count}\";\n        }\n        // Al leer pueden fallar el proveedor (SqliteException, p. ej. «no such column») o el ORM (InvalidOperationException).\n        catch (Exception ex) when (ex is SqliteException or InvalidOperationException)\n        {\n            MessageBox.Show(this, \"No se pudo leer la base de datos:\\n\" + ex.Message, \"AgroStock\",\n                MessageBoxButtons.OK, MessageBoxIcon.Error);\n        }\n    }\n\n    private void Nuevo()\n    {\n        var p = new Producto();\n        using var dlg = new FrmProducto(p, repo.Categorias());\n        if (dlg.ShowDialog(this) != DialogResult.OK) return;\n        Ejecutar(() => repo.Insertar(p), p.Codigo);\n    }\n\n    private void Editar()\n    {\n        if (fuente.Current is not Producto p)\n        {\n            AvisarSeleccion();\n            return;\n        }\n        using var dlg = new FrmProducto(p, repo.Categorias());\n        if (dlg.ShowDialog(this) != DialogResult.OK) return;\n        Ejecutar(() => repo.Actualizar(p), p.Codigo);\n    }\n\n    private void Eliminar()\n    {\n        if (fuente.Current is not Producto p)\n        {\n            AvisarSeleccion();\n            return;\n        }\n        var r = MessageBox.Show(this, $\"¿Eliminar «{p.Nombre}»?\", \"Confirmar eliminación\",\n            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);\n        if (r == DialogResult.Yes) Ejecutar(() => repo.Eliminar(p.Id), p.Codigo);\n    }\n\n    // Igual que en v2, pero el error de SQLite llega ENVUELTO: EF lanza DbUpdateException y la SqliteException va en InnerException.\n    private void Ejecutar(Action operacion, string codigo)\n    {\n        try\n        {\n            operacion();\n        }\n        // 2067 = UNIQUE: ya existe otro producto con ese código.\n        catch (DbUpdateException ex) when (ex.InnerException is SqliteException { SqliteExtendedErrorCode: 2067 })\n        {\n            MessageBox.Show(this, $\"El código {codigo} ya existe.\", \"No se guardó\",\n                MessageBoxButtons.OK, MessageBoxIcon.Warning);\n        }\n        // Error 19 con el texto «FOREIGN KEY»: el producto tiene movimientos (relación Restrict).\n        catch (DbUpdateException ex) when (ex.InnerException is SqliteException { SqliteErrorCode: 19 } fk && fk.Message.Contains(\"FOREIGN KEY\"))\n        {\n            MessageBox.Show(this, \"No se puede eliminar: el producto tiene movimientos registrados.\", \"No se eliminó\",\n                MessageBoxButtons.OK, MessageBoxIcon.Warning);\n        }\n        catch (DbUpdateException ex)\n        {\n            MessageBox.Show(this, \"Error de base de datos:\\n\" + (ex.InnerException?.Message ?? ex.Message), \"AgroStock\",\n                MessageBoxButtons.OK, MessageBoxIcon.Error);\n        }\n        finally\n        {\n            Cargar();\n        }\n    }\n\n    private void RegistrarMovimiento()\n    {\n        if (fuente.Current is not Producto p)\n        {\n            AvisarSeleccion();\n            return;\n        }\n        using var dlg = new FrmMovimiento(repo, p);\n        if (dlg.ShowDialog(this) == DialogResult.OK) Cargar();\n    }\n\n    // NUEVO: abre el historial de movimientos.\n    private void VerMovimientos()\n    {\n        using var dlg = new FrmMovimientos(repo);\n        dlg.ShowDialog(this);\n    }\n\n    private void Importar()\n    {\n        using var dlg = new FrmImportar(repo);\n        dlg.ShowDialog(this);\n        Cargar();\n    }\n\n    private void ExportarCsv()\n    {\n        using var dlg = new SaveFileDialog\n        {\n            Title = \"Exportar inventario\",\n            Filter = \"Archivo CSV (*.csv)|*.csv\",\n            FileName = \"inventario.csv\"\n        };\n        if (dlg.ShowDialog(this) != DialogResult.OK) return;\n\n        var sb = new StringBuilder();\n        sb.AppendLine(\"Codigo;Nombre;Categoria;Precio;Existencia;Vencimiento\");\n        foreach (var p in repo.Listar())\n        {\n            sb.AppendLine(string.Join(';', new[]\n            {\n                Csv(p.Codigo), Csv(p.Nombre), Csv(p.CategoriaNombre),\n                p.Precio.ToString(\"F2\", CultureInfo.InvariantCulture),\n                p.Existencia.ToString(),\n                p.Vencimiento?.ToString(\"yyyy-MM-dd\") ?? \"\"\n            }));\n        }\n\n        try\n        {\n            File.WriteAllText(dlg.FileName, sb.ToString(), new UTF8Encoding(true));\n            MessageBox.Show(this, \"Inventario exportado correctamente.\", \"Exportar\",\n                MessageBoxButtons.OK, MessageBoxIcon.Information);\n        }\n        catch (IOException ex)\n        {\n            MessageBox.Show(this, \"No se pudo guardar el archivo:\\n\" + ex.Message, \"Exportar\",\n                MessageBoxButtons.OK, MessageBoxIcon.Error);\n        }\n    }\n\n    // NUEVO: un mismo método para los dos reportes; el parámetro pdf decide cuál. El usuario elige dónde guardar.\n    private void GenerarReporte(bool pdf)\n    {\n        using var dlg = new SaveFileDialog\n        {\n            Title = pdf ? \"Reporte de inventario (PDF)\" : \"Reporte de inventario (Excel)\",\n            Filter = pdf ? \"Documento PDF (*.pdf)|*.pdf\" : \"Libro de Excel (*.xlsx)|*.xlsx\",\n            FileName = pdf ? \"inventario.pdf\" : \"inventario.xlsx\"\n        };\n        if (dlg.ShowDialog(this) != DialogResult.OK) return;\n\n        try\n        {\n            // Se leen todos los productos (sin filtro) y se entregan al servicio de reportes.\n            var productos = repo.Listar();\n            var reportes = new ReporteService();\n            if (pdf) reportes.GenerarPdf(dlg.FileName, productos);\n            else reportes.GenerarExcel(dlg.FileName, productos);\n\n            MessageBox.Show(this, \"Reporte generado correctamente.\", \"Reportes\",\n                MessageBoxButtons.OK, MessageBoxIcon.Information);\n        }\n        catch (IOException ex)\n        {\n            MessageBox.Show(this, \"No se pudo guardar el archivo (¿está abierto?):\\n\" + ex.Message, \"Reportes\",\n                MessageBoxButtons.OK, MessageBoxIcon.Error);\n        }\n    }\n\n    private static string Csv(string texto) => \"\\\"\" + texto.Replace(\"\\\"\", \"\\\"\\\"\") + \"\\\"\";\n\n    private void MostrarAcercaDe()\n    {\n        MessageBox.Show(this, \"AgroStock v3\\nEncuentro 3: ORM, reportes y servicios web\\nUNAN-Managua, CUR Matagalpa\",\n            \"Acerca de AgroStock\", MessageBoxButtons.OK, MessageBoxIcon.Information);\n    }\n\n    private void ActualizarReloj()\n    {\n        tslReloj.Text = DateTime.Now.ToString(\"dd/MM/yyyy HH:mm:ss\");\n    }\n\n    private void AvisarSeleccion()\n    {\n        MessageBox.Show(this, \"Seleccione primero un producto de la lista.\", \"AgroStock\",\n            MessageBoxButtons.OK, MessageBoxIcon.Information);\n    }\n\n    private void FrmPrincipal_FormClosing(object? sender, FormClosingEventArgs e)\n    {\n        if (e.CloseReason != CloseReason.UserClosing) return;\n        var r = MessageBox.Show(this, \"¿Desea salir de AgroStock?\", \"Salir\",\n            MessageBoxButtons.YesNo, MessageBoxIcon.Question);\n        if (r == DialogResult.No) e.Cancel = true;\n    }\n}\n"},"Forms/FrmPrincipal.Designer.cs":{"lang":"cs","src":"#nullable enable\nnamespace AgroStock.E03.Forms;\n\npartial class FrmPrincipal\n{\n    private System.ComponentModel.IContainer? components = null;\n\n    protected override void Dispose(bool disposing)\n    {\n        if (disposing && (components != null))\n        {\n            components.Dispose();\n        }\n        base.Dispose(disposing);\n    }\n\n    private void InitializeComponent()\n    {\n        components = new System.ComponentModel.Container();\n        menuPrincipal = new MenuStrip();\n        mnuArchivo = new ToolStripMenuItem();\n        mnuNuevo = new ToolStripMenuItem();\n        mnuExportar = new ToolStripMenuItem();\n        sepArchivo = new ToolStripSeparator();\n        // NUEVOS en v3: mnuReportePdf y mnuReporteExcel (menú Archivo) y mnuVerMovimientos (menú Editar).\n        mnuReportePdf = new ToolStripMenuItem();\n        mnuReporteExcel = new ToolStripMenuItem();\n        mnuSalir = new ToolStripMenuItem();\n        mnuEditar = new ToolStripMenuItem();\n        mnuEditarProducto = new ToolStripMenuItem();\n        mnuEliminar = new ToolStripMenuItem();\n        mnuMovimiento = new ToolStripMenuItem();\n        mnuImportar = new ToolStripMenuItem();\n        mnuVerMovimientos = new ToolStripMenuItem();\n        mnuAyuda = new ToolStripMenuItem();\n        mnuAcercaDe = new ToolStripMenuItem();\n        barraHerramientas = new ToolStrip();\n        tsbNuevo = new ToolStripButton();\n        tsbEditar = new ToolStripButton();\n        tsbEliminar = new ToolStripButton();\n        tsbMovimiento = new ToolStripButton();\n        sepBarra = new ToolStripSeparator();\n        lblBuscar = new ToolStripLabel();\n        txtBuscar = new ToolStripTextBox();\n        barraEstado = new StatusStrip();\n        tslTotal = new ToolStripStatusLabel();\n        tslReloj = new ToolStripStatusLabel();\n        dgvProductos = new DataGridView();\n        tmrReloj = new System.Windows.Forms.Timer(components);\n        menuPrincipal.SuspendLayout();\n        barraHerramientas.SuspendLayout();\n        barraEstado.SuspendLayout();\n        ((System.ComponentModel.ISupportInitialize)dgvProductos).BeginInit();\n        SuspendLayout();\n\n        menuPrincipal.Items.AddRange(new ToolStripItem[] { mnuArchivo, mnuEditar, mnuAyuda });\n        menuPrincipal.Location = new Point(0, 0);\n        menuPrincipal.Name = \"menuPrincipal\";\n        menuPrincipal.TabIndex = 0;\n\n        // Orden del menú Archivo: Nuevo, Importar, Exportar, reportes, separador, Salir.\n        mnuArchivo.DropDownItems.AddRange(new ToolStripItem[] { mnuNuevo, mnuImportar, mnuExportar, mnuReportePdf, mnuReporteExcel, sepArchivo, mnuSalir });\n        mnuArchivo.Name = \"mnuArchivo\";\n        mnuArchivo.Text = \"&Archivo\";\n\n        mnuNuevo.ShortcutKeys = Keys.Control | Keys.N;\n        mnuNuevo.Name = \"mnuNuevo\";\n        mnuNuevo.Text = \"&Nuevo producto\";\n\n        // Exportar recibe un atajo propio (Ctrl+Mayús+E) porque Ctrl+E ya es de Editar.\n        mnuExportar.ShortcutKeys = Keys.Control | Keys.Shift | Keys.E;\n        mnuExportar.Name = \"mnuExportar\";\n        mnuExportar.Text = \"&Exportar a CSV...\";\n\n        mnuReportePdf.Name = \"mnuReportePdf\";\n        mnuReportePdf.Text = \"Reporte en &PDF...\";\n\n        mnuReporteExcel.Name = \"mnuReporteExcel\";\n        mnuReporteExcel.Text = \"Reporte en E&xcel...\";\n\n        sepArchivo.Name = \"sepArchivo\";\n\n        mnuSalir.Name = \"mnuSalir\";\n        mnuSalir.ShortcutKeyDisplayString = \"Alt+F4\";\n        mnuSalir.Text = \"&Salir\";\n\n        mnuEditar.DropDownItems.AddRange(new ToolStripItem[] { mnuEditarProducto, mnuEliminar, mnuMovimiento, mnuVerMovimientos });\n        mnuEditar.Name = \"mnuEditar\";\n        mnuEditar.Text = \"&Editar\";\n\n        mnuEditarProducto.ShortcutKeys = Keys.Control | Keys.E;\n        mnuEditarProducto.Name = \"mnuEditarProducto\";\n        mnuEditarProducto.Text = \"&Editar producto\";\n\n        // Eliminar pasa de Ctrl+Supr a Ctrl+D.\n        mnuEliminar.ShortcutKeys = Keys.Control | Keys.D;\n        mnuEliminar.Name = \"mnuEliminar\";\n        mnuEliminar.Text = \"E&liminar producto\";\n\n        mnuMovimiento.ShortcutKeys = Keys.Control | Keys.M;\n        mnuMovimiento.Name = \"mnuMovimiento\";\n        mnuMovimiento.Text = \"Registrar &movimiento...\";\n\n        // Ctrl+H abre el historial.\n        mnuVerMovimientos.ShortcutKeys = Keys.Control | Keys.H;\n        mnuVerMovimientos.Name = \"mnuVerMovimientos\";\n        mnuVerMovimientos.Text = \"&Ver historial de movimientos\";\n\n        mnuImportar.ShortcutKeys = Keys.Control | Keys.I;\n        mnuImportar.Name = \"mnuImportar\";\n        mnuImportar.Text = \"&Importar desde CSV...\";\n\n        mnuAyuda.DropDownItems.AddRange(new ToolStripItem[] { mnuAcercaDe });\n        mnuAyuda.Name = \"mnuAyuda\";\n        mnuAyuda.Text = \"A&yuda\";\n        mnuAcercaDe.Name = \"mnuAcercaDe\";\n        mnuAcercaDe.Text = \"&Acerca de AgroStock\";\n\n        barraHerramientas.Items.AddRange(new ToolStripItem[] { tsbNuevo, tsbEditar, tsbEliminar, tsbMovimiento, sepBarra, lblBuscar, txtBuscar });\n        barraHerramientas.Location = new Point(0, 24);\n        barraHerramientas.Name = \"barraHerramientas\";\n        barraHerramientas.TabIndex = 1;\n\n        tsbNuevo.DisplayStyle = ToolStripItemDisplayStyle.Text;\n        tsbNuevo.Name = \"tsbNuevo\";\n        tsbNuevo.Text = \"Nuevo\";\n        tsbNuevo.ToolTipText = \"Nuevo producto (Ctrl+N)\";\n\n        tsbEditar.DisplayStyle = ToolStripItemDisplayStyle.Text;\n        tsbEditar.Name = \"tsbEditar\";\n        tsbEditar.Text = \"Editar\";\n        tsbEditar.ToolTipText = \"Editar producto (Ctrl+E)\";\n\n        tsbEliminar.DisplayStyle = ToolStripItemDisplayStyle.Text;\n        tsbEliminar.Name = \"tsbEliminar\";\n        tsbEliminar.Text = \"Eliminar\";\n        tsbEliminar.ToolTipText = \"Eliminar producto (Ctrl+D)\";\n\n        tsbMovimiento.DisplayStyle = ToolStripItemDisplayStyle.Text;\n        tsbMovimiento.Name = \"tsbMovimiento\";\n        tsbMovimiento.Text = \"Movimiento\";\n        tsbMovimiento.ToolTipText = \"Registrar entrada o salida (Ctrl+M)\";\n\n        sepBarra.Name = \"sepBarra\";\n\n        lblBuscar.Name = \"lblBuscar\";\n        lblBuscar.Text = \"Buscar:\";\n\n        txtBuscar.Name = \"txtBuscar\";\n        txtBuscar.Size = new Size(180, 25);\n        txtBuscar.ToolTipText = \"Escriba parte del código o del nombre\";\n\n        barraEstado.Items.AddRange(new ToolStripItem[] { tslTotal, tslReloj });\n        barraEstado.Dock = DockStyle.Bottom;\n        barraEstado.Name = \"barraEstado\";\n        barraEstado.TabIndex = 2;\n\n        tslTotal.Name = \"tslTotal\";\n        tslTotal.Spring = true;\n        tslTotal.TextAlign = ContentAlignment.MiddleLeft;\n        tslTotal.Text = \"Productos: 0\";\n\n        tslReloj.Name = \"tslReloj\";\n        tslReloj.Text = \"00/00/0000 00:00:00\";\n\n        dgvProductos.AllowUserToAddRows = false;\n        dgvProductos.AllowUserToDeleteRows = false;\n        dgvProductos.ReadOnly = true;\n        dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;\n        dgvProductos.MultiSelect = false;\n        dgvProductos.RowHeadersVisible = false;\n        dgvProductos.BackgroundColor = SystemColors.Window;\n        dgvProductos.Dock = DockStyle.Fill;\n        dgvProductos.Name = \"dgvProductos\";\n        dgvProductos.TabIndex = 3;\n\n        tmrReloj.Interval = 1000;\n        tmrReloj.Enabled = true;\n\n        AutoScaleDimensions = new SizeF(7F, 15F);\n        AutoScaleMode = AutoScaleMode.Font;\n        // La ventana crece de 860 a 900 píxeles de ancho.\n        ClientSize = new Size(900, 520);\n        Controls.Add(dgvProductos);\n        Controls.Add(barraEstado);\n        Controls.Add(barraHerramientas);\n        Controls.Add(menuPrincipal);\n        MainMenuStrip = menuPrincipal;\n        MinimumSize = new Size(640, 360);\n        Name = \"FrmPrincipal\";\n        StartPosition = FormStartPosition.CenterScreen;\n        // El título cambia a v3.\n        Text = \"AgroStock v3 - Inventario del agroservicio\";\n        menuPrincipal.ResumeLayout(false);\n        menuPrincipal.PerformLayout();\n        barraHerramientas.ResumeLayout(false);\n        barraHerramientas.PerformLayout();\n        barraEstado.ResumeLayout(false);\n        barraEstado.PerformLayout();\n        ((System.ComponentModel.ISupportInitialize)dgvProductos).EndInit();\n        ResumeLayout(false);\n        PerformLayout();\n    }\n\n    private MenuStrip menuPrincipal = null!;\n    private ToolStripMenuItem mnuArchivo = null!;\n    private ToolStripMenuItem mnuNuevo = null!;\n    private ToolStripMenuItem mnuExportar = null!;\n    private ToolStripMenuItem mnuReportePdf = null!;\n    private ToolStripMenuItem mnuReporteExcel = null!;\n    private ToolStripSeparator sepArchivo = null!;\n    private ToolStripMenuItem mnuSalir = null!;\n    private ToolStripMenuItem mnuEditar = null!;\n    private ToolStripMenuItem mnuEditarProducto = null!;\n    private ToolStripMenuItem mnuEliminar = null!;\n    private ToolStripMenuItem mnuMovimiento = null!;\n    private ToolStripMenuItem mnuImportar = null!;\n    private ToolStripMenuItem mnuVerMovimientos = null!;\n    private ToolStripMenuItem mnuAyuda = null!;\n    private ToolStripMenuItem mnuAcercaDe = null!;\n    private ToolStrip barraHerramientas = null!;\n    private ToolStripButton tsbNuevo = null!;\n    private ToolStripButton tsbEditar = null!;\n    private ToolStripButton tsbEliminar = null!;\n    private ToolStripButton tsbMovimiento = null!;\n    private ToolStripSeparator sepBarra = null!;\n    private ToolStripLabel lblBuscar = null!;\n    private ToolStripTextBox txtBuscar = null!;\n    private StatusStrip barraEstado = null!;\n    private ToolStripStatusLabel tslTotal = null!;\n    private ToolStripStatusLabel tslReloj = null!;\n    private DataGridView dgvProductos = null!;\n    private System.Windows.Forms.Timer tmrReloj = null!;\n}\n"},"Forms/FrmMovimiento.cs":{"lang":"cs","src":"// NUEVO: para capturar DbUpdateException.\nusing Microsoft.EntityFrameworkCore;\nusing AgroStock.E03.Data;\nusing AgroStock.E03.Models;\n\nnamespace AgroStock.E03.Forms;\n\npublic partial class FrmMovimiento : Form\n{\n    private readonly ProductoRepository repo;\n    private readonly Producto producto;\n\n    public FrmMovimiento(ProductoRepository repo, Producto producto)\n    {\n        InitializeComponent();\n        this.repo = repo;\n        this.producto = producto;\n\n        Load += (_, _) =>\n        {\n            lblProducto.Text = $\"{producto.Codigo} · {producto.Nombre} (existencia actual: {producto.Existencia})\";\n            rdoEntrada.Checked = true;\n        };\n        btnRegistrar.Click += BtnRegistrar_Click;\n    }\n\n    private void BtnRegistrar_Click(object? sender, EventArgs e)\n    {\n        errores.Clear();\n        if (nudCantidad.Value < 1)\n        {\n            errores.SetError(nudCantidad, \"La cantidad debe ser al menos 1.\");\n            return;\n        }\n\n        var tipo = rdoEntrada.Checked ? \"ENTRADA\" : \"SALIDA\";\n        try\n        {\n            repo.RegistrarMovimiento(producto.Id, tipo, (int)nudCantidad.Value);\n            DialogResult = DialogResult.OK;\n        }\n        // CAMBIO: la existencia insuficiente ahora es una InvalidOperationException lanzada por el repositorio (antes: error 275 de SQLite).\n        catch (InvalidOperationException ex)\n        {\n            MessageBox.Show(this, ex.Message, \"Movimiento\",\n                MessageBoxButtons.OK, MessageBoxIcon.Warning);\n        }\n        // Cualquier otra falla de la base (incluido el CHECK ck_existencia si alguien se saltara la validación).\n        catch (DbUpdateException ex)\n        {\n            MessageBox.Show(this, \"Error de base de datos:\\n\" + (ex.InnerException?.Message ?? ex.Message), \"Movimiento\",\n                MessageBoxButtons.OK, MessageBoxIcon.Error);\n        }\n    }\n}\n"},"Forms/FrmMovimientos.cs":{"lang":"cs","src":"using AgroStock.E03.Data;\nusing AgroStock.E03.Models;\n\nnamespace AgroStock.E03.Forms;\n\n// NUEVO: ventana de solo lectura con el historial de entradas y salidas.\npublic partial class FrmMovimientos : Form\n{\n    private readonly ProductoRepository repo;\n\n    public FrmMovimientos(ProductoRepository repo)\n    {\n        InitializeComponent();\n        this.repo = repo;\n\n        dgvMovimientos.AutoGenerateColumns = false;\n        dgvMovimientos.Columns.Add(NuevaColumna(\"Fecha\", nameof(Movimiento.Fecha), 100, \"dd/MM/yyyy\"));\n        // ProductoNombre es la propiedad calculada «código · nombre» (por eso el repositorio usa Include).\n        dgvMovimientos.Columns.Add(NuevaColumna(\"Producto\", nameof(Movimiento.ProductoNombre), 320, null));\n        dgvMovimientos.Columns.Add(NuevaColumna(\"Tipo\", nameof(Movimiento.Tipo), 90, null));\n        dgvMovimientos.Columns.Add(NuevaColumna(\"Cantidad\", nameof(Movimiento.Cantidad), 90, null));\n        dgvMovimientos.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;\n\n        btnCerrar.Click += (_, _) => Close();\n        Load += (_, _) =>\n        {\n            var lista = repo.Movimientos();\n            dgvMovimientos.DataSource = lista;\n            lblTotal.Text = $\"Movimientos: {lista.Count}\";\n        };\n    }\n\n    private static DataGridViewTextBoxColumn NuevaColumna(string titulo, string propiedad, int ancho, string? formato) => new()\n    {\n        Name = \"col\" + propiedad,\n        HeaderText = titulo,\n        DataPropertyName = propiedad,\n        Width = ancho,\n        // formato = null en las columnas que no necesitan formato especial.\n        DefaultCellStyle = { Format = formato }\n    };\n}\n"},"Forms/FrmMovimientos.Designer.cs":{"lang":"cs","src":"#nullable enable\nnamespace AgroStock.E03.Forms;\n\npartial class FrmMovimientos\n{\n    private System.ComponentModel.IContainer? components = null;\n\n    protected override void Dispose(bool disposing)\n    {\n        if (disposing && (components != null))\n        {\n            components.Dispose();\n        }\n        base.Dispose(disposing);\n    }\n\n    private void InitializeComponent()\n    {\n        components = new System.ComponentModel.Container();\n        dgvMovimientos = new DataGridView();\n        lblTotal = new Label();\n        btnCerrar = new Button();\n        ((System.ComponentModel.ISupportInitialize)dgvMovimientos).BeginInit();\n        SuspendLayout();\n\n        dgvMovimientos.AllowUserToAddRows = false;\n        dgvMovimientos.AllowUserToDeleteRows = false;\n        dgvMovimientos.ReadOnly = true;\n        dgvMovimientos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;\n        dgvMovimientos.MultiSelect = false;\n        dgvMovimientos.RowHeadersVisible = false;\n        dgvMovimientos.BackgroundColor = SystemColors.Window;\n        // Anchor: la cuadrícula y los botones se ajustan cuando la ventana cambia de tamaño.\n        dgvMovimientos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;\n        dgvMovimientos.Location = new Point(12, 12);\n        dgvMovimientos.Name = \"dgvMovimientos\";\n        dgvMovimientos.Size = new Size(676, 380);\n        dgvMovimientos.TabIndex = 0;\n\n        lblTotal.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;\n        lblTotal.AutoSize = true;\n        lblTotal.Location = new Point(12, 410);\n        lblTotal.Name = \"lblTotal\";\n        lblTotal.Text = \"Movimientos: 0\";\n\n        btnCerrar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;\n        btnCerrar.Location = new Point(598, 404);\n        btnCerrar.Name = \"btnCerrar\";\n        btnCerrar.Size = new Size(90, 30);\n        btnCerrar.TabIndex = 1;\n        btnCerrar.Text = \"Cerrar\";\n        btnCerrar.UseVisualStyleBackColor = true;\n\n        AutoScaleDimensions = new SizeF(7F, 15F);\n        AutoScaleMode = AutoScaleMode.Font;\n        ClientSize = new Size(700, 446);\n        Controls.Add(dgvMovimientos);\n        Controls.Add(lblTotal);\n        Controls.Add(btnCerrar);\n        MinimumSize = new Size(500, 300);\n        Name = \"FrmMovimientos\";\n        StartPosition = FormStartPosition.CenterParent;\n        Text = \"Historial de movimientos\";\n        ((System.ComponentModel.ISupportInitialize)dgvMovimientos).EndInit();\n        ResumeLayout(false);\n        PerformLayout();\n    }\n\n    private DataGridView dgvMovimientos = null!;\n    private Label lblTotal = null!;\n    private Button btnCerrar = null!;\n}\n"}};
+
+/* ===== utilidades ===== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+function h(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === false || v == null) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'html') e.innerHTML = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else if (v === true) e.setAttribute(k, '');
+    else e.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) {
+    if (kid == null || kid === false) continue;
+    e.append(kid.nodeType ? kid : document.createTextNode(kid));
+  }
+  return e;
+}
+const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('agrostock-e3:' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('agrostock-e3:' + k, JSON.stringify(v)); } catch (e) { } }
+};
+const RM = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pad2 = n => String(n).padStart(2, '0');
+const fmtIso = d => `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+const fmtDmy = iso => iso ? iso.split('-').reverse().join('/') : '';
+const fmtN2 = n => Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const COL = 'display:flex;flex-direction:column;gap:10px;min-width:0';
+const K = t => `<kbd>${t}</kbd>`;
+
+/* ===== resaltado de sintaxis ===== */
+const KW = new Set('using namespace class partial public private protected internal static readonly void new return if else foreach for in var bool int double string decimal object null true false is as this base override const try catch finally out ref get set while switch case break continue throw typeof nameof async await when record lock sealed or and not'.split(' '));
+const TYPES = new Set(('Form Label TextBox ComboBox NumericUpDown DateTimePicker Button ErrorProvider MenuStrip ToolStrip StatusStrip DataGridView BindingSource Producto Categoria Movimiento DialogResult MessageBox MessageBoxButtons MessageBoxIcon Application ApplicationConfiguration List Action Func Dictionary HashSet DbContext DbSet ModelBuilder DbContextOptionsBuilder DbUpdateException SqliteException EF Microsoft HttpClient HttpRequestMessage HttpMethod HttpRequestException JsonSerializer JsonDocument JsonPropertyName JsonException Document XLWorkbook XLColor LicenseType PageSizes Colors QuestPDF TableDescriptor DateTime CultureInfo NumberStyles File Path Exception Console ProgressBar CheckBox RadioButton Environment STAThread InvalidOperationException IOException TimeSpan Uri Task TaskCanceledException AppContext StringComparer StringBuilder UTF8Encoding SaveFileDialog OpenFileDialog ToolStripMenuItem ToolStripButton ToolStripSeparator ToolStripLabel ToolStripTextBox ToolStripStatusLabel Keys Point Size SizeF GroupBox Timer').split(' '));
+function hlCs(line) {
+  let out = '', i = 0, m;
+  const re = /(\/\/.*$)|(\$?@?"(?:[^"\\]|\\.)*")|('(?:[^'\\]|\\.)')|(\b\d+(?:\.\d+)?[mMfF]?\b)|([A-Za-z_][A-Za-z0-9_]*)/g;
+  while ((m = re.exec(line))) {
+    out += esc(line.slice(i, m.index)); i = re.lastIndex;
+    if (m[1]) out += `<span class="tc">${esc(m[1])}</span>`;
+    else if (m[2] || m[3]) out += `<span class="ts">${esc(m[0])}</span>`;
+    else if (m[4]) out += `<span class="tn">${esc(m[0])}</span>`;
+    else { const w = m[5]; out += KW.has(w) ? `<span class="tk">${w}</span>` : TYPES.has(w) ? `<span class="tt">${w}</span>` : w; }
+  }
+  return out + esc(line.slice(i));
+}
+function hlXml(line) {
+  const s = esc(line);
+  if (/^\s*&lt;!--/.test(s)) return `<span class="tc">${s}</span>`;
+  return s.replace(/"([^"]*)"/g, '<span class="ts">"$1"</span>').replace(/(&lt;\/?)([\w.]+)/g, '$1<span class="tk">$2</span>');
+}
+function hlJson(line) {
+  return esc(line).replace(/("(?:[^"\\]|\\.)*")(\s*:)?/g, (m, s, c) => c ? `<span class="tk">${s}</span>${c}` : `<span class="ts">${s}</span>`);
+}
+const hl = (line, lang) => lang === 'xml' ? hlXml(line) : lang === 'json' ? hlJson(line) : hlCs(line);
+const isCom = (l, lang) => lang === 'xml' ? /^\s*<!--.*-->\s*$/.test(l) : lang === 'json' ? false : /^\s*\/\/.*$/.test(l);
+function cleanSrc(name) {
+  const f = FILES[name], out = [];
+  for (const l of f.src.split('\n').filter(l => !isCom(l, f.lang))) {
+    if (l.trim() === '' && (out.length === 0 || out[out.length - 1].trim() === '')) continue;
+    out.push(l);
+  }
+  while (out.length && out[out.length - 1].trim() === '') out.pop();
+  return out.join('\n') + '\n';
+}
+const textOf = (name, mode) => mode === 'limpio' ? cleanSrc(name) : FILES[name].src;
+function lineOf(name, snippet) {
+  if (!FILES[name]) return 0;
+  const i = FILES[name].src.split('\n').findIndex(l => l.includes(snippet));
+  return i < 0 ? 0 : i + 1;
+}
+
+/* ===== visor de código ===== */
+const viewers = [];
+let globalMode = store.get('mode', 'comentado');
+function makeViewer(names) {
+  let cur = names[0];
+  const tabs = h('div', { class: 'v-tabs', role: 'tablist' });
+  const info = h('div', { class: 'v-info' });
+  const pre = h('pre');
+  const body = h('div', { class: 'v-body', tabindex: '0' }, pre);
+  const bC = h('button', { 'aria-pressed': 'true', onclick: () => setMode('comentado') }, 'Comentado');
+  const bL = h('button', { 'aria-pressed': 'false', onclick: () => setMode('limpio') }, 'Limpio');
+  const copy = h('button', { class: 'v-copy', onclick: doCopy }, 'Copiar');
+  const root = h('div', { class: 'viewer' },
+    h('div', { class: 'v-bar' }, tabs, h('div', { class: 'v-actions' }, h('div', { class: 'seg', role: 'group', 'aria-label': 'Versión del código' }, bC, bL), copy)),
+    info, body);
+  function renderTabs() {
+    tabs.replaceChildren(...names.map(n => h('button', { role: 'tab', 'aria-selected': String(n === cur), onclick: () => { cur = n; render(); } }, n)));
+  }
+  function render() {
+    renderTabs();
+    bC.setAttribute('aria-pressed', String(globalMode === 'comentado'));
+    bL.setAttribute('aria-pressed', String(globalMode === 'limpio'));
+    const f = FILES[cur], text = textOf(cur, globalMode).replace(/\n$/, ''), lines = text.split('\n');
+    pre.innerHTML = lines.map((l, i) => `<div class="ln" data-n="${i + 1}"><span class="no">${i + 1}</span><span class="tx">${hl(l, f.lang) || '&#8203;'}</span></div>`).join('');
+    const nc = f.src.split('\n').filter(l => isCom(l, f.lang)).length;
+    info.textContent = f.lang === 'json' ? `${lines.length} líneas. JSON no admite comentarios.`
+      : globalMode === 'comentado'
+        ? `${lines.length} líneas, ${nc} de ellas son comentarios que explican el código. Los comentarios no se ejecutan.`
+        : `${lines.length} líneas de código sin comentarios, listas para pegar en Visual Studio.`;
+  }
+  function setMode(m) { globalMode = m; store.set('mode', m); viewers.forEach(v => v.render()); }
+  function doCopy() {
+    const text = textOf(cur, globalMode);
+    const done = ok => { copy.textContent = ok ? 'Copiado' : 'Seleccione y copie (Ctrl+C)'; setTimeout(() => copy.textContent = 'Copiar', 1800); };
+    const fallback = () => { try { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); done(false); } catch (e) { done(false); } };
+    try { navigator.clipboard.writeText(text).then(() => done(true), fallback); } catch (e) { fallback(); }
+  }
+  const api = {
+    root, render,
+    reveal(file, snippet) {
+      if (!FILES[file]) return;
+      if (!names.includes(file)) names.push(file);
+      cur = file; globalMode = 'comentado'; viewers.forEach(v => v.render());
+      const n = lineOf(file, snippet), el = $(`.ln[data-n="${n}"]`, pre);
+      if (!el) return;
+      $$('.ln.flash', pre).forEach(x => x.classList.remove('flash'));
+      el.classList.add('flash');
+      body.scrollTop = Math.max(0, el.offsetTop - body.clientHeight / 3);
+      root.scrollIntoView({ block: 'nearest', behavior: RM() ? 'auto' : 'smooth' });
+      setTimeout(() => el.classList.remove('flash'), 4000);
+    }
+  };
+  viewers.push(api); render();
+  return api;
+}
+
+/* ===== registro de eventos (para los simuladores) ===== */
+function makeLog(viewer, file) {
+  const empty = () => h('div', { class: 'empty' }, 'Aquí aparecerán los eventos y el SQL.');
+  const box = h('div', { class: 'logbox', 'aria-live': 'polite' }, empty());
+  let first = true;
+  return {
+    box,
+    clear() { box.replaceChildren(empty()); first = true; },
+    push(ev, text, snippet, fileOverride) {
+      if (first) { box.replaceChildren(); first = false; }
+      const f = fileOverride || file, n = snippet ? lineOf(f, snippet) : 0;
+      box.prepend(h('div', { class: 'it' }, h('span', { class: 'ev' }, ev), h('span', null, text),
+        n && viewer ? h('button', { onclick: () => viewer.reveal(f, snippet), title: 'Ver esta línea en el código' }, `${f.split('/').pop()} · línea ${n}`) : null));
+      while (box.children.length > 40) box.lastChild.remove();
+    }
+  };
+}
+
+/* ===== progreso ===== */
+const progress = store.get('progress', {});
+function updateProgress() {
+  const boxes = $$('.check input'), done = boxes.filter(b => b.checked).length;
+  $('#progbar').style.width = (boxes.length ? Math.round(done / boxes.length * 100) : 0) + '%';
+  $('#progtxt').textContent = `${done} de ${boxes.length} comprobaciones`;
+}
+
+/* ===== ayudas para simuladores ===== */
+function lazy(host, init) {
+  const go = () => { host.style.minHeight = ''; init(); };
+  if (!('IntersectionObserver' in window)) return go();
+  host.style.minHeight = '80px';
+  const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); go(); } }, { rootMargin: '400px 0px' });
+  io.observe(host);
+}
+const winBar = t => h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, t), h('div', { class: 'wb' }, h('span', null, '—'), h('span', null, '▢'), h('span', null, '✕')));
+function msgDialog({ text, caption, icon = 'i', buttons = ['Aceptar'], def = 0, cb }, close) {
+  const col = { i: '#0078D7', q: '#0078D7', x: '#E81123', '!': 'var(--w-icon-warn)' }[icon];
+  const ch = { i: 'i', q: '?', x: '✕', '!': '!' }[icon];
+  const btns = buttons.map((b, i) => h('button', { class: 'w-btn' + (i === def ? ' def' : ''), onclick: () => { close(); cb && cb(b); } }, b));
+  const dlg = h('div', { class: 'w-dlg', role: 'alertdialog', 'aria-modal': 'true', 'aria-label': caption },
+    h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, caption)),
+    h('div', { class: 'w-msg' }, h('span', { class: 'mi', style: `background:${col}` }, ch), h('div', { style: 'white-space:pre-line' }, text)),
+    h('div', { class: 'w-foot' }, btns));
+  return { dlg, focus: () => btns[def].focus() };
+}
+function gridTable(cols, rows, o = {}) {
+  return h('div', { class: 'w-grid', style: `max-height:${o.max || 260}px` }, h('table', null,
+    h('thead', null, h('tr', null, cols.map(c => h('th', { class: c.r ? 'r' : '' }, c.t)))),
+    h('tbody', null, rows.map(r => h('tr', { class: (o.cls && o.cls(r)) || '', tabindex: o.onrow ? 0 : null, onclick: o.onrow ? () => o.onrow(r) : null },
+      cols.map(c => h('td', { class: c.r ? 'r' : '' }, c.f(r))))))));
+}
+function copyText(text, btn) {
+  const t = btn.textContent, done = ok => { btn.textContent = ok ? 'Copiado' : 'Seleccione y copie'; setTimeout(() => btn.textContent = t, 1800); };
+  try { navigator.clipboard.writeText(text).then(() => done(true), () => done(false)); } catch (e) { done(false); }
+}
+
+/* ===== modelo en memoria que imita el comportamiento del ORM + SQLite (solo para los simuladores) ===== */
+const ORM = (() => {
+  class DbUpdateException extends Error {
+    constructor(inner) { super('An error occurred while saving the entity changes. See the inner exception for details.'); this.name = 'DbUpdateException'; this.inner = inner; }
+  }
+  class InvalidOp extends Error { constructor(m) { super(m); this.name = 'InvalidOperationException'; } }
+  const lite = (ext, msg) => ({ name: 'SqliteException', code: 19, ext, message: `SQLite Error 19: '${msg}'.` });
+  const SEED = {
+    cats: [[1, 'Fertilizantes'], [2, 'Semillas'], [3, 'Herbicidas'], [4, 'Herramientas']],
+    prods: [
+      [1, 'FER-001', 'Fórmula 18-46-0 (quintal)', 1, 1250, 24, null], [2, 'FER-002', 'Urea 46% (quintal)', 1, 1100, 18, null],
+      [3, 'FER-003', 'Fórmula 12-30-10 (quintal)', 1, 1180, 6, null], [4, 'SEM-001', 'Semilla de frijol rojo (libra)', 2, 32.5, 150, '2027-03-31'],
+      [5, 'SEM-002', 'Semilla de maíz (libra)', 2, 28, 200, '2026-11-30'], [6, 'SEM-003', 'Semilla de sorgo (libra)', 2, 22, 8, '2026-12-15'],
+      [7, 'HER-001', 'Glifosato (litro)', 3, 180, 8, '2027-08-15'], [8, 'HER-002', 'Paraquat (litro)', 3, 210, 15, '2027-05-20'],
+      [9, 'HER-003', '2,4-D amina (litro)', 3, 165, 30, '2026-12-01'], [10, 'HER-004', 'Atrazina (kilo)', 3, 140, 12, '2027-02-10'],
+      [11, 'HER-005', 'Metsulfurón (sobre)', 3, 95, 4, '2027-06-30'], [12, 'HTA-001', 'Machete de 22 pulgadas', 4, 250, 0, null],
+      [13, 'HTA-002', 'Bomba de mochila (20 L)', 4, 1450, 5, null], [14, 'HTA-003', 'Piocha con cabo', 4, 320, 0, null]],
+    movs: [[1, 1, 'ENTRADA', 30, '2026-10-01'], [2, 1, 'SALIDA', 6, '2026-10-05'], [3, 4, 'ENTRADA', 200, '2026-10-02'],
+      [4, 5, 'SALIDA', 20, '2026-10-06'], [5, 7, 'SALIDA', 2, '2026-10-07'], [6, 10, 'ENTRADA', 15, '2026-10-03']]
+  };
+  class Ctx {
+    constructor() { this.reset(); }
+    reset() {
+      this.cats = SEED.cats.map(([id, nombre]) => ({ id, nombre }));
+      this.prods = SEED.prods.map(([id, codigo, nombre, cat, precio, exi, ven]) => ({ id, codigo, nombre, cat, precio, exi, ven }));
+      this.movs = SEED.movs.map(([id, prod, tipo, cant, fecha]) => ({ id, prod, tipo, cant, fecha }));
+      this.nextP = 15; this.nextM = 7;
+    }
+    snap() { return JSON.stringify([this.cats, this.prods, this.movs, this.nextP, this.nextM]); }
+    restore(s) { [this.cats, this.prods, this.movs, this.nextP, this.nextM] = JSON.parse(s); }
+    catName(id) { const c = this.cats.find(x => x.id === id); return c ? c.nombre : ''; }
+    check(p, selfId) {
+      if (this.prods.some(x => x.id !== selfId && x.codigo === p.codigo)) throw new DbUpdateException(lite(2067, 'UNIQUE constraint failed: productos.Codigo'));
+      if (!(p.precio > 0)) throw new DbUpdateException(lite(275, 'CHECK constraint failed: ck_precio'));
+      if (p.exi < 0) throw new DbUpdateException(lite(275, 'CHECK constraint failed: ck_existencia'));
+      if (!this.cats.some(c => c.id === p.cat)) throw new DbUpdateException(lite(787, 'FOREIGN KEY constraint failed'));
+    }
+    listar(f) {
+      const q = String(f || '').toLowerCase();
+      return this.prods.filter(p => p.nombre.toLowerCase().includes(q) || p.codigo.toLowerCase().includes(q))
+        .sort((a, b) => a.nombre < b.nombre ? -1 : a.nombre > b.nombre ? 1 : 0);
+    }
+    insertar(p) { this.check(p, 0); const r = { ...p, id: this.nextP++ }; this.prods.push(r); return r; }
+    actualizar(p) { const i = this.prods.findIndex(x => x.id === p.id); this.check(p, p.id); this.prods[i] = { ...p }; }
+    eliminar(id) {
+      if (this.movs.some(m => m.prod === id)) throw new DbUpdateException(lite(787, 'FOREIGN KEY constraint failed'));
+      this.prods = this.prods.filter(p => p.id !== id);
+    }
+    insertarVarios(list) {
+      const ex = new Set(this.prods.map(x => x.codigo.toUpperCase())), dup = [], add = [];
+      for (const p of list) { if (ex.has(p.codigo.toUpperCase())) { dup.push(p.codigo); continue; } ex.add(p.codigo.toUpperCase()); add.push(p); }
+      const s = this.snap();
+      try { add.forEach(p => this.insertar(p)); } catch (e) { this.restore(s); throw e; }
+      return dup;
+    }
+    registrar(id, tipo, cant, validar = true) {
+      const p = this.prods.find(x => x.id === id);
+      if (!p) throw new InvalidOp('Producto no encontrado.');
+      if (validar && tipo === 'SALIDA' && p.exi < cant) throw new InvalidOp('Existencia insuficiente: no se registró nada.');
+      const s = this.snap();
+      p.exi += tipo === 'ENTRADA' ? cant : -cant;
+      this.movs.push({ id: this.nextM++, prod: id, tipo, cant, fecha: fmtIso(new Date()) });
+      try { if (p.exi < 0) throw new DbUpdateException(lite(275, 'CHECK constraint failed: ck_existencia')); }
+      catch (e) { this.restore(s); throw e; }   // SaveChanges es atómico: se revierte todo
+    }
+    movimientos() {
+      return this.movs.map(m => ({ ...m, prodTxt: (() => { const p = this.prods.find(x => x.id === m.prod); return p ? `${p.codigo} · ${p.nombre}` : ''; })() }))
+        .sort((a, b) => a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : b.id - a.id);
+    }
+    valor() { return this.prods.reduce((a, p) => a + p.precio * p.exi, 0); }
+  }
+  return { Ctx, DbUpdateException, InvalidOp };
+})();
+
+/* SQL aproximado que genera EF Core 8 para SQLite (solo ilustrativo) */
+const SQLTXT = {
+  listar: (inc, f) => `SELECT "p"."Id", "p"."CategoriaId", "p"."Codigo", "p"."Existencia", "p"."Nombre", "p"."Precio", "p"."Vencimiento"${inc ? ', "c"."Id", "c"."Nombre"' : ''}\nFROM "productos" AS "p"${inc ? '\nINNER JOIN "categorias" AS "c" ON "p"."CategoriaId" = "c"."Id"' : ''}\nWHERE "p"."Nombre" LIKE @__Format_0 OR "p"."Codigo" LIKE @__Format_1\nORDER BY "p"."Nombre"\n-- @__Format_0 = @__Format_1 = '%${f}%'`,
+  insertar: 'INSERT INTO "productos" ("CategoriaId", "Codigo", "Existencia", "Nombre", "Precio", "Vencimiento")\nVALUES (@p0, @p1, @p2, @p3, @p4, @p5)\nRETURNING "Id";',
+  actualizar: 'UPDATE "productos" SET "CategoriaId" = @p0, "Codigo" = @p1, "Existencia" = @p2, "Nombre" = @p3, "Precio" = @p4, "Vencimiento" = @p5\nWHERE "Id" = @p6\nRETURNING 1;',
+  eliminar: 'DELETE FROM "productos"\nWHERE "Id" = @p0\nRETURNING 1;',
+  mover: 'SELECT ... FROM "productos" AS "p" WHERE "p"."Id" = @__p_0 LIMIT 1   -- Find\n-- una sola transacción:\nINSERT INTO "movimientos" ("Cantidad", "Fecha", "ProductoId", "Tipo") VALUES (@p0, @p1, @p2, @p3) RETURNING "Id";\nUPDATE "productos" SET "Existencia" = @p4 WHERE "Id" = @p5 RETURNING 1;'
+};
+const errText = e => e.inner ? `${e.name}\n  InnerException: ${e.inner.name}: ${e.inner.message}` : `${e.name}: ${e.message}`;
+
+/* ================= Simulador 1: copiar y renombrar ================= */
+function simCopy(host) {
+  const st = { d: [false, false, false, false] };
+  const ACT = [
+    ['Copiar la carpeta AgroStock.E02 y pegarla junto a ella con el nombre AgroStock.E03', 'Con Visual Studio cerrado. La carpeta E02 queda intacta: es la entrega del encuentro anterior.'],
+    ['Borrar de la copia: bin, obj, .vs, AgroStock.E02.csproj.user y las carpetas DemoHilos y Verificacion', 'bin trae la agrostock.db de E02 (otro esquema) y DemoHilos dentro del proyecto provoca el error CS0579.'],
+    ['Renombrar AgroStock.E02.csproj → AgroStock.E03.csproj y AgroStock.E02.slnx → AgroStock.E03.slnx', 'Abra el .slnx con el Bloc de notas y déjelo con un solo proyecto, como en el visor.'],
+    ['Reemplazar «AgroStock.E02» por «AgroStock.E03» en todos los archivos', 'En Visual Studio: Ctrl+Mayús+H, ámbito «Solución completa», Reemplazar todo.']];
+  const list = h('ol', { class: 'how' }), treeBox = h('div', { class: 'se' }), out = h('div', { class: 'panel', 'aria-live': 'polite' });
+  function tree() {
+    const d = st.d, nm = d[2] ? 'E03' : 'E02', ns = d[3] ? 'E03' : 'E02', k = [];
+    if (!d[0]) return [['(todavía no existe la carpeta AgroStock.E03)', '']];
+    k.push([`AgroStock.${nm}.csproj`, ''], [`AgroStock.${nm}.slnx`, '']);
+    if (!d[1]) k.push(['AgroStock.E02.csproj.user', 'del'], ['bin/  (con la agrostock.db vieja)', 'bad'], ['obj/', 'del'], ['.vs/', 'del'], ['DemoHilos/', 'bad'], ['Verificacion/', 'del']);
+    k.push([`Program.cs   [namespace AgroStock.${ns}]`, ''], ['Models/  Data/  Forms/', ''], ['agrostock.sql  (se borra en el paso 3)', ''], ['consultas.sql', ''], ['productos_importar.csv', '']);
+    return k;
+  }
+  function rend() {
+    list.replaceChildren(...ACT.map(([t, d], i) => h('li', null, h('b', null, t), ' — ' + d + ' ',
+      h('button', { class: 'sbtn ghost sm', disabled: st.d[i], onclick: () => { st.d[i] = true; rend(); } }, st.d[i] ? 'Hecho' : 'Marcar como hecho'))));
+    treeBox.replaceChildren(h('div', null, h('b', null, 'AgroStock.E03/')), h('ul', null, tree().map(([t, c]) => h('li', { class: c }, t))));
+  }
+  function build() {
+    const d = st.d, items = [];
+    if (!d[0]) return out.replaceChildren(h('span', { class: 'pill bad' }, 'No existe la carpeta AgroStock.E03: copie primero la carpeta de E02.'));
+    if (!d[1]) items.push(['bad', 'Viajaron bin y DemoHilos: la agrostock.db vieja de E02 se copiaría junto al .exe y DemoHilos dentro del proyecto produce error CS0579 (atributo duplicado).']);
+    if (!d[2]) items.push(['warn', 'El proyecto aún se llama AgroStock.E02: el ejecutable y la carpeta bin conservarán ese nombre.']);
+    if (!d[3]) items.push(['warn', 'Los espacios de nombres siguen siendo AgroStock.E02. Compila, pero al pegar los archivos de la guía (AgroStock.E03.Data…) aparecerá CS0234.']);
+    out.replaceChildren(items.length ? h('div', { style: COL }, items.map(([k, t]) => h('div', null, h('span', { class: 'pill ' + k }, k === 'bad' ? 'Problema' : 'Advertencia'), ' ' + t)))
+      : h('div', null, h('span', { class: 'pill ok' }, 'Compilación correcta'), h('p', { style: 'margin:6px 0 0' }, 'Con F5 la ventana abre como v2: 14 productos, CRUD, movimientos e importación funcionan igual (todavía con SQL directo y agrostock.sql). Ese es el punto de partida.')));
+  }
+  host.append(h('div', { class: 'stage two' }, h('div', { style: COL }, list), h('div', { style: COL }, treeBox,
+    h('div', { class: 'row' }, h('button', { class: 'sbtn', onclick: build }, 'Compilar y ejecutar (F5)'), h('button', { class: 'sbtn ghost', onclick: () => { st.d = [false, false, false, false]; out.replaceChildren(); rend(); } }, 'Reiniciar')), out)));
+  rend();
+}
+
+/* ================= Simulador 2: paquetes NuGet ================= */
+function simPkgs(host) {
+  const PK = [
+    ['Microsoft.EntityFrameworkCore.Sqlite', '8.0.10', 'ok', 'El ORM con el proveedor SQLite. Trae Microsoft.Data.Sqlite y el motor nativo. ES EL QUE USAMOS.'],
+    ['ClosedXML', '0.104.2', 'ok', 'Crea y edita archivos .xlsx sin Excel instalado. ES EL QUE USAMOS.'],
+    ['QuestPDF', '2024.10.4', 'ok', 'Genera PDF con una API fluida en C#. ES EL QUE USAMOS.'],
+    ['Microsoft.EntityFrameworkCore.SqlServer', '8.0.10', 'bad', 'Proveedor para SQL Server: UseSqlite no existe en este paquete.'],
+    ['Microsoft.EntityFrameworkCore.Sqlite.Core', '8.0.10', 'bad', 'Sin el motor nativo de SQLite: compila, pero falla al ejecutar.'],
+    ['EPPlus', '7.x', 'bad', 'Otra biblioteca de Excel con licencia propia: no es la de esta guía.']];
+  const st = { inst: new Set(['Microsoft.Data.Sqlite']), copy: 'No copiar' };
+  const list = h('div', { class: 'errs' }), out = h('div', { class: 'panel', 'aria-live': 'polite' }), cur = h('div', { class: 'se' });
+  const msg = (k, t) => out.replaceChildren(h('div', { style: COL }, [].concat(t).map(x => h('div', null, h('span', { class: 'pill ' + k }, k === 'ok' ? 'Correcto' : k === 'bad' ? 'Error' : 'Aviso'), ' ' + x))));
+  function rend() {
+    list.replaceChildren(...[['Microsoft.Data.Sqlite', '8.0.10', 'old', 'Ya instalado desde E02. EF Core lo trae solo: puede quitarlo.'], ...PK].map(([n, v, k, d]) => {
+      const on = st.inst.has(n);
+      return h('div', { class: 'row', style: 'justify-content:space-between;border-bottom:1px solid var(--line);padding:4px 0' },
+        h('div', { style: 'min-width:0;flex:1 1 240px' }, h('b', { class: 'mono' }, `${n} ${v}`), h('div', { class: 'sim-desc' }, d)),
+        h('button', { class: 'sbtn sm' + (on ? ' ghost' : ''), onclick: () => { on ? st.inst.delete(n) : st.inst.add(n); rend(); } }, on ? 'Desinstalar' : 'Instalar'));
+    }));
+    cur.replaceChildren(h('b', null, 'Dependencias → Paquetes'), h('ul', null, st.inst.size ? [...st.inst].map(n => h('li', null, n)) : h('li', { class: 'del' }, '(ninguno)')),
+      h('div', { style: 'margin-top:6px' }, h('b', null, 'appsettings.json'), ' → Copiar en el directorio de salida: ', h('span', { class: st.copy === 'No copiar' ? 'bad' : '' }, st.copy)));
+  }
+  function run() {
+    const i = st.inst, bad = [];
+    if (!i.has('Microsoft.EntityFrameworkCore.Sqlite')) {
+      if (i.has('Microsoft.EntityFrameworkCore.SqlServer')) bad.push("CS1061: «DbContextOptionsBuilder» no contiene una definición de «UseSqlite». Instaló el proveedor de SQL Server.");
+      else if (i.has('Microsoft.EntityFrameworkCore.Sqlite.Core')) bad.push('Compila, pero al abrir la base: «You need to call SQLitePCL.raw.SetProvider()…». Falta el motor nativo.');
+      else bad.push("CS0246: no se encontró el tipo «DbContext» (falta Microsoft.EntityFrameworkCore.Sqlite).");
+    }
+    if (!i.has('ClosedXML')) bad.push("CS0246: no se encontró el tipo «XLWorkbook» (falta ClosedXML).");
+    if (!i.has('QuestPDF')) bad.push("CS0246: no se encontró el espacio de nombres «QuestPDF» (falta el paquete QuestPDF).");
+    if (bad.length) return msg('bad', bad);
+    const w = [];
+    if (i.has('EPPlus')) w.push('EPPlus está instalado pero no se usa: quítelo para no mezclar bibliotecas.');
+    if (st.copy === 'No copiar') w.push('appsettings.json no se copiará a bin: Mockaroo fallará con «No se encontró appsettings.json.» (paso 6). Cambie la propiedad a «Copiar si es posterior».');
+    msg(w.length ? 'warn' : 'ok', w.length ? w : ['Restauración y compilación correctas. La app sigue abriendo como v2: ADO.NET sigue funcionando porque el paquete del ORM trae Microsoft.Data.Sqlite.']);
+  }
+  const sel = h('select', { class: 'boa-sel', 'aria-label': 'Copiar en el directorio de salida', onchange: e => { st.copy = e.target.value; rend(); } }, ['No copiar', 'Copiar siempre', 'Copiar si es posterior'].map(v => h('option', { value: v }, v)));
+  host.append(h('div', { class: 'stage two' }, h('div', { style: COL }, h('h4', { class: 'block-h', style: 'margin:0' }, 'Administrador de paquetes NuGet · Examinar'), list),
+    h('div', { style: COL }, cur, h('div', { class: 'panel' }, h('h4', null, 'Propiedades de appsettings.json'), h('label', null, 'Copiar en el directorio de salida: ', sel),
+      h('div', { class: 'row', style: 'margin-top:8px' }, h('button', { class: 'sbtn', onclick: run }, 'Compilar (Ctrl+Mayús+B)'))), out)));
+  rend();
+}
+
+/* ================= Simulador 3: el modelo ORM y las restricciones ================= */
+function simOrm(host, viewer) {
+  const FILE = 'Data/Db.cs', ctx = new ORM.Ctx(), log = makeLog(viewer, FILE);
+  const CARDS = [
+    ['Categoria → categorias', ['Id  int · PK', 'Nombre  string · NOT NULL · UNIQUE']],
+    ['Producto → productos', ['Id  int · PK', 'Codigo  string · NOT NULL · UNIQUE', 'Nombre  string · NOT NULL', 'CategoriaId  int · FK → categorias', 'Precio  decimal → REAL · CHECK ck_precio', 'Existencia  int · CHECK ck_existencia', 'Vencimiento  DateTime? → TEXT, NULL permitido']],
+    ['Movimiento → movimientos', ['Id  int · PK', 'ProductoId  int · FK → productos', "Tipo  string · CHECK IN ('ENTRADA','SALIDA')", 'Cantidad  int · CHECK cantidad > 0', 'Fecha  DateTime → TEXT yyyy-MM-dd']]];
+  const STATES = [['none', 'No existe'], ['empty', 'Existe pero está vacía (0 bytes)'], ['e02', 'Existe: la creó E02 (columnas categoria_id, existencia…)'], ['e03', 'Existe: la creó E03']];
+  const sel = h('select', { class: 'boa-sel', 'aria-label': 'Estado de agrostock.db', onchange: () => { ready = false; refresh(); } }, STATES.map(([v, t]) => h('option', { value: v }, t)));
+  sel.value = 'none';
+  const out = h('div', { class: 'panel', 'aria-live': 'polite' }), res = h('div', { class: 'panel', 'aria-live': 'polite' });
+  let ready = false;
+  const TESTS = [
+    ['UNIQUE: código repetido', () => ctx.insertar({ codigo: 'FER-001', nombre: 'Duplicado', cat: 1, precio: 100, exi: 1 }), 'ctx.Productos.Add(Limpio(p));', SQLTXT.insertar],
+    ['CHECK: precio 0', () => ctx.insertar({ codigo: 'NUE-001', nombre: 'Gratis', cat: 1, precio: 0, exi: 1 }), 'ctx.Productos.Add(Limpio(p));', SQLTXT.insertar],
+    ['FK: categoría inexistente', () => ctx.insertar({ codigo: 'NUE-002', nombre: 'Huérfano', cat: 99, precio: 10, exi: 1 }), 'ctx.Productos.Add(Limpio(p));', SQLTXT.insertar],
+    ['FK: borrar producto con movimientos', () => ctx.eliminar(7), 'ctx.Productos.Remove(p);', SQLTXT.eliminar],
+    ['Válido: producto nuevo', () => ctx.insertar({ codigo: 'FER-004', nombre: 'Sulfato de amonio (quintal)', cat: 1, precio: 980, exi: 12 }), 'ctx.Productos.Add(Limpio(p));', SQLTXT.insertar]];
+  function refresh() {
+    out.replaceChildren(); res.replaceChildren();
+    tbtn.forEach(b => b.disabled = !ready);
+  }
+  function init() {
+    const s = sel.value;
+    log.clear();
+    log.push('Main', 'Db.Inicializar() → using var ctx = new AgroStockContext(); ctx.Database.EnsureCreated();', 'ctx.Database.EnsureCreated();');
+    if (s === 'none' || s === 'empty') {
+      ctx.reset();
+      log.push('EnsureCreated', s === 'none' ? 'agrostock.db no existe: se CREA con las 3 tablas y se insertan los datos de HasData.' : 'El archivo existe pero no tiene tablas: se CREAN las tablas y los datos de HasData.', 'ctx.Database.EnsureCreated();');
+      ready = true; out.replaceChildren(h('span', { class: 'pill ok' }, '4 categorías, 14 productos y 6 movimientos creados desde el modelo'), h('p', { class: 'sim-desc', style: 'margin:6px 0 0' }, 'No hubo ningún script SQL: la «fuente de verdad» del esquema es AgroStockContext.'));
+    } else if (s === 'e03') {
+      log.push('EnsureCreated', 'La base ya tiene tablas: no se toca nada y se conservan los datos del usuario.', 'ctx.Database.EnsureCreated();');
+      ready = true; out.replaceChildren(h('span', { class: 'pill ok' }, `Base existente reutilizada (${ctx.prods.length} productos)`));
+    } else {
+      log.push('EnsureCreated', 'La base ya tiene tablas (las de E02): EnsureCreated NO las modifica.', 'ctx.Database.EnsureCreated();');
+      log.push('Excepción', "SqliteException: SQLite Error 1: 'no such column: p.CategoriaId'.", 'catch (Exception ex) when (ex is SqliteException or InvalidOperationException)', 'Forms/FrmPrincipal.cs');
+      ready = false;
+      out.replaceChildren(h('div', { class: 'note', role: 'alert' }, h('b', null, 'Error al listar: '), "SQLite Error 1: 'no such column: p.CategoriaId'. ", 'El ORM busca la columna CategoriaId, pero la base de E02 tiene categoria_id. Solución: borre agrostock.db de bin\\Debug\\net8.0-windows\\ y ejecute de nuevo.'));
+    }
+    tbtn.forEach(b => b.disabled = !ready); res.replaceChildren();
+  }
+  const tbtn = TESTS.map(([t, fn, snip, sql]) => h('button', { class: 'sbtn ghost sm', disabled: true, onclick: () => {
+    let r;
+    try { fn(); r = h('div', { style: COL }, h('span', { class: 'pill ok' }, 'SaveChanges() correcto: la base lo aceptó')); log.push('SaveChanges', t + ' → aceptado', snip, 'Data/ProductoRepository.cs'); }
+    catch (e) { r = h('div', { class: 'note', role: 'alert' }, h('b', null, 'Rechazado: '), h('span', { style: 'white-space:pre-line' }, errText(e))); log.push('DbUpdateException', e.inner.message, snip, 'Data/ProductoRepository.cs'); }
+    res.replaceChildren(h('div', { class: 'codebox' }, sql), r);
+  } }, t));
+  host.append(h('div', { class: 'stage three' }, CARDS.map(([n, cs]) => h('div', { class: 'panel' }, h('h4', { class: 'mono' }, n), h('ul', { class: 'mono', style: 'list-style:none;margin:0;padding:0;font-size:.76rem' }, cs.map(c => h('li', null, c)))))),
+    h('div', { class: 'panel', style: COL }, h('h4', null, 'A. ¿Qué hace EnsureCreated()?'), h('div', { class: 'row' }, h('label', null, 'agrostock.db en bin\\Debug\\net8.0-windows: ', sel), h('button', { class: 'sbtn', onclick: init }, 'Ejecutar la aplicación')), out),
+    h('div', { class: 'panel', style: COL }, h('h4', null, 'B. Pruebe las restricciones (primero ejecute A)'), h('div', { class: 'row' }, tbtn), res,
+      h('div', { class: 'row' }, h('button', { class: 'sbtn ghost sm', onclick: () => { ctx.reset(); res.replaceChildren(); log.push('Reinicio', 'Datos de ejemplo restablecidos'); } }, 'Restablecer los datos'))),
+    h('div', { class: 'panel' }, h('h4', null, 'Registro'), log.box));
+}
+
+/* ================= Simulador 4: LINQ y el repositorio ================= */
+function simLinq(host, viewer) {
+  const FILE = 'Data/ProductoRepository.cs', ctx = new ORM.Ctx(), log = makeLog(viewer, FILE);
+  const st = { inc: true, limpio: true };
+  const inp = h('input', { class: 'boa-in', id: 'lq-f', value: 'FER', 'aria-label': 'Texto a buscar', oninput: () => listar(true) });
+  const sqlBox = h('div', { class: 'codebox', style: 'white-space:pre-wrap' }), grid = h('div'), ops = h('div', { class: 'panel', 'aria-live': 'polite' });
+  function listar(quiet) {
+    const f = inp.value, rows = ctx.listar(f);
+    sqlBox.textContent = SQLTXT.listar(st.inc, f);
+    grid.replaceChildren(gridTable([{ t: 'Código', f: r => r.codigo }, { t: 'Nombre', f: r => r.nombre }, { t: 'Categoría (CategoriaNombre)', f: r => st.inc ? ctx.catName(r.cat) : '' }, { t: 'Precio', r: 1, f: r => fmtN2(r.precio) }, { t: 'Existencia', r: 1, f: r => r.exi }], rows, { max: 230 }));
+    if (!quiet) log.push('Listar', `repo.Listar("${f}") → ${rows.length} fila(s)${st.inc ? '' : ' (sin Include: Categoria = null)'}`, '.Include(p => p.Categoria)');
+  }
+  function op(t, fn, sql, snip) {
+    let r;
+    try { const x = fn(); r = h('div', { style: COL }, h('span', { class: 'pill ok' }, x || 'SaveChanges() correcto')); log.push('SaveChanges', t, snip); }
+    catch (e) { r = h('div', { class: 'note', role: 'alert' }, h('b', null, 'Excepción: '), h('span', { style: 'white-space:pre-line' }, errText(e))); log.push('Excepción', e.inner ? e.inner.message : e.message, snip); }
+    ops.replaceChildren(h('div', { class: 'codebox', style: 'white-space:pre-wrap' }, sql), r); listar(true);
+  }
+  const B = (t, f) => h('button', { class: 'sbtn ghost sm', onclick: f }, t);
+  const chk = (t, k, after) => h('label', { style: 'display:flex;gap:6px;align-items:center' }, h('input', { type: 'checkbox', checked: st[k], onchange: e => { st[k] = e.target.checked; after && after(); } }), t);
+  host.append(h('div', { style: COL },
+    h('div', { class: 'row' }, h('label', { for: 'lq-f' }, 'Buscar:'), inp, chk('Con .Include(p => p.Categoria)', 'inc', () => listar()), h('button', { class: 'sbtn', onclick: () => listar() }, 'Listar')),
+    h('div', { class: 'stage two' }, h('div', { style: COL }, h('h4', { class: 'block-h', style: 'margin:0' }, 'SQL que EF Core genera (aproximado)'), sqlBox), h('div', { style: COL }, h('h4', { class: 'block-h', style: 'margin:0' }, 'Lo que recibe el formulario'), grid)),
+    h('div', { class: 'panel', style: COL }, h('h4', null, 'Escritura: Insertar, InsertarVarios, Actualizar, Eliminar'),
+      h('div', { class: 'row' },
+        B('Insertar NUE-001', () => op('Insertar NUE-001', () => ctx.insertar({ codigo: 'NUE-001', nombre: 'Producto nuevo', cat: 1, precio: 100, exi: 5 }), SQLTXT.insertar, 'ctx.Productos.Add(Limpio(p));')),
+        B('Insertar FER-001 (repetido)', () => op('Insertar FER-001', () => ctx.insertar({ codigo: 'FER-001', nombre: 'Repetido', cat: 1, precio: 100, exi: 5 }), SQLTXT.insertar, 'ctx.Productos.Add(Limpio(p));')),
+        B('InsertarVarios([IMP-1, FER-001, IMP-2])', () => op('InsertarVarios', () => { const d = ctx.insertarVarios([{ codigo: 'IMP-1', nombre: 'Importado 1', cat: 2, precio: 10, exi: 1 }, { codigo: 'FER-001', nombre: 'Repetido', cat: 1, precio: 10, exi: 1 }, { codigo: 'IMP-2', nombre: 'Importado 2', cat: 2, precio: 10, exi: 1 }]); return `2 insertados. Devuelve los repetidos: [${d.join(', ')}] (no lanza excepción)`; }, SQLTXT.insertar + '\n-- (uno por producto nuevo, en una sola transacción)', 'var existentes')),
+        B('Actualizar precio de HER-001 a 199', () => op('Actualizar HER-001', () => { const p = ctx.prods.find(x => x.codigo === 'HER-001'); ctx.actualizar({ ...p, precio: 199 }); return st.limpio ? 'UPDATE solo de productos' : 'UPDATE de productos y también de categorias (arrastra el objeto Categoria)'; }, SQLTXT.actualizar + (st.limpio ? '' : '\nUPDATE "categorias" SET "Nombre" = @p0 WHERE "Id" = @p1 RETURNING 1;   -- innecesario'), 'ctx.Productos.Update(Limpio(p));')),
+        B('Eliminar HER-001 (con movimientos)', () => op('Eliminar HER-001', () => ctx.eliminar(7), SQLTXT.eliminar, 'ctx.Productos.Remove(p);')),
+        B('Eliminar HTA-003 (sin movimientos)', () => op('Eliminar HTA-003', () => ctx.eliminar(14), SQLTXT.eliminar, 'ctx.Productos.Remove(p);'))),
+      chk('Pasar el producto por Limpio() antes de Update (recomendado)', 'limpio'), ops),
+    h('div', { class: 'row' }, h('button', { class: 'sbtn ghost sm', onclick: () => { ctx.reset(); ops.replaceChildren(); log.clear(); listar(true); } }, 'Restablecer los datos')),
+    h('div', { class: 'panel' }, h('h4', null, 'Registro'), log.box)));
+  listar(true);
+}
+
+/* ================= Simulador 5: reportes PDF y Excel ================= */
+function simRep(host, viewer) {
+  const FILE = 'Services/ReporteService.cs', ctx = new ORM.Ctx(), log = makeLog(viewer, FILE);
+  const st = { kind: 'pdf', abierto: false, sel: null, fx: '' };
+  const view = h('div'), out = h('div', { class: 'panel', 'aria-live': 'polite' });
+  const kinds = h('div', { class: 'row' });
+  function pdf() {
+    const rows = ctx.listar('');
+    return h('div', { class: 'paper', role: 'img', 'aria-label': 'Vista previa del PDF' }, h('h5', null, 'AgroStock - Reporte de inventario'), h('div', { class: 'gen' }, 'Generado: ' + fmtIso(new Date()).split('-').reverse().join('/')),
+      h('table', null, h('thead', null, h('tr', null, ['Código', 'Nombre', 'Categoría', 'Precio (C$)', 'Existencia', 'Vencimiento'].map(t => h('th', null, t)))),
+        h('tbody', null, rows.map(p => h('tr', { class: p.exi < 10 ? 'lowr' : '' }, h('td', null, p.codigo), h('td', null, p.nombre), h('td', null, ctx.catName(p.cat)), h('td', null, fmtN2(p.precio)), h('td', null, p.exi), h('td', null, fmtDmy(p.ven)))))),
+      h('div', { class: 'foot' }, h('span', null, `Productos: ${rows.length}   |   Valor del inventario: C$ ${fmtN2(ctx.valor())}`), h('span', null, 'Página 1 de 1')));
+  }
+  function xlsx() {
+    const rows = ctx.listar(''), n = rows.length, last = n + 1, tot = n + 2;
+    const cell = (ref, v, cls, formula) => h('td', { class: (cls || '') + (st.sel === ref ? ' sel' : ''), onclick: () => { st.sel = ref; st.fx = formula !== undefined ? formula : String(v); rend(); } }, v);
+    const head = ['Código', 'Nombre', 'Categoría', 'Precio (C$)', 'Existencia', 'Vencimiento', 'Valor (C$)'];
+    const body = rows.map((p, i) => { const r = i + 2; return h('tr', null, h('th', null, r), cell('A' + r, p.codigo), cell('B' + r, p.nombre), cell('C' + r, ctx.catName(p.cat)), cell('D' + r, fmtN2(p.precio), 'r'), cell('E' + r, p.exi, 'r'), cell('F' + r, fmtDmy(p.ven)), cell('G' + r, fmtN2(p.precio * p.exi), 'r', `=D${r}*E${r}`)); });
+    return h('div', { class: 'xl' }, h('div', { class: 'fbar' }, h('b', null, st.sel || ''), h('span', null, 'ƒx'), h('span', { class: 'mono' }, st.sel ? st.fx : 'Haga clic en una celda para ver su contenido o fórmula')),
+      h('table', null, h('thead', null, h('tr', null, h('th', null, ''), 'ABCDEFG'.split('').map(c => h('th', null, c)))),
+        h('tbody', null, h('tr', { class: 'hd' }, h('td', null, 1), head.map(t => h('td', null, t))), body,
+          h('tr', null, h('th', null, tot), h('td'), h('td'), h('td'), h('td'), h('td', { style: 'font-weight:700' }, 'Total:'), cell('G' + tot, fmtN2(ctx.valor()), 'r', `=SUM(G2:G${last})`)))));
+  }
+  function rend() { view.replaceChildren(st.kind === 'pdf' ? pdf() : xlsx()); kinds.replaceChildren(...[['pdf', 'Reporte en PDF'], ['xlsx', 'Reporte en Excel']].map(([k, t]) => h('button', { class: 'sbtn ghost', 'aria-pressed': String(st.kind === k), onclick: () => { st.kind = k; st.sel = null; rend(); } }, t))); }
+  function guardar() {
+    const pdfK = st.kind === 'pdf', f = pdfK ? 'inventario.pdf' : 'inventario.xlsx';
+    log.push('Click', `GenerarReporte(pdf: ${pdfK})`, 'private void GenerarReporte(bool pdf)', 'Forms/FrmPrincipal.cs');
+    log.push('Datos', `var productos = repo.Listar();  → ${ctx.prods.length} productos`, 'var productos = repo.Listar();', 'Forms/FrmPrincipal.cs');
+    if (st.abierto) {
+      log.push('IOException', `El proceso no puede obtener acceso al archivo «${f}» porque está siendo utilizado por otro proceso.`, pdfK ? 'GeneratePdf(ruta)' : 'libro.SaveAs(ruta);');
+      return out.replaceChildren(h('div', { class: 'note', role: 'alert' }, h('b', null, 'No se pudo guardar el archivo (¿está abierto?): '), `El proceso no puede obtener acceso al archivo «${f}» porque está siendo utilizado por otro proceso.`, h('p', { style: 'margin:6px 0 0' }, 'FrmPrincipal captura la IOException: el programa sigue vivo y el usuario cierra el archivo y reintenta.')));
+    }
+    log.push(pdfK ? 'QuestPDF' : 'ClosedXML', pdfK ? 'Document.Create(...).GeneratePdf(ruta)' : 'libro.SaveAs(ruta)', pdfK ? 'Document.Create(doc => doc.Page(page =>' : 'libro.SaveAs(ruta);');
+    out.replaceChildren(h('span', { class: 'pill ok' }, 'Reporte generado correctamente: ' + f));
+  }
+  host.append(h('div', { style: COL }, kinds,
+    h('div', { class: 'stage two' }, view, h('div', { style: COL },
+      h('div', { class: 'panel', style: COL }, h('h4', null, 'Pruebe cambios en los datos'),
+        h('div', { class: 'row' },
+          h('button', { class: 'sbtn ghost sm', onclick: () => { ctx.insertar({ codigo: 'NUE-' + (100 + ctx.nextP), nombre: 'Producto con poca existencia', cat: 3, precio: 120, exi: 3 }); rend(); } }, 'Agregar producto con existencia 3'),
+          h('button', { class: 'sbtn ghost sm', onclick: () => { ctx.reset(); st.sel = null; rend(); } }, 'Restablecer')),
+        h('label', { style: 'display:flex;gap:6px;align-items:center' }, h('input', { type: 'checkbox', onchange: e => { st.abierto = e.target.checked; } }), 'Tener el archivo abierto en otro programa'),
+        h('button', { class: 'sbtn', onclick: guardar }, 'Archivo → Reporte… → Guardar'), out),
+      h('p', { class: 'sim-desc' }, 'En el PDF, las filas con existencia menor que 10 salen en rojo claro y el pie suma el valor del inventario. En Excel, las celdas de «Valor» son fórmulas reales: cámbielas en Excel y el total se recalcula.'))),
+    h('div', { class: 'panel' }, h('h4', null, 'Registro'), log.box)));
+  rend();
+}
+
+/* ================= Simulador 6: servicio web Mockaroo e importación ================= */
+function simMock(host, viewer) {
+  const FILE = 'Services/MockarooClient.cs', ctx = new ORM.Ctx(), log = makeLog(viewer, FILE);
+  const SC = [['ok', 'Clave correcta y con internet'], ['pend', 'Clave sin configurar (PENDIENTE)'], ['k401', 'Clave incorrecta (HTTP 401)'], ['e404', 'Schema inexistente (HTTP 404)'], ['off', 'Sin conexión a internet'], ['slow', 'Mockaroo no responde en 30 s']];
+  const sc = h('select', { class: 'boa-sel', 'aria-label': 'Situación de la llamada' }, SC.map(([v, t]) => h('option', { value: v }, t)));
+  const nud = h('input', { class: 'boa-in', type: 'number', min: 1, max: 1000, value: 20, style: 'width:90px', 'aria-label': 'Cantidad de productos' });
+  const bar = h('div', { class: 'prog-bar', style: 'width:100%;height:14px', role: 'progressbar' }, h('i')), lbl = h('div', { 'aria-live': 'polite' }, 'Listo para importar.');
+  const json = h('div', { class: 'codebox', hidden: true, style: 'max-height:200px' }), cnt = h('div', { class: 'pill' });
+  const NAMES = { Fertilizantes: ['Fórmula 15-15-15', 'Sulfato de amonio', 'Abono orgánico'], Semillas: ['Semilla de arroz', 'Semilla de tomate', 'Semilla de chile'], Herbicidas: ['Herbicida selectivo', 'Herbicida sistémico'], Herramientas: ['Azadón con cabo', 'Pala redonda', 'Rastrillo'] };
+  const PRE = { Fertilizantes: 'FER', Semillas: 'SEM', Herbicidas: 'HER', Herramientas: 'HTA', Otros: 'OTR' };
+  let corrida = 0;
+  function filas(n) {
+    const cats = Object.keys(NAMES), out = [];
+    for (let i = 0; i < n; i++) {
+      const c = cats[i % 4], nm = NAMES[c][i % NAMES[c].length];
+      const r = { codigo: `MCK-${String(corrida * 1000 + i + 1).padStart(4, '0')}`, nombre: `${nm} - lote ${(i % 5) + 1}`, categoria: c, precio: Math.round((20 + (i * 37) % 900) * 100) / 100, existencia: (i * 7) % 120, vencimiento: i % 3 ? `2027-${pad2(1 + i % 12)}-${pad2(1 + i % 27)}` : null };
+      if (i % 11 === 10) r.codigo = 'FER-001';        // repetido en la base
+      else if (i % 13 === 12) r.categoria = 'Otros';  // categoría inexistente
+      else if (i % 17 === 16) r.precio = 0;           // precio inválido
+      out.push(r);
+    }
+    return out;
+  }
+  const setBar = p => { bar.firstChild.style.width = p + '%'; };
+  function fallo(msg) { setBar(0); lbl.textContent = 'No se pudo completar: ' + msg; }
+  function convertir(rows) {
+    const cats = new Set(ctx.cats.map(c => c.nombre.toLowerCase())), ok = []; let rech = 0;
+    for (const m of rows) {
+      if (!cats.has(m.categoria.trim().toLowerCase()) || m.codigo.trim().length < 3 || m.nombre.trim().length < 3 || !(m.precio > 0) || m.existencia < 0) { rech++; continue; }
+      ok.push({ codigo: m.codigo.trim().toUpperCase(), nombre: m.nombre.trim(), cat: ctx.cats.find(c => c.nombre.toLowerCase() === m.categoria.trim().toLowerCase()).id, precio: m.precio, exi: m.existencia, ven: m.vencimiento });
+    }
+    return [ok, rech];
+  }
+  function guardar(ok, rech, origen) {
+    log.push('Convertir', `${ok.length} filas válidas y ${rech} inválidas (MockarooClient.Convertir)`, 'public static Producto? Convertir');
+    const dup = ctx.insertarVarios(ok);
+    setBar(100); lbl.textContent = `Importación terminada: ${ok.length - dup.length} productos, ${rech} filas inválidas, ${dup.length} códigos repetidos.`;
+    log.push('InsertarVarios', `repo.InsertarVarios(validos) → ${ok.length - dup.length} insertados, ${dup.length} repetidos${dup.length ? ' (' + dup.slice(0, 3).join(', ') + (dup.length > 3 ? '…' : '') + ')' : ''}`, 'var duplicados = repo.InsertarVarios(validos);', 'Forms/FrmImportar.cs');
+    cnt.textContent = `Productos en la base: ${ctx.prods.length}`;
+  }
+  function mock() {
+    const s = sc.value, n = Math.max(1, Math.min(1000, +nud.value || 1));
+    lbl.textContent = 'Consultando Mockaroo…'; setBar(0); json.hidden = true;
+    log.push('Click', 'btnMockaroo → new MockarooClient().ObtenerProductos(' + n + ')', 'var filas = new MockarooClient().ObtenerProductos', 'Forms/FrmImportar.cs');
+    const E = {
+      pend: ['InvalidOperationException', 'Falta la clave de API de Mockaroo en appsettings.json.', 'apiKey.StartsWith("PENDIENTE")'],
+      k401: ['HttpRequestException', 'Mockaroo respondió 401: (detalle devuelto por el servicio)', 'throw new HttpRequestException($"Mockaroo respondió'],
+      e404: ['HttpRequestException', 'Mockaroo respondió 404: (detalle devuelto por el servicio)', 'throw new HttpRequestException($"Mockaroo respondió'],
+      off: ['HttpRequestException', 'No se conoce este host. (api.mockaroo.com:443)', 'using var resp = Http.Send(req);'],
+      slow: ['TaskCanceledException', 'The request was canceled due to the configured HttpClient.Timeout of 30 seconds elapsing.', 'private static readonly HttpClient Http']
+    };
+    if (s !== 'ok') { const [t, m, snip] = E[s]; log.push(t, m, snip); fallo(m); return; }
+    log.push('HTTP', `GET /api/generate.json?schema=agrostock_productos&count=${n}&array=true  (X-API-Key: ***)  → 200 OK`, 'var url = $"{baseUrl}');
+    const rows = filas(n); corrida++;
+    json.hidden = false; json.textContent = JSON.stringify(rows.slice(0, 3), null, 2) + (rows.length > 3 ? `\n… (${rows.length - 3} objetos más)` : '');
+    log.push('JSON', `JsonSerializer.Deserialize<List<ProductoMockaroo>>() → ${rows.length} objetos`, 'return JsonSerializer.Deserialize');
+    const [ok, rech] = convertir(rows); guardar(ok, rech, 'mock');
+  }
+  function csv() {
+    log.push('Click', 'btnIniciar → importar productos_importar.csv (500 líneas)', 'private void BtnIniciar_Click', 'Forms/FrmImportar.cs');
+    json.hidden = true;
+    const rows = Array.from({ length: 500 }, (_, i) => ({ codigo: 'IMP-' + String(i + 1).padStart(4, '0'), nombre: 'Producto importado ' + (i + 1), categoria: Object.keys(NAMES)[i % 4], precio: 20 + (i % 90), existencia: i % 100, vencimiento: null }));
+    const [ok, rech] = convertir(rows); guardar(ok, rech, 'csv');
+  }
+  host.append(h('div', { class: 'stage two' },
+    h('div', { style: COL },
+      h('div', { class: 'win' }, winBar('Importar productos'), h('div', { class: 'w-body', style: 'display:flex;flex-direction:column;gap:10px' },
+        h('div', { class: 'row' }, h('button', { class: 'w-btn def', onclick: csv }, 'Importar CSV')),
+        h('div', { class: 'row' }, h('span', { style: 'font-size:13px' }, 'Productos de prueba (Mockaroo):'), nud, h('button', { class: 'w-btn', onclick: mock }, 'Obtener de Mockaroo')),
+        bar, lbl)),
+      h('div', { class: 'panel', style: COL }, h('h4', null, 'Situación de la llamada al servicio web'), sc,
+        h('div', { class: 'row' }, cnt, h('button', { class: 'sbtn ghost sm', onclick: () => { ctx.reset(); corrida = 0; setBar(0); lbl.textContent = 'Listo para importar.'; json.hidden = true; cnt.textContent = 'Productos en la base: 14'; log.clear(); } }, 'Restablecer los datos')),
+        h('p', { class: 'sim-desc' }, 'Pruebe «Importar CSV» dos veces: la segunda no lanza error, informa los 500 códigos repetidos (en E02 fallaba y revertía todo).'))),
+    h('div', { style: COL }, h('h4', { class: 'block-h', style: 'margin:0' }, 'Respuesta JSON de Mockaroo (primeros objetos)'), json, h('div', { class: 'panel' }, h('h4', null, 'Registro'), log.box))));
+  cnt.textContent = 'Productos en la base: 14';
+}
+
+/* ================= Simulador 7: CRUD de AgroStock v3 ================= */
+function simCrud(host, viewer) {
+  const FILE = 'Forms/FrmPrincipal.cs', log = makeLog(viewer, FILE), ctx = new ORM.Ctx();
+  let filtro = '', sel = null, modalEl = null;
+  const root = h('div', { class: 'win', style: 'min-height:400px;display:flex;flex-direction:column' });
+  const gridBox = h('div', { class: 'w-grid', style: 'flex:1;min-height:200px;max-height:300px' }), status = h('span');
+  const search = h('input', { placeholder: 'código o nombre', 'aria-label': 'Buscar producto', oninput: e => { filtro = e.target.value; cargar(); } });
+  const app = h('div', { style: 'display:flex;flex-direction:column;flex:1;min-height:0' });
+  const modal = n => { closeM(); modalEl = h('div', { class: 'w-ov' }, n); root.append(modalEl); app.inert = true; };
+  const closeM = () => { if (modalEl) modalEl.remove(); modalEl = null; app.inert = false; };
+  const msg = o => { const m = msgDialog(o, closeM); modal(m.dlg); setTimeout(m.focus, 30); };
+  function cargar() {
+    const rows = ctx.listar(filtro.trim());
+    if (sel && !rows.some(r => r.id === sel)) sel = null;
+    gridBox.replaceChildren(h('table', null, h('thead', null, h('tr', null, ['Código', 'Nombre', 'Categoría', 'Precio (C$)', 'Existencia', 'Vencimiento'].map((t, j) => h('th', { class: j === 3 || j === 4 ? 'r' : '' }, t)))),
+      h('tbody', null, rows.map(r => h('tr', { class: (r.id === sel ? 'sel ' : '') + (r.exi < 10 ? 'low' : ''), tabindex: 0, onclick: () => { sel = r.id; cargar(); }, onkeydown: e => { if (e.key === 'Enter') { sel = r.id; cargar(); } } },
+        h('td', null, r.codigo), h('td', null, r.nombre), h('td', null, ctx.catName(r.cat)), h('td', { class: 'r' }, fmtN2(r.precio)), h('td', { class: 'r' }, r.exi), h('td', null, fmtDmy(r.ven)))))));
+    status.textContent = `Productos: ${rows.length}`;
+    log.push('Cargar', `fuente.DataSource = repo.Listar("${filtro.trim()}") → ${rows.length} fila(s)`, 'fuente.DataSource = repo.Listar');
+  }
+  function ejecutar(fn, codigo, sql) {
+    try { fn(); log.push('SQL', sql, 'private void Ejecutar(Action operacion', 'Forms/FrmPrincipal.cs'); }
+    catch (e) {
+      if (!(e instanceof ORM.DbUpdateException)) throw e;
+      if (e.inner.ext === 2067) { log.push('catch 2067', 'DbUpdateException → SqliteExtendedErrorCode: 2067 (UNIQUE)', 'SqliteExtendedErrorCode: 2067'); msg({ text: `El código ${codigo} ya existe.`, caption: 'No se guardó', icon: '!' }); }
+      else if (e.inner.code === 19 && e.inner.message.includes('FOREIGN KEY')) { log.push('catch FK', 'DbUpdateException → SqliteErrorCode: 19 + «FOREIGN KEY»', 'SqliteErrorCode: 19 } fk'); msg({ text: 'No se puede eliminar: el producto tiene movimientos registrados.', caption: 'No se eliminó', icon: '!' }); }
+      else { log.push('catch', e.inner.message, 'catch (DbUpdateException ex)'); msg({ text: 'Error de base de datos:\n' + e.inner.message, caption: 'AgroStock', icon: 'x' }); }
+    } finally { cargar(); }
+  }
+  function form(p, esNuevo, onOk) {
+    const f = { codigo: p.codigo, nombre: p.nombre, cat: p.cat, precio: p.precio, exi: p.exi, ven: p.ven || '' }, errs = {};
+    const inp = (k, ph, type) => h('input', { class: 'w-in', value: f[k], type: type || 'text', 'aria-label': k, placeholder: ph || '', oninput: e => { f[k] = e.target.value; } });
+    const ep = k => errs[k] ? h('span', { class: 'w-err', title: errs[k], 'aria-label': errs[k] }, '!') : null;
+    const body = h('div', { class: 'w-body' }), box = h('div', { class: 'w-dlg', role: 'dialog', 'aria-label': 'FrmProducto', style: 'width:min(100%,380px)' }, h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, esNuevo ? 'Nuevo producto' : 'Editar producto')), body);
+    const cbo = h('select', { class: 'w-in', 'aria-label': 'Categoría', onchange: e => { f.cat = +e.target.value; } }, ctx.cats.map(c => h('option', { value: c.id, selected: c.id === f.cat }, c.nombre)));
+    const draw = () => body.replaceChildren(
+      h('div', { class: 'w-field' }, h('label', null, 'Código:'), h('div', { class: 'w-cell' }, inp('codigo'), ep('codigo'))),
+      h('div', { class: 'w-field' }, h('label', null, 'Nombre:'), h('div', { class: 'w-cell' }, inp('nombre'), ep('nombre'))),
+      h('div', { class: 'w-field' }, h('label', null, 'Categoría:'), cbo),
+      h('div', { class: 'w-field' }, h('label', null, 'Precio:'), h('div', { class: 'w-cell' }, inp('precio', '', 'number'), ep('precio'))),
+      h('div', { class: 'w-field' }, h('label', null, 'Existencia:'), h('div', { class: 'w-cell' }, inp('exi', '', 'number'), ep('exi'))),
+      h('div', { class: 'w-field' }, h('label', null, 'Vencimiento:'), h('div', { class: 'w-cell' }, inp('ven', 'yyyy-MM-dd (opcional)'), ep('ven'))),
+      h('div', { class: 'w-foot', style: 'padding:6px 0 0' }, h('button', { class: 'w-btn def', onclick: guardar }, 'Guardar'), h('button', { class: 'w-btn', onclick: () => { closeM(); log.push('ShowDialog', 'DialogResult.Cancel', 'if (dlg.ShowDialog(this) != DialogResult.OK) return;'); } }, 'Cancelar')));
+    function guardar() {
+      for (const k in errs) delete errs[k];
+      if (f.codigo.trim().length < 3) errs.codigo = 'Escriba al menos 3 caracteres.';
+      if (f.nombre.trim().length < 3) errs.nombre = 'Escriba al menos 3 caracteres.';
+      if (!(+f.precio > 0)) errs.precio = 'El precio debe ser mayor que cero.';
+      if (f.exi === '' || +f.exi < 0 || !Number.isInteger(+f.exi)) errs.exi = 'La existencia debe ser un entero ≥ 0.';
+      if (f.ven.trim() && !/^\d{4}-\d{2}-\d{2}$/.test(f.ven.trim())) errs.ven = 'Use el formato yyyy-MM-dd.';
+      if (Object.keys(errs).length) { log.push('ErrorProvider', 'Validación del formulario: ' + Object.values(errs)[0], 'errores.SetError(txtCodigo', 'Forms/FrmProducto.cs'); draw(); return; }
+      closeM(); onOk({ codigo: f.codigo.trim(), nombre: f.nombre.trim(), cat: +f.cat || ctx.cats[0].id, precio: +f.precio, exi: +f.exi, ven: f.ven.trim() || null });
+    }
+    draw(); modal(box); setTimeout(() => $('input', box).focus(), 30);
+  }
+  const cur = () => ctx.prods.find(r => r.id === sel);
+  const sinSel = () => msg({ text: 'Seleccione primero un producto de la lista.', caption: 'AgroStock' });
+  const nuevo = () => { log.push('Click', 'Nuevo() → new FrmProducto(...).ShowDialog', 'private void Nuevo'); form({ codigo: '', nombre: '', cat: 1, precio: '', exi: 0 }, true, p => ejecutar(() => ctx.insertar(p), p.codigo, 'repo.Insertar(p) → ' + SQLTXT.insertar.split('\n')[0] + ' …')); };
+  const editar = () => { const r = cur(); if (!r) return sinSel(); log.push('Click', 'Editar()', 'private void Editar'); form(r, false, p => ejecutar(() => ctx.actualizar({ ...p, id: r.id }), p.codigo, 'repo.Actualizar(p) → UPDATE "productos" SET … WHERE "Id" = ' + r.id)); };
+  const eliminar = () => { const r = cur(); if (!r) return sinSel(); log.push('Click', 'Eliminar()', 'private void Eliminar');
+    msg({ text: `¿Eliminar «${r.nombre}»?`, caption: 'Confirmar eliminación', icon: 'q', buttons: ['Sí', 'No'], def: 1, cb: b => { if (b === 'Sí') ejecutar(() => { ctx.eliminar(r.id); sel = null; }, r.codigo, 'repo.Eliminar(' + r.id + ') → DELETE FROM "productos" WHERE "Id" = ' + r.id); } }); };
+  const mover = () => { const r = cur(); if (!r) return sinSel(); log.push('Click', 'RegistrarMovimiento()', 'private void RegistrarMovimiento');
+    const f = { tipo: 'ENTRADA', cant: 1 }, body = h('div', { class: 'w-body' }), box = h('div', { class: 'w-dlg', role: 'dialog', 'aria-label': 'FrmMovimiento', style: 'width:min(100%,380px)' }, h('div', { class: 'win-t' }, h('span', { class: 'ic' }), h('span', { class: 'tt2' }, 'Registrar movimiento')), body);
+    const rad = v => h('label', { class: 'w-radio' }, h('input', { type: 'radio', name: 'cr-t', checked: f.tipo === v, onchange: () => { f.tipo = v; } }), v === 'ENTRADA' ? 'Entrada (llega mercadería)' : 'Salida (venta)');
+    body.append(h('div', { style: 'margin-bottom:8px' }, `${r.codigo} · ${r.nombre} (existencia actual: ${r.exi})`), h('div', { class: 'row', style: 'margin-bottom:8px' }, rad('ENTRADA'), rad('SALIDA')),
+      h('div', { class: 'w-field' }, h('label', null, 'Cantidad:'), h('input', { class: 'w-in', type: 'number', min: 1, value: 1, 'aria-label': 'Cantidad', oninput: e => { f.cant = Math.max(1, +e.target.value || 1); } })),
+      h('div', { class: 'w-foot', style: 'padding:6px 0 0' }, h('button', { class: 'w-btn def', onclick: () => {
+        try { ctx.registrar(r.id, f.tipo, f.cant); closeM(); log.push('SaveChanges', SQLTXT.mover.split('\n')[2].slice(0, 60) + '…  (INSERT + UPDATE en una transacción)', 'ctx.SaveChanges();   // una sola transacción', 'Data/ProductoRepository.cs'); cargar(); }
+        catch (e) { closeM(); log.push('InvalidOperation', e.message, 'catch (InvalidOperationException ex)', 'Forms/FrmMovimiento.cs'); msg({ text: e.message, caption: 'Movimiento', icon: '!' }); }
+      } }, 'Registrar'), h('button', { class: 'w-btn', onclick: closeM }, 'Cancelar')));
+    modal(box); };
+  const tb = (t, f) => h('button', { onclick: f }, t);
+  app.append(h('div', { class: 'w-tool' }, tb('Nuevo', nuevo), tb('Editar', editar), tb('Eliminar', eliminar), tb('Movimiento', mover), h('span', { class: 'sep' }), h('label', null, 'Buscar:'), search), gridBox, h('div', { class: 'w-status' }, status, h('span', null, 'Naranja: existencia < 10')));
+  root.append(winBar('AgroStock v3 - Inventario del agroservicio'), app);
+  host.append(h('div', { style: COL }, h('div', { class: 'tip' }, 'Pruebe: crear «FER-001» (código repetido), eliminar HER-001 (tiene movimientos), eliminar HTA-003 (sin movimientos) y registrar una SALIDA mayor que la existencia.'), root,
+    h('div', { class: 'panel' }, h('h4', null, 'Registro: SQL y excepciones capturadas'), log.box), h('div', { class: 'row' }, h('button', { class: 'sbtn ghost sm', onclick: () => { ctx.reset(); sel = null; filtro = ''; search.value = ''; log.clear(); cargar(); } }, 'Restablecer los datos'))));
+  cargar();
+}
+
+/* ================= Simulador 8: movimientos e historial ================= */
+function simMov(host, viewer) {
+  const FILE = 'Data/ProductoRepository.cs', log = makeLog(viewer, FILE), ctx = new ORM.Ctx();
+  const st = { p: 10, tipo: 'SALIDA', cant: 3, valida: true };
+  const out = h('div', { class: 'panel', 'aria-live': 'polite' }), hist = h('div'), lbl = h('div', { class: 'pill' }), cur = h('div', { class: 'panel' });
+  const pr = () => ctx.prods.find(r => r.id === st.p);
+  function draw() {
+    cur.replaceChildren(h('h4', null, 'Producto elegido'), h('p', { style: 'margin:0' }, `${pr().codigo} · ${pr().nombre} — existencia actual: `, h('b', null, pr().exi)));
+    const m = ctx.movimientos();
+    hist.replaceChildren(h('div', { class: 'win' }, winBar('Historial de movimientos'), gridTable([{ t: 'Fecha', f: r => fmtDmy(r.fecha) }, { t: 'Producto', f: r => r.prodTxt }, { t: 'Tipo', f: r => r.tipo }, { t: 'Cantidad', r: 1, f: r => r.cant }], m, { max: 230 }), h('div', { class: 'w-status' }, h('span', null, 'Movimientos: ' + m.length), h('span', null, 'Más reciente primero'))));
+  }
+  function run() {
+    log.push('Click', `RegistrarMovimiento(${pr().codigo}, ${st.tipo}, ${st.cant})`, 'public void RegistrarMovimiento');
+    try {
+      ctx.registrar(st.p, st.tipo, st.cant, st.valida);
+      log.push('SaveChanges', 'INSERT movimientos + UPDATE productos en UNA transacción', 'ctx.SaveChanges();   // una sola transacción');
+      out.replaceChildren(h('div', { class: 'codebox', style: 'white-space:pre-wrap' }, SQLTXT.mover), h('span', { class: 'pill ok' }, 'Movimiento registrado'));
+    } catch (e) {
+      const ef = e instanceof ORM.DbUpdateException;
+      log.push(ef ? 'DbUpdateException' : 'InvalidOperation', ef ? e.inner.message : e.message, ef ? 'catch (DbUpdateException ex)' : 'if (tipo == "SALIDA" && p.Existencia < cantidad)', ef ? 'Forms/FrmMovimiento.cs' : FILE);
+      out.replaceChildren(ef ? h('div', { class: 'note', role: 'alert' }, h('b', null, 'Error de base de datos: '), e.inner.message, h('p', { style: 'margin:6px 0 0' }, 'Sin la validación en C#, el CHECK ck_existencia de la base rechaza el cambio y SaveChanges revierte las dos operaciones: no queda ningún movimiento a medias.'))
+        : h('div', { class: 'note', role: 'alert' }, h('b', null, 'Aviso al usuario: '), e.message));
+    }
+    draw();
+  }
+  const sel = h('select', { class: 'boa-sel', 'aria-label': 'Producto', onchange: e => { st.p = +e.target.value; draw(); } }, ctx.prods.map(r => h('option', { value: r.id, selected: r.id === st.p }, `${r.codigo} · ${r.nombre}`)));
+  const rad = v => h('label', { style: 'display:flex;gap:6px' }, h('input', { type: 'radio', name: 'mv-t', checked: st.tipo === v, onchange: () => { st.tipo = v; } }), v === 'ENTRADA' ? 'Entrada' : 'Salida');
+  host.append(h('div', { class: 'stage two' }, h('div', { style: COL }, h('label', null, 'Producto: ', sel), cur,
+    h('div', { class: 'row' }, rad('ENTRADA'), rad('SALIDA'), h('label', null, 'Cantidad: ', h('input', { class: 'boa-in', type: 'number', min: 1, value: st.cant, style: 'width:90px', oninput: e => { st.cant = Math.max(1, +e.target.value || 1); } }))),
+    h('label', { style: 'display:flex;gap:6px' }, h('input', { type: 'checkbox', checked: true, onchange: e => { st.valida = e.target.checked; } }), 'Conservar la validación en C# (if p.Existencia < cantidad)'),
+    h('div', { class: 'row' }, h('button', { class: 'sbtn', onclick: run }, 'Registrar movimiento'), h('button', { class: 'sbtn ghost', onclick: () => { ctx.reset(); out.replaceChildren(); log.clear(); draw(); } }, 'Restablecer')), out,
+    h('div', { class: 'panel' }, h('h4', null, 'Registro'), log.box)), h('div', { style: COL }, h('h4', { class: 'block-h', style: 'margin:0' }, 'Ctrl+H · FrmMovimientos'), hist)));
+  draw();
+}
+
+/* ================= Errores frecuentes con «Provocar este error» ================= */
+const ERR_SIM = [
+  { f: 'Data/AgroStockContext.cs', s: 'public class AgroStockContext : DbContext', tok: 'DbContext', kind: 'CS0246', msgs: ["@: error CS0246: El nombre del tipo o del espacio de nombres 'DbContext' no se encontró (¿falta una directiva using o una referencia de ensamblado?)"], why: 'No está instalado Microsoft.EntityFrameworkCore.Sqlite o falta «using Microsoft.EntityFrameworkCore;» (paso 2).' },
+  { f: 'Program.cs', s: 'using AgroStock.E03.Data;', tok: 'Data', kind: 'CS0234', msgs: ["@: error CS0234: El tipo o el nombre del espacio de nombres 'Data' no existe en el espacio de nombres 'AgroStock.E03' (¿falta una referencia de ensamblado?)"], why: 'Quedaron archivos con «namespace AgroStock.E02». Repita Buscar y reemplazar en toda la solución (paso 1).' },
+  { f: 'Data/Db.cs', s: 'ctx.Database.EnsureCreated();', tok: 'EnsureCreated', kind: 'SQLite Error 1', msgs: ["SqliteException: SQLite Error 1: 'no such column: p.CategoriaId'."], why: 'En bin\\Debug\\net8.0-windows\\ quedó la agrostock.db de E02. EnsureCreated no actualiza bases que ya tienen tablas: bórrela y ejecute de nuevo.' },
+  { f: 'Forms/FrmPrincipal.cs', s: 'SqliteExtendedErrorCode: 2067', tok: '2067', kind: 'UNIQUE 2067', msgs: ["DbUpdateException → SqliteException: SQLite Error 19: 'UNIQUE constraint failed: productos.Codigo'. (código extendido 2067)"], why: 'Código repetido. Con el ORM el error llega envuelto: hay que mirar InnerException, no la excepción externa.' },
+  { f: 'Forms/FrmPrincipal.cs', s: 'SqliteErrorCode: 19 } fk', tok: 'FOREIGN KEY', kind: 'FK 787', msgs: ["DbUpdateException → SqliteException: SQLite Error 19: 'FOREIGN KEY constraint failed'."], why: 'Se borró un producto con movimientos (el aviso es correcto). Si no ve este error, revise OnDelete(DeleteBehavior.Restrict) en el contexto.' },
+  { f: 'Data/ProductoRepository.cs', s: '.Include(p => p.Categoria)', tok: 'Include', kind: 'Columna vacía', msgs: ['Sin error: la columna «Categoría» de la cuadrícula sale vacía.'], why: 'La consulta no usa Include: Categoria queda en null y CategoriaNombre devuelve cadena vacía.' },
+  { f: 'Services/ReporteService.cs', s: 'QuestPDF.Settings.License', tok: 'License', kind: 'Licencia QuestPDF', msgs: ['Excepción de QuestPDF al generar el PDF: no se ha declarado el tipo de licencia (mensaje resumido).'], why: 'Falta QuestPDF.Settings.License = LicenseType.Community; antes de la primera generación.' },
+  { f: 'Forms/FrmPrincipal.cs', s: 'No se pudo guardar el archivo (¿está abierto?)', tok: 'IOException', kind: 'IOException', msgs: ["IOException: El proceso no puede obtener acceso al archivo 'inventario.xlsx' porque está siendo utilizado por otro proceso."], why: 'El archivo está abierto en Excel o en un visor de PDF. Ciérrelo y genere el reporte otra vez.' },
+  { f: 'Services/MockarooClient.cs', s: 'if (!File.Exists(ruta)) throw new InvalidOperationException', tok: 'File', kind: 'appsettings', msgs: ['InvalidOperationException: No se encontró appsettings.json.'], why: 'appsettings.json no se copia a bin: su propiedad «Copiar en el directorio de salida» está en «No copiar».' },
+  { f: 'Services/MockarooClient.cs', s: 'apiKey.StartsWith("PENDIENTE")', tok: 'PENDIENTE', kind: 'Clave', msgs: ['InvalidOperationException: Falta la clave de API de Mockaroo en appsettings.json.'], why: 'La clave está vacía o dice PENDIENTE: escriba la clave de API de Mockaroo del proyecto (paso 6).' },
+  { f: 'Services/MockarooClient.cs', s: 'throw new HttpRequestException($"Mockaroo respondió', tok: 'Mockaroo', kind: 'HTTP 401/404', msgs: ['HttpRequestException: Mockaroo respondió 401: (detalle devuelto por el servicio)', 'HttpRequestException: Mockaroo respondió 404: (detalle devuelto por el servicio)'], why: '401: clave de API incorrecta. 404: el schema no existe o su nombre no coincide con «Schema» de appsettings.json.' },
+  { f: 'Services/MockarooClient.cs', s: '[JsonPropertyName("categoria")]', tok: 'categoria', kind: 'Filas inválidas', msgs: ['Sin excepción: «Importación terminada: 0 productos, 20 filas inválidas, 0 códigos repetidos.»'], why: 'Los nombres de los campos del schema de Mockaroo no coinciden con los de [JsonPropertyName] (codigo, nombre, categoria, precio, existencia, vencimiento): las propiedades quedan vacías y todas las filas se rechazan.' }
+];
+function renderErrors(s) {
+  const v = makeViewer(['Data/Db.cs']), elog = makeLog(v, 'Data/Db.cs');
+  function run(i) {
+    const x = ERR_SIM[i], n = lineOf(x.f, x.s), line = FILES[x.f].src.split('\n')[n - 1] || '';
+    const loc = `${x.f.split('/').pop()}(${n},${Math.max(1, line.indexOf(x.tok) + 1)})`;
+    v.reveal(x.f, x.s); elog.clear(); elog.push('Causa', x.why, '');
+    x.msgs.slice().reverse().forEach(m => elog.push(x.kind, m.replace('@', loc), x.s, x.f));
+  }
+  return h('div', { style: COL }, h('h3', { class: 'block-h', style: 'margin:0' }, 'Errores frecuentes'),
+    h('div', { class: 'errs' }, ERR_SIM.map((e, i) => h('details', { class: 'err' }, h('summary', null, h('code', null, e.kind), e.why.split('.')[0] + '.'),
+      h('div', { class: 'body' }, h('div', null, e.why), h('div', { class: 'row', style: 'margin-top:8px' }, h('button', { class: 'sbtn sm', onclick: () => run(i) }, 'Provocar este error')))))),
+    h('p', { class: 'sim-desc', style: 'margin:0' }, 'Pulse «Provocar este error»: el visor resalta la línea y el registro muestra el mensaje. Los números de línea corresponden a la versión Comentado.'),
+    v.root, h('div', { class: 'panel' }, h('h4', null, 'Mensajes del compilador, de SQLite y del servicio web'), elog.box));
+}
+function renderErrs(s) {
+  return h('div', { style: COL }, h('h3', { class: 'block-h', style: 'margin:0' }, 'Errores frecuentes'), h('div', { class: 'errs' }, s.errors.map(e => h('details', { class: 'err' }, h('summary', null, h('code', null, e[0]), e[1]), h('div', { class: 'body', html: e[2] })))));
+}
+
+/* ================= contenido ================= */
+const STEPS = [
+  { id: 'copia', nav: 'Copiar E02', title: 'Copiar el proyecto E02 y renombrarlo a E03', files: ['AgroStock.E03.slnx', 'Program.cs'],
+    goal: 'Al terminar tendrá la carpeta AgroStock.E03, limpia y con todos los nombres cambiados, que compila y se comporta exactamente como la v2. Será su punto de partida.',
+    how: ['Cierre Visual Studio. En el Explorador de archivos copie la carpeta <b>AgroStock.E02</b>, péguela junto a ella y renombre la copia a <b>AgroStock.E03</b>. Nunca trabaje sobre la original: E02 es su entrega anterior.',
+      'Dentro de la copia <b>borre</b>: <code>bin</code>, <code>obj</code>, <code>.vs</code>, <code>AgroStock.E02.csproj.user</code> y las carpetas <code>DemoHilos</code> y <code>Verificacion</code> (si existen). <b>No borre todavía</b> <code>agrostock.sql</code>: la v2 aún lo necesita hasta el paso 3.',
+      'Renombre <code>AgroStock.E02.csproj</code> a <b>AgroStock.E03.csproj</b> y <code>AgroStock.E02.slnx</code> a <b>AgroStock.E03.slnx</b>. Abra el .slnx con el Bloc de notas y déjelo como en el visor: un solo proyecto.',
+      'Abra <b>AgroStock.E03.slnx</b> en Visual Studio. Con ' + K('Ctrl') + '+' + K('Mayús') + '+' + K('H') + ' (Reemplazar en archivos) busque <code>AgroStock.E02</code>, reemplace por <code>AgroStock.E03</code>, ámbito <b>Solución completa</b> y pulse <b>Reemplazar todo</b>. Eso cambia todos los <code>namespace</code> y <code>using</code>.',
+      'Compile (' + K('Ctrl') + '+' + K('Mayús') + '+' + K('B') + ') y ejecute (' + K('F5') + '). Debe verse y funcionar <b>igual que la v2</b>. Si no es así, no avance: arregle esto primero.'],
+    after: '<div class="tip"><b>Por qué se borra bin.</b> La carpeta <code>bin\\Debug\\net8.0-windows\\</code> contiene la <code>agrostock.db</code> de E02. El modelo de E03 usa otros nombres de columna (<code>CategoriaId</code> en lugar de <code>categoria_id</code>) y <code>EnsureCreated()</code> no corrige una base que ya tiene tablas. Si la deja, verá <i>no such column</i> (paso 3).</div><div class="note" style="margin-top:12px"><b>Dos bases distintas.</b> La <code>agrostock.db</code> que usó en DB Browser sigue siendo solo para practicar: no la copie al proyecto.</div>',
+    sims: [{ k: 'copy', t: 'Copiar, limpiar y renombrar', d: 'Marque las acciones y compruebe qué ocurre si se salta alguna.' }],
+    errors: [['CS0579', 'Atributo duplicado al compilar', 'La carpeta <code>DemoHilos</code> quedó dentro del proyecto y se compilan sus archivos. Bórrela de la copia.'], ['CS0234', "El espacio de nombres 'Data' no existe en 'AgroStock.E03'", 'Quedó algún archivo con <code>namespace AgroStock.E02</code>. Repita Reemplazar en archivos sobre toda la solución.']],
+    check: ['Existe AgroStock.E03 y la carpeta E02 sigue intacta', 'Borré bin, obj, .vs, DemoHilos y Verificacion de la copia', 'El .csproj y el .slnx se llaman AgroStock.E03', 'No queda ningún «AgroStock.E02» en los archivos', 'La copia compila y se comporta como la v2'] },
+
+  { id: 'paquetes', nav: 'Paquetes', title: 'Cambiar los paquetes NuGet y agregar appsettings.json', files: ['AgroStock.E03.csproj', 'appsettings.json'],
+    goal: 'Dejar el proyecto con los tres paquetes nuevos (ORM, PDF y Excel) y el archivo de configuración que se copia junto al ejecutable.',
+    how: ['Clic derecho en el proyecto → <b>Administrar paquetes NuGet</b> → pestaña <b>Instalados</b> → desinstale <code>Microsoft.Data.Sqlite</code> (el ORM lo trae solo).',
+      'Pestaña <b>Examinar</b>. Instale, con estas versiones exactas: <code>Microsoft.EntityFrameworkCore.Sqlite</code> <b>8.0.10</b>, <code>ClosedXML</code> <b>0.104.2</b> y <code>QuestPDF</code> <b>2024.10.4</b>. (Alternativa: clic derecho → <b>Editar archivo de proyecto</b> y pegue el csproj del visor.)',
+      'En el .csproj elimine la línea <code>&lt;None Update="agrostock.sql" …&gt;</code> y agregue la de <code>appsettings.json</code>, igual que la de <code>productos_importar.csv</code>.',
+      'Cree <b>appsettings.json</b> en la raíz: Agregar → Nuevo elemento → <i>Archivo JSON</i>. Copie el contenido del visor tal cual: ya trae la <code>ApiKey</code> del proyecto (la misma de su AgroStock.E03).',
+      'Guarde y compile. Necesita internet para restaurar los paquetes. Todo debe compilar y la aplicación sigue abriendo como v2.'],
+    after: '<div class="note"><b>Normal:</b> aunque cambió los paquetes, el código de E02 sigue funcionando porque <code>Microsoft.EntityFrameworkCore.Sqlite</code> incluye <code>Microsoft.Data.Sqlite</code>. Por eso <code>using Microsoft.Data.Sqlite;</code> todavía compila en los formularios.</div>',
+    sims: [{ k: 'pkgs', t: 'Elegir los paquetes correctos', d: 'Instale y desinstale paquetes en el Administrador de NuGet y compruebe qué compila.' }],
+    errors: [['NU1101', 'No se puede restaurar / «unable to find package»', 'Sin internet o con un nombre mal escrito. Verifique la conexión y el nombre exacto del paquete.'], ['CS0246', 'No se encontró XLWorkbook o QuestPDF', 'Falta instalar ClosedXML o QuestPDF (se usan en el paso 5).']],
+    check: ['El csproj lista los tres paquetes con sus versiones', 'Microsoft.Data.Sqlite ya no aparece como paquete directo', 'appsettings.json existe y se copia al directorio de salida', 'El proyecto compila y abre como v2'] },
+
+  { id: 'modelo', nav: 'Modelo ORM', title: 'El modelo ORM: entidades y AgroStockContext', files: ['Models/Producto.cs', 'Data/AgroStockContext.cs', 'Data/Db.cs'],
+    goal: 'Reemplazar agrostock.sql por clases en C#: el ORM crea la base, las tablas, las restricciones y los datos de ejemplo a partir del modelo.',
+    how: ['Reemplace el contenido de <b>Models/Producto.cs</b> por el del visor. Ahora hay tres clases: <code>Producto</code> (con el <i>objeto</i> <code>Categoria</code>), <code>Categoria</code> (ya no es <code>record</code>) y la nueva <code>Movimiento</code>.',
+      'Cree <b>Data/AgroStockContext.cs</b> (clic derecho en Data → Agregar → Clase) y pegue el código. Es el corazón del ORM: <code>DbSet</code> por tabla, <code>OnConfiguring</code> para elegir SQLite y <code>OnModelCreating</code> para describir restricciones, relaciones y <code>HasData</code>.',
+      'Reemplace <b>Data/Db.cs</b>: ahora solo contiene <code>EnsureCreated()</code>. <code>Program.cs</code> no cambia: sigue llamando a <code>Db.Inicializar()</code>.',
+      'Elimine <b>agrostock.sql</b> del proyecto (y mueva <code>consultas.sql</code> fuera de la carpeta si quiere conservarlo). Desde ahora la «fuente de verdad» del esquema es C#.',
+      'Verifique que en <code>bin\\Debug\\net8.0-windows\\</code> <b>no exista</b> ninguna <code>agrostock.db</code>. Pruebe en el simulador qué pasa con cada estado del archivo.'],
+    after: '<h3 class="block-h" style="margin-top:6px">Del SQL de E02 al modelo en C#</h3><div class="tbl-wrap"><table class="tbl"><thead><tr><th>En agrostock.sql (E02)</th><th>En el modelo (E03)</th></tr></thead><tbody><tr><td><code>id INTEGER PRIMARY KEY AUTOINCREMENT</code></td><td class="wrap">Propiedad <code>Id</code> (por convención es la clave primaria)</td></tr><tr><td><code>NOT NULL</code></td><td class="wrap"><code>IsRequired()</code> o tipo que no admite null</td></tr><tr><td><code>UNIQUE</code></td><td class="wrap"><code>HasIndex(...).IsUnique()</code></td></tr><tr><td><code>CHECK (precio &gt; 0)</code></td><td class="wrap"><code>HasCheckConstraint("ck_precio", "precio &gt; 0")</code></td></tr><tr><td><code>REFERENCES categorias(id)</code></td><td class="wrap"><code>HasOne(...).WithMany().HasForeignKey(...).OnDelete(Restrict)</code></td></tr><tr><td>Los <code>INSERT</code> de ejemplo</td><td class="wrap"><code>HasData(...)</code></td></tr><tr><td><code>DEFAULT date(\'now\', \'localtime\')</code></td><td class="wrap"><code>Fecha = DateTime.Today</code> (se calcula en C#, hora local)</td></tr><tr><td><code>PRAGMA foreign_keys = ON;</code></td><td class="wrap">No se escribe: Microsoft.Data.Sqlite lo activa al abrir cada conexión</td></tr></tbody></table></div><div class="note" style="margin-top:12px"><b>Normal:</b> hasta el paso 4 el antiguo <code>ProductoRepository.cs</code> y <code>FrmImportar.cs</code> marcan errores (usan la clase <code>Db</code> y un <code>Categoria</code> distinto). Se reemplazan completos más adelante.</div>',
+    sims: [{ k: 'orm', t: 'EnsureCreated y restricciones', d: 'Elija el estado de agrostock.db, ejecute la aplicación y provoque cada restricción.' }],
+    errors: [['no such column', "SQLite Error 1: 'no such column: p.CategoriaId'", 'Hay una <code>agrostock.db</code> vieja (de E02) en <code>bin\\Debug\\net8.0-windows\\</code>. <code>EnsureCreated()</code> no actualiza bases con tablas: bórrela y ejecute de nuevo. Lo mismo si cambia el modelo después.'], ['CS0246', "No se encontró 'DbContext'", 'Falta el paquete o <code>using Microsoft.EntityFrameworkCore;</code>.']],
+    check: ['Models/Producto.cs tiene Producto, Categoria y Movimiento', 'AgroStockContext describe tablas, restricciones, relaciones y HasData', 'agrostock.sql ya no está en el proyecto', 'Entiendo por qué se borra agrostock.db cuando cambia el modelo'] },
+
+  { id: 'repo', nav: 'Repositorio LINQ', title: 'ProductoRepository con LINQ', files: ['Data/ProductoRepository.cs'],
+    goal: 'Reescribir el repositorio: el mismo contrato que en E02 (Listar, Insertar, Actualizar, Eliminar, RegistrarMovimiento), pero sin una sola sentencia SQL escrita a mano.',
+    how: ['Reemplace todo el contenido de <b>Data/ProductoRepository.cs</b> por el del visor.',
+      'Observe que cada método abre un <code>AgroStockContext</code> con <code>using</code> y termina con <code>SaveChanges()</code> cuando escribe.',
+      '<code>Listar</code> usa <code>Include</code> (JOIN) y <code>EF.Functions.Like</code> (LIKE con parámetro). Compruebe con el simulador qué pasa si quita el <code>Include</code>.',
+      '<code>InsertarVarios</code> es nuevo: inserta muchos productos en una transacción y <b>devuelve</b> los códigos repetidos en vez de fallar.',
+      '<code>RegistrarMovimiento</code> cambia el producto y agrega el movimiento; un solo <code>SaveChanges()</code> los guarda juntos. <code>Movimientos()</code> es nuevo y alimenta el historial.',
+      'El método <code>Limpio()</code> copia el producto sin su objeto <code>Categoria</code>, para que EF no intente actualizar también esa tabla.'],
+    after: '<div class="note"><b>Normal:</b> <code>FrmImportar.cs</code> seguirá marcando errores hasta el paso 6 (todavía llama a <code>Db.Abrir()</code> y a <code>repo.Insertar(p, cn, tx)</code>).</div>',
+    sims: [{ k: 'linq', t: 'LINQ, SQL generado y escritura', d: 'Cambie el filtro y el Include, e inserte, actualice y elimine para ver el SQL y las excepciones.' }],
+    errors: [['Columna vacía', 'La columna Categoría de la cuadrícula sale vacía', 'Falta <code>.Include(p =&gt; p.Categoria)</code> en <code>Listar</code>: la propiedad de navegación queda en <code>null</code>.'], ['DbUpdateException', 'El mensaje no dice qué falló', 'El detalle real está en <code>ex.InnerException</code> (la <code>SqliteException</code>). Muéstrelo o evalúelo con <code>when</code>.']],
+    check: ['No queda ninguna cadena SQL en el repositorio', 'Listar usa Include y Like', 'InsertarVarios devuelve los códigos repetidos', 'Entiendo qué hace SaveChanges con una sola transacción'] },
+
+  { id: 'reportes', nav: 'Reportes', title: 'Reportes en PDF y en Excel', files: ['Services/ReporteService.cs'],
+    goal: 'Crear una clase de servicio que genere el inventario como PDF (QuestPDF) y como libro de Excel (ClosedXML) con fórmulas reales.',
+    how: ['Cree la carpeta <b>Services</b> en el proyecto (clic derecho → Agregar → Nueva carpeta).', 'Agregue la clase <b>Services/ReporteService.cs</b> y pegue el código del visor.',
+      '<code>GenerarPdf</code> describe la página con una API fluida: encabezado, tabla (filas con existencia &lt; 10 en rojo claro) y pie con total y «Página X de Y».',
+      '<code>GenerarExcel</code> escribe encabezados con estilo, una fila por producto con la fórmula <code>=D*E</code> y una fila final con <code>=SUM(...)</code>.',
+      'Fíjese en el constructor estático: <code>QuestPDF.Settings.License = LicenseType.Community;</code> es obligatorio antes de generar.',
+      'La clase no sabe nada de formularios: en el paso 8 el menú la llamará pasándole la lista y la ruta que elija el usuario.'],
+    after: '<div class="tip"><b>Servicio, no repositorio.</b> <code>ReporteService</code> vive en <code>Services</code> porque no accede a la base: recibe los datos ya leídos. Separar así cada responsabilidad permite cambiar el reporte sin tocar la interfaz.</div>',
+    sims: [{ k: 'rep', t: 'Vista previa del PDF y del libro de Excel', d: 'Agregue un producto con poca existencia, vea las fórmulas y pruebe el error de archivo abierto.' }],
+    errors: [['Licencia QuestPDF', 'Excepción de licencia al generar el PDF', 'Falta <code>QuestPDF.Settings.License = LicenseType.Community;</code>.'], ['IOException', 'El proceso no puede obtener acceso al archivo', 'El .xlsx o el .pdf está abierto en otro programa. Ciérrelo y reintente; el formulario ya captura la excepción.'], ['CS0246', 'No se encontró XLWorkbook / Document', 'Falta ClosedXML o QuestPDF, o el <code>using</code> correspondiente.']],
+    check: ['ReporteService compila sin errores', 'Entiendo cómo se resaltan las existencias bajas en el PDF', 'Las celdas de «Valor» del Excel son fórmulas', 'Declaré la licencia Community de QuestPDF'] },
+
+  { id: 'mockaroo', nav: 'Servicio web', title: 'Servicio web Mockaroo e importación', files: ['Services/MockarooClient.cs', 'Forms/FrmImportar.cs', 'Forms/FrmImportar.Designer.cs'],
+    goal: 'Consumir un servicio web REST que entrega productos de prueba en JSON y guardarlos con el ORM, junto con la importación desde CSV.',
+    how: ['Con la cuenta de Mockaroo del proyecto (o una gratuita en <b>mockaroo.com</b>), verifique que exista el schema; si no, créelo. En <b>Schemas → New Schema</b> nombre el schema exactamente <code>agrostock_productos</code> y cree estos campos (nombres en minúscula): <code>codigo</code> (por ejemplo, expresión regular <code>[A-Z]{3}-[0-9]{4}</code>), <code>nombre</code> (lista personalizada), <code>categoria</code> (lista: Fertilizantes, Semillas, Herbicidas, Herramientas), <code>precio</code> (número con 2 decimales), <code>existencia</code> (número entero) y <code>vencimiento</code> (fecha <code>yyyy-MM-dd</code>, con parte en blanco).',
+      'Compruebe que <code>appsettings.json</code> tenga la <b>clave de API</b> del proyecto (<code>d4fada10</code>). Esa clave pertenece a la cuenta de Mockaroo donde existe el schema; si usa otra cuenta, reemplácela por la suya.',
+      'Agregue <b>Services/MockarooClient.cs</b>. Lee la configuración, hace un <code>GET</code> con la clave en el encabezado <code>X-API-Key</code>, convierte el JSON en objetos y valida cada fila.',
+      'Reemplace <b>Forms/FrmImportar.cs</b> y <b>FrmImportar.Designer.cs</b> por los del visor. Se agregan <code>lblCantidad</code>, <code>nudCantidad</code> y <code>btnMockaroo</code>; se quitan <code>chkBloqueante</code> y <code>btnCancelar</code> (ya no hay hilos).',
+      'Observe <code>Ejecutar(Func&lt;…&gt;)</code>: recibe la función que lee los datos (CSV o Mockaroo) y se encarga de guardar con <code>InsertarVarios</code> y de informar.',
+      'Reemplace <b>productos_importar.csv</b> si lo desea; el de E02 también sirve (mismo formato). Compile: ahora el proyecto debe compilar completo.'],
+    after: '<div class="note"><b>Cuide la clave.</b> <code>appsettings.json</code> contiene la clave de API. Si sube el proyecto a un repositorio público, quítela o cámbiela antes.</div><div class="tip" style="margin-top:12px"><b>Sin hilos, a propósito.</b> La llamada <code>Http.Send</code> es síncrona: durante ese instante la ventana no responde (el cursor cambia a espera). En E02 resolvió ese problema con <code>Task.Run</code> e <code>IProgress</code>; combinar ambas ideas es un reto opcional del paso 9.</div><h3 class="block-h" style="margin-top:18px">Controles nuevos de FrmImportar</h3><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Nombre</th><th>Tipo</th><th>Propiedades</th></tr></thead><tbody><tr><td><code>btnIniciar</code></td><td>Button</td><td class="wrap">Text <code>&amp;Importar CSV</code>, (20,58), 140×30</td></tr><tr><td><code>lblCantidad</code></td><td>Label</td><td class="wrap">Text <code>Productos de prueba (Mockaroo):</code>, (20,108)</td></tr><tr><td><code>nudCantidad</code></td><td>NumericUpDown</td><td class="wrap">(225,104), 70×23, Minimum 1, Maximum 1000, Value 20</td></tr><tr><td><code>btnMockaroo</code></td><td>Button</td><td class="wrap">Text <code>Obtener de &amp;Mockaroo</code>, (305,100), 140×30</td></tr><tr><td><code>btnCerrar</code></td><td>Button</td><td class="wrap">Text <code>Cerrar</code>, (455,100), 90×30</td></tr></tbody></table></div><p class="sim-desc" style="margin:8px 0 0">El resto (<code>lblArchivo, txtArchivo, btnExaminar, barra, lblEstado</code>) no cambia. ClientSize 565×240, FixedDialog.</p>',
+    sims: [{ k: 'mock', t: 'Llamada al servicio web y guardado', d: 'Simule la importación desde CSV y desde Mockaroo, y provoque cada tipo de fallo de la llamada.' }],
+    errors: [['PENDIENTE', 'Falta la clave de API de Mockaroo en appsettings.json', 'Escriba la clave del proyecto en <code>appsettings.json</code>, guarde y vuelva a ejecutar (se copia a bin al compilar).'], ['401 / 404', 'Mockaroo respondió 401 o 404', '401: clave incorrecta. 404: el schema no existe o su nombre difiere del de <code>Schema</code> en appsettings.json.'], ['0 productos', 'Todas las filas salen inválidas', 'Los nombres de los campos del schema no coinciden con los de <code>[JsonPropertyName]</code>.'], ['appsettings', 'No se encontró appsettings.json', 'Falta marcarlo como «Copiar si es posterior» o está fuera de la carpeta del proyecto.']],
+    check: ['Creé el schema agrostock_productos con los seis campos', 'appsettings.json tiene la clave de API del proyecto', 'El botón Mockaroo agrega productos y informa inválidos y repetidos', 'Importar el mismo CSV dos veces informa los repetidos sin fallar', 'No subí la clave a un repositorio público'] },
+
+  { id: 'movs', nav: 'Movimientos', title: 'Movimientos de inventario e historial', files: ['Forms/FrmMovimiento.cs', 'Forms/FrmMovimientos.cs', 'Forms/FrmMovimientos.Designer.cs'],
+    goal: 'Adaptar el formulario de entradas y salidas a los errores del ORM y crear la ventana nueva que muestra el historial de movimientos.',
+    how: ['<b>A. Adaptar FrmMovimiento (ya existe).</b> Reemplace el contenido de <b>Forms/FrmMovimiento.cs</b> por el del visor. Solo cambian tres cosas: el <code>using Microsoft.EntityFrameworkCore;</code> y los dos <code>catch</code> del final. Su <code>.Designer.cs</code> <b>no cambia</b>.',
+      '<b>B. Crear FrmMovimientos (formulario nuevo) desde el diseñador.</b> Siga la guía «Crear FrmMovimientos desde el diseñador, paso a paso» que está debajo del visor de código: son 10 acciones cortas (formulario, propiedades, tres controles y el código).',
+      '<b>Atajo opcional.</b> Si no quiere usar el diseñador, cree el formulario (acción 1 de la guía) y pegue el código del visor en <b>FrmMovimientos.cs</b> y en <b>FrmMovimientos.Designer.cs</b>, reemplazando todo.',
+      '<b>C. Entienda lo nuevo.</b> La cuadrícula se llena en el evento <code>Load</code> con <code>repo.Movimientos()</code>; la columna Producto usa la propiedad calculada <code>ProductoNombre</code>; el repositorio ya ordena del más reciente al más antiguo.',
+      '<b>D. Compile</b> (' + K('Ctrl') + '+' + K('Mayús') + '+' + K('B') + '). Ahora el proyecto debe compilar completo. Todavía no puede abrir el historial: el menú se agrega en el paso siguiente. Pruebe la lógica en el simulador.'],
+    after: '<h3 class="block-h" style="margin-top:6px">Crear FrmMovimientos desde el diseñador, paso a paso</h3><p class="sim-desc" style="margin:0 0 10px">Trabaje en la vista <b>Diseño</b>. Los nombres deben ser exactos: el código usa <code>dgvMovimientos</code>, <code>lblTotal</code> y <code>btnCerrar</code>. Las propiedades se cambian en la ventana <b>Propiedades</b> (<kbd>F4</kbd>); use el botón «Por categorías» u «Orden alfabético» como prefiera.</p><ol class="how"><li><b>Agregar el formulario.</b> En el Explorador de soluciones, clic derecho en la carpeta <b>Forms</b> → <b>Agregar</b> → <b>Formulario (Windows Forms)…</b>. En «Nombre» escriba <code>FrmMovimientos.cs</code> y pulse <b>Agregar</b>. Se abre un formulario vacío en la vista Diseño.</li><li><b>Propiedades del formulario.</b> Haga clic en una zona vacía del formulario (no sobre un control) y cambie: <code>Text</code> → <code>Historial de movimientos</code>; <code>StartPosition</code> → <code>CenterParent</code>; <code>MinimumSize</code> → <code>500; 300</code>. Después arrastre la esquina inferior derecha hasta que el tamaño sea cercano a <b>700 × 446</b> (Visual Studio lo muestra en la barra inferior mientras arrastra).</li><li><b>Abrir el Cuadro de herramientas.</b> Menú <b>Ver</b> → <b>Cuadro de herramientas</b> (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>X</kbd>). Si no encuentra un control, escriba su nombre en el cuadro de búsqueda del panel.</li><li><b>DataGridView.</b> En la categoría <b>Datos</b>, arrastre un <code>DataGridView</code> al formulario. Haga clic en la flecha ▸ de su esquina superior derecha (etiqueta inteligente) y <b>desmarque</b> «Habilitar agregado», «Habilitar edición» y «Habilitar eliminación»; deje sin marcar «Acoplar en contenedor principal». Luego, en Propiedades: <code>(Name)</code> → <code>dgvMovimientos</code>; <code>Location</code> → <code>12; 12</code>; <code>Size</code> → <code>676; 380</code>; <code>SelectionMode</code> → <code>FullRowSelect</code>; <code>MultiSelect</code> → <code>False</code>; <code>RowHeadersVisible</code> → <code>False</code>; <code>BackgroundColor</code> → pestaña <i>Sistema</i> → <code>Window</code>; <code>Anchor</code> → abra la lista y active las <b>cuatro</b> barras (arriba, abajo, izquierda y derecha). <b>No cree columnas aquí</b>: el código las crea.</li><li><b>Label.</b> En «Controles comunes» arrastre un <code>Label</code> debajo de la cuadrícula. <code>(Name)</code> → <code>lblTotal</code>; <code>Text</code> → <code>Movimientos: 0</code>; <code>Location</code> → <code>12; 410</code>; <code>Anchor</code> → deje activas solo <b>abajo</b> e <b>izquierda</b> (desactive «arriba»).</li><li><b>Button.</b> Arrastre un <code>Button</code> a la esquina inferior derecha. <code>(Name)</code> → <code>btnCerrar</code>; <code>Text</code> → <code>Cerrar</code>; <code>Size</code> → <code>90; 30</code>; <code>Location</code> → <code>598; 404</code>; <code>Anchor</code> → solo <b>abajo</b> y <b>derecha</b>. No asigne <code>DialogResult</code>: el código cierra la ventana con <code>Close()</code>.</li><li><b>Orden de tabulación (opcional).</b> <code>dgvMovimientos</code> con <code>TabIndex</code> 0 y <code>btnCerrar</code> con 1, para que <kbd>Tab</kbd> recorra primero la cuadrícula.</li><li><b>No haga doble clic en los controles.</b> Eso genera manejadores vacíos (por ejemplo <code>btnCerrar_Click</code>) que se sumarían a los que el código ya conecta con <code>btnCerrar.Click += …</code>. Si lo hizo por error, borre esos métodos y la línea correspondiente del <code>.Designer.cs</code>.</li><li><b>Escribir el código.</b> Clic derecho en el diseñador → <b>Ver código</b> (<kbd>F7</kbd>). Reemplace <b>todo</b> el contenido de <code>FrmMovimientos.cs</code> por el del visor (versión Limpio o Comentado). Guarde con <kbd>Ctrl</kbd>+<kbd>S</kbd>.</li><li><b>Compruebe.</b> Abra <code>FrmMovimientos.Designer.cs</code> y compárelo con el del visor: el orden de las líneas puede variar, pero <code>Name</code>, <code>Location</code>, <code>Size</code>, <code>Anchor</code> y <code>Text</code> deben coincidir. Compile (<kbd>Ctrl</kbd>+<kbd>Mayús</kbd>+<kbd>B</kbd>).</li></ol><p class="sim-desc" style="margin:10px 0 6px"><b>Así debe verse en la vista Diseño</b> (las columnas aparecen en tiempo de ejecución, porque las crea el código):</p><div class="win" style="max-width:480px"><div class="win-t"><span class="ic"></span><span class="tt2">Historial de movimientos</span></div><div style="padding:8px"><div class="w-grid" style="border:1px solid #aaa"><table><thead><tr><th>Fecha</th><th>Producto</th><th>Tipo</th><th class="r">Cantidad</th></tr></thead><tbody><tr><td>07/10/2026</td><td>HER-001 · Glifosato (litro)</td><td>SALIDA</td><td class="r">2</td></tr><tr><td>06/10/2026</td><td>SEM-002 · Semilla de maíz (libra)</td><td>SALIDA</td><td class="r">20</td></tr></tbody></table></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:13px"><span>Movimientos: 6</span><button class="w-btn" type="button">Cerrar</button></div></div></div><p class="sim-desc" style="margin:6px 0 18px"><code>dgvMovimientos</code> arriba, <code>lblTotal</code> abajo a la izquierda y <code>btnCerrar</code> abajo a la derecha.</p><h3 class="block-h" style="margin-top:6px">Controles de FrmMovimientos (resumen)</h3><p class="sim-desc" style="margin:0 0 8px">ClientSize 700×446, StartPosition <code>CenterParent</code>, MinimumSize 500×300, Text <code>Historial de movimientos</code>.</p><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Nombre</th><th>Tipo</th><th>Propiedades</th></tr></thead><tbody><tr><td><code>dgvMovimientos</code></td><td>DataGridView</td><td class="wrap">(12,12), 676×380; ReadOnly, sin agregar ni borrar filas, FullRowSelect, RowHeadersVisible false; <b>Anchor</b> en los cuatro lados</td></tr><tr><td><code>lblTotal</code></td><td>Label</td><td class="wrap">Text <code>Movimientos: 0</code>, (12,410); Anchor Bottom, Left</td></tr><tr><td><code>btnCerrar</code></td><td>Button</td><td class="wrap">Text <code>Cerrar</code>, (598,404), 90×30; Anchor Bottom, Right</td></tr></tbody></table></div><div class="note" style="margin-top:12px"><b>Normal:</b> el diseñador de Visual Studio puede mostrar <i>No se pudo crear una instancia de FrmMovimientos</i> porque su constructor recibe parámetros. El formulario funciona al ejecutar (<kbd>F5</kbd>).</div>',
+    sims: [{ k: 'mov', t: 'Movimientos, transacción e historial', d: 'Registre entradas y salidas, quite la validación en C# y mire el historial resultante.' }],
+    errors: [['Insuficiente', 'Una salida mayor que la existencia no avisa', 'Falta el <code>catch (InvalidOperationException ex)</code> en <code>FrmMovimiento</code>: el repositorio lanza esa excepción cuando la existencia no alcanza.'], ['Historial vacío', 'La columna Producto del historial sale en blanco', 'Falta <code>.Include(m =&gt; m.Producto)</code> en <code>repo.Movimientos()</code>.'], ['CS0103', 'El nombre dgvMovimientos no existe', 'El <code>.Designer.cs</code> no se pegó o su nombre de clase no es <code>FrmMovimientos</code>.']],
+    check: ['FrmMovimiento captura InvalidOperationException y DbUpdateException', 'Creé FrmMovimientos desde el diseñador con los nombres exactos (dgvMovimientos, lblTotal, btnCerrar)', 'El proyecto compila completo', 'Entiendo que SaveChanges guarda el movimiento y la existencia juntos'] },
+
+  { id: 'principal', nav: 'Ventana principal', title: 'Ventana principal: menús, errores del ORM y reportes', files: ['Forms/FrmPrincipal.Designer.cs', 'Forms/FrmPrincipal.cs'],
+    goal: 'Conectar todo en la ventana principal: nombre de la categoría en la cuadrícula, avisos para los errores del ORM, historial de movimientos y reportes PDF y Excel en el menú.',
+    how: ['<b>A. Diseñador.</b> Reemplace <b>Forms/FrmPrincipal.Designer.cs</b> por el del visor. Agrega tres opciones de menú: <code>mnuReportePdf</code>, <code>mnuReporteExcel</code> (Archivo) y <code>mnuVerMovimientos</code> (Editar); cambia algunos atajos (tabla de abajo) y el título pasa a «AgroStock v3».',
+      '<b>B. Código.</b> Reemplace <b>Forms/FrmPrincipal.cs</b> por el del visor. Son cinco cambios; búsquelos con los comentarios del visor:<br>&nbsp;&nbsp;1) <code>using</code> nuevos (<code>Microsoft.EntityFrameworkCore</code> y <code>Services</code>).<br>&nbsp;&nbsp;2) La columna Categoría se enlaza a <code>CategoriaNombre</code>.<br>&nbsp;&nbsp;3) <code>SuscribirEventos</code> conecta los tres menús nuevos.<br>&nbsp;&nbsp;4) <code>Ejecutar</code> captura <code>DbUpdateException</code> y evalúa su <code>InnerException</code> (2067 = código repetido; 19 + «FOREIGN KEY» = tiene movimientos).<br>&nbsp;&nbsp;5) Métodos nuevos: <code>VerMovimientos</code> (abre el historial) y <code>GenerarReporte</code> (SaveFileDialog + ReporteService).',
+      '<b>C. Sin cambios.</b> <b>FrmProducto.cs</b>, <b>FrmProducto.Designer.cs</b> y <b>Program.cs</b> no se tocan (solo el namespace del paso 1).',
+      '<b>D. Pruebe.</b> Ejecute con ' + K('F5') + ' y recorra: buscar, ' + K('Ctrl') + '+' + K('N') + ' nuevo, editar, eliminar, ' + K('Ctrl') + '+' + K('M') + ' movimiento, ' + K('Ctrl') + '+' + K('H') + ' historial, ' + K('Ctrl') + '+' + K('I') + ' importar, y Archivo → Reporte en PDF / en Excel.'],
+    after: '<h3 class="block-h" style="margin-top:6px">Atajos y menús de v3</h3><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Opción</th><th>Menú</th><th>Atajo</th></tr></thead><tbody><tr><td>Nuevo producto</td><td>Archivo</td><td><kbd>Ctrl</kbd>+<kbd>N</kbd></td></tr><tr><td>Importar desde CSV</td><td>Archivo</td><td><kbd>Ctrl</kbd>+<kbd>I</kbd></td></tr><tr><td>Exportar a CSV</td><td>Archivo</td><td><kbd>Ctrl</kbd>+<kbd>Mayús</kbd>+<kbd>E</kbd> <span class="chip nuevo">nuevo</span></td></tr><tr><td>Reporte en PDF / en Excel</td><td>Archivo</td><td>— <span class="chip nuevo">nuevos</span></td></tr><tr><td>Editar producto</td><td>Editar</td><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td></tr><tr><td>Eliminar producto</td><td>Editar</td><td><kbd>Ctrl</kbd>+<kbd>D</kbd> <span class="chip mod">cambió</span></td></tr><tr><td>Registrar movimiento</td><td>Editar</td><td><kbd>Ctrl</kbd>+<kbd>M</kbd></td></tr><tr><td>Ver historial de movimientos</td><td>Editar</td><td><kbd>Ctrl</kbd>+<kbd>H</kbd> <span class="chip nuevo">nuevo</span></td></tr></tbody></table></div>',
+    sims: [{ k: 'crud', t: 'AgroStock v3: CRUD con el ORM', d: 'Cree, edite, busque, elimine y registre movimientos. El registro muestra qué excepción captura cada caso.' }],
+    errors: [['2067', 'El programa se cierra al repetir un código', 'El <code>catch</code> debe ser de <code>DbUpdateException</code> y mirar <code>ex.InnerException</code>; la <code>SqliteException</code> no llega directa.'], ['FK', 'Se puede borrar un producto con movimientos', 'Revise <code>OnDelete(DeleteBehavior.Restrict)</code> en el contexto; si cambió el modelo, borre agrostock.db de bin.'], ['Atajo', 'Ctrl+D o Ctrl+H no responde', 'Falta <code>ShortcutKeys</code> en el Designer o está definido en otro menú.'], ['CS0246', 'FrmMovimientos o ReporteService no existen', 'Falta completar el paso 7 (FrmMovimientos) o el paso 5 (ReporteService).']],
+    check: ['La cuadrícula muestra el nombre de la categoría', 'Un código repetido muestra un aviso y no cierra el programa', 'Ctrl+H abre el historial con el más reciente primero', 'Los reportes PDF y Excel se guardan donde elijo', 'Una salida mayor que la existencia muestra «Existencia insuficiente»'] },
+
+  { id: 'probar', nav: 'Probar y entregar', title: 'Probar, resolver errores y entregar', goal: 'Verificar AgroStock v3 con una lista de pruebas, consultar los errores frecuentes y preparar la entrega.',
+    how: ['Elimine <code>bin</code> y <code>obj</code>, abra la solución y ejecute con ' + K('F5') + ': la base debe crearse sola con los 14 productos.',
+      'Recorra las pruebas con su pareja: buscar, crear, editar, eliminar, movimiento (entrada y salida mayor que la existencia), historial, ambos reportes, importar el CSV <b>dos veces</b> y obtener productos de Mockaroo.',
+      'Si algo falla, busque el síntoma en la tabla de errores: el visor resalta la línea y explica la causa.',
+      'Para entregar, comprima la carpeta <b>sin bin, obj ni .vs</b>. Verifique que la <code>ApiKey</code> de <code>appsettings.json</code> sea la correcta y que el README mencione si usó IA o ejemplos.'],
+    after: '<h3 class="block-h" style="margin:0 0 6px">Retos opcionales</h3><ol class="how"><li>Combine lo aprendido en E02 y E03: ejecute <code>ObtenerProductos</code> dentro de <code>Task.Run</code> con <code>await</code> para que la ventana no se congele durante la llamada a Mockaroo.</li><li>Agregue un <code>ComboBox</code> de categoría en la barra y filtre con LINQ: <code>.Where(p =&gt; p.CategoriaId == id)</code>.</li><li>Haga que el reporte use la lista filtrada por la búsqueda actual en lugar de todos los productos.</li><li>Mueva la clave de Mockaroo a una variable de entorno y léala con <code>Environment.GetEnvironmentVariable</code>.</li></ol>',
+    errors: [],
+    check: ['Compila sin errores ni advertencias importantes', 'La base se crea sola al ejecutar desde cero', 'CRUD, movimientos, historial, reportes e importación funcionan', 'Importar el CSV dos veces no falla y informa los repetidos', 'Entregué el proyecto sin bin, obj ni .vs'] }
+];
+const SIMS = { copy: simCopy, pkgs: simPkgs, orm: simOrm, linq: simLinq, rep: simRep, mock: simMock, crud: simCrud, mov: simMov };
+
+/* ================= cambios E02 → E03 y página ================= */
+const CAMBIOS = [
+  ['AgroStock.E02.csproj / .slnx', 'borra', 'Renombrar a E03; sin DemoHilos', 'copia'],
+  ['Program.cs', 'igual', 'Solo cambia el namespace', 'copia'],
+  ['AgroStock.E03.csproj', 'mod', 'Paquetes: EF Core Sqlite, ClosedXML, QuestPDF', 'paquetes'],
+  ['appsettings.json', 'nuevo', 'Configuración del servicio Mockaroo', 'paquetes'],
+  ['Models/Producto.cs', 'mod', 'Categoria como objeto; clase Movimiento', 'modelo'],
+  ['Data/AgroStockContext.cs', 'nuevo', 'El contexto del ORM (reemplaza agrostock.sql)', 'modelo'],
+  ['Data/Db.cs', 'mod', 'Solo EnsureCreated()', 'modelo'],
+  ['agrostock.sql, consultas.sql', 'borra', 'Ya no se usan', 'modelo'],
+  ['Data/ProductoRepository.cs', 'mod', 'Reescrito con LINQ', 'repo'],
+  ['Services/ReporteService.cs', 'nuevo', 'Reportes PDF y Excel', 'reportes'],
+  ['Services/MockarooClient.cs', 'nuevo', 'Cliente del servicio web', 'mockaroo'],
+  ['Forms/FrmImportar(.Designer).cs', 'mod', 'Sin hilos; botón Mockaroo', 'mockaroo'],
+  ['Forms/FrmPrincipal(.Designer).cs', 'mod', 'Menús nuevos, errores del ORM', 'principal'],
+  ['Forms/FrmMovimiento.cs', 'mod', 'Nuevos catch', 'movs'],
+  ['Forms/FrmMovimientos(.Designer).cs', 'nuevo', 'Historial de movimientos', 'movs'],
+  ['Forms/FrmProducto(.Designer).cs', 'igual', 'Sin cambios', 'copia'],
+  ['DemoHilos/, Verificacion/', 'borra', 'Fuera del proyecto', 'copia']];
+const CHIP = { nuevo: ['nuevo', 'Nuevo'], mod: ['mod', 'Modificar'], borra: ['borra', 'Borrar / renombrar'], igual: ['igual', 'Sin cambios'] };
+function goStep(id) { const el = document.getElementById('paso-' + id) || document.getElementById(id); if (el) el.scrollIntoView({ behavior: RM() ? 'auto' : 'smooth', block: 'start' }); }
+function renderHero() {
+  const treeData = [['AgroStock.E03.csproj', 'paquetes'], ['AgroStock.E03.slnx', 'copia'], ['appsettings.json', 'paquetes'], ['Program.cs', 'copia'], ['productos_importar.csv', 'mockaroo'],
+    ['Models/', null, [['Producto.cs', 'modelo']]], ['Data/', null, [['AgroStockContext.cs', 'modelo'], ['Db.cs', 'modelo'], ['ProductoRepository.cs', 'repo']]],
+    ['Services/', null, [['ReporteService.cs', 'reportes'], ['MockarooClient.cs', 'mockaroo']]],
+    ['Forms/', null, [['FrmPrincipal.cs', 'principal'], ['FrmPrincipal.Designer.cs', 'principal'], ['FrmProducto.cs', 'copia'], ['FrmProducto.Designer.cs', 'copia'], ['FrmMovimiento.cs', 'movs'], ['FrmMovimiento.Designer.cs', 'copia'], ['FrmMovimientos.cs', 'movs'], ['FrmMovimientos.Designer.cs', 'movs'], ['FrmImportar.cs', 'mockaroo'], ['FrmImportar.Designer.cs', 'mockaroo']]]];
+  const li = ([name, id, kids]) => h('li', null, id ? h('button', { onclick: () => goStep(id), title: 'Ir al paso donde se escribe este archivo' }, name) : h('span', { class: 'dir' }, name), kids ? h('ul', null, kids.map(li)) : null);
+  $('#hero').replaceChildren(
+    h('div', null, h('div', { class: 'kicker' }, 'Programación de Aplicaciones de Escritorio · Encuentro 3'), h('h1', null, 'AgroStock v3: del SQL a un ORM, con reportes y un servicio web'),
+      h('p', { class: 'lead' }, 'Parta de una copia del proyecto del Encuentro 2 y conviértalo en la versión 3: Entity Framework Core reemplaza el SQL escrito a mano, el inventario se exporta a PDF y Excel, y un servicio web entrega productos de prueba.'),
+      h('ul', { class: 'facts' }, h('li', null, h('b', null, '9'), 'pasos'), h('li', null, h('b', null, '8'), 'simuladores'), h('li', null, h('b', null, 'C#'), 'EF Core 8, SQLite'), h('li', null, h('b', null, 'PDF · XLSX'), 'JSON')),
+      h('div', { class: 'tip', style: 'margin-top:16px' }, 'Cada archivo tiene dos versiones: ', h('b', null, 'Comentado'), ' para estudiar y ', h('b', null, 'Limpio'), ' para pegar en Visual Studio. Los archivos son los del proyecto real AgroStock.E03. Necesita Visual Studio 2022 o posterior (carga «Desarrollo de escritorio de .NET»), internet para NuGet y una cuenta gratuita de Mockaroo.')),
+    h('div', { class: 'map' }, h('h2', null, 'Mapa del proyecto'), h('ul', { class: 'tree' }, h('li', null, h('span', { class: 'dir' }, 'AgroStock.E03/'), h('ul', null, treeData.map(li)))),
+      h('p', null, 'Toque un archivo para ir al paso donde se escribe. La base agrostock.db no aparece: la crea el ORM la primera vez que se ejecuta.')));
+}
+function renderCambios() {
+  const sec = $('#cambios');
+  sec.append(h('div', { class: 'step-h' }, h('span', { class: 'num' }, 'Antes de empezar'), h('h2', { id: 'h-cambios' }, 'Qué cambia de E02 a E03'), h('p', { class: 'goal' }, 'Use esta tabla como lista de trabajo: le dice qué conservar, qué modificar, qué crear y qué borrar de la copia de E02.')),
+    h('div', { class: 'tbl-wrap' }, h('table', { class: 'tbl' }, h('thead', null, h('tr', null, ['Archivo', 'Acción', 'Qué cambia', 'Paso'].map(t => h('th', null, t)))),
+      h('tbody', null, CAMBIOS.map(([f, k, d, id]) => h('tr', null, h('td', null, h('code', null, f)), h('td', null, h('span', { class: 'chip ' + CHIP[k][0] }, CHIP[k][1])), h('td', { class: 'wrap' }, d),
+        h('td', null, h('button', { class: 'sbtn ghost sm', onclick: () => goStep(id) }, 'Paso ' + (STEPS.findIndex(s => s.id === id) + 1)))))))),
+    h('div', { class: 'note' }, h('b', null, 'Idea central. '), 'Ya no escribirá SQL: describirá las tablas con clases de C# (el modelo) y consultará con LINQ. El ORM traduce todo a SQL y se encarga de las transacciones. Las reglas de la base (UNIQUE, CHECK, FK) siguen existiendo: ahora se declaran en el modelo.'));
+}
+function renderSteps() {
+  const nav = $('#nav'), wrap = $('#steps'), stepViewers = {};
+  STEPS.forEach((s, i) => {
+    nav.append(h('button', { 'data-id': s.id, onclick: () => goStep(s.id) }, `${i + 1}. ${s.nav}`));
+    const sec = h('section', { class: 'step', id: 'paso-' + s.id, 'aria-labelledby': 'h-' + s.id });
+    sec.append(h('div', { class: 'step-h' }, h('span', { class: 'num' }, `Paso ${i + 1} de ${STEPS.length}`), h('h2', { id: 'h-' + s.id }, s.title), h('p', { class: 'goal' }, s.goal)));
+    sec.append(h('div', null, h('h3', { class: 'block-h' }, 'En Visual Studio'), h('ol', { class: 'how' }, s.how.map(t => h('li', { html: t })))));
+    if (s.files) { const v = makeViewer(s.files.slice()); stepViewers[s.id] = v; sec.append(h('div', null, h('h3', { class: 'block-h' }, 'Código de este paso'), v.root)); }
+    if (s.after) sec.append(h('div', { html: s.after }));
+    (s.sims || []).forEach(m => { const host = h('div'); sec.append(h('div', { class: 'sim' }, h('div', { class: 'sim-h' }, h('span', { class: 'tagsim' }, 'Simulador'), h('h3', null, m.t)), h('p', { class: 'sim-desc' }, m.d), host)); lazy(host, () => SIMS[m.k](host, stepViewers[s.id])); });
+    if (s.id === 'probar') sec.append(renderErrors(s)); else if (s.errors.length) sec.append(renderErrs(s));
+    const cs = progress[s.id] || [];
+    sec.append(h('div', { class: 'check' }, h('h3', { class: 'block-h' }, 'Compruebe antes de seguir'), h('ul', null, s.check.map((t, j) => {
+      const id = `c-${s.id}-${j}`;
+      return h('li', null, h('label', { for: id }, h('input', { type: 'checkbox', id, checked: !!cs[j], onchange: e => { const arr = progress[s.id] || []; arr[j] = e.target.checked; progress[s.id] = arr; store.set('progress', progress); updateProgress(); } }), h('span', null, t)));
+    }))));
+    wrap.append(sec);
+  });
+  const io = new IntersectionObserver(es => { es.forEach(en => { if (en.isIntersecting) $$('#nav button').forEach(b => b.setAttribute('aria-current', String(b.dataset.id === en.target.id.replace(/^paso-/, '')))); }); }, { rootMargin: '-35% 0px -60% 0px' });
+  $$('.step').forEach(s => io.observe(s));
+}
+renderHero(); renderCambios(); renderSteps(); updateProgress();
+</script>
+</body>
+</html>

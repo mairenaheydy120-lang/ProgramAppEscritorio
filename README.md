@@ -7,9 +7,10 @@ Encuentro 1 — *Aplicaciones de interfaz gráfica* · 11 de octubre de 2026.
 
 | Archivo | Contenido |
 |---|---|
-| `index.html` | Portada del curso: elegir Encuentro 1 o 2 y aula virtual |
-| `hub-encuentro-01.html` / `hub-encuentro-02.html` | Menú de recursos de cada encuentro (con botón «Volver a la portada») |
+| `index.html` | Portada del curso: elegir Encuentro 1, 2 o 3 y aula virtual |
+| `hub-encuentro-01.html` / `-02.html` / `-03.html` | Menú de recursos de cada encuentro (con botón «Volver a la portada») |
 | `encuentro-02.html`, `juegos-02.html`, `encuentro-02/` | Folleto, juegos, guía AgroStock v2 y PDF (BOA 2, folleto) del Encuentro 2 |
+| `encuentro-03.html`, `juegos-03.html`, `encuentro-03/` | Folleto, juegos, guía AgroStock v3 y PDF (BOA 3, folleto) del Encuentro 3 |
 | `recursos/` | `agrostock.sql`, `consultas.sql` y `productos_importar.csv` |
 | `guia-instalacion.html` | Visual Studio 2026 + DB Browser for SQLite (con PDF para ver/descargar) |
 | `encuentro-01.html` | Folleto completo del Encuentro 1 |
@@ -20,6 +21,7 @@ Encuentro 1 — *Aplicaciones de interfaz gráfica* · 11 de octubre de 2026.
 | `assets/js/site.js` | Utilidades compartidas (`store`, `h`, `$`, `hlCs`, `makeViewer`, `makeLog`, `msgDialog`, `productDialog`…), navegación, pie, sonido, confeti |
 | `assets/js/quiz.js` | Motor de rondas/quizzes y banco de preguntas |
 | `assets/js/games.js` | Lógica de los juegos y panel de progreso |
+| `assets/js/games2.js` / `games3.js` | Juegos de los Encuentros 2 y 3 (reemplazan la lista `GAMES`) |
 | `assets/audio/` | Sonidos cortos `.mp3` (< 10 KB c/u) |
 | `assets/img/`, `assets/pdf/` | Imágenes de la guía de instalación, logos UNAN y PDF originales |
 
@@ -45,4 +47,4 @@ Si deja el sitio dentro de `docs/`, elija la carpeta `/docs` en el paso 3.
 
 - El progreso (insignias, puntajes, autoevaluación, listas de verificación) se guarda en `localStorage` con el prefijo `agrostock-e1:`; es propio de cada navegador y no se comparte entre dispositivos.
 - Los sonidos se pueden silenciar con el botón 🔊 de la barra superior; los efectos visuales respetan `prefers-reduced-motion`.
-- El Encuentro 2 ya está en la navegación (`encuentro-02.html`). Los Encuentros 3 se activarán al publicarse.
+- Los Encuentros 2 y 3 ya están en la navegación (`encuentro-02.html`, `encuentro-03.html`). La guía de cada encuentro guarda su progreso con el prefijo `agrostock-e2:` / `agrostock-e3:`.

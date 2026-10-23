@@ -48,6 +48,29 @@ const QUIZ_E2 = [
     e: '`Interlocked.Increment` hace leer-sumar-escribir como una sola operación indivisible; `contador++` puede perder cuentas.' }
 ];
 
+const QUIZ_E3 = [
+  { q: '¿Qué hace un ORM?', o: ['Diseña formularios', 'Traduce entre objetos del programa y tablas de la base de datos', 'Comprime la base de datos', 'Genera reportes PDF'], c: 1,
+    e: 'Un ORM (mapeador objeto-relacional) convierte clases en tablas y filas en objetos; el programador trabaja con objetos y el ORM genera el SQL.' },
+  { q: 'En EF Core, ¿qué método envía a la base los cambios pendientes?', o: ['Commit()', 'SaveChanges()', 'ExecuteNonQuery()', 'Update()'], c: 1,
+    e: '`SaveChanges()` genera los INSERT, UPDATE y DELETE necesarios y los ejecuta en una transacción. `Update()` solo marca el objeto como modificado.' },
+  { q: '¿Cuándo se ejecuta realmente una consulta LINQ de EF Core?', o: ['Al escribir Where', 'Al enumerarla (ToList, First, foreach)', 'Al compilar', 'Al cerrar la aplicación'], c: 1,
+    e: 'Es la ejecución diferida: la consulta se arma con `Where`, `OrderBy`… y solo va a la base cuando se enumera.' },
+  { q: '¿Por qué el total del reporte Excel se escribe como fórmula `=SUM(...)`?', o: ['Porque es más bonito', 'Para que se recalcule si el usuario cambia un valor', 'Porque ClosedXML no admite números', 'No importa'], c: 1,
+    e: 'Con `FormulaA1` el libro sigue siendo una hoja de cálculo viva: si cambia un precio o una existencia, los totales se actualizan.' },
+  { q: '¿Qué código de estado HTTP indica éxito?', o: ['200', '404', '500', '301'], c: 0,
+    e: '`200 OK` indica que la petición salió bien. 404 es «no encontrado», 500 es error del servidor y 301 es una redirección.' },
+  { q: '¿Qué excepción aparece típicamente cuando no hay conexión a Internet al usar `HttpClient`?', o: ['NullReferenceException', 'HttpRequestException', 'FormatException', 'IndexOutOfRangeException'], c: 1,
+    e: '`HttpRequestException` indica que la petición no pudo completarse (sin red, DNS, servidor inaccesible). Se captura para avisar sin cerrar el programa.' },
+  { q: 'En AgroStock v3 la llamada a Mockaroo se hace con `Http.Send`. ¿Qué se observa mientras llega la respuesta?', o: ['La ventana sigue respondiendo con normalidad', 'La ventana no responde un instante, hasta recibir la respuesta', 'La importación se cancela sola', 'La aplicación se cierra'], c: 1,
+    e: '`Http.Send` es síncrona: bloquea el hilo de la interfaz hasta recibir la respuesta. El reto 3 propone `await Task.Run(...)` para evitarlo.' },
+  { q: 'Una base ya creada con `EnsureCreated` y usted agrega una propiedad al modelo. ¿Qué ocurre?', o: ['EF actualiza las tablas solo', 'No cambia nada: hay que borrar agrostock.db (o usar migraciones)', 'La aplicación borra los datos sin avisar', 'EF cambia de motor de base de datos'], c: 1,
+    e: '`EnsureCreated` solo crea la base si no existe; no la actualiza. En el aula se borra `agrostock.db` de `bin\\Debug\\net8.0-windows`; en proyectos mayores se usan migraciones.' },
+  { q: 'Al guardar con `SaveChanges` se repite un código de producto. ¿Qué excepción lanza EF Core y dónde está la causa real?', o: ['SqliteException directamente, sin envoltorio', 'DbUpdateException; la causa está en ex.InnerException (código 2067)', 'FormatException', 'NullReferenceException'], c: 1,
+    e: 'EF envuelve el error de la base en `DbUpdateException`. Con `when (ex.InnerException is SqliteException { SqliteExtendedErrorCode: 2067 })` se avisa del código repetido sin cerrar el programa.' },
+  { q: '¿Dónde conviene guardar la clave de API de Mockaroo y qué no se debe hacer con ella?', o: ['En appsettings.json (o una variable de entorno); no publicarla en un repositorio público', 'Escrita dentro de cada formulario; compartirla en redes', 'En el nombre del archivo .csv', 'En el texto de un Label'], c: 0,
+    e: 'La clave es un secreto: vive en configuración (`appsettings.json`) o en una variable de entorno (reto 4) y no se sube a repositorios públicos.' }
+];
+
 /* Lista de opciones con retroalimentación; `ok` es el índice de la correcta en `opts`. */
 function pickOptions(ctx, opts, ok, explain, o = {}) {
   const order = shuffle(opts.map((_, k) => k)), btns = [];
